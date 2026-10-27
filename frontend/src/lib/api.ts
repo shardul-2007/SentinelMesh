@@ -15,7 +15,12 @@ import {
   UserProfile,
   LoginResponse,
   TamperAlert,
-  SecurityAnalytics
+  SecurityAnalytics,
+  SecurityFinding,
+  DetectionRule,
+  AgentTrustProfile,
+  ThreatAnalytics,
+  LabScenarioResult
 } from './types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
@@ -270,5 +275,111 @@ export const api = {
     if (filters?.agentId) query.set('agent_id', filters.agentId);
     if (filters?.integrityStatus && filters.integrityStatus !== 'ALL') query.set('integrity_status', filters.integrityStatus);
     return `${API_BASE}/api/reports/export?${query.toString()}`;
+  },
+
+  // ==========================================
+  // Phase 6: Threat Detection & Trust Profiles
+  // ==========================================
+  async getThreatRules(): Promise<DetectionRule[]> {
+    const res = await fetch(`${API_BASE}/api/threats/rules`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<DetectionRule[]>(res);
+  },
+
+  async runThreatDetection(agentId?: string, includeSimulation = false): Promise<any> {
+    const query = new URLSearchParams();
+    if (agentId) query.set('agent_id', agentId);
+    if (includeSimulation) query.set('include_simulation', 'true');
+
+    const res = await fetch(`${API_BASE}/api/threats/analyze?${query.toString()}`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+    });
+    return handleResponse(res);
+  },
+
+  async getFindings(params?: {
+    agentId?: string;
+    ruleId?: string;
+    severity?: string;
+    status?: string;
+    isSimulation?: boolean;
+    limit?: number;
+    offset?: number;
+  }): Promise<SecurityFinding[]> {
+    const query = new URLSearchParams();
+    if (params?.agentId) query.set('agent_id', params.agentId);
+    if (params?.ruleId) query.set('rule_id', params.ruleId);
+    if (params?.severity && params.severity !== 'ALL') query.set('severity', params.severity);
+    if (params?.status && params.status !== 'ALL') query.set('status', params.status);
+    if (params?.isSimulation !== undefined) query.set('is_simulation', params.isSimulation.toString());
+    if (params?.limit) query.set('limit', params.limit.toString());
+    if (params?.offset) query.set('offset', params.offset.toString());
+
+    const res = await fetch(`${API_BASE}/api/threats/findings?${query.toString()}`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<SecurityFinding[]>(res);
+  },
+
+  async getFindingDetail(findingId: string): Promise<SecurityFinding> {
+    const res = await fetch(`${API_BASE}/api/threats/findings/${findingId}`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<SecurityFinding>(res);
+  },
+
+  async updateFindingStatus(findingId: string, status: string, notes?: string): Promise<any> {
+    const res = await fetch(`${API_BASE}/api/threats/findings/${findingId}/status`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ status, notes }),
+    });
+    return handleResponse(res);
+  },
+
+  async getAgentTrustProfiles(): Promise<AgentTrustProfile[]> {
+    const res = await fetch(`${API_BASE}/api/threats/agent-profiles`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<AgentTrustProfile[]>(res);
+  },
+
+  async getAgentTrustProfile(agentId: string): Promise<AgentTrustProfile> {
+    const res = await fetch(`${API_BASE}/api/threats/agent-profiles/${agentId}`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<AgentTrustProfile>(res);
+  },
+
+  async getThreatAnalytics(): Promise<ThreatAnalytics> {
+    const res = await fetch(`${API_BASE}/api/threats/analytics`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<ThreatAnalytics>(res);
+  },
+
+  async runLabScenario(scenarioId: string): Promise<LabScenarioResult> {
+    const res = await fetch(`${API_BASE}/api/threats/lab/run-scenario`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ scenario_id: scenarioId }),
+    });
+    return handleResponse<LabScenarioResult>(res);
+  },
+
+  async resetLab(): Promise<any> {
+    const res = await fetch(`${API_BASE}/api/threats/lab/reset`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+    });
+    return handleResponse(res);
   }
 };

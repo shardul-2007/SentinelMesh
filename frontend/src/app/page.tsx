@@ -20,12 +20,13 @@ import { StatusBadge } from '@/components/StatusBadge';
 import { EventDetailModal } from '@/components/EventDetailModal';
 import { ApprovalModal } from '@/components/ApprovalModal';
 import { api } from '@/lib/api';
-import { DashboardStats, AuditEventDetail, AuditEventSummary, BlockchainStatus, TamperAlert } from '@/lib/types';
+import { DashboardStats, AuditEventDetail, AuditEventSummary, BlockchainStatus, TamperAlert, ThreatAnalytics } from '@/lib/types';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [bStatus, setBStatus] = useState<BlockchainStatus | null>(null);
   const [alerts, setAlerts] = useState<TamperAlert[]>([]);
+  const [threats, setThreats] = useState<ThreatAnalytics | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,14 +42,16 @@ export default function DashboardPage() {
   const loadStats = async (showRefreshAnimation = false) => {
     if (showRefreshAnimation) setIsRefreshing(true);
     try {
-      const [statsData, bData, alertsData] = await Promise.all([
+      const [statsData, bData, alertsData, threatData] = await Promise.all([
         api.getDashboardStats(),
         api.getBlockchainStatus().catch(() => null),
-        api.getTamperAlerts().catch(() => [])
+        api.getTamperAlerts().catch(() => []),
+        api.getThreatAnalytics().catch(() => null)
       ]);
       setStats(statsData);
       setBStatus(bData);
       setAlerts(alertsData || []);
+      setThreats(threatData);
       setError(null);
     } catch (err: any) {
       setError(err.message || 'Failed to connect to SentinelMesh backend.');
@@ -111,7 +114,27 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* 1. Summary Cards */}
+        {/* Active Threat Intelligence Banner */}
+        {threats && threats.active_findings > 0 && (
+          <div className="p-4 rounded-xl bg-indigo-950/40 border border-indigo-800/60 flex items-center justify-between">
+            <div className="flex items-center gap-3 text-indigo-300 text-sm">
+              <Shield className="w-5 h-5 flex-shrink-0 text-indigo-400" />
+              <div>
+                <span className="font-semibold">Threat Intelligence: </span>
+                <span>
+                  {threats.active_findings} active behavioral findings flagged ({threats.findings_by_severity.CRITICAL} Critical, {threats.findings_by_severity.HIGH} High).
+                </span>
+              </div>
+            </div>
+            <Link
+              href="/threats"
+              className="px-3 py-1.5 text-xs font-semibold rounded bg-indigo-900 border border-indigo-700 text-indigo-100 hover:bg-indigo-800 transition flex items-center gap-1"
+            >
+              <span>View Threat Center</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Total Events */}
           <div className="p-5 rounded-xl bg-graphite-900 border border-graphite-750 flex flex-col justify-between">

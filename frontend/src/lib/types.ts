@@ -230,4 +230,128 @@ export interface SecurityAnalytics {
   integrity_breakdown: Record<string, number>;
 }
 
+// ==========================================
+// Phase 6: Threat Detection & Trust Profiles
+// ==========================================
+
+export type FindingSeverity = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+export type FindingStatus = 'ACTIVE' | 'INVESTIGATING' | 'RESOLVED' | 'FALSE_POSITIVE';
+
+export interface FindingAuditLog {
+  id: string;
+  finding_id: string;
+  action: string;
+  previous_status?: string | null;
+  new_status: string;
+  performed_by: string;
+  notes?: string | null;
+  timestamp: string;
+}
+
+export interface SecurityFinding {
+  id: string;
+  finding_id: string;
+  rule_id: string;
+  rule_version: string;
+  agent_id: string;
+  severity: FindingSeverity;
+  status: FindingStatus;
+  title: string;
+  description: string;
+  recommended_action: string;
+  evidence_event_ids: string[];
+  detected_at: string;
+  is_simulation: boolean;
+  resolved_at?: string | null;
+  resolved_by?: string | null;
+  resolution_notes?: string | null;
+  finding_metadata?: Record<string, any>;
+  evidence_events?: AuditEventDetail[];
+  audit_logs?: FindingAuditLog[];
+}
+
+export interface DetectionRule {
+  rule_id: string;
+  name: string;
+  version: string;
+  severity: FindingSeverity;
+  description: string;
+  window_minutes: number;
+  threshold: number;
+  recommended_action: string;
+  is_enabled: boolean;
+}
+
+export interface RiskScoreFactor {
+  factor_name: string;
+  raw_metric: string;
+  points_contributed: number;
+  max_points: number;
+  description: string;
+}
+
+export interface AgentRiskScoreBreakdown {
+  risk_score: number;
+  risk_tier: 'LOW' | 'MODERATE' | 'ELEVATED' | 'CRITICAL' | 'INSUFFICIENT_DATA';
+  observation_window_hours: number;
+  sample_size: number;
+  insufficient_data: boolean;
+  factors: RiskScoreFactor[];
+  formula_disclaimer: string;
+}
+
+export interface AgentTrustProfile {
+  agent_id: string;
+  agent_name: string;
+  role: string;
+  status: string;
+  total_actions: number;
+  allowed_actions: number;
+  blocked_actions: number;
+  approval_required_actions: number;
+  blocked_ratio: number;
+  violations_count: number;
+  active_findings_count: number;
+  integrity_failures_count: number;
+  last_activity_timestamp?: string | null;
+  behavioral_risk_tier: string;
+  evidence_integrity_status: string;
+  blockchain_anchoring_status: string;
+  risk_score_breakdown: AgentRiskScoreBreakdown;
+  applicable_policies: string[];
+}
+
+export interface ThreatAnalytics {
+  total_findings: number;
+  active_findings: number;
+  investigating_findings: number;
+  resolved_findings: number;
+  false_positives: number;
+  findings_by_severity: {
+    CRITICAL: number;
+    HIGH: number;
+    MEDIUM: number;
+    LOW: number;
+  };
+  top_triggered_rules: Array<{
+    rule_id: string;
+    count: number;
+    name: string;
+  }>;
+  agents_under_review: string[];
+  last_detection_run?: string | null;
+  rules_registered: number;
+}
+
+export interface LabScenarioResult {
+  scenario_id: string;
+  scenario_name: string;
+  description: string;
+  actions_evaluated: number;
+  findings_triggered: number;
+  findings: SecurityFinding[];
+  explanation: string;
+}
+
+
 

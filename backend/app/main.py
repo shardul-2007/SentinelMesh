@@ -14,7 +14,8 @@ from app.api import (
     approvals_router,
     integrity_router,
     auth_router,
-    reports_router
+    reports_router,
+    threats_router
 )
 from app.blockchain.service import get_blockchain_service
 from app.models import AuditEvent, IntegrityRecord
@@ -119,6 +120,7 @@ app.include_router(approvals_router)
 app.include_router(integrity_router)
 app.include_router(auth_router)
 app.include_router(reports_router)
+app.include_router(threats_router)
 
 if __name__ == "__main__":
     import uvicorn

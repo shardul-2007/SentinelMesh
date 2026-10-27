@@ -13,7 +13,8 @@ import {
   CheckCircle2,
   Lock,
   ChevronRight,
-  ExternalLink
+  ExternalLink,
+  ShieldAlert
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { name: 'Action Simulator', href: '/simulator', icon: PlayCircle },
   { name: 'Audit Trail', href: '/audit', icon: FileText },
   { name: 'Integrity Center', href: '/integrity', icon: Lock },
+  { name: 'Threat Intelligence', href: '/threats', icon: ShieldAlert },
   { name: 'Approval Center', href: '/approvals', icon: CheckCircle2 },
   { name: 'Policies', href: '/policies', icon: Sliders },
   { name: 'System Settings', href: '/settings', icon: Settings },

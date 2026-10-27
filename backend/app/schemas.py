@@ -199,3 +199,148 @@ class BlockchainStatusResponse(BaseModel):
     total_verified: int
     total_tampered: int
 
+
+# ==========================================
+# Phase 6: Threat Detection & Trust Profiles
+# ==========================================
+
+class FindingSeverityEnum(str, Enum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
+
+
+class FindingStatusEnum(str, Enum):
+    ACTIVE = "ACTIVE"
+    INVESTIGATING = "INVESTIGATING"
+    RESOLVED = "RESOLVED"
+    FALSE_POSITIVE = "FALSE_POSITIVE"
+
+
+class FindingAuditLogResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    finding_id: str
+    action: str
+    previous_status: Optional[str] = None
+    new_status: str
+    performed_by: str
+    notes: Optional[str] = None
+    timestamp: datetime
+
+
+class SecurityFindingResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    finding_id: str
+    rule_id: str
+    rule_version: str
+    agent_id: str
+    severity: FindingSeverityEnum
+    status: FindingStatusEnum
+    title: str
+    description: str
+    recommended_action: str
+    evidence_event_ids: List[str] = []
+    detected_at: datetime
+    is_simulation: bool
+    resolved_at: Optional[datetime] = None
+    resolved_by: Optional[str] = None
+    resolution_notes: Optional[str] = None
+    finding_metadata: Dict[str, Any] = {}
+
+
+class SecurityFindingDetailResponse(SecurityFindingResponse):
+    evidence_events: List[AuditEventDetail] = []
+    audit_logs: List[FindingAuditLogResponse] = []
+
+
+class FindingStatusUpdateRequest(BaseModel):
+    status: FindingStatusEnum
+    notes: Optional[str] = Field(None, max_length=1000, description="Analyst investigation notes")
+
+
+class DetectionRuleResponse(BaseModel):
+    rule_id: str
+    name: str
+    version: str
+    severity: FindingSeverityEnum
+    description: str
+    window_minutes: int
+    threshold: int
+    recommended_action: str
+    is_enabled: bool = True
+
+
+class RiskScoreFactor(BaseModel):
+    factor_name: str
+    raw_metric: str
+    points_contributed: int
+    max_points: int
+    description: str
+
+
+class AgentRiskScoreBreakdown(BaseModel):
+    risk_score: int  # 0 to 100
+    risk_tier: str  # LOW, MODERATE, ELEVATED, CRITICAL, INSUFFICIENT_DATA
+    observation_window_hours: int
+    sample_size: int
+    insufficient_data: bool
+    factors: List[RiskScoreFactor]
+    formula_disclaimer: str
+
+
+class AgentTrustProfileResponse(BaseModel):
+    agent_id: str
+    agent_name: str
+    role: str
+    status: str
+    total_actions: int
+    allowed_actions: int
+    blocked_actions: int
+    approval_required_actions: int
+    blocked_ratio: float
+    violations_count: int
+    active_findings_count: int
+    integrity_failures_count: int
+    last_activity_timestamp: Optional[datetime] = None
+    
+    # 3 Distinct Orthogonal Security Indicators
+    behavioral_risk_tier: str  # Heuristic index
+    evidence_integrity_status: str  # Local cryptographic verification
+    blockchain_anchoring_status: str  # EVM on-chain verification
+    
+    risk_score_breakdown: AgentRiskScoreBreakdown
+    applicable_policies: List[str] = []
+
+
+class ThreatAnalyticsResponse(BaseModel):
+    total_findings: int
+    active_findings: int
+    investigating_findings: int
+    resolved_findings: int
+    false_positives: int
+    findings_by_severity: Dict[str, int]
+    top_triggered_rules: List[Dict[str, Any]]
+    agents_under_review: List[str]
+    last_detection_run: Optional[datetime] = None
+    rules_registered: int
+
+
+class LabScenarioRunRequest(BaseModel):
+    scenario_id: str = Field(..., description="ID of scenario: SCENARIO_NORMAL, SCENARIO_REPEATED_BLOCKED, SCENARIO_VELOCITY_BURST, SCENARIO_POLICY_VIOLATIONS, SCENARIO_INTEGRITY_TAMPER")
+
+
+class LabScenarioRunResponse(BaseModel):
+    scenario_id: str
+    scenario_name: str
+    description: str
+    actions_evaluated: int
+    findings_triggered: int
+    findings: List[SecurityFindingResponse]
+    explanation: str
+
+
