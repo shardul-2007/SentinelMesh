@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.pytest_cache/
+*.db
+.env
+
+# Node & Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+# Contracts & Hardhat
+contracts/node_modules/
+contracts/artifacts/
+contracts/cache/
+.vercel/
+frontend/.vercel/
