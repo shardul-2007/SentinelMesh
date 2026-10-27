@@ -28,6 +28,7 @@ class ActionEvaluateRequest(BaseModel):
     client_risk_level: Optional[str] = Field(None, description="Client supplied risk level (untrusted, ignored in decision)")
     reason: Optional[str] = Field(None, max_length=500, description="Optional explanation or intent for the action")
     parameters: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Structured action parameters")
+    idempotency_key: Optional[str] = Field(None, max_length=128, description="Optional client idempotency key to prevent double execution")
 
     @field_validator("action_type")
     @classmethod
@@ -342,5 +343,197 @@ class LabScenarioRunResponse(BaseModel):
     findings_triggered: int
     findings: List[SecurityFindingResponse]
     explanation: str
+
+
+# ==============================================================
+# Phase 7: Multi-Agent Registry, Gateway & Incident Correlation
+# ==============================================================
+
+class AgentStatusEnum(str, Enum):
+    ACTIVE = "ACTIVE"
+    DEACTIVATED = "DEACTIVATED"
+    QUARANTINED = "QUARANTINED"
+
+
+class AgentCreateRequest(BaseModel):
+    id: str = Field(..., min_length=3, max_length=64, description="Unique agent identifier, e.g. payment-bot-01")
+    name: str = Field(..., min_length=2, max_length=128, description="Display name for the agent")
+    role: str = Field(..., min_length=2, max_length=64, description="Functional role, e.g. FINANCE_EXECUTOR, DEVOPS_BOT")
+    description: Optional[str] = Field(None, max_length=500, description="Purpose and operational bounds")
+    permissions: List[str] = Field(default_factory=list, description="List of permission tags")
+    assigned_policies: List[str] = Field(default_factory=list, description="Specific policy IDs assigned to this agent")
+
+
+class AgentStatusUpdateRequest(BaseModel):
+    status: AgentStatusEnum
+    reason: Optional[str] = Field(None, max_length=500, description="Reason for status change or containment action")
+
+
+class AgentDetailResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    name: str
+    role: str
+    description: Optional[str] = None
+    permissions: List[str] = []
+    assigned_policies: List[str] = []
+    status: str
+    created_at: datetime
+    last_active_at: Optional[datetime] = None
+    total_actions: int = 0
+    active_findings_count: int = 0
+    open_incidents_count: int = 0
+    risk_tier: str = "INSUFFICIENT_DATA"
+
+
+class IncidentSeverityEnum(str, Enum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
+
+
+class IncidentStatusEnum(str, Enum):
+    OPEN = "OPEN"
+    INVESTIGATING = "INVESTIGATING"
+    RESOLVED = "RESOLVED"
+    FALSE_POSITIVE = "FALSE_POSITIVE"
+
+
+class IncidentAuditLogResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    incident_id: str
+    action: str
+    previous_status: Optional[str] = None
+    new_status: str
+    performed_by: str
+    notes: Optional[str] = None
+    timestamp: datetime
+
+
+class SecurityIncidentResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    incident_id: str
+    title: str
+    summary: str
+    severity: IncidentSeverityEnum
+    status: IncidentStatusEnum
+    agent_id: str
+    correlation_rule: str
+    correlation_explanation: str
+    finding_ids: List[str] = []
+    evidence_event_ids: List[str] = []
+    assigned_to: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+    resolved_at: Optional[datetime] = None
+    resolved_by: Optional[str] = None
+    resolution_summary: Optional[str] = None
+
+
+class SecurityIncidentDetailResponse(SecurityIncidentResponse):
+    findings: List[SecurityFindingResponse] = []
+    evidence_events: List[AuditEventDetail] = []
+    audit_logs: List[IncidentAuditLogResponse] = []
+
+
+class IncidentStatusUpdateRequest(BaseModel):
+    status: IncidentStatusEnum
+    assigned_to: Optional[str] = Field(None, max_length=64)
+    notes: Optional[str] = Field(None, max_length=1000)
+
+
+class IncidentQuarantineRequest(BaseModel):
+    reason: str = Field(..., min_length=3, max_length=500, description="Justification for quarantining agent")
+
+
+class IncidentAnalyticsResponse(BaseModel):
+    total_incidents: int
+    open_incidents: int
+    investigating_incidents: int
+    resolved_incidents: int
+    critical_incidents: int
+    quarantined_agents_count: int
+    recent_incidents: List[SecurityIncidentResponse] = []
+
+
+# ==============================================================
+# Phase 8: Autonomous Security Governance & Provenance Assurance
+# ==============================================================
+
+class GovernanceExplanationResponse(BaseModel):
+    event_id: str
+    request_id: Optional[str] = None
+    agent_id: str
+    agent_name: str
+    action_type: str
+    resource: str
+    parameters: Dict[str, Any] = {}
+    policy_id: str
+    policy_version: str
+    policy_decision: str
+    decision_reason: str
+    derived_risk_level: str
+    agent_behavioral_risk_tier: str
+    integrity_hash: str
+    local_verification_status: str  # INTACT, TAMPERED, UNVERIFIED
+    blockchain_anchoring_status: str  # ANCHORED, NOT_ANCHORED, FAILED
+    blockchain_verification_status: str  # ANCHORED_AND_VERIFIED, NOT_ANCHORED, RPC_DISCONNECTED
+    transaction_hash: Optional[str] = None
+    contract_address: Optional[str] = None
+    approval_status: str
+    approval_decision: Optional[Dict[str, Any]] = None
+    related_findings: List[Dict[str, Any]] = []
+    related_incidents: List[Dict[str, Any]] = []
+    timestamp: datetime
+    provenance_chain_complete: bool
+    provenance_disclaimer: str
+
+
+class PolicyVersionHistoryResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    policy_id: str
+    version: str
+    name: str
+    description: str
+    action_pattern: str
+    resource_pattern: str
+    decision: str
+    risk_tier: str
+    changed_by: str
+    change_reason: Optional[str] = None
+    created_at: datetime
+
+
+class PolicyUpdateRequest(BaseModel):
+    name: Optional[str] = Field(None, min_length=2, max_length=128)
+    description: Optional[str] = Field(None, min_length=5, max_length=500)
+    decision: Optional[PolicyDecisionEnum] = None
+    risk_tier: Optional[RiskTierEnum] = None
+    change_reason: str = Field(..., min_length=3, max_length=500, description="Mandatory audit justification for policy modification")
+
+
+class GovernanceDashboardSummaryResponse(BaseModel):
+    total_evaluated_actions: int
+    allowed_count: int = 0
+    blocked_count: int = 0
+    pending_approvals_count: int = 0
+    total_policies: int = 0
+    total_policy_versions: int = 0
+    active_threat_findings: int = 0
+    open_incidents: int = 0
+    quarantined_agents: int = 0
+    cryptographic_integrity_rate: float
+    blockchain_anchored_rate: float
+    recent_governance_actions: List[Dict[str, Any]] = []
+
+
 
 

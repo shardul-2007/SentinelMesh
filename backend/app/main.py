@@ -15,7 +15,11 @@ from app.api import (
     integrity_router,
     auth_router,
     reports_router,
-    threats_router
+    threats_router,
+    agents_router,
+    incidents_router,
+    monitoring_router,
+    governance_router
 )
 from app.blockchain.service import get_blockchain_service
 from app.models import AuditEvent, IntegrityRecord
@@ -57,12 +61,28 @@ def ensure_integrity_records_migrated(db: SessionLocal):
             db.add(new_rec)
     db.commit()
 
+def ensure_sqlite_columns_migrated(db: SessionLocal):
+    """Safe SQLite migration ensuring Phase 7 Agent fields exist."""
+    try:
+        from sqlalchemy import text
+        existing_cols = [row[1] for row in db.execute(text("PRAGMA table_info(agents)")).fetchall()]
+        if "description" not in existing_cols:
+            db.execute(text("ALTER TABLE agents ADD COLUMN description TEXT"))
+        if "assigned_policies" not in existing_cols:
+            db.execute(text("ALTER TABLE agents ADD COLUMN assigned_policies TEXT DEFAULT '[]'"))
+        if "last_active_at" not in existing_cols:
+            db.execute(text("ALTER TABLE agents ADD COLUMN last_active_at DATETIME"))
+        db.commit()
+    except Exception:
+        pass
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: Ensure tables are created and seed policies/agents
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
+        ensure_sqlite_columns_migrated(db)
         seed_database(db)
         ensure_integrity_records_migrated(db)
     finally:
@@ -121,6 +141,10 @@ app.include_router(integrity_router)
 app.include_router(auth_router)
 app.include_router(reports_router)
 app.include_router(threats_router)
+app.include_router(agents_router)
+app.include_router(incidents_router)
+app.include_router(monitoring_router)
+app.include_router(governance_router)
 
 if __name__ == "__main__":
     import uvicorn

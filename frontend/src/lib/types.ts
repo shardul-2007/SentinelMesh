@@ -353,5 +353,93 @@ export interface LabScenarioResult {
   explanation: string;
 }
 
+// ==============================================================
+// Phase 8: Autonomous Security Governance & Provenance Assurance
+// ==============================================================
+
+export interface GovernanceExplanation {
+  event_id: string;
+  request_id?: string | null;
+  agent_id: string;
+  agent_name: string;
+  action_type: string;
+  resource: string;
+  parameters: Record<string, any>;
+  policy_id: string;
+  policy_version: string;
+  policy_decision: PolicyDecision;
+  decision_reason: string;
+  derived_risk_level: string;
+  agent_behavioral_risk_tier: string;
+  integrity_hash: string;
+  local_verification_status: 'INTACT' | 'TAMPERED' | 'UNVERIFIED';
+  blockchain_anchoring_status: 'ANCHORED' | 'NOT_ANCHORED' | 'FAILED';
+  blockchain_verification_status: 'ANCHORED_AND_VERIFIED' | 'NOT_ANCHORED' | 'RPC_DISCONNECTED' | 'ONCHAIN_MISMATCH';
+  transaction_hash?: string | null;
+  contract_address?: string | null;
+  approval_status: string;
+  approval_decision?: {
+    decision_id: string;
+    decision: string;
+    approver_id: string;
+    note?: string | null;
+    decided_at?: string | null;
+  } | null;
+  related_findings: Array<{
+    finding_id: string;
+    rule_id: string;
+    title: string;
+    severity: FindingSeverity;
+    status: FindingStatus;
+  }>;
+  related_incidents: Array<{
+    incident_id: string;
+    title: string;
+    severity: string;
+    status: string;
+  }>;
+  timestamp: string;
+  provenance_chain_complete: boolean;
+  provenance_disclaimer: string;
+}
+
+export interface PolicyVersionHistory {
+  id: string;
+  policy_id: string;
+  version: string;
+  name: string;
+  description: string;
+  action_pattern: string;
+  resource_pattern: string;
+  decision: string;
+  risk_tier: string;
+  changed_by: string;
+  change_reason?: string | null;
+  created_at: string;
+}
+
+export interface GovernanceDashboardSummary {
+  total_evaluated_actions: number;
+  allowed_count: number;
+  blocked_count: number;
+  pending_approvals_count: number;
+  total_policies: number;
+  total_policy_versions: number;
+  active_threat_findings: number;
+  open_incidents: number;
+  quarantined_agents: number;
+  cryptographic_integrity_rate: number;
+  blockchain_anchored_rate: number;
+  recent_governance_actions: Array<{
+    event_id: string;
+    agent_id: string;
+    action_type: string;
+    resource: string;
+    decision: string;
+    timestamp: string;
+  }>;
+}
+
+
 
 

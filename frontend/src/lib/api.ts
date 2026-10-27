@@ -20,7 +20,10 @@ import {
   DetectionRule,
   AgentTrustProfile,
   ThreatAnalytics,
-  LabScenarioResult
+  LabScenarioResult,
+  GovernanceExplanation,
+  PolicyVersionHistory,
+  GovernanceDashboardSummary
 } from './types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
@@ -381,5 +384,51 @@ export const api = {
       headers: getAuthHeaders(),
     });
     return handleResponse(res);
+  },
+
+  // ==============================================================
+  // Phase 8: Autonomous Security Governance & Provenance Assurance
+  // ==============================================================
+  async getGovernanceExplanation(eventId: string): Promise<GovernanceExplanation> {
+    const res = await fetch(`${API_BASE}/api/governance/explain/${eventId}`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<GovernanceExplanation>(res);
+  },
+
+  async getGovernanceOverview(): Promise<GovernanceDashboardSummary> {
+    const res = await fetch(`${API_BASE}/api/governance/overview`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<GovernanceDashboardSummary>(res);
+  },
+
+  async getPolicyVersionHistory(policyId: string): Promise<PolicyVersionHistory[]> {
+    const res = await fetch(`${API_BASE}/api/governance/policies/${policyId}/history`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<PolicyVersionHistory[]>(res);
+  },
+
+  async updatePolicyVersion(policyId: string, payload: {
+    name?: string;
+    description?: string;
+    decision?: string;
+    risk_tier?: string;
+    change_reason: string;
+  }): Promise<PolicyVersionHistory> {
+    const res = await fetch(`${API_BASE}/api/governance/policies/${policyId}/version`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(payload),
+    });
+    return handleResponse<PolicyVersionHistory>(res);
+  },
+
+  getGovernanceReportUrl(format: 'json' | 'csv'): string {
+    return `${API_BASE}/api/governance/report?format=${format}`;
   }
 };

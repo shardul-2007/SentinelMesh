@@ -9,8 +9,11 @@ class Agent(Base):
     id = Column(String(64), primary_key=True, index=True)
     name = Column(String(128), nullable=False)
     role = Column(String(64), nullable=False)
+    description = Column(Text, nullable=True)
     permissions = Column(Text, default="[]")  # JSON encoded list of permission tags
-    status = Column(String(32), default="ACTIVE")
+    assigned_policies = Column(Text, default="[]")  # JSON encoded list of policy IDs
+    status = Column(String(32), default="ACTIVE")  # ACTIVE, DEACTIVATED, QUARANTINED
+    last_active_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     events = relationship("AuditEvent", back_populates="agent")
@@ -30,6 +33,28 @@ class SecurityPolicy(Base):
     version = Column(String(16), default="1.0.0")
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
+
+
+class PolicyVersionHistory(Base):
+    """
+    Immutable version history for security policies to maintain decision provenance.
+    """
+    __tablename__ = "policy_version_history"
+
+    id = Column(String(64), primary_key=True, index=True)  # pver_...
+    policy_id = Column(String(64), ForeignKey("security_policies.id"), nullable=False, index=True)
+    version = Column(String(16), nullable=False)
+    name = Column(String(128), nullable=False)
+    description = Column(Text, nullable=False)
+    action_pattern = Column(String(128), nullable=False)
+    resource_pattern = Column(String(128), nullable=False)
+    decision = Column(String(32), nullable=False)
+    risk_tier = Column(String(32), nullable=False)
+    changed_by = Column(String(64), nullable=False)
+    change_reason = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow, index=True)
+
+    policy = relationship("SecurityPolicy", backref="version_history")
 
 
 class ActionRequest(Base):
@@ -218,4 +243,55 @@ class DetectionRun(Base):
     findings_generated = Column(Integer, default=0, nullable=False)
     status = Column(String(32), default="SUCCESS", nullable=False)
     details = Column(Text, default="{}", nullable=False)
+
+
+class SecurityIncident(Base):
+    """
+    Correlated security incident aggregating multiple suspicious findings,
+    policy violations, or integrity alerts for a simulated agent.
+    """
+    __tablename__ = "security_incidents"
+
+    id = Column(String(64), primary_key=True, index=True)  # inc_...
+    incident_id = Column(String(64), index=True)  # Human-readable INC-20261027-...
+    title = Column(String(256), nullable=False)
+    summary = Column(Text, nullable=False)
+    severity = Column(String(32), nullable=False, index=True)  # LOW, MEDIUM, HIGH, CRITICAL
+    status = Column(String(32), default="OPEN", nullable=False, index=True)  # OPEN, INVESTIGATING, RESOLVED, FALSE_POSITIVE
+    agent_id = Column(String(64), ForeignKey("agents.id"), nullable=False, index=True)
+    correlation_rule = Column(String(64), nullable=False)
+    correlation_explanation = Column(Text, nullable=False)
+    finding_ids = Column(Text, default="[]", nullable=False)  # JSON array of finding IDs
+    evidence_event_ids = Column(Text, default="[]", nullable=False)  # JSON array of audit event IDs
+    assigned_to = Column(String(64), nullable=True)
+    dedup_key = Column(String(128), unique=True, index=True, nullable=False)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow, index=True)
+    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    resolved_at = Column(DateTime, nullable=True)
+    resolved_by = Column(String(64), nullable=True)
+    resolution_summary = Column(Text, nullable=True)
+    metadata_json = Column(Text, default="{}", nullable=False)
+
+    agent = relationship("Agent", backref="incidents")
+    audit_logs = relationship("IncidentAuditLog", back_populates="incident", cascade="all, delete-orphan")
+
+
+class IncidentAuditLog(Base):
+    """
+    Audit log of incident lifecycle transitions, investigator assignments,
+    analyst notes, and containment actions (e.g., agent quarantining).
+    """
+    __tablename__ = "incident_audit_logs"
+
+    id = Column(String(64), primary_key=True, index=True)  # ilog_...
+    incident_id = Column(String(64), ForeignKey("security_incidents.id"), nullable=False, index=True)
+    action = Column(String(64), nullable=False)  # STATUS_CHANGE, ASSIGNED, NOTE_ADDED, AGENT_QUARANTINED
+    previous_status = Column(String(32), nullable=True)
+    new_status = Column(String(32), nullable=False)
+    performed_by = Column(String(64), nullable=False)
+    notes = Column(Text, nullable=True)
+    timestamp = Column(DateTime, default=datetime.datetime.utcnow, index=True)
+
+    incident = relationship("SecurityIncident", back_populates="audit_logs")
+
 

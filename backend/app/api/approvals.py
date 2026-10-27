@@ -7,6 +7,7 @@ from app.database import get_db
 from app.config import settings
 from app.models import AuditEvent, ApprovalDecision, User
 from app.auth import require_roles
+from app.monitoring.events import get_broadcaster
 from app.schemas import (
     AuditEventSummary,
     ApprovalDecisionRequest,
@@ -47,13 +48,21 @@ def submit_approval_decision(
             detail=f"Event '{event_id}' has decision '{event.policy_decision}' and does not require approval."
         )
 
+    # 1. Separation of duties: requester cannot approve their own action
+    if admin_user.username.lower() == event.agent_id.lower() or (payload.approver_id and payload.approver_id.lower() == event.agent_id.lower()):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"Separation of duties violation: Requester '{event.agent_id}' cannot approve its own action."
+        )
+
+    # 2. Reject duplicate / conflicting decisions
     if event.approval_status != "PENDING":
         raise HTTPException(
             status_code=400,
-            detail=f"Event '{event_id}' is already finalized with status '{event.approval_status}'."
+            detail=f"Duplicate decision rejected: Event '{event_id}' is already finalized as '{event.approval_status}'."
         )
 
-    now_utc = datetime.datetime.utcnow()
+    now_utc = datetime.datetime.now(datetime.timezone.utc)
     decision_id = f"dec_{uuid.uuid4().hex[:12]}"
 
     approval_record = ApprovalDecision(
@@ -78,6 +87,13 @@ def submit_approval_decision(
 
     db.commit()
     db.refresh(event)
+
+    get_broadcaster().publish_nowait("APPROVAL_DECIDED", {
+        "event_id": event.id,
+        "decision": payload.decision,
+        "approver_id": payload.approver_id,
+        "execution_status": event.execution_status
+    })
 
     return ApprovalDecisionResponse(
         event_id=event.id,
