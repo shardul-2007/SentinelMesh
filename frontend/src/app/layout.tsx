@@ -3,7 +3,7 @@ import { AppShell } from '@/components/AppShell';
 
 export const metadata = {
   title: 'SentinelMesh — Trust, Without Blind Faith',
-  description: 'Agent-action governance, deterministic policy enforcement, cryptographic evidence infrastructure, and MST Blockchain anchoring.',
+  description: 'Enterprise AI Agent Governance, Deterministic Policy Enforcement, Cryptographic Canonical Evidence & MST Blockchain Anchoring.',
 };
 
 export default function RootLayout({
@@ -12,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-[#F5F4F0] text-[#171A1F] min-h-screen font-sans antialiased">
+    <html lang="en" className="dark">
+      <body className="bg-[#0B0F17] text-[#F8FAFC] min-h-screen font-sans antialiased">
         <AppShell>
           {children}
         </AppShell>

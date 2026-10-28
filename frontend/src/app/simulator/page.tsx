@@ -142,7 +142,7 @@ export default function SimulatorPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-full bg-[#F5F4F0]">
+    <div className="flex flex-col min-h-full bg-[#0B0F17]">
       <Header 
         title="Action Gateway" 
         subtitle="Submit agent operations, evaluate deterministic policies & commit cryptographic audit evidence"
@@ -152,9 +152,9 @@ export default function SimulatorPage() {
         {/* Scenario Presets */}
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <h3 className="text-sm font-semibold text-[#171A1F]">Standard Test Scenarios</h3>
+            <h3 className="text-sm font-semibold text-[#F8FAFC]">Standard Test Scenarios</h3>
           </div>
-          <p className="text-xs text-[#737B86] mb-3">
+          <p className="text-xs text-[#94A3B8] mb-3">
             Select a verified scenario to populate request parameters with known policy outcomes:
           </p>
 
@@ -164,26 +164,26 @@ export default function SimulatorPage() {
                 key={idx}
                 type="button"
                 onClick={() => applyPreset(p)}
-                className="p-3.5 rounded bg-[#FFFFFF] border border-[#D9DDE2] hover:border-[#315C78] text-left transition flex flex-col justify-between group shadow-sm"
+                className="p-3.5 rounded bg-[#131A24] border border-[#263244] hover:border-[#38BDF8] text-left transition flex flex-col justify-between group shadow-sm"
               >
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-semibold text-[#171A1F] group-hover:text-[#315C78] transition">
+                    <span className="text-xs font-semibold text-[#F8FAFC] group-hover:text-[#38BDF8] transition">
                       {p.title}
                     </span>
                     <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-semibold ${
-                      p.expectedDecision === 'ALLOW' ? 'bg-[#EDF6F2] text-[#287653] border border-[#BCE2D1]' :
-                      p.expectedDecision === 'BLOCK' ? 'bg-[#FDF2F2] text-[#B53A3A] border border-[#F7C4C4]' :
-                      'bg-[#FDF7ED] text-[#98661C] border border-[#F5DEB3]'
+                      p.expectedDecision === 'ALLOW' ? 'bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30' :
+                      p.expectedDecision === 'BLOCK' ? 'bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30' :
+                      'bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30'
                     }`}>
                       {p.expectedDecision}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#737B86] line-clamp-1">{p.desc}</p>
+                  <p className="text-[11px] text-[#94A3B8] line-clamp-1">{p.desc}</p>
                 </div>
-                <div className="mt-2.5 text-[10px] font-mono text-[#737B86] flex items-center justify-between border-t border-[#F5F4F0] pt-1.5">
+                <div className="mt-2.5 text-[10px] font-mono text-[#94A3B8] flex items-center justify-between border-t border-[#263244] pt-1.5">
                   <span>Policy: {p.policy}</span>
-                  <span className="text-[#315C78] font-medium group-hover:translate-x-0.5 transition-transform">Use Preset &rarr;</span>
+                  <span className="text-[#38BDF8] font-medium group-hover:translate-x-0.5 transition-transform">Use Preset &rarr;</span>
                 </div>
               </button>
             ))}
@@ -193,16 +193,16 @@ export default function SimulatorPage() {
         {/* Main Grid: Form & Evaluation Outcome */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Action Submission Form (7 cols) */}
-          <div className="lg:col-span-7 p-5 sm:p-6 rounded bg-[#FFFFFF] border border-[#D9DDE2] space-y-4 shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-[#D9DDE2]">
+          <div className="lg:col-span-7 p-5 sm:p-6 rounded bg-[#131A24] border border-[#263244] space-y-4 shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-[#263244]">
               <div className="flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-[#315C78]" />
-                <h3 className="text-sm font-semibold text-[#171A1F]">Action Parameters</h3>
+                <Terminal className="w-4 h-4 text-[#38BDF8]" />
+                <h3 className="text-sm font-semibold text-[#F8FAFC]">Action Parameters</h3>
               </div>
               <button
                 type="button"
                 onClick={handleReset}
-                className="flex items-center gap-1 text-xs text-[#737B86] hover:text-[#171A1F] transition"
+                className="flex items-center gap-1 text-xs text-[#94A3B8] hover:text-[#F8FAFC] transition"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Reset</span>
@@ -212,7 +212,7 @@ export default function SimulatorPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Agent Selector */}
               <div>
-                <label className="text-xs font-semibold text-[#171A1F] block mb-1.5">
+                <label className="text-xs font-semibold text-[#F8FAFC] block mb-1.5">
                   Requesting Agent Identifier
                 </label>
                 <div className="grid grid-cols-2 gap-2 mb-2">
@@ -228,8 +228,8 @@ export default function SimulatorPage() {
                       onClick={() => setAgentId(ag.id)}
                       className={`px-2.5 py-1.5 rounded text-xs text-left font-mono transition border ${
                         agentId === ag.id
-                          ? 'bg-[#EBF2F7] text-[#315C78] border-[#C5D7E3] font-semibold'
-                          : 'bg-[#F5F4F0] text-[#737B86] border-[#D9DDE2] hover:border-[#B0B7C1]'
+                          ? 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/30 font-semibold'
+                          : 'bg-[#0B0F17] text-[#94A3B8] border-[#263244] hover:border-[#38BDF8]/50'
                       }`}
                     >
                       {ag.id}
@@ -242,20 +242,20 @@ export default function SimulatorPage() {
                   onChange={(e) => setAgentId(e.target.value)}
                   placeholder="Or enter custom agent ID"
                   required
-                  className="w-full px-3 py-2 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] text-xs font-mono focus:border-[#315C78] focus:outline-none"
+                  className="w-full px-3 py-2 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] text-xs font-mono focus:border-[#38BDF8] focus:outline-none placeholder-[#64748B]"
                 />
               </div>
 
               {/* Action Type */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-semibold text-[#171A1F] block mb-1.5">
+                  <label className="text-xs font-semibold text-[#F8FAFC] block mb-1.5">
                     Action Type
                   </label>
                   <select
                     value={actionType}
                     onChange={(e) => setActionType(e.target.value)}
-                    className="w-full px-3 py-2 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] text-xs font-mono focus:border-[#315C78] focus:outline-none"
+                    className="w-full px-3 py-2 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] text-xs font-mono focus:border-[#38BDF8] focus:outline-none"
                   >
                     <option value="READ">READ (Inspect resource)</option>
                     <option value="UPDATE">UPDATE (Modify DB record)</option>
@@ -269,15 +269,15 @@ export default function SimulatorPage() {
                 {/* Client Risk */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-xs font-semibold text-[#171A1F]">
+                    <label className="text-xs font-semibold text-[#F8FAFC]">
                       Client-Supplied Risk
                     </label>
-                    <span className="text-[10px] text-[#98661C] font-mono">SERVER DERIVED</span>
+                    <span className="text-[10px] text-[#F59E0B] font-mono">SERVER DERIVED</span>
                   </div>
                   <select
                     value={clientRisk}
                     onChange={(e) => setClientRisk(e.target.value)}
-                    className="w-full px-3 py-2 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] text-xs font-mono focus:border-[#315C78] focus:outline-none"
+                    className="w-full px-3 py-2 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] text-xs font-mono focus:border-[#38BDF8] focus:outline-none"
                   >
                     <option value="LOW">LOW</option>
                     <option value="MEDIUM">MEDIUM</option>
@@ -289,7 +289,7 @@ export default function SimulatorPage() {
 
               {/* Resource */}
               <div>
-                <label className="text-xs font-semibold text-[#171A1F] block mb-1.5">
+                <label className="text-xs font-semibold text-[#F8FAFC] block mb-1.5">
                   Target Resource URI / Path
                 </label>
                 <input
@@ -298,13 +298,13 @@ export default function SimulatorPage() {
                   onChange={(e) => setResource(e.target.value)}
                   placeholder="e.g. public/report.pdf, restricted/keys.env, db://users/pii"
                   required
-                  className="w-full px-3 py-2 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] text-xs font-mono focus:border-[#315C78] focus:outline-none"
+                  className="w-full px-3 py-2 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] text-xs font-mono focus:border-[#38BDF8] focus:outline-none placeholder-[#64748B]"
                 />
               </div>
 
               {/* Reason */}
               <div>
-                <label className="text-xs font-semibold text-[#171A1F] block mb-1.5">
+                <label className="text-xs font-semibold text-[#F8FAFC] block mb-1.5">
                   Operational Intent / Stated Reason
                 </label>
                 <textarea
@@ -312,21 +312,21 @@ export default function SimulatorPage() {
                   onChange={(e) => setReason(e.target.value)}
                   rows={2}
                   placeholder="Explain why the agent is requesting this operation"
-                  className="w-full px-3 py-2 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] text-xs focus:border-[#315C78] focus:outline-none resize-none"
+                  className="w-full px-3 py-2 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] text-xs focus:border-[#38BDF8] focus:outline-none resize-none placeholder-[#64748B]"
                 />
               </div>
 
               {/* Security Boundary Notice */}
-              <div className="p-3 rounded bg-[#F5F4F0] border border-[#D9DDE2] text-[11px] text-[#737B86] flex items-start gap-2.5">
-                <Info className="w-4 h-4 text-[#315C78] flex-shrink-0 mt-0.5" />
+              <div className="p-3 rounded bg-[#0B0F17] border border-[#263244] text-[11px] text-[#94A3B8] flex items-start gap-2.5">
+                <Info className="w-4 h-4 text-[#38BDF8] flex-shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
-                  <strong className="text-[#171A1F]">Backend Policy Enforcement:</strong> Every request is evaluated deterministically on the backend. Client-supplied risk ratings are ignored; risk is derived strictly from policy rule evaluation.
+                  <strong className="text-[#F8FAFC]">Backend Policy Enforcement:</strong> Every request is evaluated deterministically on the backend. Client-supplied risk ratings are ignored; risk is derived strictly from policy rule evaluation.
                 </span>
               </div>
 
               {errorMsg && (
-                <div className="p-3 rounded bg-[#FDF2F2] border border-[#F7C4C4] text-xs text-[#B53A3A] flex items-center gap-2">
-                  <XCircle className="w-4 h-4 text-[#B53A3A] flex-shrink-0" />
+                <div className="p-3 rounded bg-[#EF4444]/15 border border-[#EF4444]/30 text-xs text-[#EF4444] flex items-center gap-2">
+                  <XCircle className="w-4 h-4 text-[#EF4444] flex-shrink-0" />
                   <span>{errorMsg}</span>
                 </div>
               )}
@@ -335,7 +335,7 @@ export default function SimulatorPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded text-xs font-semibold bg-[#315C78] text-[#FFFFFF] hover:bg-[#26495F] transition disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded text-xs font-bold bg-[#10B981] text-[#0B0F17] hover:bg-[#059669] transition disabled:opacity-50 shadow-md"
               >
                 <Play className={`w-3.5 h-3.5 fill-current ${isLoading ? 'animate-pulse' : ''}`} />
                 <span>{isLoading ? 'Evaluating Policy Engine...' : 'Evaluate Action & Persist Audit Evidence'}</span>
@@ -344,11 +344,11 @@ export default function SimulatorPage() {
           </div>
 
           {/* Evaluation Outcome (5 cols) */}
-          <div className="lg:col-span-5 p-5 sm:p-6 rounded bg-[#FFFFFF] border border-[#D9DDE2] space-y-4 shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-[#D9DDE2]">
-              <h3 className="text-sm font-semibold text-[#171A1F]">Evaluation Outcome</h3>
+          <div className="lg:col-span-5 p-5 sm:p-6 rounded bg-[#131A24] border border-[#263244] space-y-4 shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-[#263244]">
+              <h3 className="text-sm font-semibold text-[#F8FAFC]">Evaluation Outcome</h3>
               {result && (
-                <span className="text-[10px] font-mono text-[#737B86]">
+                <span className="text-[10px] font-mono text-[#94A3B8]">
                   {new Date(result.timestamp).toLocaleTimeString()}
                 </span>
               )}
@@ -356,11 +356,11 @@ export default function SimulatorPage() {
 
             {!result ? (
               <div className="py-16 px-4 text-center space-y-2.5">
-                <div className="w-10 h-10 rounded-full bg-[#F5F4F0] border border-[#D9DDE2] flex items-center justify-center mx-auto text-[#737B86]">
-                  <Play className="w-4 h-4 ml-0.5 text-[#737B86]" />
+                <div className="w-10 h-10 rounded-full bg-[#0B0F17] border border-[#263244] flex items-center justify-center mx-auto text-[#94A3B8]">
+                  <Play className="w-4 h-4 ml-0.5 text-[#94A3B8]" />
                 </div>
-                <h4 className="text-xs font-semibold text-[#171A1F]">Awaiting Action Request</h4>
-                <p className="text-[11px] text-[#737B86] max-w-xs mx-auto">
+                <h4 className="text-xs font-semibold text-[#F8FAFC]">Awaiting Action Request</h4>
+                <p className="text-[11px] text-[#94A3B8] max-w-xs mx-auto">
                   Configure an action on the left or click a standard scenario above to run policy evaluation.
                 </p>
               </div>
@@ -368,18 +368,18 @@ export default function SimulatorPage() {
               <div className="space-y-4">
                 {/* Decision Banner */}
                 <div className={`p-4 rounded border flex items-center justify-between ${
-                  result.decision === 'ALLOW' ? 'bg-[#EDF6F2] border-[#BCE2D1]' :
-                  result.decision === 'BLOCK' ? 'bg-[#FDF2F2] border-[#F7C4C4]' :
-                  'bg-[#FDF7ED] border-[#F5DEB3]'
+                  result.decision === 'ALLOW' ? 'bg-[#10B981]/15 border-[#10B981]/30' :
+                  result.decision === 'BLOCK' ? 'bg-[#EF4444]/15 border-[#EF4444]/30' :
+                  'bg-[#F59E0B]/15 border-[#F59E0B]/30'
                 }`}>
                   <div>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider block text-[#737B86] mb-0.5">
+                    <span className="text-[10px] font-semibold uppercase tracking-wider block text-[#94A3B8] mb-0.5">
                       Enforced Decision
                     </span>
                     <span className={`text-lg font-bold font-mono tracking-tight ${
-                      result.decision === 'ALLOW' ? 'text-[#287653]' :
-                      result.decision === 'BLOCK' ? 'text-[#B53A3A]' :
-                      'text-[#98661C]'
+                      result.decision === 'ALLOW' ? 'text-[#10B981]' :
+                      result.decision === 'BLOCK' ? 'text-[#EF4444]' :
+                      'text-[#F59E0B]'
                     }`}>
                       {result.decision}
                     </span>
@@ -388,44 +388,44 @@ export default function SimulatorPage() {
                 </div>
 
                 {/* Policy Identification */}
-                <div className="p-3.5 rounded bg-[#F5F4F0] border border-[#D9DDE2] space-y-2 text-xs">
+                <div className="p-3.5 rounded bg-[#0B0F17] border border-[#263244] space-y-2 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-[#737B86] font-medium">Triggered Policy:</span>
-                    <span className="font-mono font-semibold text-[#171A1F]">
+                    <span className="text-[#94A3B8] font-medium">Triggered Policy:</span>
+                    <span className="font-mono font-semibold text-[#F8FAFC]">
                       {result.policy_id} — {result.policy_name}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#737B86] font-medium">Derived Server Risk:</span>
+                    <span className="text-[#94A3B8] font-medium">Derived Server Risk:</span>
                     <StatusBadge type="risk" value={result.derived_risk_level} />
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#737B86] font-medium">Execution Status:</span>
+                    <span className="text-[#94A3B8] font-medium">Execution Status:</span>
                     <StatusBadge type="execution" value={result.execution_status} />
                   </div>
                 </div>
 
                 {/* Explanation */}
                 <div>
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#737B86] block mb-1">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8] block mb-1">
                     Policy Rationale
                   </span>
-                  <div className="p-3 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-xs text-[#171A1F] leading-relaxed">
+                  <div className="p-3 rounded bg-[#0B0F17] border border-[#263244] text-xs text-[#F8FAFC] leading-relaxed">
                     {result.reason}
                   </div>
                 </div>
 
                 {/* Audit Event Reference & Cryptographic Hash */}
-                <div className="p-3.5 rounded bg-[#F5F4F0] border border-[#D9DDE2] space-y-2 text-xs">
+                <div className="p-3.5 rounded bg-[#0B0F17] border border-[#263244] space-y-2 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-[#737B86]">Audit Event ID:</span>
-                    <span className="font-mono text-[#315C78] font-semibold">{result.event_id}</span>
+                    <span className="text-[#94A3B8]">Audit Event ID:</span>
+                    <span className="font-mono text-[#38BDF8] font-semibold">{result.event_id}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-[#737B86] uppercase tracking-wider block mb-0.5">
+                    <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block mb-0.5">
                       SHA-256 Event Hash (Chained)
                     </span>
-                    <div className="font-mono text-[10px] text-[#171A1F] break-all bg-[#FFFFFF] p-2 rounded border border-[#D9DDE2] select-all">
+                    <div className="font-mono text-[10px] text-[#38BDF8] break-all bg-[#131A24] p-2 rounded border border-[#263244] select-all">
                       {result.integrity_hash}
                     </div>
                   </div>
@@ -435,14 +435,14 @@ export default function SimulatorPage() {
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <Link
                     href={`/blockchain?search=${result.event_id}`}
-                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded text-xs font-semibold bg-[#315C78] text-[#FFFFFF] hover:bg-[#26495F] transition"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded text-xs font-semibold bg-[#38BDF8] text-[#0B0F17] hover:bg-[#0284C7] transition"
                   >
                     <Boxes className="w-3.5 h-3.5" />
                     <span>Inspect On-Chain</span>
                   </Link>
                   <Link
                     href="/audit"
-                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded text-xs font-medium text-[#171A1F] bg-[#FFFFFF] border border-[#D9DDE2] hover:bg-[#F5F4F0] transition"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded text-xs font-medium text-[#F8FAFC] bg-[#0B0F17] border border-[#263244] hover:bg-[#1A2332] transition"
                   >
                     <span>Audit Trail</span>
                     <ArrowRight className="w-3.5 h-3.5" />

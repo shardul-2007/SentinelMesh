@@ -8,13 +8,10 @@ import {
   Link as LinkIcon, 
   RefreshCw, 
   User as UserIcon, 
-  ShieldCheck, 
-  Lock, 
-  LogOut,
   ChevronDown,
   Menu
 } from 'lucide-react';
-import { api, getAuthToken, setAuthToken, removeAuthToken } from '@/lib/api';
+import { api } from '@/lib/api';
 import { UserProfile, UserRole } from '@/lib/types';
 
 interface HeaderProps {
@@ -63,7 +60,6 @@ export function Header({ title, subtitle, onRefresh, isRefreshing, onToggleMobil
         }
       }
     }
-    // Default fallback to Admin for convenient demonstration
     setCurrentUser({
       id: 'usr_admin',
       username: 'admin',
@@ -107,69 +103,69 @@ export function Header({ title, subtitle, onRefresh, isRefreshing, onToggleMobil
   const getRoleBadgeStyle = (role?: UserRole) => {
     switch (role) {
       case 'ADMIN':
-        return 'bg-[#FDF7ED] text-[#98661C] border-[#F5DEB3]';
+        return 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30';
       case 'SECURITY_ANALYST':
-        return 'bg-[#EBF2F7] text-[#315C78] border-[#C5D7E3]';
+        return 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/30';
       case 'VIEWER':
       default:
-        return 'bg-[#F5F4F0] text-[#737B86] border-[#D9DDE2]';
+        return 'bg-[#1A2332] text-[#94A3B8] border-[#263244]';
     }
   };
 
   return (
-    <header className="h-16 px-4 sm:px-6 border-b border-[#D9DDE2] bg-[#FFFFFF] flex items-center justify-between sticky top-0 z-20">
+    <header className="h-16 px-4 sm:px-6 border-b border-[#263244] bg-[#131A24] flex items-center justify-between sticky top-0 z-20">
       <div className="flex items-center gap-3">
         {onToggleMobileMenu && (
           <button
             onClick={onToggleMobileMenu}
-            className="lg:hidden p-1.5 rounded text-[#737B86] hover:text-[#171A1F] hover:bg-[#F5F4F0] border border-[#D9DDE2] transition"
+            className="lg:hidden p-1.5 rounded-lg text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1A2332] border border-[#263244] transition"
             aria-label="Open navigation menu"
           >
             <Menu className="w-4 h-4" />
           </button>
         )}
         <div>
-          <h2 className="text-base sm:text-lg font-semibold text-[#171A1F] tracking-tight">{title}</h2>
-          {subtitle && <p className="text-[11px] sm:text-xs text-[#737B86] line-clamp-1">{subtitle}</p>}
+          <h2 className="text-base sm:text-lg font-semibold text-[#F8FAFC] tracking-tight">{title}</h2>
+          {subtitle && <p className="text-[11px] sm:text-xs text-[#94A3B8] line-clamp-1">{subtitle}</p>}
         </div>
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Backend Status */}
-        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#F5F4F0] border border-[#D9DDE2] text-xs">
-          <Activity className="w-3.5 h-3.5 text-[#737B86]" />
-          <span className="text-[#737B86]">API:</span>
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0B0F17] border border-[#263244] text-xs">
+          <Activity className="w-3.5 h-3.5 text-[#94A3B8]" />
+          <span className="text-[#94A3B8]">API:</span>
           {backendStatus === 'connected' ? (
-            <span className="inline-flex items-center gap-1 font-mono text-[#287653] font-semibold text-[11px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#287653]"></span>
+            <span className="inline-flex items-center gap-1 font-mono text-[#10B981] font-semibold text-[11px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
               ONLINE
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 font-mono text-[#B53A3A] font-semibold text-[11px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#B53A3A]"></span>
+            <span className="inline-flex items-center gap-1 font-mono text-[#EF4444] font-semibold text-[11px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444]"></span>
               OFFLINE
             </span>
           )}
         </div>
 
         {/* Database Status */}
-        <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#F5F4F0] border border-[#D9DDE2] text-xs">
-          <Database className="w-3.5 h-3.5 text-[#737B86]" />
-          <span className="text-[#737B86]">DB:</span>
-          <span className="font-mono text-[#171A1F] text-[11px]">Active</span>
+        <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0B0F17] border border-[#263244] text-xs">
+          <Database className="w-3.5 h-3.5 text-[#94A3B8]" />
+          <span className="text-[#94A3B8]">DB:</span>
+          <span className="font-mono text-[#F8FAFC] text-[11px]">Active</span>
         </div>
 
         {/* Blockchain Status */}
-        <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#F5F4F0] border border-[#D9DDE2] text-xs">
-          <LinkIcon className="w-3.5 h-3.5 text-[#737B86]" />
-          <span className="text-[#737B86]">MST:</span>
+        <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0B0F17] border border-[#263244] text-xs">
+          <LinkIcon className="w-3.5 h-3.5 text-[#38BDF8]" />
+          <span className="text-[#94A3B8]">MST:</span>
           {blockchainInfo.connected ? (
-            <span className="inline-flex items-center gap-1 font-mono text-[#287653] font-semibold text-[11px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#287653] animate-pulse"></span>
+            <span className="inline-flex items-center gap-1 font-mono text-[#10B981] font-semibold text-[11px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
               {blockchainInfo.network}
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 font-mono text-[#98661C] bg-[#FDF7ED] px-1.5 py-0.2 rounded border border-[#F5DEB3] text-[10px]">
+            <span className="inline-flex items-center gap-1 font-mono text-[#F59E0B] bg-[#F59E0B]/10 px-1.5 py-0.2 rounded border border-[#F59E0B]/30 text-[10px]">
               LOCAL EVM
             </span>
           )}
@@ -179,61 +175,61 @@ export function Header({ title, subtitle, onRefresh, isRefreshing, onToggleMobil
         <div className="relative">
           <button
             onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-            className="flex items-center gap-2 px-2.5 py-1 rounded bg-[#F5F4F0] border border-[#D9DDE2] hover:bg-[#E8EBEF] transition text-xs text-[#171A1F]"
+            className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#0B0F17] border border-[#263244] hover:bg-[#1A2332] transition text-xs text-[#F8FAFC]"
             title="Switch User Role"
           >
-            <UserIcon className="w-3.5 h-3.5 text-[#737B86]" />
+            <UserIcon className="w-3.5 h-3.5 text-[#94A3B8]" />
             <span className="font-medium hidden sm:inline">{currentUser?.username || 'admin'}</span>
             <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono font-semibold border ${getRoleBadgeStyle(currentUser?.role)}`}>
               {currentUser?.role || 'ADMIN'}
             </span>
-            <ChevronDown className="w-3 h-3 text-[#737B86]" />
+            <ChevronDown className="w-3 h-3 text-[#94A3B8]" />
           </button>
 
           {isRoleDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-64 rounded bg-[#FFFFFF] border border-[#D9DDE2] shadow-xl p-2 z-50 space-y-1">
-              <div className="px-3 py-2 border-b border-[#D9DDE2] text-xs">
-                <p className="text-[#737B86] text-[10px] uppercase tracking-wider font-semibold">Role-Based Access (RBAC)</p>
-                <p className="text-[#171A1F] font-medium mt-0.5">{currentUser?.full_name}</p>
+            <div className="absolute right-0 mt-2 w-64 rounded-xl bg-[#1A2332] border border-[#263244] shadow-2xl p-2 z-50 space-y-1">
+              <div className="px-3 py-2 border-b border-[#263244] text-xs">
+                <p className="text-[#94A3B8] text-[10px] uppercase tracking-wider font-semibold">Role-Based Access (RBAC)</p>
+                <p className="text-[#F8FAFC] font-medium mt-0.5">{currentUser?.full_name}</p>
               </div>
 
               <button
                 onClick={() => handleSwitchRole('admin', 'ADMIN', 'Chief Security Officer')}
-                className={`w-full text-left px-3 py-2 rounded text-xs flex items-center justify-between hover:bg-[#F5F4F0] transition ${
-                  currentUser?.role === 'ADMIN' ? 'bg-[#FDF7ED] text-[#98661C] font-semibold' : 'text-[#171A1F]'
+                className={`w-full text-left px-3 py-2 rounded-lg text-xs flex items-center justify-between hover:bg-[#131A24] transition ${
+                  currentUser?.role === 'ADMIN' ? 'bg-[#F59E0B]/15 text-[#F59E0B] font-semibold' : 'text-[#F8FAFC]'
                 }`}
               >
                 <div>
                   <p className="font-medium">Administrator</p>
-                  <p className="text-[10px] text-[#737B86]">Approve, anchor & configure</p>
+                  <p className="text-[10px] text-[#94A3B8]">Approve, anchor & configure</p>
                 </div>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#FDF7ED] border border-[#F5DEB3] text-[#98661C]">ADMIN</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#F59E0B]">ADMIN</span>
               </button>
 
               <button
                 onClick={() => handleSwitchRole('analyst', 'SECURITY_ANALYST', 'Senior Security Analyst')}
-                className={`w-full text-left px-3 py-2 rounded text-xs flex items-center justify-between hover:bg-[#F5F4F0] transition ${
-                  currentUser?.role === 'SECURITY_ANALYST' ? 'bg-[#EBF2F7] text-[#315C78] font-semibold' : 'text-[#171A1F]'
+                className={`w-full text-left px-3 py-2 rounded-lg text-xs flex items-center justify-between hover:bg-[#131A24] transition ${
+                  currentUser?.role === 'SECURITY_ANALYST' ? 'bg-[#38BDF8]/15 text-[#38BDF8] font-semibold' : 'text-[#F8FAFC]'
                 }`}
               >
                 <div>
                   <p className="font-medium">Security Analyst</p>
-                  <p className="text-[10px] text-[#737B86]">Verify hashes & inspect traces</p>
+                  <p className="text-[10px] text-[#94A3B8]">Verify hashes & inspect traces</p>
                 </div>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#EBF2F7] border border-[#C5D7E3] text-[#315C78]">ANALYST</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#38BDF8]/15 border border-[#38BDF8]/30 text-[#38BDF8]">ANALYST</span>
               </button>
 
               <button
                 onClick={() => handleSwitchRole('viewer', 'VIEWER', 'Compliance Auditor')}
-                className={`w-full text-left px-3 py-2 rounded text-xs flex items-center justify-between hover:bg-[#F5F4F0] transition ${
-                  currentUser?.role === 'VIEWER' ? 'bg-[#F5F4F0] text-[#171A1F] font-semibold' : 'text-[#171A1F]'
+                className={`w-full text-left px-3 py-2 rounded-lg text-xs flex items-center justify-between hover:bg-[#131A24] transition ${
+                  currentUser?.role === 'VIEWER' ? 'bg-[#131A24] text-[#F8FAFC] font-semibold' : 'text-[#F8FAFC]'
                 }`}
               >
                 <div>
                   <p className="font-medium">Compliance Auditor</p>
-                  <p className="text-[10px] text-[#737B86]">Read-only verification</p>
+                  <p className="text-[10px] text-[#94A3B8]">Read-only verification</p>
                 </div>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#F5F4F0] border border-[#D9DDE2] text-[#737B86]">VIEWER</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#0B0F17] border border-[#263244] text-[#94A3B8]">VIEWER</span>
               </button>
             </div>
           )}
@@ -244,10 +240,10 @@ export function Header({ title, subtitle, onRefresh, isRefreshing, onToggleMobil
           <button
             onClick={onRefresh}
             disabled={isRefreshing}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium text-[#171A1F] bg-[#FFFFFF] border border-[#D9DDE2] hover:bg-[#F5F4F0] transition disabled:opacity-50"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium text-[#F8FAFC] bg-[#0B0F17] border border-[#263244] hover:bg-[#1A2332] transition disabled:opacity-50"
             title="Refresh Data"
           >
-            <RefreshCw className={`w-3.5 h-3.5 text-[#315C78] ${isRefreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 text-[#38BDF8] ${isRefreshing ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
           </button>
         )}

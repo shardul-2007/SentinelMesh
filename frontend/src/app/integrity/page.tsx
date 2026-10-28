@@ -143,7 +143,7 @@ export default function IntegrityCenterPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-full bg-[#F5F4F0]">
+    <div className="flex flex-col min-h-full bg-[#0B0F17]">
       <Header 
         title="Integrity Center" 
         subtitle="Cryptographic SHA-256 verification, MST blockchain anchoring & real-time tamper detection"
@@ -154,61 +154,61 @@ export default function IntegrityCenterPage() {
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
         {/* KPI Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex flex-col justify-between shadow-sm">
-            <div className="flex items-center justify-between text-[#737B86] text-xs font-medium">
+          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+            <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Total Evidence Records</span>
-              <Lock className="w-4 h-4 text-[#737B86]" />
+              <Lock className="w-4 h-4 text-[#94A3B8]" />
             </div>
-            <div className="text-2xl font-bold text-[#171A1F] mt-2 font-mono">{records.length}</div>
-            <p className="text-[11px] text-[#737B86] mt-1">RFC-8785 canonical digests</p>
+            <div className="text-2xl font-bold text-[#F8FAFC] mt-2 font-mono">{records.length}</div>
+            <p className="text-[11px] text-[#94A3B8] mt-1">RFC-8785 canonical digests</p>
           </div>
 
-          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex flex-col justify-between shadow-sm">
-            <div className="flex items-center justify-between text-[#737B86] text-xs font-medium">
+          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+            <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Confirmed On-Chain</span>
-              <Boxes className="w-4 h-4 text-[#315C78]" />
+              <Boxes className="w-4 h-4 text-[#38BDF8]" />
             </div>
-            <div className="text-2xl font-bold text-[#315C78] mt-2 font-mono">
+            <div className="text-2xl font-bold text-[#38BDF8] mt-2 font-mono">
               {bStatus?.total_anchors ?? records.filter(r => r.anchoring_status === 'ANCHORED').length}
             </div>
-            <p className="text-[11px] text-[#737B86] mt-1">MST EvidenceRegistry commitments</p>
+            <p className="text-[11px] text-[#94A3B8] mt-1">MST EvidenceRegistry commitments</p>
           </div>
 
-          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex flex-col justify-between shadow-sm">
-            <div className="flex items-center justify-between text-[#737B86] text-xs font-medium">
+          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+            <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Cryptographically Intact</span>
-              <ShieldCheck className="w-4 h-4 text-[#287653]" />
+              <ShieldCheck className="w-4 h-4 text-[#10B981]" />
             </div>
-            <div className="text-2xl font-bold text-[#287653] mt-2 font-mono">
+            <div className="text-2xl font-bold text-[#10B981] mt-2 font-mono">
               {records.filter(r => r.verification_status === 'ANCHORED_AND_VERIFIED' || r.verification_status === 'INTACT').length}
             </div>
-            <p className="text-[11px] text-[#737B86] mt-1">Zero divergence against audit state</p>
+            <p className="text-[11px] text-[#94A3B8] mt-1">Zero divergence against audit state</p>
           </div>
 
-          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex flex-col justify-between shadow-sm">
-            <div className="flex items-center justify-between text-[#737B86] text-xs font-medium">
+          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+            <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Active Tamper Alerts</span>
-              <AlertTriangle className="w-4 h-4 text-[#B53A3A]" />
+              <AlertTriangle className="w-4 h-4 text-[#EF4444]" />
             </div>
-            <div className="text-2xl font-bold text-[#B53A3A] mt-2 font-mono">
+            <div className="text-2xl font-bold text-[#EF4444] mt-2 font-mono">
               {alerts.filter(a => a.status === 'OPEN').length}
             </div>
-            <p className="text-[11px] text-[#737B86] mt-1">Detected evidence modifications</p>
+            <p className="text-[11px] text-[#94A3B8] mt-1">Detected evidence modifications</p>
           </div>
         </div>
 
         {/* Security Resilience Simulation Panel */}
-        <div className="p-5 rounded bg-[#FFFFFF] border border-[#D9DDE2] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="p-5 rounded bg-[#131A24] border border-[#263244] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 text-sm font-semibold text-[#171A1F]">
-              <Wrench className="w-4 h-4 text-[#315C78]" />
+            <div className="flex items-center gap-2 text-sm font-semibold text-[#F8FAFC]">
+              <Wrench className="w-4 h-4 text-[#38BDF8]" />
               <span>Cryptographic Resilience Verification: Controlled Tampering Test</span>
             </div>
-            <p className="text-xs text-[#737B86] max-w-2xl leading-relaxed">
+            <p className="text-xs text-[#94A3B8] max-w-2xl leading-relaxed">
               Verify cryptographic tamper detection in real time. Mutate an audit event in local storage without recalculating its SHA-256 digest or contract commitment, and watch independent verification immediately catch the breach.
             </p>
             {simulationResult && (
-              <p className="text-xs font-mono text-[#287653] bg-[#EDF6F2] p-2 rounded border border-[#BCE2D1] mt-2">
+              <p className="text-xs font-mono text-[#10B981] bg-[#10B981]/15 p-2 rounded border border-[#10B981]/30 mt-2">
                 {simulationResult}
               </p>
             )}
@@ -217,7 +217,7 @@ export default function IntegrityCenterPage() {
             <button
               onClick={handleSimulateTamper}
               disabled={actionLoading === 'simulate-tamper'}
-              className="px-3 py-1.5 rounded text-xs font-semibold bg-[#FDF2F2] hover:bg-[#FCE8E8] text-[#B53A3A] border border-[#F7C4C4] transition flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded text-xs font-semibold bg-[#EF4444]/15 hover:bg-[#EF4444]/25 text-[#EF4444] border border-[#EF4444]/30 transition flex items-center gap-1.5"
             >
               <AlertTriangle className="w-3.5 h-3.5" />
               <span>Simulate Tamper</span>
@@ -225,9 +225,9 @@ export default function IntegrityCenterPage() {
             <button
               onClick={handleRestoreTamper}
               disabled={actionLoading === 'restore-tamper'}
-              className="px-3 py-1.5 rounded text-xs font-medium bg-[#FFFFFF] hover:bg-[#F5F4F0] text-[#171A1F] border border-[#D9DDE2] transition flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] text-[#F8FAFC] border border-[#263244] transition flex items-center gap-1.5"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-[#737B86]" />
+              <RotateCcw className="w-3.5 h-3.5 text-[#94A3B8]" />
               <span>Restore Baseline</span>
             </button>
           </div>
@@ -235,19 +235,19 @@ export default function IntegrityCenterPage() {
 
         {/* Active Tamper Alerts Table */}
         {alerts.length > 0 && (
-          <div className="rounded bg-[#FFFFFF] border border-[#D9DDE2] overflow-hidden shadow-sm">
-            <div className="p-4 border-b border-[#D9DDE2] flex items-center justify-between">
+          <div className="rounded bg-[#131A24] border border-[#263244] overflow-hidden shadow-sm">
+            <div className="p-4 border-b border-[#263244] flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-[#B53A3A]" />
-                <h3 className="text-sm font-semibold text-[#171A1F]">Active Cryptographic Tamper Alerts</h3>
-                <span className="text-xs px-2 py-0.5 rounded font-mono font-semibold bg-[#FDF2F2] text-[#B53A3A] border border-[#F7C4C4]">
+                <AlertTriangle className="w-4 h-4 text-[#EF4444]" />
+                <h3 className="text-sm font-semibold text-[#F8FAFC]">Active Cryptographic Tamper Alerts</h3>
+                <span className="text-xs px-2 py-0.5 rounded font-mono font-semibold bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30">
                   {alerts.length}
                 </span>
               </div>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-[#F9F9F8] text-[#737B86] border-b border-[#D9DDE2]">
+                <thead className="bg-[#1A2332] text-[#94A3B8] border-b border-[#263244]">
                   <tr>
                     <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Alert ID</th>
                     <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Event ID</th>
@@ -258,17 +258,17 @@ export default function IntegrityCenterPage() {
                     <th className="py-2.5 px-4 font-semibold uppercase text-[10px] text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#D9DDE2] font-mono">
+                <tbody className="divide-y divide-[#263244] font-mono">
                   {alerts.map((alt) => (
-                    <tr key={alt.id} className="hover:bg-[#F9FAFB] transition">
-                      <td className="py-3 px-4 font-medium text-[#B53A3A]">{alt.id}</td>
-                      <td className="py-3 px-4 text-[#171A1F]">{alt.event_id}</td>
-                      <td className="py-3 px-4 text-[#737B86] font-sans">{new Date(alt.detection_timestamp).toLocaleTimeString()}</td>
-                      <td className="py-3 px-4 text-[#171A1F] text-[11px]">{alt.trusted_source}</td>
-                      <td className="py-3 px-4 text-[#737B86] text-[11px]">{alt.expected_hash.slice(0, 18)}...</td>
+                    <tr key={alt.id} className="hover:bg-[#1A2332]/60 transition">
+                      <td className="py-3 px-4 font-medium text-[#EF4444]">{alt.id}</td>
+                      <td className="py-3 px-4 text-[#F8FAFC]">{alt.event_id}</td>
+                      <td className="py-3 px-4 text-[#94A3B8] font-sans">{new Date(alt.detection_timestamp).toLocaleTimeString()}</td>
+                      <td className="py-3 px-4 text-[#38BDF8] text-[11px]">{alt.trusted_source}</td>
+                      <td className="py-3 px-4 text-[#94A3B8] text-[11px]">{alt.expected_hash.slice(0, 18)}...</td>
                       <td className="py-3 px-4">
                         <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
-                          alt.status === 'OPEN' ? 'bg-[#FDF2F2] text-[#B53A3A] border-[#F7C4C4]' : 'bg-[#EDF6F2] text-[#287653] border-[#BCE2D1]'
+                          alt.status === 'OPEN' ? 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30' : 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/30'
                         }`}>
                           {alt.status}
                         </span>
@@ -276,14 +276,14 @@ export default function IntegrityCenterPage() {
                       <td className="py-3 px-4 text-right space-x-2 font-sans">
                         <button
                           onClick={() => handleInspect(alt.event_id)}
-                          className="px-2 py-1 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] hover:bg-[#F5F4F0] transition text-[11px]"
+                          className="px-2 py-1 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] hover:bg-[#1A2332] transition text-[11px]"
                         >
                           Inspect
                         </button>
                         {alt.status === 'OPEN' && (
                           <button
                             onClick={() => handleResolveAlert(alt.id)}
-                            className="px-2 py-1 rounded bg-[#FDF7ED] border border-[#F5DEB3] text-[#98661C] hover:bg-[#F7E7CD] transition text-[11px]"
+                            className="px-2 py-1 rounded bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#F59E0B] hover:bg-[#F59E0B]/25 transition text-[11px]"
                           >
                             Resolve (Admin)
                           </button>
@@ -298,18 +298,18 @@ export default function IntegrityCenterPage() {
         )}
 
         {/* Integrity Records Ledger */}
-        <div className="rounded bg-[#FFFFFF] border border-[#D9DDE2] overflow-hidden shadow-sm">
-          <div className="p-4 border-b border-[#D9DDE2] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="rounded bg-[#131A24] border border-[#263244] overflow-hidden shadow-sm">
+          <div className="p-4 border-b border-[#263244] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-sm font-semibold text-[#171A1F]">Cryptographic Integrity Records</h3>
-              <p className="text-xs text-[#737B86] mt-0.5">Deterministic canonical hashes paired with on-chain EVM anchor commitments</p>
+              <h3 className="text-sm font-semibold text-[#F8FAFC]">Cryptographic Integrity Records</h3>
+              <p className="text-xs text-[#94A3B8] mt-0.5">Deterministic canonical hashes paired with on-chain EVM anchor commitments</p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-[#737B86]">Filter:</span>
+              <span className="text-xs text-[#94A3B8]">Filter:</span>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="bg-[#FFFFFF] border border-[#D9DDE2] rounded px-2.5 py-1 text-xs text-[#171A1F] focus:outline-none focus:border-[#315C78]"
+                className="bg-[#0B0F17] border border-[#263244] rounded px-2.5 py-1 text-xs text-[#F8FAFC] focus:outline-none focus:border-[#38BDF8]"
               >
                 <option value="ALL">All Records</option>
                 <option value="ANCHORED">Anchored On-Chain</option>
@@ -321,7 +321,7 @@ export default function IntegrityCenterPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#F9F9F8] text-[#737B86] border-b border-[#D9DDE2]">
+              <thead className="bg-[#1A2332] text-[#94A3B8] border-b border-[#263244]">
                 <tr>
                   <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Event ID</th>
                   <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Canonical SHA-256 Digest</th>
@@ -331,25 +331,25 @@ export default function IntegrityCenterPage() {
                   <th className="py-2.5 px-4 font-semibold uppercase text-[10px] text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#D9DDE2] font-mono">
+              <tbody className="divide-y divide-[#263244] font-mono">
                 {records.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="py-8 text-center text-[#737B86] font-sans">
+                    <td colSpan={6} className="py-8 text-center text-[#94A3B8] font-sans">
                       No integrity records found. Evaluate an action in the Action Gateway to create the first record.
                     </td>
                   </tr>
                 ) : (
                   records.map((r) => (
-                    <tr key={r.id} className="hover:bg-[#F9FAFB] transition">
-                      <td className="py-3 px-4 font-medium text-[#171A1F]">{r.event_id}</td>
-                      <td className="py-3 px-4 text-[#737B86] text-[11px]">
+                    <tr key={r.id} className="hover:bg-[#1A2332]/60 transition">
+                      <td className="py-3 px-4 font-medium text-[#F8FAFC]">{r.event_id}</td>
+                      <td className="py-3 px-4 text-[#94A3B8] text-[11px]">
                         {r.event_hash.slice(0, 16)}...{r.event_hash.slice(-8)}
                       </td>
                       <td className="py-3 px-4">
                         <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
                           r.anchoring_status === 'ANCHORED'
-                            ? 'bg-[#EBF2F7] text-[#315C78] border-[#C5D7E3]'
-                            : 'bg-[#F5F4F0] text-[#737B86] border-[#D9DDE2]'
+                            ? 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/30'
+                            : 'bg-[#0B0F17] text-[#94A3B8] border-[#263244]'
                         }`}>
                           {r.anchoring_status}
                         </span>
@@ -357,10 +357,10 @@ export default function IntegrityCenterPage() {
                       <td className="py-3 px-4">
                         <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
                           r.verification_status === 'ANCHORED_AND_VERIFIED'
-                            ? 'bg-[#EDF6F2] text-[#287653] border-[#BCE2D1]'
+                            ? 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/30'
                             : r.verification_status === 'TAMPERED'
-                            ? 'bg-[#FDF2F2] text-[#B53A3A] border-[#F7C4C4]'
-                            : 'bg-[#F5F4F0] text-[#737B86] border-[#D9DDE2]'
+                            ? 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
+                            : 'bg-[#0B0F17] text-[#94A3B8] border-[#263244]'
                         }`}>
                           {r.verification_status}
                         </span>
@@ -368,34 +368,34 @@ export default function IntegrityCenterPage() {
                       <td className="py-3 px-4 text-[11px]">
                         {r.transaction_hash ? (
                           <div className="flex items-center gap-1.5">
-                            <span className="text-[#287653] font-semibold">#{r.block_number || 'Tx'}</span>
+                            <span className="text-[#10B981] font-semibold">#{r.block_number || 'Tx'}</span>
                             <a
                               href={bStatus?.explorer_base_url ? `${bStatus.explorer_base_url}/tx/${r.transaction_hash}` : `https://testnet.mstscan.com/tx/${r.transaction_hash}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#315C78] hover:underline"
+                              className="text-[#38BDF8] hover:underline"
                               title="View on MSTScan Explorer"
                             >
                               <ExternalLink className="w-3 h-3" />
                             </a>
                           </div>
                         ) : r.block_number ? (
-                          <span className="text-[#737B86]">Block #{r.block_number}</span>
+                          <span className="text-[#94A3B8]">Block #{r.block_number}</span>
                         ) : (
-                          <span className="text-[#B0B7C1]">—</span>
+                          <span className="text-[#64748B]">—</span>
                         )}
                       </td>
                       <td className="py-3 px-4 text-right space-x-1.5 font-sans">
                         <button
                           onClick={() => handleInspect(r.event_id)}
-                          className="px-2 py-1 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] hover:bg-[#F5F4F0] transition text-[11px]"
+                          className="px-2 py-1 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] hover:bg-[#1A2332] transition text-[11px]"
                         >
                           Inspect
                         </button>
                         <button
                           onClick={() => handleVerify(r.event_id)}
                           disabled={actionLoading === `verify-${r.event_id}`}
-                          className="px-2 py-1 rounded bg-[#EDF6F2] border border-[#BCE2D1] text-[#287653] hover:bg-[#D5EDDF] transition disabled:opacity-50 text-[11px]"
+                          className="px-2 py-1 rounded bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] hover:bg-[#10B981]/25 transition disabled:opacity-50 text-[11px]"
                         >
                           {actionLoading === `verify-${r.event_id}` ? 'Checking...' : 'Verify'}
                         </button>
@@ -403,7 +403,7 @@ export default function IntegrityCenterPage() {
                           <button
                             onClick={() => handleAnchor(r.event_id)}
                             disabled={actionLoading === `anchor-${r.event_id}`}
-                            className="px-2 py-1 rounded bg-[#315C78] text-[#FFFFFF] hover:bg-[#26495F] transition disabled:opacity-50 text-[11px]"
+                            className="px-2 py-1 rounded bg-[#38BDF8] text-[#0B0F17] font-semibold hover:bg-[#0284C7] transition disabled:opacity-50 text-[11px]"
                           >
                             {actionLoading === `anchor-${r.event_id}` ? 'Anchoring...' : 'Anchor (Admin)'}
                           </button>

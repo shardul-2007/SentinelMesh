@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
-import { Sidebar } from '@/components/Sidebar';
 import { api } from '@/lib/api';
 import {
   SecurityFinding,
@@ -206,7 +205,7 @@ export default function ThreatsPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-full bg-[#F5F4F0] text-[#171A1F]">
+    <div className="flex flex-col min-h-full bg-[#0B0F17] text-[#F8FAFC]">
       <Header
         title="Threat Intelligence Center"
         subtitle="Deterministic behavioral pattern detection, explainable risk scoring & simulation lab"
