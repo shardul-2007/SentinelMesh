@@ -1,6 +1,7 @@
 import './globals.css';
 import { AppShell } from '@/components/AppShell';
 import { RBACProvider } from '@/lib/rbac';
+import { Web3WalletProvider } from '@/lib/web3Wallet';
 
 export const metadata = {
   title: 'SentinelMesh — Trust, Without Blind Faith',
@@ -15,11 +16,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="bg-[#0B0F17] text-[#F8FAFC] min-h-screen font-sans antialiased">
-        <RBACProvider>
-          <AppShell>
-            {children}
-          </AppShell>
-        </RBACProvider>
+        <Web3WalletProvider>
+          <RBACProvider>
+            <AppShell>
+              {children}
+            </AppShell>
+          </RBACProvider>
+        </Web3WalletProvider>
       </body>
     </html>
   );

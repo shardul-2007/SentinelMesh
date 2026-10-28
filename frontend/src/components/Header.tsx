@@ -20,6 +20,7 @@ import {
 import { api } from '@/lib/api';
 import { UserRole } from '@/lib/types';
 import { useRBAC } from '@/lib/rbac';
+import { WalletButton } from './WalletButton';
 
 interface HeaderProps {
   title: string;
@@ -123,6 +124,9 @@ export function Header({ title, subtitle, onRefresh, isRefreshing, onToggleMobil
             91562037
           </span>
         </div>
+
+        {/* BridgeKey / Web3 Wallet Integration */}
+        <WalletButton />
 
         {/* User Profile & Interactive RBAC Role Switcher */}
         <div className="relative">

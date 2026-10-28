@@ -23,6 +23,7 @@ import { StatusBadge } from '@/components/StatusBadge';
 import { EventDetailModal } from '@/components/EventDetailModal';
 import { api } from '@/lib/api';
 import { useRBAC } from '@/lib/rbac';
+import { useWeb3Wallet } from '@/lib/web3Wallet';
 import { 
   BlockchainStatus, 
   IntegrityRecord, 
@@ -32,6 +33,7 @@ import {
 
 export default function IntegrityCenterPage() {
   const { role, permissions, roleBadgeText, roleDescription } = useRBAC();
+  const { isConnected: isWalletConnected, address: walletAddress, anchorWithWallet } = useWeb3Wallet();
   const [bStatus, setBStatus] = useState<BlockchainStatus | null>(null);
   const [records, setRecords] = useState<IntegrityRecord[]>([]);
   const [alerts, setAlerts] = useState<TamperAlert[]>([]);
@@ -93,9 +95,21 @@ export default function IntegrityCenterPage() {
     }
   };
 
-  const handleAnchor = async (eventId: string) => {
+  const handleAnchor = async (eventId: string, eventHash?: string) => {
     setActionLoading(`anchor-${eventId}`);
     try {
+      if (isWalletConnected && walletAddress && eventHash) {
+        const useDirectWallet = confirm(
+          `BridgeKey / Web3 Wallet connected (${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}).\n\nDo you want to sign this anchor transaction directly with your wallet?\n- Click OK to sign with BridgeKey\n- Click Cancel to relay via SentinelMesh automated signer`
+        );
+        if (useDirectWallet) {
+          const directRes = await anchorWithWallet(eventId, eventHash);
+          alert(`BridgeKey Anchor Confirmed on MST Testnet!\nTx: ${directRes.transactionHash}\nExplorer: ${directRes.explorerUrl}`);
+          await loadData();
+          return;
+        }
+      }
+
       const res = await api.anchorEvent(eventId);
       alert(`Blockchain Anchor Confirmed!\nTx: ${res.transaction_hash}\nBlock: #${res.block_number}\nContract: ${res.contract_address}`);
       await loadData();
@@ -430,7 +444,7 @@ export default function IntegrityCenterPage() {
                         </button>
                         {r.anchoring_status !== 'ANCHORED' && (
                           <button
-                            onClick={() => handleAnchor(r.event_id)}
+                            onClick={() => handleAnchor(r.event_id, r.event_hash)}
                             disabled={actionLoading === `anchor-${r.event_id}` || !permissions.canAnchor}
                             title={permissions.canAnchor ? 'Commit SHA-256 evidence to MST Blockchain' : 'Admin Role Required to Anchor'}
                             className="px-2 py-1 rounded bg-gradient-to-r from-cyan-500 to-blue-600 text-[#0B0F17] font-semibold hover:from-cyan-400 hover:to-blue-500 transition disabled:opacity-30 disabled:cursor-not-allowed text-[11px] shadow-[0_0_10px_rgba(6,182,212,0.2)]"
