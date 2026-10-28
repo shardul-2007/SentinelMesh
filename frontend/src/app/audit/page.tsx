@@ -111,7 +111,7 @@ export default function AuditTrailPage() {
                 </span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed max-w-3xl">
-                Audit records cannot be edited or purged via this interface. Each entry is anchored by a deterministic SHA-256 integrity hash linked to its predecessor. In Phase 2, these hashes will be submitted to a decentralized smart contract for zero-knowledge verification.
+                Audit records cannot be edited or purged via this interface. Each entry is anchored by a deterministic SHA-256 integrity hash and can be committed directly to the MST EvidenceRegistry smart contract for independent on-chain verification.
               </p>
             </div>
           </div>

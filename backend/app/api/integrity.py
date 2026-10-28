@@ -14,7 +14,9 @@ from app.schemas import (
     IntegrityRecordResponse,
     IntegrityVerificationResponse,
     IntegrityAnchorResponse,
-    BlockchainStatusResponse
+    BlockchainStatusResponse,
+    BlockchainTransactionResponse,
+    EvidenceInspectorResponse
 )
 from app.integrity.canonical import (
     compute_canonical_event_hash,
@@ -66,7 +68,142 @@ def get_blockchain_status(db: Session = Depends(get_db)):
         description=status_dict["description"],
         total_anchors=total_anchors,
         total_verified=total_verified,
-        total_tampered=total_tampered
+        total_tampered=total_tampered,
+        explorer_base_url=status_dict.get("explorer_base_url"),
+        contract_explorer_url=status_dict.get("contract_explorer_url"),
+        native_token=status_dict.get("native_token"),
+        faucet_url=status_dict.get("faucet_url")
+    )
+
+
+@router.get("/transactions", response_model=List[BlockchainTransactionResponse])
+def list_blockchain_transactions(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    db: Session = Depends(get_db)
+):
+    """
+    Retrieve real blockchain transactions anchored by SentinelMesh on MST Blockchain.
+    """
+    b_service = get_blockchain_service()
+    records = (
+        db.query(IntegrityRecord)
+        .filter(IntegrityRecord.transaction_hash.isnot(None))
+        .order_by(IntegrityRecord.anchored_at.desc())
+        .offset((page - 1) * page_size)
+        .limit(page_size)
+        .all()
+    )
+
+    transactions = []
+    for r in records:
+        tx_url = b_service.get_tx_explorer_url(r.transaction_hash) if r.transaction_hash else None
+        transactions.append(
+            BlockchainTransactionResponse(
+                transaction_hash=r.transaction_hash,
+                event_id=r.event_id,
+                contract_address=r.contract_address or b_service.contract_address or "",
+                chain_id=r.chain_id or b_service.chain_id,
+                network_name=r.blockchain_network or b_service.network_name,
+                block_number=r.block_number,
+                status="CONFIRMED" if r.anchoring_status == "ANCHORED" else r.anchoring_status,
+                timestamp=r.anchored_at,
+                explorer_url=tx_url,
+                canonical_hash=r.event_hash
+            )
+        )
+    return transactions
+
+
+@router.get("/evidence/{event_id}", response_model=EvidenceInspectorResponse)
+def get_evidence_inspector(event_id: str, db: Session = Depends(get_db)):
+    """
+    Detailed Evidence Inspector for a single evidence record.
+    Provides canonical payload, recomputed SHA-256 hash, stored commitment,
+    MST contract details, and real-time independent verification.
+    """
+    event = db.query(AuditEvent).filter(AuditEvent.id == event_id).first()
+    if not event:
+        raise HTTPException(status_code=404, detail=f"Audit event '{event_id}' not found.")
+
+    from app.integrity.canonical import build_canonical_document, compute_canonical_event_hash
+    canonical_doc = build_canonical_document(
+        event_id=event.id,
+        timestamp=event.timestamp,
+        agent_id=event.agent_id,
+        action_type=event.action_type,
+        resource=event.resource,
+        policy_decision=event.policy_decision,
+        policy_id=event.policy_id,
+        policy_version=event.policy_version,
+        reason=event.reason,
+        execution_mode=event.execution_mode
+    )
+    recomputed_hash = hash_to_bytes32_hex(compute_canonical_event_hash(
+        event_id=event.id,
+        timestamp=event.timestamp,
+        agent_id=event.agent_id,
+        action_type=event.action_type,
+        resource=event.resource,
+        policy_decision=event.policy_decision,
+        policy_id=event.policy_id,
+        policy_version=event.policy_version,
+        reason=event.reason,
+        execution_mode=event.execution_mode
+    ))
+
+    verifier = IntegrityVerifier(db)
+    v_res = verifier.verify_event(event_id)
+
+    int_rec = db.query(IntegrityRecord).filter(IntegrityRecord.event_id == event_id).first()
+    b_service = get_blockchain_service()
+
+    tx_hash = int_rec.transaction_hash if int_rec else None
+    tx_url = b_service.get_tx_explorer_url(tx_hash) if tx_hash else None
+    contract_addr = int_rec.contract_address if int_rec and int_rec.contract_address else b_service.contract_address
+    contract_url = b_service.get_contract_explorer_url(contract_addr) if contract_addr else None
+
+    # Load approval history if exists
+    approval_history = None
+    if event.approval_decision:
+        try:
+            approval_history = json.loads(event.approval_decision) if isinstance(event.approval_decision, str) else event.approval_decision
+        except Exception:
+            pass
+
+    return EvidenceInspectorResponse(
+        evidence_id=f"evi_{event.id[4:]}" if event.id.startswith("evt_") else f"evi_{event.id}",
+        event_id=event.id,
+        agent_id=event.agent_id,
+        action_type=event.action_type,
+        resource=event.resource,
+        action_summary=f"{event.agent_id} requested {event.action_type} on {event.resource} ({event.policy_decision})",
+        policy_decision=event.policy_decision,
+        policy_id=event.policy_id,
+        policy_version=event.policy_version or "1.0.0",
+        canonical_version=CANONICAL_VERSION,
+        canonical_payload=canonical_doc,
+        recomputed_hash=recomputed_hash,
+        stored_commitment=int_rec.event_hash if int_rec else None,
+        contract_address=contract_addr,
+        transaction_hash=tx_hash,
+        block_number=int_rec.block_number if int_rec else None,
+        anchoring_status=int_rec.anchoring_status if int_rec else "NOT_ANCHORED",
+        anchored_at=int_rec.anchored_at if int_rec else None,
+        network_name=int_rec.blockchain_network if int_rec and int_rec.blockchain_network else b_service.network_name,
+        chain_id=int_rec.chain_id if int_rec and int_rec.chain_id else b_service.chain_id,
+        explorer_url=tx_url,
+        contract_explorer_url=contract_url,
+        verification_status=v_res.status,
+        independent_verification={
+            "local_matches": v_res.local_matches,
+            "onchain_matches": v_res.onchain_matches,
+            "onchain_exists": v_res.onchain_exists,
+            "status": v_res.status,
+            "message": v_res.message,
+            "verified_at": datetime.datetime.now(datetime.timezone.utc).isoformat()
+        },
+        approval_history=approval_history
     )
 
 @router.get("/events", response_model=List[IntegrityRecordResponse])

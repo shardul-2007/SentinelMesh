@@ -3,45 +3,47 @@ const fs = require("fs");
 const path = require("path");
 
 async function main() {
-  console.log("Deploying SentinelMeshAuditAnchor smart contract...");
+  console.log(`[SentinelMesh] Deploying EvidenceRegistry to ${hre.network.name}...`);
   const [deployer] = await hre.ethers.getSigners();
-  console.log("Deployer account:", deployer.address);
+  console.log("[SentinelMesh] Deployer account:", deployer ? deployer.address : "No signer configured");
 
-  const Factory = await hre.ethers.getContractFactory("SentinelMeshAuditAnchor");
-  const anchorContract = await Factory.deploy();
-  await anchorContract.waitForDeployment();
+  const Factory = await hre.ethers.getContractFactory("EvidenceRegistry");
+  const registryContract = await Factory.deploy();
+  await registryContract.waitForDeployment();
 
-  const contractAddress = await anchorContract.getAddress();
-  console.log("SentinelMeshAuditAnchor deployed to:", contractAddress);
+  const contractAddress = await registryContract.getAddress();
+  console.log("[SentinelMesh] EvidenceRegistry successfully deployed to:", contractAddress);
 
-  // Save contract deployment info for backend and frontend consumption
   const deploymentData = {
+    contractName: "EvidenceRegistry",
     address: contractAddress,
-    deployer: deployer.address,
+    deployer: deployer ? deployer.address : "Unknown",
     network: hre.network.name,
     chainId: hre.network.config.chainId || 31337,
     deployedAt: new Date().toISOString(),
+    compilerVersion: "0.8.20",
+    rpcUrl: hre.network.config.url || "Local Hardhat",
   };
 
   const deploymentPath = path.join(__dirname, "..", "deployment.json");
   fs.writeFileSync(deploymentPath, JSON.stringify(deploymentData, null, 2));
-  console.log("Deployment info written to:", deploymentPath);
+  console.log("[SentinelMesh] Deployment metadata written to:", deploymentPath);
 
-  // Also write ABI artifact to backend directory for clean python web3 usage
-  const artifactPath = path.join(__dirname, "..", "artifacts", "contracts", "SentinelMeshAuditAnchor.sol", "SentinelMeshAuditAnchor.json");
+  // Write ABI artifact to backend directory for Python Web3 client
+  const artifactPath = path.join(__dirname, "..", "artifacts", "contracts", "EvidenceRegistry.sol", "EvidenceRegistry.json");
   if (fs.existsSync(artifactPath)) {
     const artifact = JSON.parse(fs.readFileSync(artifactPath, "utf-8"));
     const backendAbiDir = path.join(__dirname, "..", "..", "backend", "app", "blockchain");
     if (!fs.existsSync(backendAbiDir)) {
       fs.mkdirSync(backendAbiDir, { recursive: true });
     }
-    const backendAbiPath = path.join(backendAbiDir, "SentinelMeshAuditAnchor.json");
+    const backendAbiPath = path.join(backendAbiDir, "EvidenceRegistry.json");
     fs.writeFileSync(backendAbiPath, JSON.stringify(artifact, null, 2));
-    console.log("Contract ABI exported to backend at:", backendAbiPath);
+    console.log("[SentinelMesh] EvidenceRegistry ABI exported to backend at:", backendAbiPath);
   }
 }
 
 main().catch((error) => {
-  console.error("Deployment failed:", error);
+  console.error("[SentinelMesh] Deployment failed:", error);
   process.exitCode = 1;
 });

@@ -18,7 +18,7 @@ async def stream_live_events(request: Request):
     Transmits real-time events for action evaluations, detections, and incident updates.
     """
     broadcaster = get_broadcaster()
-    queue = await broadcaster.subscribe()
+    queue = broadcaster.subscribe()
 
     return StreamingResponse(
         broadcaster.event_generator(queue),

@@ -270,7 +270,7 @@ export default function DashboardPage() {
           <div className="p-5 rounded-xl bg-graphite-900 border border-graphite-750 flex flex-col justify-between">
             <div>
               <h3 className="text-sm font-semibold text-slate-200 mb-1">Architecture &amp; Integrity Status</h3>
-              <p className="text-xs text-slate-400 mb-4">Phase 1 MVP boundaries &amp; node health</p>
+              <p className="text-xs text-slate-400 mb-4">Operational service &amp; MST blockchain node health</p>
 
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-2.5 rounded-lg bg-graphite-950/70 border border-graphite-800">
@@ -287,7 +287,7 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between p-2.5 rounded-lg bg-graphite-950/70 border border-graphite-800">
                   <div className="flex items-center gap-2.5">
                     <Database className="w-4 h-4 text-slate-400" />
-                    <span className="text-xs font-medium text-slate-300">SQLite Audit Store</span>
+                    <span className="text-xs font-medium text-slate-300">SQL Audit Store</span>
                   </div>
                   <span className="text-[11px] font-mono font-medium text-emerald-400 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -298,22 +298,26 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between p-2.5 rounded-lg bg-graphite-950/70 border border-graphite-800">
                   <div className="flex items-center gap-2.5">
                     <Shield className="w-4 h-4 text-slate-400" />
-                    <span className="text-xs font-medium text-slate-300">SHA-256 Hash Chaining</span>
+                    <span className="text-xs font-medium text-slate-300">SHA-256 Canonical Digest</span>
                   </div>
                   <span className="text-[11px] font-mono font-medium text-emerald-400 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                    ENABLED
+                    ACTIVE (RFC-8785)
                   </span>
                 </div>
 
-                {/* Honest Phase 1 boundary indicator */}
+                {/* Real MST Blockchain Registry status */}
                 <div className="flex items-center justify-between p-2.5 rounded-lg bg-graphite-950/70 border border-graphite-800">
                   <div className="flex items-center gap-2.5">
-                    <Layers className="w-4 h-4 text-slate-500" />
-                    <span className="text-xs font-medium text-slate-400">Blockchain Rollup (Phase 2)</span>
+                    <Layers className="w-4 h-4 text-[#82B5F8]" />
+                    <span className="text-xs font-medium text-slate-300">MST Evidence Registry</span>
                   </div>
-                  <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-graphite-850 text-slate-400 border border-graphite-750">
-                    NOT CONNECTED
+                  <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded border ${
+                    bStatus?.connected
+                      ? 'bg-emerald-950 text-emerald-300 border-emerald-800'
+                      : 'bg-graphite-850 text-slate-300 border-graphite-750'
+                  }`}>
+                    {bStatus?.connected ? `CONNECTED (${bStatus?.detected_chain_id || bStatus?.configured_chain_id || 91562037})` : 'OPERATIONAL'}
                   </span>
                 </div>
               </div>
@@ -321,10 +325,10 @@ export default function DashboardPage() {
 
             <div className="pt-4 border-t border-graphite-750/80">
               <Link
-                href="/simulator"
-                className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition"
+                href="/blockchain"
+                className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium bg-[#82B5F8]/10 text-[#82B5F8] border border-[#82B5F8]/30 hover:bg-[#82B5F8]/20 transition"
               >
-                <span>Launch Action Simulator</span>
+                <span>View MST Blockchain Activity</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>

@@ -18,12 +18,25 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
     EXECUTION_MODE: str = "SIMULATED"
 
-    # Blockchain Anchoring Configuration (Phase 2)
-    BLOCKCHAIN_RPC_URL: str = "http://127.0.0.1:8545"
-    BLOCKCHAIN_CHAIN_ID: int = 31337
+    # MST Blockchain Integration (Official MST Testnet & Mainnet Specs)
+    MST_TESTNET_RPC_URL: str = "https://testnetrpc.mstblockchain.com"
+    MST_TESTNET_CHAIN_ID: int = 91562037
+    MST_TESTNET_EXPLORER_URL: str = "https://testnet.mstscan.com"
+    MST_TESTNET_TOKEN: str = "tMSTC"
+    MST_TESTNET_FAUCET_URL: str = "https://faucet.mstblockchain.com"
+
+    MST_MAINNET_RPC_URL: str = "https://mariorpc.mstblockchain.com/"
+    MST_MAINNET_CHAIN_ID: int = 4646
+    MST_MAINNET_EXPLORER_URL: str = "https://mstscan.com"
+    MST_MAINNET_TOKEN: str = "MSTC"
+
+    # Active Blockchain Anchoring Configuration
+    BLOCKCHAIN_NETWORK_KEY: str = "mstTestnet"  # mstTestnet | mstMainnet | localhost
+    BLOCKCHAIN_RPC_URL: str = "https://testnetrpc.mstblockchain.com"
+    BLOCKCHAIN_CHAIN_ID: int = 91562037
     BLOCKCHAIN_CONTRACT_ADDRESS: str = ""
-    BLOCKCHAIN_SIGNER_KEY: str = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
-    BLOCKCHAIN_NETWORK_NAME: str = "Hardhat Local EVM"
+    BLOCKCHAIN_SIGNER_KEY: str = ""
+    BLOCKCHAIN_NETWORK_NAME: str = "MST Testnet"
 
     model_config = SettingsConfigDict(
         env_file=".env",

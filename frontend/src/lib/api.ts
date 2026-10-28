@@ -23,7 +23,9 @@ import {
   LabScenarioResult,
   GovernanceExplanation,
   PolicyVersionHistory,
-  GovernanceDashboardSummary
+  GovernanceDashboardSummary,
+  BlockchainTransaction,
+  EvidenceInspectorResponse
 } from './types';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
@@ -231,6 +233,22 @@ export const api = {
       headers: getAuthHeaders(),
     });
     return handleResponse<IntegrityAnchorResponse>(res);
+  },
+
+  async getBlockchainTransactions(page = 1, pageSize = 20): Promise<BlockchainTransaction[]> {
+    const res = await fetch(`${API_BASE}/api/integrity/transactions?page=${page}&page_size=${pageSize}`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<BlockchainTransaction[]>(res);
+  },
+
+  async getEvidenceInspector(eventId: string): Promise<EvidenceInspectorResponse> {
+    const res = await fetch(`${API_BASE}/api/integrity/evidence/${eventId}`, {
+      headers: getAuthHeaders(),
+      cache: 'no-store'
+    });
+    return handleResponse<EvidenceInspectorResponse>(res);
   },
 
   // Tamper Alerts & Simulation (Demo / Buildathon Testing)

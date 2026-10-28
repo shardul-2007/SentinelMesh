@@ -177,6 +177,25 @@ export interface BlockchainStatus {
   total_anchors: number;
   total_verified: number;
   total_tampered: number;
+  explorer_base_url?: string | null;
+  contract_explorer_url?: string | null;
+  native_token?: string;
+  faucet_url?: string | null;
+}
+
+export interface BlockchainTransaction {
+  transaction_hash: string;
+  event_id: string;
+  contract_address: string;
+  chain_id: number;
+  network_name: string;
+  submitter_address?: string;
+  block_number?: number;
+  status: 'CONFIRMED' | 'PENDING' | 'FAILED';
+  timestamp?: string;
+  explorer_url?: string;
+  event_type?: string;
+  canonical_hash?: string;
 }
 
 export type UserRole = 'ADMIN' | 'SECURITY_ANALYST' | 'VIEWER';
@@ -438,6 +457,41 @@ export interface GovernanceDashboardSummary {
     decision: string;
     timestamp: string;
   }>;
+}
+
+export interface EvidenceInspectorResponse {
+  evidence_id: string;
+  event_id: string;
+  agent_id: string;
+  action_type: string;
+  resource: string;
+  action_summary: string;
+  policy_decision: string;
+  policy_id: string;
+  policy_version: string;
+  canonical_version: string;
+  canonical_payload: Record<string, any>;
+  recomputed_hash: string;
+  stored_commitment?: string | null;
+  contract_address?: string | null;
+  transaction_hash?: string | null;
+  block_number?: number | null;
+  anchoring_status: string;
+  anchored_at?: string | null;
+  network_name?: string | null;
+  chain_id?: number | null;
+  explorer_url?: string | null;
+  contract_explorer_url?: string | null;
+  verification_status: string;
+  independent_verification: {
+    local_matches: boolean;
+    onchain_matches?: boolean | null;
+    onchain_exists: boolean;
+    status: string;
+    message: string;
+    verified_at?: string;
+  };
+  approval_history?: Record<string, any> | null;
 }
 
 

@@ -276,20 +276,19 @@ def test_incident_response_quarantine_action(test_db):
     assert audit_log.performed_by == "analyst"
 
 
-@pytest.mark.anyio
-async def test_realtime_event_broadcaster():
+def test_realtime_event_broadcaster():
     broadcaster = EventBroadcaster()
-    queue = await broadcaster.subscribe()
+    queue = broadcaster.subscribe()
 
     # Publish an event
     broadcaster.publish_nowait("TEST_ALERT", {"status": "ALL_SYSTEMS_GO"})
 
-    # Queue should receive the event
-    msg = await queue.get()
+    # Queue should receive the event immediately
+    msg = queue.get_nowait()
     parsed = json.loads(msg)
     assert parsed["event_type"] == "TEST_ALERT"
     assert parsed["data"]["status"] == "ALL_SYSTEMS_GO"
 
     # Unsubscribe cleanly
-    await broadcaster.unsubscribe(queue)
+    broadcaster.unsubscribe(queue)
     assert len(broadcaster._subscribers) == 0

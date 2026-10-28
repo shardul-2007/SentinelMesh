@@ -137,6 +137,8 @@ class BlockchainService:
     def _load_contract_abi(self) -> list:
         # Check deployment artifact
         candidates = [
+            os.path.join(os.path.dirname(__file__), "EvidenceRegistry.json"),
+            os.path.join(os.path.dirname(__file__), "..", "..", "..", "contracts", "artifacts", "contracts", "EvidenceRegistry.sol", "EvidenceRegistry.json"),
             os.path.join(os.path.dirname(__file__), "SentinelMeshAuditAnchor.json"),
             os.path.join(os.path.dirname(__file__), "..", "..", "..", "contracts", "artifacts", "contracts", "SentinelMeshAuditAnchor.sol", "SentinelMeshAuditAnchor.json"),
             os.path.join(os.path.dirname(__file__), "..", "..", "..", "contracts", "deployment.json")
@@ -253,6 +255,9 @@ class BlockchainService:
             mode = "READY"
             status_desc = f"Operational. Connected to {self.network_name} (Chain ID {detected_chain_id}) at contract {self.contract_address}."
 
+        explorer_base = self.get_explorer_base_url()
+        contract_explorer_url = self.get_contract_explorer_url(self.contract_address) if self.contract_address else None
+
         return {
             "mode": mode,
             "connected": connected,
@@ -264,8 +269,35 @@ class BlockchainService:
             "has_contract": has_contract,
             "signer_address": signer_address,
             "network_name": self.network_name,
-            "description": status_desc
+            "description": status_desc,
+            "explorer_base_url": explorer_base,
+            "contract_explorer_url": contract_explorer_url,
+            "native_token": "tMSTC" if self.chain_id == 91562037 else ("MSTC" if self.chain_id == 4646 else "ETH"),
+            "faucet_url": "https://faucet.mstblockchain.com" if self.chain_id == 91562037 else None,
         }
+
+    def get_explorer_base_url(self) -> Optional[str]:
+        if self.chain_id == 4646:
+            return "https://mstscan.com"
+        elif self.chain_id == 91562037:
+            return "https://testnet.mstscan.com"
+        elif "mainnet" in (self.network_name or "").lower():
+            return "https://mstscan.com"
+        elif "testnet" in (self.network_name or "").lower():
+            return "https://testnet.mstscan.com"
+        return None
+
+    def get_tx_explorer_url(self, tx_hash: str) -> Optional[str]:
+        base = self.get_explorer_base_url()
+        if not base or not tx_hash:
+            return None
+        return f"{base}/tx/{tx_hash}"
+
+    def get_contract_explorer_url(self, address: str) -> Optional[str]:
+        base = self.get_explorer_base_url()
+        if not base or not address:
+            return None
+        return f"{base}/address/{address}"
 
     def verify_onchain(self, event_id: str, expected_hash_hex: str) -> Dict[str, Any]:
         """
@@ -380,7 +412,8 @@ class BlockchainService:
                 "chain_id": self.chain_id,
                 "network_name": self.network_name,
                 "signer_address": account.address,
-                "status": "CONFIRMED"
+                "status": "CONFIRMED",
+                "explorer_url": self.get_tx_explorer_url(tx_hash_hex)
             }
         except Exception as e:
             # Re-raise clean exceptions without exposing raw private keys

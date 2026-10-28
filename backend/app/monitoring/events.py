@@ -15,18 +15,15 @@ class EventBroadcaster:
     """
     def __init__(self):
         self._subscribers: List[asyncio.Queue] = []
-        self._lock = asyncio.Lock()
 
-    async def subscribe(self) -> asyncio.Queue:
+    def subscribe(self) -> asyncio.Queue:
         queue = asyncio.Queue(maxsize=100)
-        async with self._lock:
-            self._subscribers.append(queue)
+        self._subscribers.append(queue)
         return queue
 
-    async def unsubscribe(self, queue: asyncio.Queue):
-        async with self._lock:
-            if queue in self._subscribers:
-                self._subscribers.remove(queue)
+    def unsubscribe(self, queue: asyncio.Queue):
+        if queue in self._subscribers:
+            self._subscribers.remove(queue)
 
     def publish_nowait(self, event_type: str, data: Dict[str, Any]):
         """

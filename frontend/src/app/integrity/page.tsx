@@ -145,7 +145,7 @@ export default function IntegrityCenterPage() {
     <div className="flex flex-col min-h-full">
       <Header 
         title="Integrity Verification Center" 
-        subtitle="Cryptographic SHA-256 verification, EVM blockchain anchoring & tamper detection"
+        subtitle="Cryptographic SHA-256 verification, MST blockchain anchoring & real-time tamper detection"
         onRefresh={() => loadData(true)}
         isRefreshing={isRefreshing}
       />
@@ -159,18 +159,18 @@ export default function IntegrityCenterPage() {
               <Lock className="w-4 h-4 text-emerald-400" />
             </div>
             <div className="text-2xl font-bold text-slate-100 mt-2 font-mono">{records.length}</div>
-            <p className="text-[11px] text-slate-400 mt-1">Canonical RFC SHA-256 digests</p>
+            <p className="text-[11px] text-slate-400 mt-1">Canonical RFC-8785 digests</p>
           </div>
 
           <div className="p-5 rounded-xl bg-graphite-900 border border-graphite-750 flex flex-col justify-between">
             <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
               <span>Confirmed On-Chain Anchors</span>
-              <Cpu className="w-4 h-4 text-blue-400" />
+              <Cpu className="w-4 h-4 text-[#82B5F8]" />
             </div>
             <div className="text-2xl font-bold text-slate-100 mt-2 font-mono">
               {bStatus?.total_anchors ?? records.filter(r => r.anchoring_status === 'ANCHORED').length}
             </div>
-            <p className="text-[11px] text-slate-400 mt-1">Anchored in smart contract storage</p>
+            <p className="text-[11px] text-slate-400 mt-1">Anchored in MST EvidenceRegistry</p>
           </div>
 
           <div className="p-5 rounded-xl bg-graphite-900 border border-graphite-750 flex flex-col justify-between">
@@ -196,12 +196,12 @@ export default function IntegrityCenterPage() {
           </div>
         </div>
 
-        {/* Demo Simulation Action Banner for Judges */}
-        <div className="p-5 rounded-xl bg-gradient-to-r from-graphite-900 via-graphite-850 to-graphite-900 border border-graphite-700 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        {/* Resilience Verification Action Banner */}
+        <div className="p-5 rounded-xl bg-[#19222D] border border-graphite-700 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-100">
-              <Wrench className="w-4 h-4 text-emerald-400" />
-              <span>Buildathon Judge Demo: Controlled Tamper Simulation</span>
+              <Wrench className="w-4 h-4 text-[#82B5F8]" />
+              <span>Security Resilience Verification: Controlled Tampering Simulation</span>
             </div>
             <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
               Test SentinelMesh&apos;s cryptographic security in real time. Mutate an audit event directly in the database without recalculating its canonical hash or smart contract anchor, and watch independent verification immediately catch the breach.
@@ -357,11 +357,24 @@ export default function IntegrityCenterPage() {
                         {r.verification_status}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-mono text-[11px] text-slate-400">
-                      {r.block_number ? (
-                        <span>Block #{r.block_number}</span>
+                    <td className="py-3 px-4 font-mono text-[11px]">
+                      {r.transaction_hash ? (
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-emerald-400 font-medium">#{r.block_number || 'Tx'}</span>
+                          <a
+                            href={bStatus?.explorer_base_url ? `${bStatus.explorer_base_url}/tx/${r.transaction_hash}` : `https://testnet.mstscan.com/tx/${r.transaction_hash}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#82B5F8] hover:text-blue-300"
+                            title="View on MSTScan Explorer"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        </div>
+                      ) : r.block_number ? (
+                        <span className="text-slate-400">Block #{r.block_number}</span>
                       ) : (
-                        <span className="text-slate-400">-</span>
+                        <span className="text-slate-500">—</span>
                       )}
                     </td>
                     <td className="py-3 px-4 text-right space-x-2">

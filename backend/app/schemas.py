@@ -199,6 +199,50 @@ class BlockchainStatusResponse(BaseModel):
     total_anchors: int
     total_verified: int
     total_tampered: int
+    explorer_base_url: Optional[str] = None
+    contract_explorer_url: Optional[str] = None
+    native_token: Optional[str] = None
+    faucet_url: Optional[str] = None
+
+class BlockchainTransactionResponse(BaseModel):
+    transaction_hash: str
+    event_id: str
+    contract_address: str
+    chain_id: int
+    network_name: str
+    submitter_address: Optional[str] = None
+    block_number: Optional[int] = None
+    status: str
+    timestamp: Optional[datetime] = None
+    explorer_url: Optional[str] = None
+    canonical_hash: Optional[str] = None
+
+class EvidenceInspectorResponse(BaseModel):
+    evidence_id: str
+    event_id: str
+    agent_id: str
+    action_type: str
+    resource: str
+    action_summary: str
+    policy_decision: str
+    policy_id: str
+    policy_version: str
+    canonical_version: str
+    canonical_payload: Dict[str, Any]
+    recomputed_hash: str
+    stored_commitment: Optional[str] = None
+    contract_address: Optional[str] = None
+    transaction_hash: Optional[str] = None
+    block_number: Optional[int] = None
+    anchoring_status: str
+    anchored_at: Optional[datetime] = None
+    network_name: Optional[str] = None
+    chain_id: Optional[int] = None
+    explorer_url: Optional[str] = None
+    contract_explorer_url: Optional[str] = None
+    verification_status: str
+    independent_verification: Dict[str, Any]
+    approval_history: Optional[Dict[str, Any]] = None
 
 
 # ==========================================
