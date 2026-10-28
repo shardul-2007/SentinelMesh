@@ -21,6 +21,7 @@ interface IntegrityComparisonViewProps {
   txHash?: string;
   blockNumber?: number;
   onVerifyAgain?: () => void;
+  isSimulated?: boolean;
 }
 
 export function IntegrityComparisonView({
@@ -30,7 +31,8 @@ export function IntegrityComparisonView({
   contractAddress = '0x00E08271A37df1E90E95F062F814D7336D5369Ce',
   txHash = '0x9a8f273b5c104e8d3f6291a847291a03e18f8b39487c6e5a01948372615a9b8c',
   blockNumber = 1428594,
-  onVerifyAgain
+  onVerifyAgain,
+  isSimulated = true
 }: IntegrityComparisonViewProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
@@ -156,15 +158,25 @@ export function IntegrityComparisonView({
             <ExternalLink className="w-3 h-3 text-[#FACC15]" />
           </a>
           <span className="text-[#27272A]">|</span>
-          <a
-            href={`https://testnet.mstscan.com/tx/${txHash}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#D4D4D8] hover:text-[#FFFFFF] flex items-center gap-1 text-[11px] font-medium"
-          >
-            <span>View Receipt</span>
-            <ExternalLink className="w-3 h-3" />
-          </a>
+          {isSimulated ? (
+            <span 
+              className="text-[#71717A] flex items-center gap-1.5 text-[11px] font-medium"
+              title="Local cryptographic simulation record (RFC-8785 + SHA-256). Connect BridgeKey or provide testnet gas to broadcast to MSTScan."
+            >
+              <span>Simulated Receipt</span>
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 font-bold">LOCAL</span>
+            </span>
+          ) : (
+            <a
+              href={`https://testnet.mstscan.com/tx/${txHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#D4D4D8] hover:text-[#FFFFFF] flex items-center gap-1 text-[11px] font-medium"
+            >
+              <span>View Receipt</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          )}
         </div>
       </div>
     </div>

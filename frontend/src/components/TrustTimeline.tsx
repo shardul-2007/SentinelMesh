@@ -40,6 +40,7 @@ interface TrustTimelineProps {
   policyId?: string;
   decision?: string;
   compact?: boolean;
+  isOnChain?: boolean;
 }
 
 export function TrustTimeline({
@@ -50,7 +51,8 @@ export function TrustTimeline({
   blockNumber = 1428594,
   policyId = 'POL-A',
   decision = 'ALLOW',
-  compact = false
+  compact = false,
+  isOnChain = false
 }: TrustTimelineProps) {
   const [expandedStep, setExpandedStep] = useState<string | null>(null);
 
@@ -115,7 +117,7 @@ export function TrustTimeline({
       details: [
         { label: 'Network', value: 'MST Testnet (Chain ID 91562037)' },
         { label: 'EvidenceRegistry', value: '0x00E08271A37df1E90E95F062F814D7336D5369Ce', isCode: true },
-        { label: 'MST Transaction', value: txHash, isCode: true, link: `https://testnet.mstscan.com/tx/${txHash}` },
+        { label: 'MST Transaction', value: txHash + (isOnChain ? '' : ' (Simulated Local Digest)'), isCode: true, link: isOnChain ? `https://testnet.mstscan.com/tx/${txHash}` : undefined },
         { label: 'Block Number', value: `#${blockNumber.toLocaleString()}` }
       ]
     },

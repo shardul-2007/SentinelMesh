@@ -269,6 +269,28 @@ export default function BlockchainActivityPage() {
           </div>
         </div>
 
+        {/* MSTScan Indexing & Simulation Notice */}
+        <div className="p-3.5 rounded-xl bg-[#121212] border border-[#FACC15]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-start gap-2.5">
+            <Fingerprint className="w-4 h-4 text-[#FACC15] flex-shrink-0 mt-0.5" />
+            <div>
+              <span className="font-extrabold text-[#FFFFFF] block">MSTScan Testnet Indexing &amp; Real Transaction Note:</span>
+              <p className="text-[#D4D4D8] text-[11px] leading-relaxed">
+                Records tagged <span className="font-mono text-[#FACC15] font-bold">LOCAL</span> are cryptographically verified in offline simulation (RFC-8785 + SHA-256) and do not exist on the public block explorer yet. Connect your <strong>BridgeKey Wallet</strong> or fund the signer via the MST Faucet to broadcast live transactions that can be opened on MSTScan.
+              </p>
+            </div>
+          </div>
+          <a
+            href="https://faucet.mstblockchain.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-shrink-0 px-3 py-1.5 rounded-lg bg-[#FACC15] text-[#000000] font-bold text-xs hover:bg-[#EAB308] transition flex items-center gap-1.5 shadow-sm"
+          >
+            <span>Get Faucet Gas</span>
+            <ExternalLink className="w-3 h-3 text-[#000000]" />
+          </a>
+        </div>
+
         {/* Transaction Records Table */}
         <div className="rounded-xl bg-[#121212] border border-[#27272A] overflow-hidden shadow-sm">
           <div className="p-4 border-b border-[#27272A] flex items-center justify-between">
@@ -320,16 +342,23 @@ export default function BlockchainActivityPage() {
                           >
                             {copiedHash === tx.transaction_hash ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3" />}
                           </button>
-                          {tx.explorer_url && (
+                          {tx.status === 'CONFIRMED' && tx.explorer_url ? (
                             <a
                               href={tx.explorer_url}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-[#FACC15] hover:underline transition"
-                              title="View on MSTScan"
+                              title="View Verified Receipt on MSTScan"
                             >
                               <ExternalLink className="w-3 h-3" />
                             </a>
+                          ) : (
+                            <span
+                              className="text-[#71717A] cursor-help inline-flex items-center"
+                              title="Local simulated hash (RFC-8785 + SHA-256). Connect BridgeKey or provide testnet gas to broadcast and view live on MSTScan."
+                            >
+                              <span className="px-1 py-0.2 rounded text-[9px] font-mono bg-[#27272A] text-[#71717A] border border-[#27272A]">LOCAL</span>
+                            </span>
                           )}
                         </div>
                       </td>
@@ -465,15 +494,22 @@ export default function BlockchainActivityPage() {
                     <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A] space-y-1 text-[11px] font-mono">
                       <div className="flex items-center justify-between">
                         <span className="text-[#D4D4D8]">Tx Hash:</span>
-                        <a
-                          href={evidenceData.explorer_url || `${explorerBase}/tx/${evidenceData.transaction_hash}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#FACC15] hover:underline flex items-center gap-1 font-bold"
-                        >
-                          <span>{evidenceData.transaction_hash.slice(0, 16)}...</span>
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
+                        {evidenceData.anchoring_status === 'ANCHORED' && evidenceData.explorer_url ? (
+                          <a
+                            href={evidenceData.explorer_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#FACC15] hover:underline flex items-center gap-1 font-bold"
+                          >
+                            <span>{evidenceData.transaction_hash.slice(0, 16)}...</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        ) : (
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[#D4D4D8] font-bold">{evidenceData.transaction_hash.slice(0, 16)}...</span>
+                            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#27272A] text-[#71717A] border border-[#27272A]" title="Simulated local hash. Not yet indexed on MSTScan.">LOCAL</span>
+                          </div>
+                        )}
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-[#D4D4D8]">Block:</span>

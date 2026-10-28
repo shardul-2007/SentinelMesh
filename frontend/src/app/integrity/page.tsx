@@ -423,15 +423,24 @@ export default function IntegrityCenterPage() {
                         {r.transaction_hash ? (
                           <div className="flex items-center gap-1.5">
                             <span className="text-[#FACC15] font-bold">#{r.block_number || 'Tx'}</span>
-                            <a
-                              href={bStatus?.explorer_base_url ? `${bStatus.explorer_base_url}/tx/${r.transaction_hash}` : `https://testnet.mstscan.com/tx/${r.transaction_hash}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[#FACC15] hover:underline transition font-bold"
-                              title="View on MSTScan Explorer"
-                            >
-                              <ExternalLink className="w-3 h-3" />
-                            </a>
+                            {r.anchoring_status === 'ANCHORED' && r.verification_status === 'ANCHORED_AND_VERIFIED' ? (
+                              <a
+                                href={bStatus?.explorer_base_url ? `${bStatus.explorer_base_url}/tx/${r.transaction_hash}` : `https://testnet.mstscan.com/tx/${r.transaction_hash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#FACC15] hover:underline transition font-bold"
+                                title="View on MSTScan Explorer"
+                              >
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
+                            ) : (
+                              <span 
+                                className="text-[#71717A] text-[9px] font-mono px-1 py-0.2 rounded bg-[#27272A] border border-[#27272A] cursor-help"
+                                title="Cryptographically computed in local simulation. Connect BridgeKey or provide testnet gas to anchor on MSTScan."
+                              >
+                                LOCAL
+                              </span>
+                            )}
                           </div>
                         ) : r.block_number ? (
                           <span className="text-[#D4D4D8]">Block #{r.block_number}</span>

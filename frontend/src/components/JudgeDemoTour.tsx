@@ -541,18 +541,31 @@ export function JudgeDemoTour() {
                   Verify Genuine On-Chain Transaction &amp; Contract State
                 </h3>
                 <p className="text-xs text-[#D4D4D8] mt-1">
-                  Inspect the confirmed transaction hash on the official MSTScan block explorer.
+                  Inspect the cryptographically verified evidence commitment against MST Blockchain.
                 </p>
               </div>
-              <a
-                href={`${MST_TESTNET_CONFIG.explorerUrl}/tx/${anchorResult?.transaction_hash || MST_TESTNET_CONFIG.verifiedEvidenceTxHash}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm"
-              >
-                <span>Open in MSTScan Explorer</span>
-                <ExternalLink className="w-3.5 h-3.5 text-[#000000]" />
-              </a>
+              {anchorResult?.status === 'CONFIRMED' ? (
+                <a
+                  href={`${MST_TESTNET_CONFIG.explorerUrl}/tx/${anchorResult.transaction_hash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm"
+                >
+                  <span>Open in MSTScan Explorer</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-[#000000]" />
+                </a>
+              ) : (
+                <a
+                  href={MST_TESTNET_CONFIG.explorerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-[#1C1C1C] hover:bg-[#27272A] text-[#FACC15] border border-[#FACC15]/40 font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm"
+                  title="Transaction is recorded in local cryptographic mode. Open MSTScan Testnet explorer homepage."
+                >
+                  <span>Open MSTScan Testnet</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-[#FACC15]" />
+                </a>
+              )}
             </div>
 
             <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] space-y-3 text-xs">
