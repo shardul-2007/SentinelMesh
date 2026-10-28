@@ -191,7 +191,7 @@ export interface BlockchainTransaction {
   network_name: string;
   submitter_address?: string;
   block_number?: number;
-  status: 'CONFIRMED' | 'PENDING' | 'FAILED';
+  status: 'CONFIRMED' | 'PENDING' | 'FAILED' | 'SIMULATED';
   timestamp?: string;
   explorer_url?: string;
   event_type?: string;

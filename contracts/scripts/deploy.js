@@ -9,14 +9,18 @@ async function main() {
 
   const Factory = await hre.ethers.getContractFactory("EvidenceRegistry");
   const registryContract = await Factory.deploy();
-  await registryContract.waitForDeployment();
+  const deployTx = registryContract.deploymentTransaction();
+  const txHash = deployTx ? deployTx.hash : null;
+  console.log("[SentinelMesh] Broadcasted deployment transaction hash:", txHash);
 
+  await registryContract.waitForDeployment();
   const contractAddress = await registryContract.getAddress();
   console.log("[SentinelMesh] EvidenceRegistry successfully deployed to:", contractAddress);
 
   const deploymentData = {
     contractName: "EvidenceRegistry",
     address: contractAddress,
+    transactionHash: txHash,
     deployer: deployer ? deployer.address : "Unknown",
     network: hre.network.name,
     chainId: hre.network.config.chainId || 31337,

@@ -341,10 +341,17 @@ export default function BlockchainActivityPage() {
                         {tx.block_number ? `#${tx.block_number}` : 'Pending'}
                       </td>
                       <td className="py-3 px-4">
-                        <span className="inline-flex items-center gap-1 font-bold px-2 py-0.5 rounded text-[10px] font-mono bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30">
-                          <CheckCircle2 className="w-3 h-3" />
-                          CONFIRMED
-                        </span>
+                        {tx.status === 'CONFIRMED' ? (
+                          <span className="inline-flex items-center gap-1 font-bold px-2 py-0.5 rounded text-[10px] font-mono bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30">
+                            <CheckCircle2 className="w-3 h-3" />
+                            CONFIRMED
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 font-bold px-2 py-0.5 rounded text-[10px] font-mono bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30" title="Cryptographically computed in local simulation mode. Connect BridgeKey or provide testnet gas to submit on-chain.">
+                            <Clock className="w-3 h-3" />
+                            SIMULATED
+                          </span>
+                        )}
                       </td>
                       <td className="py-3 px-4 text-right space-x-2 font-sans">
                         <button

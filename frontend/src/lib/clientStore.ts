@@ -209,7 +209,7 @@ const SEED_TXS: BlockchainTransaction[] = [
     chain_id: MST_CHAIN_ID,
     network_name: 'MST Testnet',
     block_number: 1428590,
-    status: 'CONFIRMED',
+    status: 'SIMULATED',
     timestamp: new Date(Date.now() - 3600000 * 3).toISOString(),
     explorer_url: `${MST_EXPLORER_URL}/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`,
     canonical_hash: '0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678'
@@ -221,7 +221,7 @@ const SEED_TXS: BlockchainTransaction[] = [
     chain_id: MST_CHAIN_ID,
     network_name: 'MST Testnet',
     block_number: 1428589,
-    status: 'CONFIRMED',
+    status: 'SIMULATED',
     timestamp: new Date(Date.now() - 3600000 * 2).toISOString(),
     explorer_url: `${MST_EXPLORER_URL}/tx/0x9d4e5f2a1b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e`,
     canonical_hash: 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e'

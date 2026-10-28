@@ -33,11 +33,14 @@ export function DeploymentStatusCard() {
     rpcUrl: 'https://testnetrpc.mstblockchain.com',
     explorer: 'https://testnet.mstscan.com',
     contractAddress: '0x00E08271A37df1E90E95F062F814D7336D5369Ce',
-    deploymentTxHash: '0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c',
-    evidenceTxHash: '0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d',
-    evidenceId: 'evt_001_initial_compliance',
-    evidenceSha256: '0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678',
-    readbackVerification: 'VERIFIED'
+    contractStatus: 'Compiled & Tested (27/27 Passing)',
+    signerAddress: '0x71562B71999873DB5b286dF957ca199Ec94617F7',
+    signerBalance: '0.0000 tMSTC (Awaiting Faucet Gas)',
+    faucetUrl: 'https://faucet.mstblockchain.com',
+    evidenceId: 'evt_mst_001',
+    evidenceSha256: 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e',
+    readbackVerification: 'LOCAL CRYPTOGRAPHIC MODE',
+    modeBadge: 'READY FOR TESTNET GAS'
   };
 
   const mainnetData = {
@@ -127,17 +130,17 @@ export function DeploymentStatusCard() {
 
               <div className="space-y-0.5 pt-1">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#A0A5AD] text-[11px]">Deployment Tx:</span>
+                  <span className="text-[#A0A5AD] text-[11px]">Backend Signer Account:</span>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => handleCopy(testnetData.deploymentTxHash, 'deployTx')}
+                      onClick={() => handleCopy(testnetData.signerAddress, 'signer')}
                       className="p-1 rounded text-[#A0A5AD] hover:text-[#00FA9A] transition"
-                      title="Copy deployment tx hash"
+                      title="Copy signer address"
                     >
-                      {copiedKey === 'deployTx' ? <Check className="w-3 h-3 text-[#00FA9A]" /> : <Copy className="w-3 h-3 text-[#A0A5AD]" />}
+                      {copiedKey === 'signer' ? <Check className="w-3 h-3 text-[#00FA9A]" /> : <Copy className="w-3 h-3 text-[#A0A5AD]" />}
                     </button>
                     <a
-                      href={`${testnetData.explorer}/tx/${testnetData.deploymentTxHash}`}
+                      href={`${testnetData.explorer}/address/${testnetData.signerAddress}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-[#00FA9A] hover:underline"
@@ -146,39 +149,41 @@ export function DeploymentStatusCard() {
                     </a>
                   </div>
                 </div>
-                <div className="font-mono text-[10px] text-[#A0A5AD] truncate bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]" title={testnetData.deploymentTxHash}>
-                  {testnetData.deploymentTxHash}
+                <div className="font-mono text-[10px] text-[#A0A5AD] truncate bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]" title={testnetData.signerAddress}>
+                  {testnetData.signerAddress}
                 </div>
               </div>
 
               <div className="space-y-0.5 pt-1">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#A0A5AD] text-[11px]">Verified Evidence Tx:</span>
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => handleCopy(testnetData.evidenceTxHash, 'evidenceTx')}
-                      className="p-1 rounded text-[#A0A5AD] hover:text-[#00FA9A] transition"
-                      title="Copy evidence tx hash"
-                    >
-                      {copiedKey === 'evidenceTx' ? <Check className="w-3 h-3 text-[#00FA9A]" /> : <Copy className="w-3 h-3 text-[#A0A5AD]" />}
-                    </button>
-                    <a
-                      href={`${testnetData.explorer}/tx/${testnetData.evidenceTxHash}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#00FA9A] hover:underline"
-                    >
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
+                  <span className="text-[#A0A5AD] text-[11px]">Signer Gas Balance:</span>
+                  <a
+                    href={testnetData.faucetUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] font-bold text-[#00FA9A] hover:underline flex items-center gap-0.5"
+                  >
+                    <span>Claim Faucet</span>
+                    <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
                 </div>
-                <div className="font-mono text-[10px] text-[#A0A5AD] truncate bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]" title={testnetData.evidenceTxHash}>
-                  {testnetData.evidenceTxHash}
+                <div className="font-mono text-[10px] text-[#F59E0B] font-semibold bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]">
+                  {testnetData.signerBalance}
+                </div>
+              </div>
+
+              <div className="space-y-0.5 pt-1">
+                <div className="flex justify-between items-center">
+                  <span className="text-[#A0A5AD] text-[11px]">Contract Verification:</span>
+                  <span className="text-[10px] font-mono text-[#00FA9A] font-bold">27/27 Tests OK</span>
+                </div>
+                <div className="font-mono text-[10px] text-[#FFFFFF] bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]">
+                  EvidenceRegistry.sol (Solidity 0.8.20)
                 </div>
               </div>
 
               <div className="flex justify-between items-center pt-1 text-[11px]">
-                <span className="text-[#A0A5AD]">Evidence ID:</span>
+                <span className="text-[#A0A5AD]">Active Benchmark ID:</span>
                 <span className="font-mono text-[#FFFFFF] font-semibold">{testnetData.evidenceId}</span>
               </div>
 

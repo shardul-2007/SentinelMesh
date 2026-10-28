@@ -19,7 +19,7 @@ export const MST_NETWORKS: Record<'testnet' | 'mainnet', MSTNetworkConfig> = {
   testnet: {
     key: 'testnet',
     chainIdDec: 91562037,
-    chainIdHex: '0x5752315',
+    chainIdHex: '0x5752035',
     name: 'MST Testnet',
     rpcUrl: 'https://testnetrpc.mstblockchain.com',
     explorerUrl: 'https://testnet.mstscan.com',
