@@ -19,6 +19,7 @@ import { api } from '@/lib/api';
 import { UserRole } from '@/lib/types';
 import { useRBAC } from '@/lib/rbac';
 import { WalletButton } from './WalletButton';
+import { DemoModeIndicator } from './DemoModeIndicator';
 
 interface HeaderProps {
   title: string;
@@ -80,7 +81,9 @@ export function Header({ title, subtitle, onRefresh, isRefreshing, onToggleMobil
   };
 
   return (
-    <header className="h-16 px-4 sm:px-6 border-b border-[#27272A] bg-[#121212]/95 backdrop-blur-md flex items-center justify-between sticky top-0 z-20 transition-all font-sans">
+    <div className="sticky top-0 z-20 font-sans shadow-md">
+      <DemoModeIndicator />
+      <header className="min-h-[64px] py-2.5 px-4 sm:px-6 border-b border-[#27272A] bg-[#121212]/95 backdrop-blur-md flex items-center justify-between">
       <div className="flex items-center gap-3">
         {onToggleMobileMenu && (
           <button
@@ -234,5 +237,6 @@ export function Header({ title, subtitle, onRefresh, isRefreshing, onToggleMobil
         )}
       </div>
     </header>
-  );
+  </div>
+);
 }

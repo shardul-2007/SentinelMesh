@@ -19,7 +19,8 @@ import {
   Boxes,
   X,
   PanelLeftClose,
-  PanelLeft
+  PanelLeft,
+  PanelLeftOpen
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useRBAC } from '@/lib/rbac';
@@ -100,15 +101,15 @@ export function Sidebar({
 
   const renderContent = (collapsed: boolean) => (
     <div className={`${collapsed ? 'w-16' : 'w-64'} bg-[#121212] text-[#FFFFFF] flex flex-col flex-shrink-0 min-h-screen border-r border-[#27272A] select-none transition-all duration-300 font-sans`}>
-      {/* Brand & Identity Header */}
-      <div className={`p-4 border-b border-[#27272A] flex items-center ${collapsed ? 'justify-center' : 'justify-between'} bg-[#121212]`}>
-        <div className="flex items-center gap-3 min-w-0">
+      {/* Brand & Identity Header + Top Maximize/Minimize Toggle */}
+      <div className={`p-3 border-b border-[#27272A] flex ${collapsed ? 'flex-col items-center gap-2' : 'items-center justify-between'} bg-[#121212]`}>
+        <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-8 h-8 rounded-lg bg-[#FACC15]/15 border border-[#FACC15]/30 flex items-center justify-center text-[#FACC15] flex-shrink-0">
             <Shield className="w-4 h-4 text-[#FACC15]" />
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <h1 className="text-sm font-extrabold tracking-tight text-[#FFFFFF] flex items-center gap-1.5 font-sans truncate">
+              <h1 className="text-sm font-extrabold tracking-tight text-[#FFFFFF] font-sans truncate">
                 SentinelMesh
               </h1>
               <p className="text-[10px] text-[#D4D4D8] font-semibold tracking-wide truncate">Trust, Without Blind Faith</p>
@@ -116,14 +117,44 @@ export function Sidebar({
           )}
         </div>
 
-        {onClose && (
+        {/* When collapsed: prominent Maximize button right at the top */}
+        {collapsed && onToggleCollapse && (
           <button
-            onClick={onClose}
-            className="lg:hidden p-2 rounded text-[#D4D4D8] hover:text-[#FFFFFF] hover:bg-[#1C1C1C] transition min-h-[44px] min-w-[44px] flex items-center justify-center"
-            aria-label="Close navigation"
+            type="button"
+            onClick={onToggleCollapse}
+            className="w-10 h-10 rounded-lg bg-[#FACC15] text-[#000000] hover:bg-[#EAB308] border border-[#FACC15] flex items-center justify-center transition shadow-lg active:scale-95"
+            title="Maximize navigation menu (show all labels)"
+            aria-label="Maximize navigation menu"
           >
-            <X className="w-5 h-5" />
+            <PanelLeftOpen className="w-5 h-5 text-[#000000]" />
           </button>
+        )}
+
+        {/* When expanded: Minimize button at top right */}
+        {!collapsed && (
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            {onToggleCollapse && (
+              <button
+                type="button"
+                onClick={onToggleCollapse}
+                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold text-[#000000] bg-[#FACC15] hover:bg-[#EAB308] transition shadow-sm active:scale-95"
+                title="Minimize sidebar (show symbols only)"
+                aria-label="Minimize sidebar"
+              >
+                <PanelLeftClose className="w-3.5 h-3.5 text-[#000000]" />
+                <span className="text-[10px]">Minimize</span>
+              </button>
+            )}
+            {onClose && (
+              <button
+                onClick={onClose}
+                className="lg:hidden p-2 rounded text-[#D4D4D8] hover:text-[#FFFFFF] hover:bg-[#1C1C1C] transition min-h-[44px] min-w-[44px] flex items-center justify-center"
+                aria-label="Close navigation"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
         )}
       </div>
 
@@ -236,18 +267,29 @@ export function Sidebar({
         </div>
       )}
 
-      {/* Collapse Toggle Button (Desktop Only) */}
+      {/* Collapse/Expand Toggle Button (Desktop Only) */}
       <div className="p-2 border-t border-[#27272A] hidden lg:flex items-center justify-between bg-[#000000]">
-        {!collapsed && <span className="text-[10px] text-[#D4D4D8] font-mono font-bold pl-2">Collapse Rail</span>}
-        <button
-          type="button"
-          onClick={onToggleCollapse}
-          className={`p-2 rounded-lg text-[#D4D4D8] hover:text-[#FACC15] hover:bg-[#1C1C1C] transition ${collapsed ? 'w-full flex justify-center' : ''}`}
-          title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
-          aria-label={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
-        >
-          {collapsed ? <PanelLeft className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
-        </button>
+        {!collapsed && (
+          <button
+            type="button"
+            onClick={onToggleCollapse}
+            className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-bold text-[#FACC15] hover:bg-[#1C1C1C] border border-[#27272A] hover:border-[#FACC15]/40 transition"
+          >
+            <span>Minimize Sidebar</span>
+            <PanelLeftClose className="w-4 h-4 text-[#FACC15]" />
+          </button>
+        )}
+        {collapsed && onToggleCollapse && (
+          <button
+            type="button"
+            onClick={onToggleCollapse}
+            className="w-full flex items-center justify-center p-2 rounded-lg bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/40 hover:bg-[#FACC15] hover:text-[#000000] transition"
+            title="Maximize Sidebar"
+            aria-label="Maximize Sidebar"
+          >
+            <PanelLeftOpen className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
       {/* Footer Info */}

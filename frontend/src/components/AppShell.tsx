@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/Sidebar';
-import { DemoModeIndicator } from '@/components/DemoModeIndicator';
 import { Menu, Shield } from 'lucide-react';
 
 interface AppShellProps {
@@ -42,9 +41,6 @@ export function AppShell({ children }: AppShellProps) {
 
       {/* Main Workspace Area */}
       <div className="flex-1 flex flex-col min-w-0 max-w-full">
-        {/* Global Evaluation & Demo Mode Indicator */}
-        <DemoModeIndicator />
-
         {/* Mobile Header Bar (<1024px) */}
         <header className="lg:hidden h-14 bg-[#121212] text-[#FFFFFF] px-4 flex items-center justify-between border-b border-[#27272A] sticky top-0 z-30 shadow-md">
           <div className="flex items-center gap-3">
