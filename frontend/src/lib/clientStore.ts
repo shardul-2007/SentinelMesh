@@ -24,6 +24,7 @@ const STORAGE_KEY_EVENTS = 'sentinel_audit_events_v2';
 const STORAGE_KEY_ALERTS = 'sentinel_tamper_alerts_v2';
 const STORAGE_KEY_FINDINGS = 'sentinel_threat_findings_v2';
 const STORAGE_KEY_TXS = 'sentinel_blockchain_txs_v2';
+const STORAGE_KEY_POLICIES = 'sentinel_policies_v2';
 
 const MST_CHAIN_ID = 91562037;
 const MST_RPC_URL = 'https://testnetrpc.mstblockchain.com';
@@ -235,6 +236,42 @@ class SentinelMeshClientStore {
 
   getAlerts(): TamperAlert[] {
     return this.getStored<TamperAlert[]>(STORAGE_KEY_ALERTS, []);
+  }
+
+  getPolicies(): SecurityPolicy[] {
+    const policies = this.getStored<SecurityPolicy[]>(STORAGE_KEY_POLICIES, []);
+    if (!policies || policies.length === 0) {
+      this.setStored(STORAGE_KEY_POLICIES, INITIAL_POLICIES);
+      return INITIAL_POLICIES;
+    }
+    return policies;
+  }
+
+  createPolicy(policy: Omit<SecurityPolicy, 'version' | 'is_active'> & { version?: string; is_active?: boolean }): SecurityPolicy {
+    const list = this.getPolicies();
+    const newPolicy: SecurityPolicy = {
+      id: policy.id.toUpperCase(),
+      name: policy.name,
+      description: policy.description,
+      action_pattern: policy.action_pattern.toUpperCase(),
+      resource_pattern: policy.resource_pattern,
+      decision: policy.decision,
+      risk_tier: policy.risk_tier,
+      version: policy.version || '1.0',
+      is_active: policy.is_active !== undefined ? policy.is_active : true,
+    };
+    const updated = [newPolicy, ...list.filter(p => p.id !== newPolicy.id)];
+    this.setStored(STORAGE_KEY_POLICIES, updated);
+    return newPolicy;
+  }
+
+  togglePolicy(policyId: string): SecurityPolicy {
+    const list = this.getPolicies();
+    const p = list.find(item => item.id === policyId);
+    if (!p) throw new Error(`Policy ${policyId} not found.`);
+    p.is_active = !p.is_active;
+    this.setStored(STORAGE_KEY_POLICIES, [...list]);
+    return p;
   }
 
   async getLatestBlockHeight(): Promise<number> {

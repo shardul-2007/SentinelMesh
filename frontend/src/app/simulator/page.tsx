@@ -170,6 +170,24 @@ export default function SimulatorPage() {
           </div>
         </div>
 
+        {/* Auditor Read-Only Warning */}
+        {!permissions.canSubmitActions && (
+          <div className="p-4 rounded-xl bg-blue-950/40 border border-blue-500/30 text-xs text-blue-200 flex items-start gap-3 shadow-sm">
+            <Lock className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <div className="font-semibold text-white flex items-center gap-2">
+                <span>Action Gateway is in Read-Only Audit Mode</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold bg-blue-500/20 text-cyan-300 border border-blue-500/40">
+                  VIEWER / AUDITOR
+                </span>
+              </div>
+              <p className="text-[11px] text-[#94A3B8] leading-relaxed">
+                Compliance Auditors have view-only monitoring and verification privileges. You can inspect test scenarios, policy outcomes, and existing audit trails, but live action submission and simulation execution are restricted. Switch to Security Analyst or CSO in the top header to evaluate live actions.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Scenario Presets */}
         <div>
           <div className="flex items-center gap-2 mb-1.5">
@@ -414,6 +432,44 @@ export default function SimulatorPage() {
                   </div>
                   <StatusBadge type="decision" value={result.decision} size="md" />
                 </div>
+
+                {/* Pending Approval Role Notice */}
+                {result.decision === 'REQUIRE_APPROVAL' && (
+                  <div className="p-3.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs text-amber-300 space-y-2">
+                    <div className="flex items-center gap-2 font-semibold">
+                      <AlertTriangle className="w-4 h-4 text-amber-400" />
+                      <span>
+                        {role === 'ADMIN'
+                          ? 'Chief Security Officer Authorization Required'
+                          : role === 'SECURITY_ANALYST'
+                          ? 'Pending Approval Enqueued (CSO Action Required)'
+                          : 'Administrative Approval Enqueued'}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[#94A3B8] leading-relaxed">
+                      {role === 'ADMIN'
+                        ? 'This operation triggered a high-risk policy requiring administrative authorization. You possess full administrative authority to review and approve or reject this request.'
+                        : role === 'SECURITY_ANALYST'
+                        ? 'Security Analysts cannot self-approve pending operations. This request has been logged to the immutable audit ledger awaiting review by the Chief Security Officer (CSO).'
+                        : 'This operation requires approval and has been logged to the immutable audit ledger. Compliance Auditors have view-only rights.'}
+                    </p>
+                    {role === 'ADMIN' ? (
+                      <Link
+                        href="/approvals"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-bold bg-amber-400 text-slate-900 hover:bg-amber-300 transition"
+                      >
+                        <span>Open Approval Queue to Authorize &rarr;</span>
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/approvals"
+                        className="inline-flex items-center gap-1.5 text-xs text-cyan-400 hover:underline"
+                      >
+                        <span>View Approval Queue (Audit Log) &rarr;</span>
+                      </Link>
+                    )}
+                  </div>
+                )}
 
                 {/* Policy Identification */}
                 <div className="p-3.5 rounded bg-[#0B0F17] border border-[#263244] space-y-2 text-xs">

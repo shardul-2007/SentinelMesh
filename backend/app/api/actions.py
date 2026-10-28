@@ -1,11 +1,14 @@
 import uuid
 import json
 import datetime
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Optional
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
 from app.database import get_db
-from app.models import Agent, ActionRequest, AuditEvent, IntegrityRecord
+from app.models import Agent, ActionRequest, AuditEvent, IntegrityRecord, User
+from app.auth import decode_access_token
 from app.schemas import ActionEvaluateRequest, ActionEvaluateResponse, PolicyDecisionEnum, ExecutionStatusEnum, RiskTierEnum
 from app.policy_engine.evaluator import PolicyEvaluator, EvaluationResult
 from app.integrity.canonical import compute_canonical_event_hash, hash_to_bytes32_hex, CANONICAL_VERSION, HASH_ALGORITHM
@@ -14,11 +17,26 @@ from app.threats.engine import ThreatDetectionEngine
 from app.incidents.correlator import IncidentCorrelator
 
 router = APIRouter(prefix="/api/actions", tags=["Actions"])
+bearer_scheme = HTTPBearer(auto_error=False)
+
+def check_action_submit_permission(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme),
+    db: Session = Depends(get_db)
+):
+    """Enforces server-side RBAC: Compliance Auditor (VIEWER) cannot execute or submit live actions."""
+    if credentials and credentials.credentials:
+        payload = decode_access_token(credentials.credentials)
+        if payload.get("role") == "VIEWER":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Forbidden: Compliance Auditor role has read-only access and is not permitted to submit or execute actions."
+            )
 
 @router.post("/evaluate", response_model=ActionEvaluateResponse)
 def evaluate_action(
     req: ActionEvaluateRequest,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    _perm = Depends(check_action_submit_permission)
 ):
     # 0. Idempotency check: if client supplied an idempotency_key, check for existing request
     if req.idempotency_key:

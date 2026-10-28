@@ -121,6 +121,16 @@ class SecurityPolicyResponse(BaseModel):
     version: str
     is_active: bool
 
+class SecurityPolicyCreateRequest(BaseModel):
+    id: str = Field(..., min_length=2, max_length=64, description="Unique policy identifier e.g. POL-CUSTOM-01")
+    name: str = Field(..., min_length=2, max_length=128)
+    description: str = Field(..., min_length=5, max_length=500)
+    action_pattern: str = Field(default="*")
+    resource_pattern: str = Field(default="*")
+    decision: str = Field(..., pattern="^(ALLOW|BLOCK|REQUIRE_APPROVAL)$")
+    risk_tier: str = Field(default="MEDIUM", pattern="^(LOW|MEDIUM|HIGH|CRITICAL)$")
+    version: str = Field(default="1.0.0")
+
 class ApprovalDecisionRequest(BaseModel):
     decision: str = Field(..., pattern="^(APPROVED|REJECTED)$", description="Approval decision: APPROVED or REJECTED")
     approver_id: str = Field(default="security-admin", min_length=1, max_length=64)

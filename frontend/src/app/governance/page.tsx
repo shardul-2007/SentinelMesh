@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { api } from '@/lib/api';
+import { useRBAC } from '@/lib/rbac';
 import {
   GovernanceExplanation,
   GovernanceDashboardSummary,
@@ -29,6 +30,7 @@ import {
 } from 'lucide-react';
 
 export default function GovernancePage() {
+  const { role, permissions, roleBadgeText, roleDescription } = useRBAC();
   const [activeTab, setActiveTab] = useState<'provenance' | 'policies' | 'reports'>('provenance');
   const [loading, setLoading] = useState(true);
   const [summary, setSummary] = useState<GovernanceDashboardSummary | null>(null);
@@ -109,7 +111,26 @@ export default function GovernancePage() {
       />
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
-          {/* Top Governance KPI Cards */}
+        {/* Role Governance Bar */}
+        <div className="p-3.5 rounded-xl bg-[#131A24]/90 border border-[#263244] shadow-[0_0_20px_rgba(6,182,212,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs text-[#94A3B8]">Active Role Session:</span>
+            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+              {roleBadgeText}
+            </span>
+            <span className="text-xs text-[#64748B] hidden md:inline">| {roleDescription}</span>
+          </div>
+          <div className="text-[11px] font-mono flex items-center gap-3">
+            <span className={permissions.canManageGovernance ? 'text-emerald-400' : 'text-slate-500'}>
+              {permissions.canManageGovernance ? '✓ Provenance Authorization' : '✗ Audit Review Mode'}
+            </span>
+            <span className={permissions.canExportReports ? 'text-cyan-400' : 'text-slate-500'}>
+              {permissions.canExportReports ? '✓ Export Compliance Evidence' : '✗ Export Restricted'}
+            </span>
+          </div>
+        </div>
+
+        {/* Top Governance KPI Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 shadow-sm">
               <div className="flex justify-between items-start">

@@ -25,8 +25,10 @@ import { BlockchainStatus, BlockchainTransaction, EvidenceInspectorResponse } fr
 import { Header } from '@/components/Header';
 import { DeploymentStatusCard } from '@/components/DeploymentStatusCard';
 import { useWeb3Wallet, MST_NETWORKS } from '@/lib/web3Wallet';
+import { useRBAC } from '@/lib/rbac';
 
 export default function BlockchainActivityPage() {
+  const { role, permissions, roleBadgeText, roleDescription } = useRBAC();
   const { isConnected, address, chainId, switchNetwork, setIsModalOpen } = useWeb3Wallet();
   const [status, setStatus] = useState<BlockchainStatus | null>(null);
   const [transactions, setTransactions] = useState<BlockchainTransaction[]>([]);
@@ -114,6 +116,25 @@ export default function BlockchainActivityPage() {
       />
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+        {/* Role Governance & On-Chain Authority Bar */}
+        <div className="p-3.5 rounded-xl bg-[#131A24]/90 border border-[#263244] shadow-[0_0_20px_rgba(6,182,212,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs text-[#94A3B8]">Active Role Session:</span>
+            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+              {roleBadgeText}
+            </span>
+            <span className="text-xs text-[#64748B] hidden md:inline">| {roleDescription}</span>
+          </div>
+          <div className="text-[11px] font-mono flex items-center gap-3">
+            <span className={permissions.canAnchor ? 'text-emerald-400' : 'text-slate-500'}>
+              {permissions.canAnchor ? '✓ EVM Anchoring Authorized' : '✗ Anchoring Gated (CSO Only)'}
+            </span>
+            <span className={permissions.canVerifyHashes ? 'text-cyan-400' : 'text-slate-500'}>
+              {permissions.canVerifyHashes ? '✓ Independent Digest Verification' : '✗ Read-Only Monitor'}
+            </span>
+          </div>
+        </div>
+
         {/* Network & Contract Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Active Network */}

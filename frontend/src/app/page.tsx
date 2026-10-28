@@ -21,9 +21,11 @@ import { StatusBadge } from '@/components/StatusBadge';
 import { EventDetailModal } from '@/components/EventDetailModal';
 import { ApprovalModal } from '@/components/ApprovalModal';
 import { api } from '@/lib/api';
+import { useRBAC } from '@/lib/rbac';
 import { DashboardStats, AuditEventDetail, AuditEventSummary, BlockchainStatus, TamperAlert, ThreatAnalytics } from '@/lib/types';
 
 export default function DashboardPage() {
+  const { role, permissions, roleTitle, roleBadgeText, roleDescription } = useRBAC();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [bStatus, setBStatus] = useState<BlockchainStatus | null>(null);
   const [alerts, setAlerts] = useState<TamperAlert[]>([]);
@@ -136,6 +138,134 @@ export default function DashboardPage() {
             </Link>
           </div>
         )}
+
+        {/* Active Role Governance Mission Banner */}
+        <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
+          <div className="flex items-start gap-3">
+            <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${
+              role === 'ADMIN'
+                ? 'bg-amber-500/15 text-amber-400 border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+                : role === 'SECURITY_ANALYST'
+                ? 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30 shadow-[0_0_12px_rgba(6,182,212,0.2)]'
+                : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+            }`}>
+              <Shield className="w-5 h-5" />
+            </div>
+            <div className="space-y-0.5">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-[#94A3B8]">Active Role Session:</span>
+                <span className={`text-xs px-2.5 py-0.5 rounded font-mono font-bold border ${
+                  role === 'ADMIN'
+                    ? 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+                    : role === 'SECURITY_ANALYST'
+                    ? 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30'
+                    : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                }`}>
+                  {roleBadgeText}
+                </span>
+                <span className="text-xs text-[#64748B] hidden lg:inline">| {roleTitle}</span>
+              </div>
+              <p className="text-xs text-[#94A3B8] leading-relaxed max-w-3xl">
+                {roleDescription}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0 self-start md:self-auto">
+            {role === 'ADMIN' && (
+              <Link
+                href="/simulator"
+                className="mst-btn-shimmer relative overflow-hidden px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-amber-500 to-amber-600 text-[#070A12] hover:from-amber-400 hover:to-amber-500 transition shadow-[0_0_12px_rgba(245,158,11,0.3)] flex items-center gap-1.5"
+              >
+                <span>Authorize Action</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
+            {role === 'SECURITY_ANALYST' && (
+              <Link
+                href="/integrity"
+                className="mst-btn-shimmer relative overflow-hidden px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-[#070A12] hover:from-cyan-400 hover:to-blue-500 transition shadow-[0_0_12px_rgba(6,182,212,0.3)] flex items-center gap-1.5"
+              >
+                <span>Verify Hashes</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
+            {role === 'VIEWER' && (
+              <Link
+                href="/audit"
+                className="mst-btn-shimmer relative overflow-hidden px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-emerald-500 to-teal-600 text-[#070A12] hover:from-emerald-400 hover:to-teal-500 transition shadow-[0_0_12px_rgba(16,185,129,0.3)] flex items-center gap-1.5"
+              >
+                <span>Export Evidence</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* Role-Tailored Quick Action Launchpad */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          {role === 'ADMIN' && (
+            <>
+              <Link href="/simulator" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-amber-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-amber-400">Action Gateway</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Submit &amp; evaluate live policies</span>
+              </Link>
+              <Link href="/approvals" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-amber-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-amber-400">Approval Queue</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Authorize or reject pending actions</span>
+              </Link>
+              <Link href="/policies" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-amber-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-amber-400">Policy Studio</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Author &amp; toggle deterministic rules</span>
+              </Link>
+              <Link href="/integrity" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-amber-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-amber-400">Integrity Lab</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Commit on-chain &amp; test tampering</span>
+              </Link>
+            </>
+          )}
+
+          {role === 'SECURITY_ANALYST' && (
+            <>
+              <Link href="/integrity" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-cyan-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-cyan-400">Hash Verification</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Recalculate SHA-256 digests</span>
+              </Link>
+              <Link href="/threats" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-cyan-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-cyan-400">Threat Alerts</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Investigate behavioral anomalies</span>
+              </Link>
+              <Link href="/audit" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-cyan-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-cyan-400">Export Audits</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Download CSV &amp; JSON reports</span>
+              </Link>
+              <Link href="/policies" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-cyan-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-cyan-400">Policy Matrix</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Inspect rule patterns &amp; versions</span>
+              </Link>
+            </>
+          )}
+
+          {role === 'VIEWER' && (
+            <>
+              <Link href="/audit" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-emerald-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-emerald-400">Audit Explorer</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Inspect immutable event history</span>
+              </Link>
+              <Link href="/blockchain" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-emerald-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-emerald-400">On-Chain Proofs</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Read EVM contract commitments</span>
+              </Link>
+              <Link href="/integrity" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-emerald-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-emerald-400">Integrity Ledger</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Verify zero hash divergence</span>
+              </Link>
+              <Link href="/policies" className="mst-card p-3 rounded-xl bg-[#131A24]/90 border border-slate-800 hover:border-emerald-500/40 transition flex flex-col justify-between">
+                <span className="font-semibold text-emerald-400">Policy Catalog</span>
+                <span className="text-[11px] text-[#94A3B8] mt-1">Review active compliance rules</span>
+              </Link>
+            </>
+          )}
+        </div>
 
         {/* KPI Operational Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -405,12 +535,29 @@ export default function DashboardPage() {
                       <td className="px-4 py-3 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-2">
                           {event.policy_decision === 'REQUIRE_APPROVAL' && event.approval_status === 'PENDING' && (
-                            <button
-                              onClick={() => handleOpenApproval(event)}
-                              className="px-2.5 py-1 rounded text-[11px] font-sans font-medium bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 hover:bg-[#F59E0B]/25 transition"
-                            >
-                              Review
-                            </button>
+                            permissions.canApprove ? (
+                              <button
+                                onClick={() => handleOpenApproval(event)}
+                                className="px-2.5 py-1 rounded text-[11px] font-sans font-medium bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 hover:bg-[#F59E0B]/25 transition"
+                              >
+                                Review
+                              </button>
+                            ) : role === 'SECURITY_ANALYST' ? (
+                              <span 
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-semibold cursor-not-allowed"
+                                title="Administrative authorization required to approve operations."
+                              >
+                                <Lock className="w-2.5 h-2.5" />
+                                Admin Required
+                              </span>
+                            ) : (
+                              <span 
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-400 text-[10px] font-mono cursor-not-allowed"
+                                title="Compliance auditors have read-only access."
+                              >
+                                Pending Review
+                              </span>
+                            )
                           )}
                           <button
                             onClick={() => handleInspect(event.id)}

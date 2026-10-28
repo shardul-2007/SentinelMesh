@@ -542,7 +542,7 @@ def resolve_tamper_alert(
 def simulate_tampering_for_demo(
     payload: Optional[SimulateTamperRequest] = None,
     db: Session = Depends(get_db),
-    user: User = Depends(require_roles(["ADMIN", "SECURITY_ANALYST"]))
+    user: User = Depends(require_roles(["ADMIN"]))
 ):
     """
     Demo/Judges testing endpoint:
@@ -589,7 +589,7 @@ def simulate_tampering_for_demo(
 def restore_tampered_event_for_demo(
     event_id: Optional[str] = Query(None),
     db: Session = Depends(get_db),
-    user: User = Depends(require_roles(["ADMIN", "SECURITY_ANALYST"]))
+    user: User = Depends(require_roles(["ADMIN"]))
 ):
     """
     Restores a tampered demo event back to its original canonical state.

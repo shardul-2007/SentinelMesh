@@ -343,7 +343,34 @@ export const api = {
         const res = await fetch(`${API_BASE}/api/policies`, { cache: 'no-store' });
         return handleResponse<SecurityPolicy[]>(res);
       },
-      () => INITIAL_POLICIES
+      () => clientStore.getPolicies()
+    );
+  },
+
+  async createPolicy(policy: Omit<SecurityPolicy, 'version' | 'is_active'> & { version?: string; is_active?: boolean }): Promise<SecurityPolicy> {
+    return tryFetchWithFallback(
+      async () => {
+        const res = await fetch(`${API_BASE}/api/policies`, {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify(policy),
+        });
+        return handleResponse<SecurityPolicy>(res);
+      },
+      () => clientStore.createPolicy(policy)
+    );
+  },
+
+  async togglePolicy(policyId: string): Promise<SecurityPolicy> {
+    return tryFetchWithFallback(
+      async () => {
+        const res = await fetch(`${API_BASE}/api/policies/${encodeURIComponent(policyId)}/toggle`, {
+          method: 'POST',
+          headers: getAuthHeaders(),
+        });
+        return handleResponse<SecurityPolicy>(res);
+      },
+      () => clientStore.togglePolicy(policyId)
     );
   },
 

@@ -899,8 +899,8 @@ export default function ThreatsPage() {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleStatusChange('INVESTIGATING')}
-                  disabled={updatingStatus || !permissions.canResolveAlerts}
-                  title={permissions.canResolveAlerts ? 'Mark investigating' : 'Admin role required to transition finding'}
+                  disabled={updatingStatus || role === 'VIEWER'}
+                  title={role !== 'VIEWER' ? 'Mark investigating' : 'Auditor mode is read-only'}
                   className="px-3 py-1.5 bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-800 text-xs font-medium rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Mark Investigating
@@ -908,15 +908,15 @@ export default function ThreatsPage() {
                 <button
                   onClick={() => handleStatusChange('RESOLVED')}
                   disabled={updatingStatus || !permissions.canResolveAlerts}
-                  title={permissions.canResolveAlerts ? 'Mark resolved' : 'Admin role required to resolve finding'}
+                  title={permissions.canResolveAlerts ? 'Mark resolved' : 'Admin (CSO) role required to resolve finding'}
                   className="px-3 py-1.5 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-800 text-xs font-medium rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  Mark Resolved
+                  Mark Resolved (CSO)
                 </button>
                 <button
                   onClick={() => handleStatusChange('FALSE_POSITIVE')}
-                  disabled={updatingStatus || !permissions.canResolveAlerts}
-                  title={permissions.canResolveAlerts ? 'Mark false positive' : 'Admin role required to classify false positive'}
+                  disabled={updatingStatus || role === 'VIEWER'}
+                  title={role !== 'VIEWER' ? 'Mark false positive' : 'Auditor mode is read-only'}
                   className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Mark False Positive
