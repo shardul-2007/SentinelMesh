@@ -78,19 +78,60 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return res.json();
 }
 
+// Tracks backend health and reachability to prevent ERR_CONNECTION_REFUSED in browser DevTools
+let isBackendReachable: boolean | null = null;
+let lastBackendCheck = 0;
+const PROBE_COOLDOWN_MS = 45000;
+
+function isRemoteHost(): boolean {
+  if (typeof window === 'undefined') return true;
+  const host = window.location.hostname;
+  return host !== 'localhost' && host !== '127.0.0.1' && !host.endsWith('.local');
+}
+
+function shouldAttemptFetch(): boolean {
+  if (typeof window === 'undefined') return false;
+
+  // 1. If running on a public remote host (e.g. Vercel) and API_BASE points to localhost:
+  // Never attempt to fetch 127.0.0.1. Browsers reject cross-origin requests to private IP ranges from HTTPS,
+  // generating red ERR_CONNECTION_REFUSED errors in DevTools Inspect.
+  const targetIsLocalhost = API_BASE.includes('127.0.0.1') || API_BASE.includes('localhost');
+  if (isRemoteHost() && targetIsLocalhost) {
+    return false;
+  }
+
+  // 2. On localhost, if we previously detected that the Python backend is offline,
+  // do not spam failed HTTP calls every polling cycle.
+  const now = Date.now();
+  if (isBackendReachable === false && (now - lastBackendCheck < PROBE_COOLDOWN_MS)) {
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * Intelligent resilient fetch:
- * Tries the real backend first. If unreachable (e.g. deployed on Vercel without a live Python backend),
- * it seamlessly and transparently executes against the in-browser clientStore engine.
- * This guarantees the live site NEVER displays "Failed to fetch"!
+ * When on a remote deployment without an external backend, or when the local backend is offline,
+ * it routes immediately to the in-browser clientStore engine.
+ * This completely eliminates "net::ERR_CONNECTION_REFUSED" in browser DevTools.
  */
 async function tryFetchWithFallback<T>(fetcher: () => Promise<T>, fallback: () => T | Promise<T>): Promise<T> {
+  if (!shouldAttemptFetch()) {
+    return await fallback();
+  }
+
   try {
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('Backend timeout')), 2500)
+      setTimeout(() => reject(new Error('Backend timeout')), 2000)
     );
-    return await Promise.race([fetcher(), timeoutPromise]);
+    const result = await Promise.race([fetcher(), timeoutPromise]);
+    isBackendReachable = true;
+    lastBackendCheck = Date.now();
+    return result;
   } catch (err) {
+    isBackendReachable = false;
+    lastBackendCheck = Date.now();
     return await fallback();
   }
 }
