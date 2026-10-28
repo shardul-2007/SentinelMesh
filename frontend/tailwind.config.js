@@ -9,20 +9,23 @@ module.exports = {
     extend: {
       colors: {
         cyber: {
-          bg: '#0B0F17',
-          panel: '#131A24',
-          elevated: '#1A2332',
-          border: '#263244',
-          'border-subtle': '#1B2433',
+          bg: '#111317',
+          panel: '#1A1D24',
+          elevated: '#222630',
+          border: '#2E3442',
+          'border-subtle': '#252932',
+          gold: '#FF9900',
+          'gold-glow': 'rgba(255, 153, 0, 0.2)',
+          orange: '#FB641B',
+          'orange-glow': 'rgba(251, 100, 27, 0.2)',
+          yellow: '#FFD814',
           emerald: '#10B981',
           'emerald-glow': 'rgba(16, 185, 129, 0.15)',
-          blue: '#38BDF8',
-          'blue-glow': 'rgba(56, 189, 248, 0.15)',
           amber: '#F59E0B',
           red: '#EF4444',
-          text: '#F8FAFC',
-          muted: '#94A3B8',
-          dim: '#64748B',
+          text: '#FFFFFF',
+          muted: '#9E9EA8',
+          dim: '#6B7280',
         },
         sentinel: {
           allow: '#10B981',
@@ -34,11 +37,13 @@ module.exports = {
           block: '#EF4444',
           'block-bg': 'rgba(239, 68, 68, 0.12)',
           'block-border': 'rgba(239, 68, 68, 0.3)',
+          gold: '#FF9900',
+          orange: '#FB641B',
         }
       },
       fontFamily: {
         mono: ['JetBrains Mono', 'Fira Code', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
       }
     },
   },

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/Sidebar';
 import { DemoModeIndicator } from '@/components/DemoModeIndicator';
-import { Menu, Shield, Boxes } from 'lucide-react';
+import { Menu, Shield } from 'lucide-react';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -31,7 +31,7 @@ export function AppShell({ children }: AppShellProps) {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#0B0F17] text-[#F8FAFC]">
+    <div className="flex min-h-screen bg-[#111317] text-[#FFFFFF] font-sans">
       {/* Navigation Rail (Collapsible Desktop + Accessible Mobile Drawer) */}
       <Sidebar 
         mobileOpen={mobileNavOpen} 
@@ -46,25 +46,25 @@ export function AppShell({ children }: AppShellProps) {
         <DemoModeIndicator />
 
         {/* Mobile Header Bar (<1024px) */}
-        <header className="lg:hidden h-14 bg-[#131A24] text-[#F8FAFC] px-4 flex items-center justify-between border-b border-[#263244] sticky top-0 z-30">
+        <header className="lg:hidden h-14 bg-[#1A1D24] text-[#FFFFFF] px-4 flex items-center justify-between border-b border-[#2E3442] sticky top-0 z-30 shadow-md">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileNavOpen(true)}
-              className="p-2 rounded-lg text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1A2332] border border-[#263244] transition min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-cyan-400"
+              className="p-2 rounded-lg text-[#9E9EA8] hover:text-[#FFFFFF] hover:bg-[#222630] border border-[#2E3442] transition min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-[#FF9900]"
               aria-label="Open navigation menu"
             >
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                <Shield className="w-4 h-4 text-cyan-400" />
+              <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-[#FF9900] shadow-[0_0_12px_rgba(255,153,0,0.2)]">
+                <Shield className="w-4 h-4 text-[#FF9900]" />
               </div>
-              <span className="text-sm font-bold tracking-tight text-[#F8FAFC]">SentinelMesh</span>
+              <span className="text-sm font-extrabold tracking-tight text-[#FFFFFF]">SentinelMesh</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono px-2.5 py-1 rounded bg-[#0B0F17] text-[#38BDF8] border border-[#263244]">
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-[#111317] text-[#FF9900] border border-amber-500/30">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               MST Testnet
             </span>
@@ -72,7 +72,7 @@ export function AppShell({ children }: AppShellProps) {
         </header>
 
         {/* Page Content Container */}
-        <main className="flex-1 min-h-0 bg-[#0B0F17] focus:outline-none">
+        <main className="flex-1 min-h-0 bg-[#111317] focus:outline-none">
           {children}
         </main>
       </div>

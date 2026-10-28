@@ -61,20 +61,20 @@ export function EventDetailModal({ event, isOpen, onClose }: EventDetailModalPro
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
       <div 
-        className="w-full max-w-2xl bg-[#131A24] border border-[#263244] rounded shadow-2xl flex flex-col max-h-[90vh] overflow-hidden text-[#F8FAFC]"
+        className="w-full max-w-2xl bg-[#1A1D24] border border-[#2E3442] rounded-xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden text-[#F8FAFC]"
         role="dialog"
         aria-modal="true"
       >
         {/* Modal Header */}
-        <div className="p-4 border-b border-[#263244] flex items-center justify-between bg-[#1A2332]">
+        <div className="p-4 border-b border-[#2E3442] flex items-center justify-between bg-[#222630]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded bg-[#0B0F17] border border-[#263244] flex items-center justify-center text-[#38BDF8]">
+            <div className="w-8 h-8 rounded-lg bg-[#111317] border border-[#2E3442] flex items-center justify-center text-[#FF9900]">
               <Shield className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-[#F8FAFC]">
+              <h3 className="text-sm font-bold text-[#F8FAFC]">
                 Audit Event Inspection
               </h3>
               <p className="font-mono text-xs text-[#94A3B8]">{event.id}</p>
@@ -82,7 +82,7 @@ export function EventDetailModal({ event, isOpen, onClose }: EventDetailModalPro
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#263244] transition"
+            className="p-1 rounded-lg text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#2E3442] transition"
             aria-label="Close modal"
           >
             <X className="w-4 h-4" />
@@ -92,60 +92,60 @@ export function EventDetailModal({ event, isOpen, onClose }: EventDetailModalPro
         {/* Modal Content */}
         <div className="p-5 overflow-y-auto space-y-4 text-xs text-[#F8FAFC]">
           {/* Append-only disclaimer callout */}
-          <div className="p-3 rounded bg-[#10B981]/10 border border-[#10B981]/30 flex items-start gap-2.5">
+          <div className="p-3 rounded-lg bg-[#10B981]/10 border border-[#10B981]/30 flex items-start gap-2.5">
             <AlertCircle className="w-4 h-4 text-[#10B981] flex-shrink-0 mt-0.5" />
             <div className="text-[11px] leading-relaxed text-[#10B981]">
-              <span className="font-semibold">Append-Only Immutability Notice:</span> This audit record is cryptographically indexed and cannot be altered or deleted. Historical modifications are strictly prevented.
+              <span className="font-bold">Append-Only Immutability Notice:</span> This audit record is cryptographically indexed and cannot be altered or deleted. Historical modifications are strictly prevented.
             </div>
           </div>
 
           {/* Key Properties Grid */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="p-3 rounded bg-[#0B0F17] border border-[#263244]">
-              <span className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider block mb-1">Policy Decision</span>
+            <div className="p-3 rounded-lg bg-[#111317] border border-[#2E3442]">
+              <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block mb-1">Policy Decision</span>
               <StatusBadge type="decision" value={event.policy_decision} size="sm" />
             </div>
 
-            <div className="p-3 rounded bg-[#0B0F17] border border-[#263244]">
-              <span className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider block mb-1">Execution Status</span>
+            <div className="p-3 rounded-lg bg-[#111317] border border-[#2E3442]">
+              <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block mb-1">Execution Status</span>
               <StatusBadge type="execution" value={event.execution_status} size="sm" />
             </div>
 
-            <div className="p-3 rounded bg-[#0B0F17] border border-[#263244]">
-              <span className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider block mb-1">Requesting Agent</span>
-              <span className="font-mono text-xs text-[#F8FAFC] font-semibold">{event.agent_id}</span>
+            <div className="p-3 rounded-lg bg-[#111317] border border-[#2E3442]">
+              <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block mb-1">Requesting Agent</span>
+              <span className="font-mono text-xs text-[#F8FAFC] font-bold">{event.agent_id}</span>
             </div>
 
-            <div className="p-3 rounded bg-[#0B0F17] border border-[#263244]">
-              <span className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider block mb-1">Timestamp (UTC)</span>
+            <div className="p-3 rounded-lg bg-[#111317] border border-[#2E3442]">
+              <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block mb-1">Timestamp (UTC)</span>
               <span className="font-mono text-xs text-[#94A3B8]">{new Date(event.timestamp).toUTCString()}</span>
             </div>
 
-            <div className="p-3 rounded bg-[#0B0F17] border border-[#263244]">
-              <span className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider block mb-1">Action Type</span>
-              <span className="font-mono text-xs text-[#38BDF8] bg-[#1A2332] px-2 py-0.5 rounded border border-[#263244] font-semibold">
+            <div className="p-3 rounded-lg bg-[#111317] border border-[#2E3442]">
+              <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block mb-1">Action Type</span>
+              <span className="font-mono text-xs text-[#FF9900] bg-[#1A1D24] px-2 py-0.5 rounded border border-[#2E3442] font-bold">
                 {event.action_type}
               </span>
             </div>
 
-            <div className="p-3 rounded bg-[#0B0F17] border border-[#263244]">
-              <span className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider block mb-1">Enforced Policy</span>
-              <span className="font-mono text-xs text-[#F8FAFC] font-semibold">{event.policy_id} (v{event.policy_version})</span>
+            <div className="p-3 rounded-lg bg-[#111317] border border-[#2E3442]">
+              <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block mb-1">Enforced Policy</span>
+              <span className="font-mono text-xs text-[#F8FAFC] font-bold">{event.policy_id} (v{event.policy_version})</span>
             </div>
           </div>
 
           {/* Resource & Reason */}
           <div className="space-y-2.5">
             <div>
-              <span className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider block mb-1">Target Resource</span>
-              <div className="p-2 rounded bg-[#0B0F17] font-mono text-xs text-[#F8FAFC] border border-[#263244] break-all select-all">
+              <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block mb-1">Target Resource</span>
+              <div className="p-2 rounded-lg bg-[#111317] font-mono text-xs text-[#F8FAFC] border border-[#2E3442] break-all select-all">
                 {event.resource}
               </div>
             </div>
 
             <div>
-              <span className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider block mb-1">Policy Rationale</span>
-              <div className="p-2.5 rounded bg-[#0B0F17] border border-[#263244] text-xs text-[#94A3B8] leading-relaxed">
+              <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block mb-1">Policy Rationale</span>
+              <div className="p-2.5 rounded-lg bg-[#111317] border border-[#2E3442] text-xs text-[#94A3B8] leading-relaxed">
                 {event.reason}
               </div>
             </div>
@@ -153,22 +153,22 @@ export function EventDetailModal({ event, isOpen, onClose }: EventDetailModalPro
 
           {/* Approval Decision Section if applicable */}
           {event.approval_decision && (
-            <div className="p-3.5 rounded bg-[#F59E0B]/10 border border-[#F59E0B]/30 space-y-1.5">
-              <span className="text-[11px] font-semibold text-[#F59E0B] uppercase tracking-wider block">
+            <div className="p-3.5 rounded-lg bg-[#FF9900]/10 border border-[#FF9900]/30 space-y-1.5">
+              <span className="text-[11px] font-bold text-[#FF9900] uppercase tracking-wider block">
                 Human Authorization Record
               </span>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div>
                   <span className="text-[#94A3B8]">Reviewer: </span>
-                  <span className="font-mono text-[#F8FAFC] font-semibold">{event.approval_decision.approver_id}</span>
+                  <span className="font-mono text-[#F8FAFC] font-bold">{event.approval_decision.approver_id}</span>
                 </div>
                 <div>
                   <span className="text-[#94A3B8]">Decision: </span>
-                  <span className="font-semibold text-[#F59E0B]">{event.approval_decision.decision}</span>
+                  <span className="font-bold text-[#FF9900]">{event.approval_decision.decision}</span>
                 </div>
               </div>
               {event.approval_decision.note && (
-                <div className="text-[11px] text-[#F8FAFC] italic pt-1 border-t border-[#F59E0B]/30">
+                <div className="text-[11px] text-[#F8FAFC] italic pt-1 border-t border-[#FF9900]/30">
                   &ldquo;{event.approval_decision.note}&rdquo;
                 </div>
               )}
@@ -176,29 +176,29 @@ export function EventDetailModal({ event, isOpen, onClose }: EventDetailModalPro
           )}
 
           {/* Cryptographic Integrity Chaining */}
-          <div className="p-3.5 rounded bg-[#0B0F17] border border-[#263244] space-y-2">
+          <div className="p-3.5 rounded-lg bg-[#111317] border border-[#2E3442] space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <Hash className="w-3.5 h-3.5 text-[#38BDF8]" />
-                <span className="text-[11px] font-semibold text-[#F8FAFC] uppercase tracking-wider">
+                <Hash className="w-3.5 h-3.5 text-[#FF9900]" />
+                <span className="text-[11px] font-bold text-[#F8FAFC] uppercase tracking-wider">
                   Cryptographic Integrity (SHA-256)
                 </span>
               </div>
               <button
                 onClick={handleCopyHash}
-                className="flex items-center gap-1 text-[11px] text-[#94A3B8] hover:text-[#38BDF8] transition"
+                className="flex items-center gap-1 text-[11px] text-[#94A3B8] hover:text-[#FF9900] transition"
               >
                 {copiedHash ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
                 <span>{copiedHash ? 'Copied' : 'Copy'}</span>
               </button>
             </div>
 
-            <div className="p-2 rounded bg-[#131A24] border border-[#263244] font-mono text-[11px] text-[#38BDF8] break-all select-all">
+            <div className="p-2 rounded-lg bg-[#1A1D24] border border-[#2E3442] font-mono text-[11px] text-[#FF9900] break-all select-all font-semibold">
               {event.integrity_hash}
             </div>
 
             {event.previous_event_hash && (
-              <div className="pt-2 border-t border-[#263244]">
+              <div className="pt-2 border-t border-[#2E3442]">
                 <div className="flex items-center gap-1 text-[10px] text-[#94A3B8] mb-0.5">
                   <LinkIcon className="w-3 h-3 text-[#94A3B8]" />
                   <span>Previous Event Hash (Hash Chain):</span>
@@ -212,10 +212,10 @@ export function EventDetailModal({ event, isOpen, onClose }: EventDetailModalPro
 
           {/* Raw Metadata JSON */}
           <div>
-            <span className="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-wider block mb-1">
+            <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider block mb-1">
               Structured Event Metadata
             </span>
-            <pre className="p-3 rounded bg-[#0B0F17] text-[#94A3B8] font-mono text-[11px] overflow-x-auto max-h-36 border border-[#263244]">
+            <pre className="p-3 rounded-lg bg-[#111317] text-[#94A3B8] font-mono text-[11px] overflow-x-auto max-h-36 border border-[#2E3442]">
               {JSON.stringify(parsedMetadata, null, 2)}
             </pre>
           </div>
@@ -223,25 +223,25 @@ export function EventDetailModal({ event, isOpen, onClose }: EventDetailModalPro
 
         {/* Verification Feedback Banner */}
         {verificationFeedback && (
-          <div className="mx-5 mb-3 p-2.5 rounded bg-[#10B981]/15 border border-[#10B981]/30 text-xs font-mono text-[#10B981]">
+          <div className="mx-5 mb-3 p-2.5 rounded-lg bg-[#10B981]/15 border border-[#10B981]/30 text-xs font-mono text-[#10B981]">
             {verificationFeedback}
           </div>
         )}
 
         {/* Modal Footer */}
-        <div className="p-3 border-t border-[#263244] bg-[#1A2332] flex items-center justify-between">
+        <div className="p-3 border-t border-[#2E3442] bg-[#222630] flex items-center justify-between">
           <div className="flex items-center gap-2">
             {permissions.canVerifyHashes ? (
               <button
                 onClick={handleVerify}
                 disabled={isVerifying}
-                className="px-2.5 py-1.5 rounded text-xs font-semibold bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] hover:bg-[#10B981]/25 transition flex items-center gap-1.5 disabled:opacity-50"
+                className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] hover:bg-[#10B981]/25 transition flex items-center gap-1.5 disabled:opacity-50"
               >
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>{isVerifying ? 'Checking...' : 'Verify Hash'}</span>
               </button>
             ) : (
-              <span className="text-[10px] text-[#94A3B8] font-mono px-2 py-1 bg-[#0B0F17] rounded border border-[#263244]">
+              <span className="text-[10px] text-[#94A3B8] font-mono px-2 py-1 bg-[#111317] rounded-lg border border-[#2E3442]">
                 Auditor Read-Only
               </span>
             )}
@@ -250,14 +250,14 @@ export function EventDetailModal({ event, isOpen, onClose }: EventDetailModalPro
               <button
                 onClick={handleAnchor}
                 disabled={isAnchoring}
-                className="px-2.5 py-1.5 rounded text-xs font-semibold bg-[#38BDF8] text-[#0B0F17] hover:bg-[#0284C7] transition flex items-center gap-1.5 disabled:opacity-50 shadow-sm"
+                className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-[#FF9900] text-[#111317] hover:bg-[#E68A00] transition flex items-center gap-1.5 disabled:opacity-50 shadow-sm"
               >
                 <Lock className="w-3.5 h-3.5" />
                 <span>{isAnchoring ? 'Submitting Tx...' : 'Anchor On-Chain (Admin)'}</span>
               </button>
             ) : (
               <span
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-[11px] font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-400 cursor-not-allowed"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-[#FF9900]/10 border border-[#FF9900]/25 text-[#FF9900] cursor-not-allowed"
                 title="Only Chief Security Officer (ADMIN) can submit transactions to MST Blockchain."
               >
                 <Lock className="w-3 h-3" />
@@ -267,7 +267,7 @@ export function EventDetailModal({ event, isOpen, onClose }: EventDetailModalPro
           </div>
           <button
             onClick={onClose}
-            className="px-3.5 py-1.5 rounded text-xs font-medium text-[#F8FAFC] bg-[#131A24] border border-[#263244] hover:bg-[#263244] transition"
+            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#F8FAFC] bg-[#1A1D24] border border-[#2E3442] hover:bg-[#2E3442] transition"
           >
             Close
           </button>

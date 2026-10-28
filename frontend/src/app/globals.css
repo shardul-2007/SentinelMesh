@@ -3,117 +3,130 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #0B0F17;
-  --bg-panel: #131A24;
-  --bg-elevated: #1A2332;
-  --border-subtle: #263244;
-  --text-primary: #F8FAFC;
-  --text-muted: #94A3B8;
-  --text-dim: #64748B;
+  --bg-primary: #111317;
+  --bg-panel: #1A1D24;
+  --bg-elevated: #222630;
+  --border-subtle: #2E3442;
+  --text-primary: #FFFFFF;
+  --text-muted: #9E9EA8;
+  --text-dim: #6B7280;
+  --accent-gold: #FF9900;
+  --accent-orange: #FB641B;
+  --accent-yellow: #FFD814;
   --accent-emerald: #10B981;
-  --accent-blue: #38BDF8;
-  --accent-amber: #F59E0B;
   --accent-red: #EF4444;
 }
 
 body {
-  background: radial-gradient(circle at 50% -10%, rgba(35, 41, 122, 0.25) 0%, transparent 55%),
-              radial-gradient(circle at 90% 25%, rgba(6, 182, 212, 0.12) 0%, transparent 45%),
-              radial-gradient(circle at 5% 75%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
-              #070A12;
-  color: #F8FAFC;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: radial-gradient(circle at 50% -10%, rgba(255, 153, 0, 0.07) 0%, transparent 60%),
+              radial-gradient(circle at 90% 25%, rgba(251, 100, 27, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 10% 80%, rgba(255, 216, 20, 0.04) 0%, transparent 50%),
+              #111317;
+  color: #FFFFFF;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
+  font-weight: 500;
 }
 
-/* Official MST Custom Cyber Scrollbar */
+/* Custom Warm Enterprise Scrollbar (Zero Blue/Violet) */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #070A12;
+  background: #111317;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #2D333F;
   border-radius: 4px;
-  border: 1px solid rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(255, 153, 0, 0.2);
   transition: all 0.2s ease;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00F2FE;
-  box-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
+  background: #FF9900;
+  box-shadow: 0 0 12px rgba(255, 153, 0, 0.6);
 }
 
-/* Focus styles for accessible keyboard navigation */
+/* Accessible Keyboard Navigation */
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 2px solid #00F2FE;
+  outline: 2px solid #FF9900;
   outline-offset: 2px;
 }
 
-/* Official MST Cyber Glow, Shimmer & Micro-Animations */
-@keyframes cyber-pulse {
-  0%, 100% {
-    box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(6, 182, 212, 0.35);
-  }
-}
-
-@keyframes shimmer-sweep {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes float-slow {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-.mst-glow {
-  box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
-}
-
-.mst-glow:hover {
-  box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
-}
-
+/* High-Contrast Bold Card Styling & Distinct Block Theming */
 .mst-card {
-  background: linear-gradient(180deg, rgba(19, 26, 36, 0.95) 0%, rgba(11, 15, 23, 0.98) 100%);
-  border: 1px solid rgba(6, 182, 212, 0.18);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(180deg, #1C2028 0%, #16181F 100%);
+  border: 1px solid #2E3442;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mst-card:hover {
-  border-color: rgba(6, 182, 212, 0.5);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 25px rgba(6, 182, 212, 0.18);
+  border-color: #FF9900;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 153, 0, 0.15);
   transform: translateY(-2px);
 }
 
-/* Interactive Table Row Hover with Neon Left Bar */
+/* Distinct Block Themes (Each Block Distinct) */
+.block-gold {
+  background: linear-gradient(180deg, #222630 0%, #1A1D24 100%);
+  border: 1px solid rgba(255, 153, 0, 0.35);
+}
+.block-gold:hover {
+  border-color: #FF9900;
+  box-shadow: 0 0 20px rgba(255, 153, 0, 0.2);
+}
+
+.block-emerald {
+  background: linear-gradient(180deg, #1A2420 0%, #141C18 100%);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+.block-emerald:hover {
+  border-color: #10B981;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.block-orange {
+  background: linear-gradient(180deg, #261F1A 0%, #1D1814 100%);
+  border: 1px solid rgba(251, 100, 27, 0.35);
+}
+.block-orange:hover {
+  border-color: #FB641B;
+  box-shadow: 0 0 20px rgba(251, 100, 27, 0.2);
+}
+
+.block-crimson {
+  background: linear-gradient(180deg, #26191A 0%, #1C1314 100%);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+.block-crimson:hover {
+  border-color: #EF4444;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+.block-yellow {
+  background: linear-gradient(180deg, #262418 0%, #1C1B12 100%);
+  border: 1px solid rgba(255, 216, 20, 0.35);
+}
+.block-yellow:hover {
+  border-color: #FFD814;
+  box-shadow: 0 0 20px rgba(255, 216, 20, 0.2);
+}
+
+/* Table Row Hover with Gold/Amber Left Indicator */
 .mst-table-row {
   position: relative;
   transition: all 0.2s ease-in-out;
 }
 
 .mst-table-row:hover {
-  background-color: rgba(30, 41, 59, 0.65) !important;
-  box-shadow: inset 3px 0 0 0 #00F2FE;
+  background-color: #222630 !important;
+  box-shadow: inset 3px 0 0 0 #FF9900;
 }
 
-/* Button Shimmer Overlay */
+/* Button Shimmer */
 .mst-btn-shimmer {
   position: relative;
   overflow: hidden;
@@ -126,7 +139,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
   transform: translateX(-100%);
   transition: transform 0.6s ease;
 }
@@ -147,7 +160,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   }
 }
 
-/* Mobile-Friendly Table Wrapper to prevent horizontal breakout */
+/* Mobile-Friendly Table Wrapper */
 .responsive-table-wrapper {
   width: 100%;
   overflow-x: auto;
