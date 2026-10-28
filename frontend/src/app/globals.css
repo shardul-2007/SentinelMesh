@@ -134,3 +134,22 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .mst-btn-shimmer:hover::after {
   transform: translateX(100%);
 }
+
+/* Accessibility: Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile-Friendly Table Wrapper to prevent horizontal breakout */
+.responsive-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

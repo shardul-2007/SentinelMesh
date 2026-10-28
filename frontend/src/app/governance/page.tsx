@@ -399,7 +399,8 @@ export default function GovernancePage() {
           {activeTab === 'policies' && (
             <div className="space-y-4">
               <div className="bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
-                <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto responsive-table-wrapper">
+                  <table className="w-full text-left text-sm min-w-[650px]">
                   <thead className="bg-slate-950/70 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
                     <tr>
                       <th className="px-5 py-3.5">Policy ID</th>
@@ -450,7 +451,8 @@ export default function GovernancePage() {
                 </table>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
           {/* TAB 3: GOVERNANCE & COMPLIANCE REPORTS */}
           {activeTab === 'reports' && (

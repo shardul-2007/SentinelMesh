@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
+import { TrustTimeline } from '@/components/TrustTimeline';
 import { api } from '@/lib/api';
 import { useRBAC } from '@/lib/rbac';
 import { ActionEvaluateResponse } from '@/lib/types';
@@ -536,6 +537,15 @@ export default function SimulatorPage() {
             )}
           </div>
         </div>
+
+        {/* Dynamic Trust Timeline */}
+        <TrustTimeline
+          currentStage={result ? (result.decision === 'BLOCK' ? 2 : result.decision === 'REQUIRE_APPROVAL' ? 3 : 4) : 1}
+          eventId={result?.event_id || 'evt_sim_pending'}
+          integrityHash={result?.integrity_hash || 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e'}
+          policyId={result?.policy_id || 'POL-A'}
+          decision={result?.decision || 'ALLOW'}
+        />
       </div>
     </div>
   );

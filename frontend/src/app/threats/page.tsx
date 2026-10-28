@@ -436,7 +436,8 @@ export default function ThreatsPage() {
 
               {/* Findings Table */}
               <div className="mst-card bg-[#131A24]/90 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
-                <table className="w-full text-left text-sm">
+                <div className="overflow-x-auto responsive-table-wrapper">
+                  <table className="w-full text-left text-sm min-w-[700px]">
                   <thead className="bg-[#1A2332] text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
                     <tr>
                       <th className="px-5 py-3.5">Severity</th>
@@ -496,7 +497,8 @@ export default function ThreatsPage() {
                 </table>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
           {/* TAB 2: AGENT TRUST PROFILES */}
           {activeTab === 'profiles' && (

@@ -1,0 +1,282 @@
+'use client';
+
+import React, { useState } from 'react';
+import { 
+  Terminal, 
+  Sliders, 
+  UserCheck, 
+  Hash, 
+  Boxes, 
+  ShieldCheck, 
+  ChevronRight, 
+  Check, 
+  Clock, 
+  AlertCircle,
+  ExternalLink,
+  ChevronDown
+} from 'lucide-react';
+
+export interface TimelineStep {
+  id: string;
+  number: number;
+  title: string;
+  subtitle: string;
+  status: 'COMPLETED' | 'ACTIVE' | 'PENDING' | 'BLOCKED';
+  timestamp?: string;
+  details: {
+    label: string;
+    value: string;
+    isCode?: boolean;
+    link?: string;
+  }[];
+}
+
+interface TrustTimelineProps {
+  currentStage?: number; // 1 to 6
+  eventId?: string;
+  integrityHash?: string;
+  txHash?: string;
+  blockNumber?: number;
+  policyId?: string;
+  decision?: string;
+  compact?: boolean;
+}
+
+export function TrustTimeline({
+  currentStage = 6,
+  eventId = 'evt_mst_001',
+  integrityHash = 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e',
+  txHash = '0x9a8f273b5c104e8d3f6291a847291a03e18f8b39487c6e5a01948372615a9b8c',
+  blockNumber = 1428594,
+  policyId = 'POL-A',
+  decision = 'ALLOW',
+  compact = false
+}: TrustTimelineProps) {
+  const [expandedStep, setExpandedStep] = useState<string | null>(null);
+
+  const steps: TimelineStep[] = [
+    {
+      id: 'step-action',
+      number: 1,
+      title: 'Action Request',
+      subtitle: 'Agent operational intent submitted to gateway',
+      status: currentStage >= 1 ? 'COMPLETED' : 'PENDING',
+      details: [
+        { label: 'Event Identifier', value: eventId, isCode: true },
+        { label: 'Agent Identity', value: 'agent-data-analyzer', isCode: true },
+        { label: 'Target Resource', value: 'public/quarterly_security_metrics.pdf' },
+        { label: 'Isolation Mode', value: 'SIMULATED (Zero Host Execution)' }
+      ]
+    },
+    {
+      id: 'step-policy',
+      number: 2,
+      title: 'Policy Evaluation',
+      subtitle: 'Deterministic server-side zero-trust evaluation',
+      status: currentStage >= 2 ? (decision === 'BLOCK' ? 'BLOCKED' : 'COMPLETED') : 'PENDING',
+      details: [
+        { label: 'Enforced Policy', value: `${policyId} (Allow Public Read)`, isCode: true },
+        { label: 'Policy Precedence', value: 'Order 1 (Highest Priority Match)' },
+        { label: 'Derived Server Risk', value: 'LOW RISK' },
+        { label: 'Enforced Decision', value: decision }
+      ]
+    },
+    {
+      id: 'step-approval',
+      number: 3,
+      title: 'Governance Gate',
+      subtitle: decision === 'REQUIRE_APPROVAL' ? 'Human-in-the-Loop CSO review' : 'Automated safe simulated execution',
+      status: currentStage >= 3 ? 'COMPLETED' : 'PENDING',
+      details: [
+        { label: 'Execution Path', value: decision === 'REQUIRE_APPROVAL' ? 'Escalated to CSO Approval Queue' : 'Direct Authorized Simulation' },
+        { label: 'Sign-Off Authority', value: decision === 'REQUIRE_APPROVAL' ? 'Chief Security Officer (ADMIN)' : 'Automated Sentinel Policy Gate' },
+        { label: 'Execution Status', value: 'EXECUTED_SIMULATED' }
+      ]
+    },
+    {
+      id: 'step-canonical',
+      number: 4,
+      title: 'Canonical SHA-256 Digest',
+      subtitle: 'RFC-8785 deterministic JSON & SHA-256 hashing',
+      status: currentStage >= 4 ? 'COMPLETED' : 'PENDING',
+      details: [
+        { label: 'Canonical Format', value: 'RFC-8785 (JCS Normalized)' },
+        { label: 'Hash Algorithm', value: 'SHA-256 (256-bit Digest)' },
+        { label: 'Evidence Hash', value: integrityHash, isCode: true },
+        { label: 'Chaining Method', value: 'Cryptographic Hash-Chain' }
+      ]
+    },
+    {
+      id: 'step-anchoring',
+      number: 5,
+      title: 'MST Blockchain Anchoring',
+      subtitle: 'Immutable smart contract commitment on MST Testnet',
+      status: currentStage >= 5 ? 'COMPLETED' : 'PENDING',
+      details: [
+        { label: 'Network', value: 'MST Testnet (Chain ID 91562037)' },
+        { label: 'EvidenceRegistry', value: '0x00E08271A37df1E90E95F062F814D7336D5369Ce', isCode: true },
+        { label: 'MST Transaction', value: txHash, isCode: true, link: `https://testnet.mstscan.com/tx/${txHash}` },
+        { label: 'Block Number', value: `#${blockNumber.toLocaleString()}` }
+      ]
+    },
+    {
+      id: 'step-verify',
+      number: 6,
+      title: 'Independent Read-Back Verification',
+      subtitle: 'Direct contract query compares on-chain commitment',
+      status: currentStage >= 6 ? 'COMPLETED' : 'PENDING',
+      details: [
+        { label: 'Verification Type', value: 'Independent Zero-Knowledge Read-Back' },
+        { label: 'Local Digest', value: integrityHash.slice(0, 32) + '...', isCode: true },
+        { label: 'On-Chain Record', value: integrityHash.slice(0, 32) + '...', isCode: true },
+        { label: 'Match Result', value: '100% CRYPTOGRAPHIC MATCH (VERIFIED)' }
+      ]
+    }
+  ];
+
+  const getStatusBadge = (status: TimelineStep['status']) => {
+    switch (status) {
+      case 'COMPLETED':
+        return (
+          <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+            <Check className="w-3 h-3" />
+            VERIFIED
+          </span>
+        );
+      case 'ACTIVE':
+        return (
+          <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 px-2 py-0.5 rounded-full animate-pulse">
+            <Clock className="w-3 h-3" />
+            PROCESSING
+          </span>
+        );
+      case 'BLOCKED':
+        return (
+          <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-red-400 bg-red-500/15 border border-red-500/30 px-2 py-0.5 rounded-full">
+            <AlertCircle className="w-3 h-3" />
+            BLOCKED
+          </span>
+        );
+      case 'PENDING':
+      default:
+        return (
+          <span className="inline-flex items-center gap-1 text-[10px] font-mono text-slate-500 bg-slate-800/40 border border-slate-700/50 px-2 py-0.5 rounded-full">
+            QUEUED
+          </span>
+        );
+    }
+  };
+
+  const toggleExpand = (id: string) => {
+    setExpandedStep(expandedStep === id ? null : id);
+  };
+
+  return (
+    <div className="mst-card p-4 sm:p-5 rounded-xl bg-[#131A24] border border-[#263244] shadow-xl space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#263244]">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 flex items-center justify-center">
+            <ShieldCheck className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-[#F8FAFC]">Trust Timeline &amp; Evidence Provenance</h3>
+            <p className="text-[11px] text-[#94A3B8]">
+              End-to-end cryptographic journey: Action &rarr; Policy &rarr; Digest &rarr; MST Blockchain &rarr; Verification
+            </p>
+          </div>
+        </div>
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#0B0F17] text-cyan-400 border border-[#263244] w-fit">
+          RFC-8785 Canonical Chain
+        </span>
+      </div>
+
+      {/* Horizontal / Vertical Pipeline */}
+      <div className="space-y-3">
+        {steps.map((step, idx) => {
+          const isExpanded = expandedStep === step.id;
+          const isLast = idx === steps.length - 1;
+
+          return (
+            <div key={step.id} className="relative">
+              {/* Connecting line */}
+              {!isLast && (
+                <div 
+                  className={`absolute left-4 top-8 bottom-[-14px] w-0.5 transition-colors ${
+                    step.status === 'COMPLETED' ? 'bg-emerald-500/40' : 'bg-[#263244]'
+                  }`}
+                  aria-hidden="true"
+                />
+              )}
+
+              <div 
+                className={`p-3 sm:p-3.5 rounded-lg border transition-all duration-200 cursor-pointer ${
+                  step.status === 'COMPLETED'
+                    ? 'bg-[#0B0F17] border-[#263244] hover:border-emerald-500/40'
+                    : step.status === 'BLOCKED'
+                    ? 'bg-red-950/20 border-red-500/30'
+                    : 'bg-[#0B0F17]/60 border-[#263244]/60'
+                }`}
+                onClick={() => toggleExpand(step.id)}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3 min-w-0">
+                    {/* Step Icon Badge */}
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-xs flex-shrink-0 border ${
+                      step.status === 'COMPLETED'
+                        ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
+                        : step.status === 'BLOCKED'
+                        ? 'bg-red-500/20 text-red-400 border-red-500/40'
+                        : 'bg-[#131A24] text-slate-500 border-[#263244]'
+                    }`}>
+                      {step.number}
+                    </div>
+
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs font-bold text-[#F8FAFC]">{step.title}</span>
+                        {getStatusBadge(step.status)}
+                      </div>
+                      <p className="text-[11px] text-[#94A3B8] mt-0.5">{step.subtitle}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-shrink-0 text-[#94A3B8] hover:text-white">
+                    <span className="text-[10px] hidden sm:inline">Details</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-cyan-400' : ''}`} />
+                  </div>
+                </div>
+
+                {/* Expanded Details Drawer */}
+                {isExpanded && (
+                  <div className="mt-3 pt-3 border-t border-[#263244] grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono animate-fade-in">
+                    {step.details.map((d, dIdx) => (
+                      <div key={dIdx} className="p-2 rounded bg-[#131A24] border border-[#263244]/80 flex flex-col justify-between">
+                        <span className="text-[10px] text-[#64748B] uppercase font-sans font-semibold">{d.label}:</span>
+                        <div className="truncate mt-0.5">
+                          {d.link ? (
+                            <a
+                              href={d.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-cyan-400 hover:underline flex items-center gap-1 font-semibold"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <span className="truncate">{d.value}</span>
+                              <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                            </a>
+                          ) : (
+                            <span className={d.isCode ? 'text-cyan-300' : 'text-[#F8FAFC]'}>{d.value}</span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

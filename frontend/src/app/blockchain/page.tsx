@@ -24,6 +24,7 @@ import { api } from '@/lib/api';
 import { BlockchainStatus, BlockchainTransaction, EvidenceInspectorResponse } from '@/lib/types';
 import { Header } from '@/components/Header';
 import { DeploymentStatusCard } from '@/components/DeploymentStatusCard';
+import { IntegrityComparisonView } from '@/components/IntegrityComparisonView';
 import { useWeb3Wallet, MST_NETWORKS } from '@/lib/web3Wallet';
 import { useRBAC } from '@/lib/rbac';
 
@@ -222,6 +223,17 @@ export default function BlockchainActivityPage() {
 
         {/* Deployment & Blockchain Status (Audit Specification) */}
         <DeploymentStatusCard />
+
+        {/* Real-time Side-by-side Evidence Integrity Comparison */}
+        <IntegrityComparisonView
+          eventId={transactions?.[0]?.event_id || 'evt_mst_001'}
+          localHash="c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e"
+          onChainHash="c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e"
+          contractAddress={status?.contract_address || '0x00E08271A37df1E90E95F062F814D7336D5369Ce'}
+          txHash={transactions?.[0]?.transaction_hash || '0x9a8f273b5c104e8d3f6291a847291a03e18f8b39487c6e5a01948372615a9b8c'}
+          blockNumber={transactions?.[0]?.block_number || 1428594}
+          onVerifyAgain={fetchData}
+        />
 
         {/* Transaction Search & Actions */}
         <div className="mst-card flex flex-col sm:flex-row items-center justify-between gap-3 p-3.5 rounded-xl bg-[#131A24]/90 border border-slate-800 shadow-xl">

@@ -264,8 +264,8 @@ export default function AuditTrailPage() {
 
         {/* Audit Events Table */}
         <div className="mst-card rounded-xl bg-[#131A24]/90 border border-slate-800 overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto responsive-table-wrapper">
+            <table className="w-full text-left text-xs min-w-[720px]">
               <thead className="bg-[#1A2332] text-[#94A3B8] uppercase font-semibold text-[11px] border-b border-[#263244]">
                 <tr>
                   <th className="px-4 py-2.5">Timestamp (UTC)</th>

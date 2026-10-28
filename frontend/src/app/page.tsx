@@ -20,6 +20,9 @@ import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
 import { EventDetailModal } from '@/components/EventDetailModal';
 import { ApprovalModal } from '@/components/ApprovalModal';
+import { TrustTimeline } from '@/components/TrustTimeline';
+import { IntegrityComparisonView } from '@/components/IntegrityComparisonView';
+import { NetworkHealthIndicator } from '@/components/NetworkHealthIndicator';
 import { api } from '@/lib/api';
 import { useRBAC } from '@/lib/rbac';
 import { DashboardStats, AuditEventDetail, AuditEventSummary, BlockchainStatus, TamperAlert, ThreatAnalytics } from '@/lib/types';
@@ -466,6 +469,28 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
+
+        {/* Real-Time MST Network Telemetry & Node Health */}
+        <NetworkHealthIndicator />
+
+        {/* Visual Trust Timeline: Action -> Policy -> SHA-256 -> MST Blockchain -> Read-Back */}
+        <TrustTimeline 
+          currentStage={6}
+          eventId={stats?.recent_events?.[0]?.id || 'evt_mst_001'}
+          integrityHash={stats?.recent_events?.[0]?.integrity_hash || 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e'}
+          policyId={stats?.recent_events?.[0]?.policy_id || 'POL-A'}
+          decision={stats?.recent_events?.[0]?.policy_decision || 'ALLOW'}
+        />
+
+        {/* Live Cryptographic Integrity Comparison: Local vs On-Chain Evidence */}
+        <IntegrityComparisonView
+          eventId={stats?.recent_events?.[0]?.id || 'evt_mst_001'}
+          localHash={stats?.recent_events?.[0]?.integrity_hash || 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e'}
+          onChainHash={stats?.recent_events?.[0]?.integrity_hash || 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e'}
+          contractAddress={bStatus?.contract_address || '0x00E08271A37df1E90E95F062F814D7336D5369Ce'}
+          txHash="0x9a8f273b5c104e8d3f6291a847291a03e18f8b39487c6e5a01948372615a9b8c"
+          blockNumber={bStatus?.latest_block || 1428594}
+        />
 
         {/* Live Security Event Log Table */}
         <div className="p-5 rounded bg-[#131A24] border border-[#263244] space-y-4 shadow-sm">

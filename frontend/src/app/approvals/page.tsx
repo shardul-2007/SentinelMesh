@@ -161,8 +161,8 @@ export default function ApprovalCenterPage() {
               <p className="text-xs text-[#94A3B8]">Trigger a high-risk action (such as DELETE database) in the Action Gateway to test approval flows.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+            <div className="overflow-x-auto responsive-table-wrapper">
+              <table className="w-full text-left text-xs min-w-[680px]">
                 <thead className="bg-[#1A2332] text-[#94A3B8] border-b border-[#263244]">
                   <tr>
                     <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Event ID</th>
@@ -237,8 +237,8 @@ export default function ApprovalCenterPage() {
             <h3 className="text-sm font-semibold text-[#F8FAFC]">Historical Approval Decisions</h3>
             <p className="text-xs text-[#94A3B8] mt-0.5">Auditable records of all past administrative authorizations</p>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto responsive-table-wrapper">
+            <table className="w-full text-left text-xs min-w-[680px]">
               <thead className="bg-[#1A2332] text-[#94A3B8] border-b border-[#263244]">
                 <tr>
                   <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Event ID</th>

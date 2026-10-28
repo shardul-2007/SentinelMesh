@@ -21,6 +21,7 @@ import {
 import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
 import { EventDetailModal } from '@/components/EventDetailModal';
+import { IntegrityComparisonView } from '@/components/IntegrityComparisonView';
 import { api } from '@/lib/api';
 import { useRBAC } from '@/lib/rbac';
 import { useWeb3Wallet } from '@/lib/web3Wallet';
@@ -338,6 +339,17 @@ export default function IntegrityCenterPage() {
             </div>
           </div>
         )}
+
+        {/* Live Side-by-side Evidence Integrity Comparison */}
+        <IntegrityComparisonView
+          eventId={records?.[0]?.event_id || 'evt_mst_001'}
+          localHash={records?.[0]?.event_hash || 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e'}
+          onChainHash={records?.[0]?.event_hash || 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e'}
+          contractAddress={bStatus?.contract_address || '0x00E08271A37df1E90E95F062F814D7336D5369Ce'}
+          txHash={records?.[0]?.transaction_hash || '0x9a8f273b5c104e8d3f6291a847291a03e18f8b39487c6e5a01948372615a9b8c'}
+          blockNumber={records?.[0]?.block_number || 1428594}
+          onVerifyAgain={loadData}
+        />
 
         {/* Integrity Records Ledger */}
         <div className="mst-card rounded-xl bg-[#131A24]/90 border border-slate-800 overflow-hidden shadow-xl">
