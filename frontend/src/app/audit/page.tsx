@@ -18,9 +18,11 @@ import { StatusBadge } from '@/components/StatusBadge';
 import { EventDetailModal } from '@/components/EventDetailModal';
 import { ApprovalModal } from '@/components/ApprovalModal';
 import { api } from '@/lib/api';
+import { useRBAC } from '@/lib/rbac';
 import { AuditEventSummary, AuditEventDetail } from '@/lib/types';
 
 export default function AuditTrailPage() {
+  const { role, permissions, roleBadgeText, roleDescription } = useRBAC();
   const [events, setEvents] = useState<AuditEventSummary[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -85,6 +87,54 @@ export default function AuditTrailPage() {
     setIsApprovalOpen(true);
   };
 
+  const handleExport = (format: 'csv' | 'json') => {
+    if (!permissions.canExportReports) {
+      alert('Access Restricted: Only Security Analyst and Admin roles can export audit intelligence reports. Current role is Viewer / Auditor.');
+      return;
+    }
+
+    try {
+      if (format === 'json') {
+        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(events, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute('href', dataStr);
+        downloadAnchor.setAttribute('download', `sentinelmesh_audit_${new Date().toISOString().slice(0, 10)}.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+      } else {
+        // CSV
+        const headers = ['id', 'timestamp', 'agent_id', 'action_type', 'resource', 'policy_decision', 'policy_id', 'execution_status', 'approval_status', 'integrity_hash'];
+        const csvRows = [headers.join(',')];
+        for (const ev of events) {
+          const row = [
+            ev.id,
+            `"${ev.timestamp}"`,
+            `"${ev.agent_id}"`,
+            `"${ev.action_type}"`,
+            `"${ev.resource.replace(/"/g, '""')}"`,
+            `"${ev.policy_decision}"`,
+            `"${ev.policy_id || ''}"`,
+            `"${ev.execution_status}"`,
+            `"${ev.approval_status}"`,
+            `"${ev.integrity_hash}"`
+          ];
+          csvRows.push(row.join(','));
+        }
+        const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `sentinelmesh_audit_${new Date().toISOString().slice(0, 10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+    } catch (err: any) {
+      alert(`Export failed: ${err.message}`);
+    }
+  };
+
   const totalPages = Math.ceil(total / pageSize) || 1;
 
   return (
@@ -97,6 +147,25 @@ export default function AuditTrailPage() {
       />
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+        {/* Role Governance Banner */}
+        <div className="p-3.5 rounded-lg bg-[#131A24]/90 border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs text-[#94A3B8]">Active Role Session:</span>
+            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+              {roleBadgeText}
+            </span>
+            <span className="text-xs text-[#64748B] hidden md:inline">| {roleDescription}</span>
+          </div>
+          <div className="text-[11px] font-mono flex items-center gap-3">
+            <span className={permissions.canExportReports ? 'text-cyan-400' : 'text-slate-500'}>
+              {permissions.canExportReports ? '✓ Export Authorized' : '✗ Export Restricted'}
+            </span>
+            <span className={permissions.canApprove ? 'text-emerald-400' : 'text-slate-500'}>
+              {permissions.canApprove ? '✓ Approval Authorized' : '✗ Read-Only'}
+            </span>
+          </div>
+        </div>
+
         {/* Governance Banner */}
         <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
           <div className="flex items-start gap-3">
@@ -172,26 +241,24 @@ export default function AuditTrailPage() {
 
           {/* Export Controls */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            <a
-              href={api.getExportUrl('csv', { decision: decisionFilter, agentId: agentFilter })}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-2.5 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] border border-[#263244] text-[#F8FAFC] transition flex items-center gap-1.5"
-              title="Export CSV Audit Trail"
+            <button
+              onClick={() => handleExport('csv')}
+              disabled={!permissions.canExportReports}
+              title={permissions.canExportReports ? 'Export filtered CSV audit trail' : 'Security Analyst or Admin role required to export'}
+              className="px-2.5 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] border border-[#263244] text-[#F8FAFC] transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              <Download className="w-3.5 h-3.5 text-[#10B981]" />
+              <Download className="w-3.5 h-3.5 text-emerald-400" />
               <span>CSV</span>
-            </a>
-            <a
-              href={api.getExportUrl('json', { decision: decisionFilter, agentId: agentFilter })}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-2.5 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] border border-[#263244] text-[#F8FAFC] transition flex items-center gap-1.5"
-              title="Export JSON Audit Trail"
+            </button>
+            <button
+              onClick={() => handleExport('json')}
+              disabled={!permissions.canExportReports}
+              title={permissions.canExportReports ? 'Export filtered JSON audit trail' : 'Security Analyst or Admin role required to export'}
+              className="px-2.5 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] border border-[#263244] text-[#F8FAFC] transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              <Download className="w-3.5 h-3.5 text-[#38BDF8]" />
+              <Download className="w-3.5 h-3.5 text-cyan-400" />
               <span>JSON</span>
-            </a>
+            </button>
           </div>
         </div>
 

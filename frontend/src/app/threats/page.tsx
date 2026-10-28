@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { api } from '@/lib/api';
+import { useRBAC } from '@/lib/rbac';
 import {
   SecurityFinding,
   DetectionRule,
@@ -34,6 +35,7 @@ import {
 } from 'lucide-react';
 
 export default function ThreatsPage() {
+  const { role, permissions, roleBadgeText, roleDescription } = useRBAC();
   const [activeTab, setActiveTab] = useState<'findings' | 'profiles' | 'lab' | 'rules'>('findings');
   const [loading, setLoading] = useState(true);
   const [analytics, setAnalytics] = useState<ThreatAnalytics | null>(null);
@@ -214,7 +216,26 @@ export default function ThreatsPage() {
       />
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
-          {/* Page Title & Actions */}
+        {/* Role Governance Banner */}
+        <div className="p-3.5 rounded-lg bg-[#131A24]/90 border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs text-[#94A3B8]">Active Role Session:</span>
+            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+              {roleBadgeText}
+            </span>
+            <span className="text-xs text-[#64748B] hidden md:inline">| {roleDescription}</span>
+          </div>
+          <div className="text-[11px] font-mono flex items-center gap-3">
+            <span className={permissions.canVerifyHashes ? 'text-cyan-400' : 'text-slate-500'}>
+              {permissions.canVerifyHashes ? '✓ Threat Analysis Active' : '✗ Read-Only Monitor'}
+            </span>
+            <span className={permissions.canResolveAlerts ? 'text-emerald-400' : 'text-slate-500'}>
+              {permissions.canResolveAlerts ? '✓ Finding Remediation' : '✗ Resolution Gated'}
+            </span>
+          </div>
+        </div>
+
+        {/* Page Title & Actions */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <div className="flex items-center gap-3">
@@ -235,10 +256,12 @@ export default function ThreatsPage() {
             <div className="flex items-center gap-3">
               <button
                 onClick={handleRunDetection}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition flex items-center gap-2 shadow-lg shadow-indigo-900/30"
+                disabled={!permissions.canVerifyHashes}
+                title={permissions.canVerifyHashes ? 'Execute deterministic behavioral threat detection' : 'Auditor mode is read-only'}
+                className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-[#0B0F17] rounded-lg text-sm font-semibold transition flex items-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.25)] disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <RefreshCw className="w-4 h-4" />
-                Run Threat Analysis
+                <span>{permissions.canVerifyHashes ? 'Run Threat Analysis' : 'Analysis (Auditor Read-Only)'}</span>
               </button>
             </div>
           </div>
@@ -876,22 +899,25 @@ export default function ThreatsPage() {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleStatusChange('INVESTIGATING')}
-                  disabled={updatingStatus}
-                  className="px-3 py-1.5 bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-800 text-xs font-medium rounded-lg transition"
+                  disabled={updatingStatus || !permissions.canResolveAlerts}
+                  title={permissions.canResolveAlerts ? 'Mark investigating' : 'Admin role required to transition finding'}
+                  className="px-3 py-1.5 bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-800 text-xs font-medium rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Mark Investigating
                 </button>
                 <button
                   onClick={() => handleStatusChange('RESOLVED')}
-                  disabled={updatingStatus}
-                  className="px-3 py-1.5 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-800 text-xs font-medium rounded-lg transition"
+                  disabled={updatingStatus || !permissions.canResolveAlerts}
+                  title={permissions.canResolveAlerts ? 'Mark resolved' : 'Admin role required to resolve finding'}
+                  className="px-3 py-1.5 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-800 text-xs font-medium rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Mark Resolved
                 </button>
                 <button
                   onClick={() => handleStatusChange('FALSE_POSITIVE')}
-                  disabled={updatingStatus}
-                  className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium rounded-lg transition"
+                  disabled={updatingStatus || !permissions.canResolveAlerts}
+                  title={permissions.canResolveAlerts ? 'Mark false positive' : 'Admin role required to classify false positive'}
+                  className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Mark False Positive
                 </button>

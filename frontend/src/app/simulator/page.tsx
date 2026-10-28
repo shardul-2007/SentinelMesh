@@ -18,6 +18,7 @@ import {
 import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
 import { api } from '@/lib/api';
+import { useRBAC } from '@/lib/rbac';
 import { ActionEvaluateResponse } from '@/lib/types';
 
 const PRESETS = [
@@ -90,6 +91,7 @@ const PRESETS = [
 ];
 
 export default function SimulatorPage() {
+  const { role, permissions, roleBadgeText, roleDescription } = useRBAC();
   const [agentId, setAgentId] = useState('agent-data-analyzer');
   const [actionType, setActionType] = useState('READ');
   const [resource, setResource] = useState('public/quarterly_security_metrics.pdf');
@@ -149,6 +151,25 @@ export default function SimulatorPage() {
       />
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+        {/* Role Governance Banner */}
+        <div className="p-3.5 rounded-lg bg-[#131A24]/90 border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs text-[#94A3B8]">Active Role Session:</span>
+            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+              {roleBadgeText}
+            </span>
+            <span className="text-xs text-[#64748B] hidden md:inline">| {roleDescription}</span>
+          </div>
+          <div className="text-[11px] font-mono flex items-center gap-3">
+            <span className={permissions.canSubmitActions ? 'text-cyan-400' : 'text-slate-500'}>
+              {permissions.canSubmitActions ? '✓ Policy Execution Authorized' : '✗ Execution Restricted (Auditor)'}
+            </span>
+            <span className={permissions.canVerifyHashes ? 'text-emerald-400' : 'text-slate-500'}>
+              {permissions.canVerifyHashes ? '✓ Hash Verification' : '✗ Read-Only'}
+            </span>
+          </div>
+        </div>
+
         {/* Scenario Presets */}
         <div>
           <div className="flex items-center gap-2 mb-1.5">
@@ -334,11 +355,18 @@ export default function SimulatorPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded text-xs font-bold bg-[#10B981] text-[#0B0F17] hover:bg-[#059669] transition disabled:opacity-50 shadow-md"
+                disabled={isLoading || !permissions.canSubmitActions}
+                title={permissions.canSubmitActions ? 'Evaluate policy against request' : 'Viewer / Auditor role is read-only. Switch to Analyst or Admin to simulate.'}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded text-xs font-bold bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-[#0B0F17] transition disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(16,185,129,0.2)]"
               >
                 <Play className={`w-3.5 h-3.5 fill-current ${isLoading ? 'animate-pulse' : ''}`} />
-                <span>{isLoading ? 'Evaluating Policy Engine...' : 'Evaluate Action & Persist Audit Evidence'}</span>
+                <span>
+                  {isLoading
+                    ? 'Evaluating Policy Engine...'
+                    : !permissions.canSubmitActions
+                    ? 'Auditor Mode (Read-Only) — Switch Role to Evaluate'
+                    : 'Evaluate Action & Persist Audit Evidence'}
+                </span>
               </button>
             </form>
           </div>

@@ -22,6 +22,7 @@ import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
 import { EventDetailModal } from '@/components/EventDetailModal';
 import { api } from '@/lib/api';
+import { useRBAC } from '@/lib/rbac';
 import { 
   BlockchainStatus, 
   IntegrityRecord, 
@@ -30,6 +31,7 @@ import {
 } from '@/lib/types';
 
 export default function IntegrityCenterPage() {
+  const { role, permissions, roleBadgeText, roleDescription } = useRBAC();
   const [bStatus, setBStatus] = useState<BlockchainStatus | null>(null);
   const [records, setRecords] = useState<IntegrityRecord[]>([]);
   const [alerts, setAlerts] = useState<TamperAlert[]>([]);
@@ -152,6 +154,28 @@ export default function IntegrityCenterPage() {
       />
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+        {/* Role Governance Banner */}
+        <div className="p-3.5 rounded-lg bg-[#131A24]/90 border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs text-[#94A3B8]">Active Role Session:</span>
+            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+              {roleBadgeText}
+            </span>
+            <span className="text-xs text-[#64748B] hidden md:inline">| {roleDescription}</span>
+          </div>
+          <div className="text-[11px] font-mono flex items-center gap-3">
+            <span className={permissions.canAnchor ? 'text-cyan-400' : 'text-slate-500'}>
+              {permissions.canAnchor ? '✓ On-Chain Anchoring' : '✗ Anchoring Restricted'}
+            </span>
+            <span className={permissions.canSimulateTamper ? 'text-amber-400' : 'text-slate-500'}>
+              {permissions.canSimulateTamper ? '✓ Tamper Simulation' : '✗ Tamper Gated'}
+            </span>
+            <span className={permissions.canVerifyHashes ? 'text-emerald-400' : 'text-slate-500'}>
+              {permissions.canVerifyHashes ? '✓ Hash Verification' : '✗ Read-Only'}
+            </span>
+          </div>
+        </div>
+
         {/* KPI Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
@@ -216,19 +240,21 @@ export default function IntegrityCenterPage() {
           <div className="flex items-center gap-2 flex-shrink-0">
             <button
               onClick={handleSimulateTamper}
-              disabled={actionLoading === 'simulate-tamper'}
-              className="px-3 py-1.5 rounded text-xs font-semibold bg-[#EF4444]/15 hover:bg-[#EF4444]/25 text-[#EF4444] border border-[#EF4444]/30 transition flex items-center gap-1.5"
+              disabled={actionLoading === 'simulate-tamper' || !permissions.canSimulateTamper}
+              title={permissions.canSimulateTamper ? 'Simulate local hash divergence' : 'Admin Role Required to Simulate Tamper'}
+              className="px-3 py-1.5 rounded text-xs font-semibold bg-[#EF4444]/15 hover:bg-[#EF4444]/25 text-[#EF4444] border border-[#EF4444]/30 transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <AlertTriangle className="w-3.5 h-3.5" />
-              <span>Simulate Tamper</span>
+              <span>{permissions.canSimulateTamper ? 'Simulate Tamper' : 'Tamper (Admin Only)'}</span>
             </button>
             <button
               onClick={handleRestoreTamper}
-              disabled={actionLoading === 'restore-tamper'}
-              className="px-3 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] text-[#F8FAFC] border border-[#263244] transition flex items-center gap-1.5"
+              disabled={actionLoading === 'restore-tamper' || !permissions.canSimulateTamper}
+              title={permissions.canSimulateTamper ? 'Restore canonical baseline state' : 'Admin Role Required to Restore'}
+              className="px-3 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] text-[#F8FAFC] border border-[#263244] transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <RotateCcw className="w-3.5 h-3.5 text-[#94A3B8]" />
-              <span>Restore Baseline</span>
+              <span>{permissions.canSimulateTamper ? 'Restore Baseline' : 'Restore (Admin Only)'}</span>
             </button>
           </div>
         </div>
@@ -283,9 +309,11 @@ export default function IntegrityCenterPage() {
                         {alt.status === 'OPEN' && (
                           <button
                             onClick={() => handleResolveAlert(alt.id)}
-                            className="px-2 py-1 rounded bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#F59E0B] hover:bg-[#F59E0B]/25 transition text-[11px]"
+                            disabled={!permissions.canResolveAlerts}
+                            title={permissions.canResolveAlerts ? 'Resolve alert and commit administrative justification' : 'Admin Role Required to Resolve Alert'}
+                            className="px-2 py-1 rounded bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#F59E0B] hover:bg-[#F59E0B]/25 transition text-[11px] disabled:opacity-40 disabled:cursor-not-allowed"
                           >
-                            Resolve (Admin)
+                            {permissions.canResolveAlerts ? 'Resolve (Admin)' : 'Admin Required'}
                           </button>
                         )}
                       </td>
@@ -394,18 +422,20 @@ export default function IntegrityCenterPage() {
                         </button>
                         <button
                           onClick={() => handleVerify(r.event_id)}
-                          disabled={actionLoading === `verify-${r.event_id}`}
-                          className="px-2 py-1 rounded bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] hover:bg-[#10B981]/25 transition disabled:opacity-50 text-[11px]"
+                          disabled={actionLoading === `verify-${r.event_id}` || !permissions.canVerifyHashes}
+                          title={permissions.canVerifyHashes ? 'Run independent cryptographic verification' : 'Auditor mode is read-only'}
+                          className="px-2 py-1 rounded bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] hover:bg-[#10B981]/25 transition disabled:opacity-40 disabled:cursor-not-allowed text-[11px]"
                         >
-                          {actionLoading === `verify-${r.event_id}` ? 'Checking...' : 'Verify'}
+                          {actionLoading === `verify-${r.event_id}` ? 'Checking...' : permissions.canVerifyHashes ? 'Verify' : 'Read-Only'}
                         </button>
                         {r.anchoring_status !== 'ANCHORED' && (
                           <button
                             onClick={() => handleAnchor(r.event_id)}
-                            disabled={actionLoading === `anchor-${r.event_id}`}
-                            className="px-2 py-1 rounded bg-[#38BDF8] text-[#0B0F17] font-semibold hover:bg-[#0284C7] transition disabled:opacity-50 text-[11px]"
+                            disabled={actionLoading === `anchor-${r.event_id}` || !permissions.canAnchor}
+                            title={permissions.canAnchor ? 'Commit SHA-256 evidence to MST Blockchain' : 'Admin Role Required to Anchor'}
+                            className="px-2 py-1 rounded bg-gradient-to-r from-cyan-500 to-blue-600 text-[#0B0F17] font-semibold hover:from-cyan-400 hover:to-blue-500 transition disabled:opacity-30 disabled:cursor-not-allowed text-[11px] shadow-[0_0_10px_rgba(6,182,212,0.2)]"
                           >
-                            {actionLoading === `anchor-${r.event_id}` ? 'Anchoring...' : 'Anchor (Admin)'}
+                            {actionLoading === `anchor-${r.event_id}` ? 'Anchoring...' : permissions.canAnchor ? 'Anchor (Admin)' : 'Admin Only'}
                           </button>
                         )}
                       </td>

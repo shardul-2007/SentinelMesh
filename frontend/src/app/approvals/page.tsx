@@ -10,7 +10,8 @@ import {
   RefreshCw,
   Eye,
   Check,
-  X
+  X,
+  Lock
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
@@ -18,8 +19,10 @@ import { EventDetailModal } from '@/components/EventDetailModal';
 import { ApprovalModal } from '@/components/ApprovalModal';
 import { api } from '@/lib/api';
 import { AuditEventSummary, AuditEventDetail } from '@/lib/types';
+import { useRBAC } from '@/lib/rbac';
 
 export default function ApprovalCenterPage() {
+  const { role, permissions, roleBadgeText, roleDescription } = useRBAC();
   const [pendingEvents, setPendingEvents] = useState<AuditEventSummary[]>([]);
   const [allApprovalEvents, setAllApprovalEvents] = useState<AuditEventSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,6 +82,21 @@ export default function ApprovalCenterPage() {
       />
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+        {/* RBAC Active Role Banner */}
+        <div className={`p-3.5 rounded-xl border flex items-center justify-between text-xs transition-all ${
+          role === 'ADMIN' ? 'bg-amber-950/20 border-amber-500/30 text-amber-200' :
+          role === 'SECURITY_ANALYST' ? 'bg-cyan-950/20 border-cyan-500/30 text-cyan-200' :
+          'bg-slate-900 border-slate-700 text-slate-300'
+        }`}>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span className="font-mono font-bold text-[10px] px-2.5 py-0.5 rounded-full bg-black/50 border border-current w-fit">
+              ACTIVE ROLE: {roleBadgeText}
+            </span>
+            <span className="text-xs text-[#94A3B8]">{roleDescription}</span>
+          </div>
+          <span className="text-[11px] font-mono text-cyan-400 hidden md:inline">Switch role in top-right header</span>
+        </div>
+
         {/* KPI Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
@@ -180,12 +198,30 @@ export default function ApprovalCenterPage() {
                         >
                           Inspect
                         </button>
-                        <button
-                          onClick={() => handleOpenDecision(event)}
-                          className="px-2.5 py-1 rounded bg-[#F59E0B] text-[#0B0F17] hover:bg-[#D97706] transition font-bold text-[11px]"
-                        >
-                          Decide (Admin)
-                        </button>
+                        {permissions.canApprove ? (
+                          <button
+                            onClick={() => handleOpenDecision(event)}
+                            className="px-2.5 py-1 rounded bg-[#F59E0B] text-[#0B0F17] hover:bg-[#D97706] transition font-bold text-[11px] shadow-[0_0_10px_rgba(245,158,11,0.2)]"
+                          >
+                            Decide (Admin)
+                          </button>
+                        ) : role === 'SECURITY_ANALYST' ? (
+                          <span
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B] text-[10px] font-semibold cursor-not-allowed"
+                            title="Only Chief Security Officer (ADMIN) can authorize or reject operations."
+                          >
+                            <Lock className="w-3 h-3" />
+                            Admin Required
+                          </span>
+                        ) : (
+                          <span
+                            className="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-800 border border-slate-700 text-slate-400 text-[10px] font-medium cursor-not-allowed"
+                            title="Compliance Auditors have read-only access."
+                          >
+                            <Lock className="w-3 h-3" />
+                            Read-Only
+                          </span>
+                        )}
                       </td>
                     </tr>
                   ))}

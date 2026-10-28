@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { X, ShieldAlert, CheckCircle, XCircle, Key, AlertTriangle } from 'lucide-react';
 import { AuditEventSummary } from '@/lib/types';
 import { api } from '@/lib/api';
+import { useRBAC } from '@/lib/rbac';
 
 interface ApprovalModalProps {
   event: AuditEventSummary | null;
@@ -13,8 +14,9 @@ interface ApprovalModalProps {
 }
 
 export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: ApprovalModalProps) {
+  const { role, permissions, roleTitle } = useRBAC();
   const [adminKey, setAdminKey] = useState('sentinel-admin-dev-key-phase1');
-  const [approverId, setApproverId] = useState('security-admin');
+  const [approverId, setApproverId] = useState(role === 'ADMIN' ? 'chief-security-officer' : 'user');
   const [note, setNote] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -22,6 +24,10 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
   if (!isOpen || !event) return null;
 
   const handleSubmit = async (decision: 'APPROVED' | 'REJECTED') => {
+    if (!permissions.canApprove) {
+      setErrorMsg(`Authorization restricted: active role '${roleTitle}' cannot grant approvals. Switch to CSO / Admin.`);
+      return;
+    }
     setIsLoading(true);
     setErrorMsg(null);
     try {
@@ -137,6 +143,15 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
             </span>
           </div>
 
+          {!permissions.canApprove && (
+            <div className="p-3 rounded bg-amber-950/20 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2">
+              <Key className="w-4 h-4 text-amber-400 flex-shrink-0" />
+              <span>
+                <strong>RBAC Restriction:</strong> You are viewing as <strong>{roleTitle}</strong>. Authorization decisions require <strong>Chief Security Officer (ADMIN)</strong> privileges.
+              </span>
+            </div>
+          )}
+
           {errorMsg && (
             <div className="p-2.5 rounded bg-[#EF4444]/15 border border-[#EF4444]/30 text-xs text-[#EF4444]">
               {errorMsg}
@@ -155,16 +170,16 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
           </button>
           <button
             onClick={() => handleSubmit('REJECTED')}
-            disabled={isLoading}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-[#EF4444] bg-[#EF4444]/15 border border-[#EF4444]/30 hover:bg-[#EF4444]/25 transition disabled:opacity-50"
+            disabled={isLoading || !permissions.canApprove}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold text-[#EF4444] bg-[#EF4444]/15 border border-[#EF4444]/30 hover:bg-[#EF4444]/25 transition disabled:opacity-40"
           >
             <XCircle className="w-3.5 h-3.5" />
             <span>Reject Request</span>
           </button>
           <button
             onClick={() => handleSubmit('APPROVED')}
-            disabled={isLoading}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded text-xs font-semibold text-[#0B0F17] bg-[#10B981] hover:bg-[#059669] transition disabled:opacity-50 shadow-sm"
+            disabled={isLoading || !permissions.canApprove}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded text-xs font-semibold text-[#0B0F17] bg-[#10B981] hover:bg-[#059669] transition disabled:opacity-40 shadow-sm"
           >
             <CheckCircle className="w-3.5 h-3.5" />
             <span>Authorize (Simulated)</span>
