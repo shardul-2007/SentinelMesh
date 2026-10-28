@@ -23,6 +23,7 @@ import {
 import { api } from '@/lib/api';
 import { BlockchainStatus, BlockchainTransaction, EvidenceInspectorResponse } from '@/lib/types';
 import { Header } from '@/components/Header';
+import { DeploymentStatusCard } from '@/components/DeploymentStatusCard';
 import { useWeb3Wallet, MST_NETWORKS } from '@/lib/web3Wallet';
 
 export default function BlockchainActivityPage() {
@@ -198,74 +199,8 @@ export default function BlockchainActivityPage() {
           </div>
         </div>
 
-        {/* Dual Network Infrastructure: MST Testnet & MST Mainnet */}
-        <div className="p-4 rounded-xl bg-[#131A24] border border-[#263244] shadow-sm space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#263244] pb-3">
-            <div className="flex items-center gap-2">
-              <Boxes className="w-4 h-4 text-cyan-400" />
-              <h3 className="text-sm font-semibold text-[#F8FAFC]">MST Blockchain Dual Network Infrastructure</h3>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] text-[#94A3B8]">BridgeKey Wallet:</span>
-              {isConnected && address ? (
-                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                  Connected: {address.slice(0, 6)}...{address.slice(-4)}
-                </span>
-              ) : (
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="text-[11px] px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/25 transition"
-                >
-                  Connect BridgeKey
-                </button>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
-            {/* Testnet Card */}
-            <div className="p-3.5 rounded-lg bg-[#0B0F17] border border-cyan-500/30 space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                  <span className="text-xs font-bold text-[#F8FAFC]">MST Testnet (Operational)</span>
-                </div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
-                  CHAIN 91562037
-                </span>
-              </div>
-              <p className="text-[11px] text-[#94A3B8]">
-                Active live environment for cryptographic audit evidence anchoring and verification.
-              </p>
-              <div className="text-[10px] font-mono text-[#94A3B8] space-y-1 pt-1 border-t border-[#263244]">
-                <div>RPC: <span className="text-cyan-400">https://testnetrpc.mstblockchain.com</span></div>
-                <div>Registry: <span className="text-cyan-400">0x00E08271A37df1E90E95F062F814D7336D5369Ce</span></div>
-                <div>Currency: <span className="text-cyan-400">tMSTC</span> | Explorer: <a href="https://testnet.mstscan.com" target="_blank" rel="noopener noreferrer" className="text-cyan-300 hover:underline">testnet.mstscan.com</a></div>
-              </div>
-            </div>
-
-            {/* Mainnet Card */}
-            <div className="p-3.5 rounded-lg bg-[#0B0F17] border border-purple-500/30 space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-purple-400"></span>
-                  <span className="text-xs font-bold text-[#F8FAFC]">MST Mainnet (Production Spec)</span>
-                </div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/15 text-purple-400 border border-purple-500/30">
-                  CHAIN 4646
-                </span>
-              </div>
-              <p className="text-[11px] text-[#94A3B8]">
-                Enterprise immutable ledger. Deploy only after Testnet validation, required funding, and explicit authorization.
-              </p>
-              <div className="text-[10px] font-mono text-[#94A3B8] space-y-1 pt-1 border-t border-[#263244]">
-                <div>RPC: <span className="text-purple-400">https://mariorpc.mstblockchain.com/</span></div>
-                <div>Contract: <span className="text-amber-400 font-sans">Governed (Authorization Required)</span></div>
-                <div>Currency: <span className="text-purple-400">MSTC</span> | Explorer: <a href="https://mstscan.com" target="_blank" rel="noopener noreferrer" className="text-purple-300 hover:underline">mstscan.com</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Deployment & Blockchain Status (Audit Specification) */}
+        <DeploymentStatusCard />
 
         {/* Transaction Search & Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 rounded bg-[#131A24] border border-[#263244] shadow-sm">

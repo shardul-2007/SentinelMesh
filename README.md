@@ -2,11 +2,11 @@
 
 > **Enterprise Agent-Action Governance, Deterministic Policy Enforcement, Cryptographic Canonical Evidence & MST Blockchain Anchoring**
 
-[![Production Deployment](https://img.shields.io/badge/Vercel-Production%20Live-171A1F?logo=vercel&logoColor=white)](https://frontend-seven-ecru-61la4jq9i8.vercel.app)
+[![Production Deployment](https://img.shields.io/badge/Vercel-Production%20Live-171A1F?logo=vercel&logoColor=white)](https://sentinelmesh-five.vercel.app)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-shardul--2007%2FSentinelMesh-171A1F?logo=github&logoColor=white)](https://github.com/shardul-2007/SentinelMesh)
-[![Backend Tests](https://img.shields.io/badge/Pytest-65%20Passed%20(100%25)-287653)](backend/tests)
-[![Contract Tests](https://img.shields.io/badge/Hardhat-27%20Passed%20(100%25)-315C78)](contracts/test)
-[![MST Blockchain](https://img.shields.io/badge/MST%20Blockchain-Testnet%2091562037%20%2F%20Mainnet%204646-171A1F)](https://mstscan.com)
+[![Backend Tests](https://img.shields.io/badge/Pytest-65%20Passed%20(100%25)-10B981)](backend/tests)
+[![Contract Tests](https://img.shields.io/badge/Hardhat-27%20Passed%20(100%25)-38BDF8)](contracts/test)
+[![MST Blockchain](https://img.shields.io/badge/MST%20Blockchain-Testnet%2091562037%20%2F%20Mainnet%204646-00F2FE)](https://testnet.mstscan.com)
 
 ---
 
@@ -115,40 +115,52 @@ SentinelMesh/
 
 ---
 
-## 4. MST Blockchain Network Specifications
+## 4. Deployment & Blockchain Status (Official Audit Checklist)
 
-SentinelMesh is engineered for native deployment on **MST Blockchain**:
+### MST Testnet (Operational & Verified)
+- **Network:** `MST Testnet`
+- **Chain ID:** `91562037` (`0x5752315`)
+- **RPC URL:** `https://testnetrpc.mstblockchain.com`
+- **Explorer:** [https://testnet.mstscan.com](https://testnet.mstscan.com)
+- **Contract Address:** [`0x00E08271A37df1E90E95F062F814D7336D5369Ce`](https://testnet.mstscan.com/address/0x00E08271A37df1E90E95F062F814D7336D5369Ce)
+- **Deployment Transaction Hash:** [`0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c`](https://testnet.mstscan.com/tx/0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c)
+- **Verified Evidence Transaction Hash:** [`0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`](https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d)
+- **Evidence ID:** `evt_001_initial_compliance`
+- **Evidence SHA-256:** `0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678`
+- **Read-back Verification:** **`VERIFIED`** (`verifyEvidence` returned `matches: true, exists: true`)
 
-| Parameter | MST Testnet | MST Mainnet |
-| :--- | :--- | :--- |
-| **Network Name** | MST Testnet | MST Mainnet |
-| **Chain ID** | `91562037` (`0x5752035`) | `4646` (`0x1226`) |
-| **RPC Endpoint** | `https://testnetrpc.mstblockchain.com` | `https://mariorpc.mstblockchain.com/` |
-| **Native Gas Token** | `tMSTC` | `MSTC` |
-| **Block Explorer** | [https://testnet.mstscan.com](https://testnet.mstscan.com) | [https://mstscan.com](https://mstscan.com) |
-| **Public Faucet** | [https://faucet.mstblockchain.com](https://faucet.mstblockchain.com) | N/A (Funded Mainnet Address) |
-| **Contract** | `EvidenceRegistry.sol` | `EvidenceRegistry.sol` |
+### MST Mainnet (Governed Production Promotion)
+- **Network:** `MST Mainnet`
+- **Chain ID:** `4646` (`0x1226`)
+- **RPC URL:** `https://mariorpc.mstblockchain.com/`
+- **Explorer:** [https://mstscan.com](https://mstscan.com)
+- **Contract Address:** `NOT YET DEPLOYED`
+- **Deployment Transaction Hash:** `NOT YET DEPLOYED`
+- **Verification Status:** `NOT YET DEPLOYED`  
+*(Mainnet Protocol: Deploy and anchor on Mainnet only after Testnet audit sign-off, required treasury funding, and explicit administrative authorization).*
 
-### Smart Contract Specification (`EvidenceRegistry.sol`)
-
-- `recordEvidence(string evidenceId, bytes32 evidenceHash)`: Records an immutable evidence commitment with submitter and block timestamp. Prevents duplicate evidence IDs from being overwritten.
-- `recordEvidenceWithPolicy(string evidenceId, bytes32 evidenceHash, bytes32 policyCommitment)`: Records evidence alongside the active policy commitment hash.
-- `getEvidence(string evidenceId)`: Returns `(bytes32 evidenceHash, uint256 timestamp, uint256 blockNumber, address submitter, bytes32 policyCommitment)`.
-- `verifyEvidence(string evidenceId, bytes32 expectedHash)`: Public view function returning `(bool matches, bool exists)`.
-- **Backward-Compatible Interface:** Implements `anchorEvent`, `getAnchor`, and `verifyAnchor` for legacy integrations.
+### Application & Source Code
+- **Live Application URL:** [https://sentinelmesh-five.vercel.app/](https://sentinelmesh-five.vercel.app/) (Production deployment)
+- **Public GitHub Repository:** [https://github.com/shardul-2007/SentinelMesh](https://github.com/shardul-2007/SentinelMesh)
+- **Backend API URL:** `http://127.0.0.1:8000` (FastAPI core service / Vercel Edge ClientStore Engine)
+- **BridgeKey Integration Status:** **`CONNECTED`** (EIP-1193 & BridgeKey wallet provider with 1-click network switching)
+- **Last End-to-End Test:** `2026-10-28 — 65 Pytest Passed (100%), 27 Hardhat Tests Passed (100%), 13 Static Pages Built Successfully`
 
 ---
 
 ## 5. Visual Language & Design Tokens
 
-SentinelMesh adheres to an enterprise security-console visual language:
+SentinelMesh is built strictly under the **High-End Dark Cyber Console** specification:
 
-- **Primary Workspace:** Warm off-white (`#F5F4F0`)
-- **Card & Table Surfaces:** Pure white (`#FFFFFF`) with fine borders (`#D9DDE2`)
-- **Navigation Rail:** Deep graphite (`#171A1F`), dark slate (`#242A32`), text (`#F5F4F0`)
-- **Typography:** Sans-serif for interface text, monospace for event IDs, SHA-256 digests, and transaction hashes
-- **Accents:** Restrained security blue (`#315C78`), success green (`#287653`), warning amber (`#98661C`), critical red (`#B53A3A`)
-- **Responsive Layout:** Adaptive desktop navigation rail with a collapsible off-canvas mobile drawer (<1024px) for seamless usability across 360px, 768px, 1024px, and 1440px viewports.
+- **Obsidian Main Canvas:** `#0B0F17` body with `#050811` deep background.
+- **Dark Slate Surfaces:** `#131A24` panels, cards, and modal dialogs.
+- **Slate Borders:** `#263244` subtle separation with `#1E293B` micro-lines.
+- **Neon Emerald (`#10B981`):** Verified cryptographic digests (`INTACT`), permitted policy decisions (`ALLOW`), operational nodes.
+- **Electric Blue / Cyber Cyan (`#38BDF8` / `#00F2FE`):** Chained hashes, MST chain indicators, BridgeKey wallet controls, primary buttons.
+- **Amber Warning (`#F59E0B`):** Human review queue (`REQUIRE_APPROVAL`), elevated behavioral threat findings, wrong network alerts.
+- **Critical Red (`#EF4444`):** Denied actions (`BLOCK`), cryptographic digest divergence alerts (`TAMPERED`), rejected reviews.
+- **Typography:** Pure white text (`#F8FAFC`) with muted slate metadata (`#94A3B8`) and monospaced cryptographic digests (`font-mono`).
+- **Responsive Layout:** Adaptive desktop navigation with collapsible off-canvas mobile drawer (<1024px) for seamless usability across 360px, 768px, 1024px, and 1440px viewports.
 
 ---
 
