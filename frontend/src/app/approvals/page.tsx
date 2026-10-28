@@ -97,37 +97,52 @@ export default function ApprovalCenterPage() {
           <span className="text-[11px] font-mono text-[#FACC15] hidden md:inline font-bold">Switch role in top-right header</span>
         </div>
 
-        {/* KPI Summary Cards */}
+        {/* KPI Summary Cards with Yellow Background + Black Text */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[120px]">
-            <div className="flex items-center justify-between text-[#D4D4D8] text-xs font-bold">
-              <span className="text-[11px] uppercase tracking-wider">Pending Review</span>
-              <AlertTriangle className="w-4 h-4 text-[#F59E0B]" />
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Pending Review</span>
+              <AlertTriangle className="w-4 h-4 text-[#000000]" />
             </div>
-            <div className="text-2xl font-extrabold text-[#F59E0B] mt-2 font-mono">{pendingEvents.length}</div>
-            <p className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Actions awaiting administrator authorization</p>
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">{pendingEvents.length}</div>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Awaiting review</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                {pendingEvents.length > 0 ? 'URGENT' : 'IDLE'}
+              </span>
+            </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[120px]">
-            <div className="flex items-center justify-between text-[#D4D4D8] text-xs font-bold">
-              <span className="text-[11px] uppercase tracking-wider">Approved Operations</span>
-              <CheckCircle2 className="w-4 h-4 text-[#FACC15]" />
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Approved Operations</span>
+              <CheckCircle2 className="w-4 h-4 text-[#000000]" />
             </div>
-            <div className="text-2xl font-extrabold text-[#FACC15] mt-2 font-mono">
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {allApprovalEvents.filter(e => e.approval_status === 'APPROVED').length}
             </div>
-            <p className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Authorized for isolated execution</p>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Isolated execution</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                AUTHORIZED
+              </span>
+            </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[120px]">
-            <div className="flex items-center justify-between text-[#D4D4D8] text-xs font-bold">
-              <span className="text-[11px] uppercase tracking-wider">Rejected Operations</span>
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Rejected Operations</span>
               <XCircle className="w-4 h-4 text-[#EF4444]" />
             </div>
-            <div className="text-2xl font-extrabold text-[#EF4444] mt-2 font-mono">
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {allApprovalEvents.filter(e => e.approval_status === 'REJECTED').length}
             </div>
-            <p className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Denied and halted at gateway</p>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Halted at gateway</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#EF4444] text-[#FFFFFF] text-[10px] font-black font-mono">
+                DENIED
+              </span>
+            </div>
           </div>
         </div>
 

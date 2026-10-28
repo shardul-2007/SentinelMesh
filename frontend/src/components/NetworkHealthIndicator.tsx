@@ -71,33 +71,33 @@ export function NetworkHealthIndicator() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-        <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A]">
-          <span className="text-[10px] text-[#D4D4D8] uppercase font-mono block mb-1 font-bold">Network Status</span>
-          <div className="flex items-center gap-1.5 font-extrabold font-mono">
-            <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-[#FACC15] animate-pulse' : 'bg-[#EF4444]'}`}></span>
-            <span className={isConnected ? 'text-[#FACC15]' : 'text-[#EF4444]'}>
+        <div className="p-3.5 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between">
+          <span className="text-[10px] text-[#000000] uppercase font-mono block mb-1 font-black">Network Status</span>
+          <div className="flex items-center gap-1.5 font-black font-mono">
+            <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-[#000000] animate-ping' : 'bg-[#EF4444]'}`}></span>
+            <span className={isConnected ? 'text-[#000000]' : 'text-[#EF4444]'}>
               {isConnected ? 'ONLINE' : 'DEGRADED'}
             </span>
           </div>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A]">
-          <span className="text-[10px] text-[#D4D4D8] uppercase font-mono block mb-1 font-bold">Chain ID</span>
-          <span className="font-extrabold font-mono text-[#FACC15] text-sm">
+        <div className="p-3.5 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between">
+          <span className="text-[10px] text-[#000000] uppercase font-mono block mb-1 font-black">Chain ID</span>
+          <span className="font-black font-mono text-[#000000] text-sm">
             {status?.detected_chain_id || 91562037}
           </span>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A]">
-          <span className="text-[10px] text-[#D4D4D8] uppercase font-mono block mb-1 font-bold">Latest Block</span>
-          <span className="font-extrabold font-mono text-[#FFFFFF] text-sm">
+        <div className="p-3.5 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between">
+          <span className="text-[10px] text-[#000000] uppercase font-mono block mb-1 font-black">Latest Block</span>
+          <span className="font-black font-mono text-[#000000] text-sm">
             #{blockNum.toLocaleString()}
           </span>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A]">
-          <span className="text-[10px] text-[#D4D4D8] uppercase font-mono block mb-1 font-bold">RPC Latency</span>
-          <span className="font-extrabold font-mono text-[#FACC15] text-sm">
+        <div className="p-3.5 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between">
+          <span className="text-[10px] text-[#000000] uppercase font-mono block mb-1 font-black">RPC Latency</span>
+          <span className="font-black font-mono text-[#000000] text-sm">
             {latencyMs !== null ? `${latencyMs}ms` : '38ms'}
           </span>
         </div>

@@ -208,26 +208,26 @@ export default function SimulatorPage() {
                 key={idx}
                 type="button"
                 onClick={() => applyPreset(p)}
-                className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#FACC15] hover:shadow-[0_0_15px_rgba(250,204,21,0.15)] hover:-translate-y-0.5 text-left transition-all duration-200 flex flex-col justify-between group shadow-sm min-h-[110px]"
+                className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] hover:shadow-[0_0_20px_rgba(250,204,21,0.35)] hover:-translate-y-0.5 text-left transition-all duration-200 flex flex-col justify-between group shadow-xl min-h-[120px]"
               >
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-bold text-[#FFFFFF] group-hover:text-[#FACC15] transition">
+                    <span className="text-xs font-black text-[#000000]">
                       {p.title}
                     </span>
-                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-extrabold ${
-                      p.expectedDecision === 'ALLOW' ? 'bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30' :
-                      p.expectedDecision === 'BLOCK' ? 'bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30' :
-                      'bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30'
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-black ${
+                      p.expectedDecision === 'ALLOW' ? 'bg-[#000000] text-[#FACC15]' :
+                      p.expectedDecision === 'BLOCK' ? 'bg-[#EF4444] text-[#FFFFFF]' :
+                      'bg-[#000000] text-[#FFFFFF]'
                     }`}>
                       {p.expectedDecision}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#D4D4D8] line-clamp-1 font-medium">{p.desc}</p>
+                  <p className="text-[11px] text-[#1C1C1C] line-clamp-1 font-bold">{p.desc}</p>
                 </div>
-                <div className="mt-2.5 text-[10px] font-mono text-[#D4D4D8] flex items-center justify-between border-t border-[#27272A] pt-1.5 font-semibold">
+                <div className="mt-2.5 text-[10px] font-mono text-[#000000] flex items-center justify-between border-t border-[#000000]/25 pt-2 font-black">
                   <span>Policy: {p.policy}</span>
-                  <span className="text-[#FACC15] font-bold group-hover:translate-x-0.5 transition-transform">Use Preset &rarr;</span>
+                  <span className="text-[#000000] underline group-hover:translate-x-0.5 transition-transform">Use Preset &rarr;</span>
                 </div>
               </button>
             ))}

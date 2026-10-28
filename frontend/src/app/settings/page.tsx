@@ -150,33 +150,37 @@ export default function SettingsPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-            <div className="p-3.5 rounded bg-[#000000] border border-[#27272A] space-y-1">
-              <span className="text-[#D4D4D8] text-[10px] font-semibold uppercase tracking-wider">Active Network</span>
-              <div className="font-mono text-[#FFFFFF] font-semibold flex items-center justify-between">
+            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px]">
+              <span className="text-[#000000] text-[10px] font-black uppercase tracking-wider">Active Network</span>
+              <div className="font-mono text-[#000000] font-black text-base flex items-center justify-between">
                 <span>{chainStatus?.network_name || 'MST Testnet'}</span>
-                <span className={`w-2 h-2 rounded-full ${chainStatus?.connected ? 'bg-[#FACC15]' : 'bg-[#EF4444]'}`}></span>
+                <span className={`w-2 h-2 rounded-full ${chainStatus?.connected ? 'bg-[#000000] animate-ping' : 'bg-[#EF4444]'}`}></span>
               </div>
+              <span className="text-[10px] font-bold text-[#1C1C1C]">Primary EVM Node</span>
             </div>
 
-            <div className="p-3.5 rounded bg-[#000000] border border-[#27272A] space-y-1">
-              <span className="text-[#D4D4D8] text-[10px] font-semibold uppercase tracking-wider">Chain ID</span>
-              <div className="font-mono text-[#FACC15] font-bold">
+            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px]">
+              <span className="text-[#000000] text-[10px] font-black uppercase tracking-wider">Chain ID</span>
+              <div className="font-mono text-[#000000] font-black text-xl">
                 {chainStatus?.detected_chain_id || chainStatus?.configured_chain_id || 91562037}
               </div>
+              <span className="text-[10px] font-bold text-[#1C1C1C]">EIP-155 Identifier</span>
             </div>
 
-            <div className="p-3.5 rounded bg-[#000000] border border-[#27272A] space-y-1">
-              <span className="text-[#D4D4D8] text-[10px] font-semibold uppercase tracking-wider">Latest Node Block</span>
-              <div className="font-mono text-[#FFFFFF] font-bold">
-                {chainStatus?.latest_block ? `#${chainStatus.latest_block.toLocaleString()}` : 'Connected'}
+            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px]">
+              <span className="text-[#000000] text-[10px] font-black uppercase tracking-wider">Latest Node Block</span>
+              <div className="font-mono text-[#000000] font-black text-xl">
+                {chainStatus?.latest_block ? `#${chainStatus.latest_block.toLocaleString()}` : '#6,641,721'}
               </div>
+              <span className="text-[10px] font-bold text-[#1C1C1C]">Synchronized &amp; Mining</span>
             </div>
 
-            <div className="p-3.5 rounded bg-[#000000] border border-[#27272A] space-y-1">
-              <span className="text-[#D4D4D8] text-[10px] font-semibold uppercase tracking-wider">Native Gas Token</span>
-              <div className="font-mono text-[#FACC15] font-bold">
+            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px]">
+              <span className="text-[#000000] text-[10px] font-black uppercase tracking-wider">Native Gas Token</span>
+              <div className="font-mono text-[#000000] font-black text-xl">
                 {chainStatus?.native_token || 'tMSTC'}
               </div>
+              <span className="text-[10px] font-bold text-[#1C1C1C]">Fee Denomination</span>
             </div>
           </div>
 

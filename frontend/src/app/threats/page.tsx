@@ -266,73 +266,78 @@ export default function ThreatsPage() {
             </div>
           </div>
 
-          {/* Intelligence KPI Cards */}
+          {/* Intelligence KPI Cards with Yellow Background + Black Text */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-[#121212] border border-[#27272A] rounded-xl p-5 shadow-sm">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
               <div className="flex justify-between items-start">
-                <span className="text-xs font-bold text-[#D4D4D8] uppercase tracking-wider">Active Threat Findings</span>
-                <span className="p-1.5 rounded-md bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30">
+                <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Active Threat Findings</span>
+                <span className="p-1 rounded-md bg-[#EF4444] text-[#FFFFFF]">
                   <AlertTriangle className="w-4 h-4" />
                 </span>
               </div>
-              <div className="mt-3 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-white">{analytics?.active_findings ?? 0}</span>
-                <span className="text-xs text-[#D4D4D8]">active alerts</span>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-3xl font-black text-[#000000] font-mono">{analytics?.active_findings ?? 0}</span>
+                <span className="text-xs text-[#1C1C1C] font-bold">active alerts</span>
               </div>
-              <div className="mt-3 flex gap-2 text-xs">
-                <span className="text-[#EF4444] font-bold">{analytics?.findings_by_severity.CRITICAL ?? 0} Critical</span>
-                <span className="text-[#D4D4D8]/40">•</span>
-                <span className="text-[#F59E0B] font-bold">{analytics?.findings_by_severity.HIGH ?? 0} High</span>
-                <span className="text-[#D4D4D8]/40">•</span>
-                <span className="text-[#F59E0B] font-bold">{analytics?.findings_by_severity.MEDIUM ?? 0} Med</span>
+              <div className="mt-2 pt-2 border-t border-[#000000]/25 flex items-center justify-between text-xs font-bold text-[#1C1C1C]">
+                <span className="font-mono text-[#000000]">{analytics?.findings_by_severity.CRITICAL ?? 0} Critical</span>
+                <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                  ANOMALY
+                </span>
               </div>
             </div>
 
-            <div className="bg-[#121212] border border-[#27272A] rounded-xl p-5 shadow-sm">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
               <div className="flex justify-between items-start">
-                <span className="text-xs font-bold text-[#D4D4D8] uppercase tracking-wider">Agents Under Review</span>
-                <span className="p-1.5 rounded-md bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30">
+                <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Agents Under Review</span>
+                <span className="p-1 rounded-md bg-[#000000] text-[#FACC15]">
                   <Users className="w-4 h-4" />
                 </span>
               </div>
-              <div className="mt-3 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-white">{analytics?.agents_under_review.length ?? 0}</span>
-                <span className="text-xs text-[#D4D4D8]">requiring review</span>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-3xl font-black text-[#000000] font-mono">{analytics?.agents_under_review.length ?? 0}</span>
+                <span className="text-xs text-[#1C1C1C] font-bold">flagged</span>
               </div>
-              <div className="mt-3 text-xs text-[#D4D4D8] truncate">
+              <div className="mt-2 pt-2 border-t border-[#000000]/25 text-[11px] text-[#1C1C1C] font-bold truncate">
                 {analytics?.agents_under_review.length ? analytics.agents_under_review.join(', ') : 'All agents within baseline bounds'}
               </div>
             </div>
 
-            <div className="bg-[#121212] border border-[#27272A] rounded-xl p-5 shadow-sm">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
               <div className="flex justify-between items-start">
-                <span className="text-xs font-bold text-[#D4D4D8] uppercase tracking-wider">Registered Detectors</span>
-                <span className="p-1.5 rounded-md bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30">
+                <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Registered Detectors</span>
+                <span className="p-1 rounded-md bg-[#000000] text-[#FACC15]">
                   <Cpu className="w-4 h-4" />
                 </span>
               </div>
-              <div className="mt-3 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-white">{rules.length || 6}</span>
-                <span className="text-xs text-[#FACC15] font-bold">Deterministic Rules</span>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-3xl font-black text-[#000000] font-mono">{rules.length || 6}</span>
+                <span className="text-xs text-[#1C1C1C] font-bold">Rules</span>
               </div>
-              <div className="mt-3 text-xs text-[#D4D4D8]">
-                Idempotent with bounded time windows
+              <div className="mt-2 pt-2 border-t border-[#000000]/25 text-[11px] text-[#1C1C1C] font-bold flex items-center justify-between">
+                <span>Deterministic</span>
+                <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                  ACTIVE
+                </span>
               </div>
             </div>
 
-            <div className="bg-[#121212] border border-[#27272A] rounded-xl p-5 shadow-sm">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
               <div className="flex justify-between items-start">
-                <span className="text-xs font-bold text-[#D4D4D8] uppercase tracking-wider">Investigation Resolution</span>
-                <span className="p-1.5 rounded-md bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30">
+                <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Investigation Resolution</span>
+                <span className="p-1 rounded-md bg-[#000000] text-[#FACC15]">
                   <CheckCircle2 className="w-4 h-4" />
                 </span>
               </div>
-              <div className="mt-3 flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-white">{analytics?.resolved_findings ?? 0}</span>
-                <span className="text-xs text-[#D4D4D8]">resolved cases</span>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-3xl font-black text-[#000000] font-mono">{analytics?.resolved_findings ?? 0}</span>
+                <span className="text-xs text-[#1C1C1C] font-bold">cases</span>
               </div>
-              <div className="mt-3 text-xs text-[#D4D4D8]">
-                {analytics?.investigating_findings ?? 0} currently under active investigation
+              <div className="mt-2 pt-2 border-t border-[#000000]/25 text-[11px] text-[#1C1C1C] font-bold flex items-center justify-between">
+                <span>{analytics?.investigating_findings ?? 0} in progress</span>
+                <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                  CLOSED
+                </span>
               </div>
             </div>
           </div>

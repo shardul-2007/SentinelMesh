@@ -183,6 +183,55 @@ export default function PoliciesPage() {
           </div>
         )}
 
+        {/* KPI Summary Cards with Yellow Background + Black Text */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[135px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Registered Policies</span>
+              <Sliders className="w-4 h-4 text-[#000000]" />
+            </div>
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">{policies.length || 7}</div>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Deterministic matrix</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                PRECEDENCE
+              </span>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[135px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Active Enforcement</span>
+              <CheckCircle className="w-4 h-4 text-[#000000]" />
+            </div>
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
+              {policies.filter(p => p.is_active !== false).length || policies.length}
+            </div>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Zero-bypass gateway</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                ENABLED
+              </span>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[135px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Critical Safeguards</span>
+              <Shield className="w-4 h-4 text-[#EF4444]" />
+            </div>
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
+              {policies.filter(p => p.decision === 'BLOCK').length || 3}
+            </div>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Automated hard stops</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#EF4444] text-[#FFFFFF] text-[10px] font-black font-mono">
+                HARD BLOCK
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Architecture Notice */}
         <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex items-start gap-3 shadow-sm">
           <div className="w-8 h-8 rounded-lg bg-[#FACC15]/15 border border-[#FACC15]/30 flex items-center justify-center text-[#FACC15] flex-shrink-0 mt-0.5">

@@ -333,74 +333,88 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* KPI Operational Cards with Fixed Ratios and Differentiated Blocks */}
+        {/* KPI Operational Cards with Yellow Background + Black Text */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Total Events */}
-          <div className="bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
-            <div className="flex items-center justify-between text-[#D4D4D8] mb-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider">Total Evaluated Actions</span>
-              <Activity className="w-4 h-4 text-[#FACC15]" />
+          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] transition">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Total Evaluated Actions</span>
+              <Activity className="w-4 h-4 text-[#000000]" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-extrabold font-mono text-[#FFFFFF]">
+              <span className="text-3xl font-black font-mono text-[#000000]">
                 {isLoading ? '—' : (stats?.total_events ?? 0)}
               </span>
-              <span className="text-xs text-[#D4D4D8] font-semibold">actions</span>
+              <span className="text-xs text-[#1C1C1C] font-black">actions</span>
             </div>
-            <div className="mt-2 text-[11px] text-[#D4D4D8] flex items-center gap-1.5 pt-2 border-t border-[#27272A] font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FACC15] animate-ping"></span>
-              SHA-256 integrity chained
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#000000] animate-ping"></span>
+                SHA-256 chained
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                IMMUTABLE
+              </span>
             </div>
           </div>
 
           {/* Allowed Actions */}
-          <div className="bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
-            <div className="flex items-center justify-between text-[#D4D4D8] mb-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider">Permitted Actions</span>
-              <ShieldCheck className="w-4 h-4 text-[#FACC15]" />
+          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] transition">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Permitted Actions</span>
+              <ShieldCheck className="w-4 h-4 text-[#000000]" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-extrabold font-mono text-[#FACC15]">
+              <span className="text-3xl font-black font-mono text-[#000000]">
                 {isLoading ? '—' : (stats?.allowed_count ?? 0)}
               </span>
-              <span className="text-xs text-[#D4D4D8] font-semibold">ALLOW</span>
+              <span className="text-xs text-[#1C1C1C] font-black">ALLOW</span>
             </div>
-            <div className="mt-2 text-[11px] text-[#D4D4D8] pt-2 border-t border-[#27272A] font-medium">
-              Deterministic policy match
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Deterministic policy</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                ZERO BYPASS
+              </span>
             </div>
           </div>
 
           {/* Blocked Actions */}
-          <div className="bg-[#121212] border border-[#27272A] hover:border-[#EF4444]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
-            <div className="flex items-center justify-between text-[#D4D4D8] mb-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider">Blocked Operations</span>
+          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] transition">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Blocked Operations</span>
               <XCircle className="w-4 h-4 text-[#EF4444]" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-extrabold font-mono text-[#EF4444]">
+              <span className="text-3xl font-black font-mono text-[#000000]">
                 {isLoading ? '—' : (stats?.blocked_count ?? 0)}
               </span>
-              <span className="text-xs text-[#D4D4D8] font-semibold">BLOCK</span>
+              <span className="text-xs text-[#1C1C1C] font-black">BLOCK</span>
             </div>
-            <div className="mt-2 text-[11px] text-[#D4D4D8] pt-2 border-t border-[#27272A] font-medium">
-              Zero execution allowed
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Halted at gateway</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#EF4444] text-[#FFFFFF] text-[10px] font-black font-mono">
+                ENFORCED
+              </span>
             </div>
           </div>
 
           {/* Pending Approvals */}
-          <div className="bg-[#121212] border border-[#27272A] hover:border-[#F59E0B]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
-            <div className="flex items-center justify-between text-[#D4D4D8] mb-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider">Pending Approvals</span>
-              <AlertTriangle className="w-4 h-4 text-[#F59E0B]" />
+          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] transition">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Pending Approvals</span>
+              <AlertTriangle className="w-4 h-4 text-[#000000]" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-extrabold font-mono text-[#F59E0B]">
+              <span className="text-3xl font-black font-mono text-[#000000]">
                 {isLoading ? '—' : (stats?.pending_approvals_count ?? 0)}
               </span>
-              <span className="text-xs text-[#D4D4D8] font-semibold">gated</span>
+              <span className="text-xs text-[#1C1C1C] font-black">gated</span>
             </div>
-            <div className="mt-2 text-[11px] text-[#D4D4D8] pt-2 border-t border-[#27272A] font-medium">
-              Human authorization required
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Human verification</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                RESTRICTED
+              </span>
             </div>
           </div>
         </div>

@@ -191,48 +191,72 @@ export default function IntegrityCenterPage() {
           </div>
         </div>
 
-        {/* KPI Summary Cards */}
+        {/* KPI Summary Cards with Yellow Background + Black Text */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[125px]">
-            <div className="flex items-center justify-between text-[#D4D4D8] text-xs font-bold">
-              <span className="text-[11px] uppercase tracking-wider">Total Evidence Records</span>
-              <Lock className="w-4 h-4 text-[#FACC15]" />
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Total Evidence Records</span>
+              <Lock className="w-4 h-4 text-[#000000]" />
             </div>
-            <div className="text-2xl font-extrabold text-[#FFFFFF] mt-2 font-mono">{records.length}</div>
-            <p className="text-[11px] text-[#D4D4D8] mt-1 font-medium">RFC-8785 canonical digests</p>
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">{records.length}</div>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>RFC-8785 canonical</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                SHA-256
+              </span>
+            </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[125px]">
-            <div className="flex items-center justify-between text-[#D4D4D8] text-xs font-bold">
-              <span className="text-[11px] uppercase tracking-wider">Confirmed On-Chain</span>
-              <Boxes className="w-4 h-4 text-[#EF4444]" />
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Confirmed On-Chain</span>
+              <Boxes className="w-4 h-4 text-[#000000]" />
             </div>
-            <div className="text-2xl font-extrabold text-[#EF4444] mt-2 font-mono">
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {bStatus?.total_anchors ?? records.filter(r => r.anchoring_status === 'ANCHORED').length}
             </div>
-            <p className="text-[11px] text-[#D4D4D8] mt-1 font-medium">MST EvidenceRegistry commitments</p>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>MST commitments</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                VERIFIED
+              </span>
+            </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[125px]">
-            <div className="flex items-center justify-between text-[#D4D4D8] text-xs font-bold">
-              <span className="text-[11px] uppercase tracking-wider">Cryptographically Intact</span>
-              <ShieldCheck className="w-4 h-4 text-[#FACC15]" />
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Cryptographically Intact</span>
+              <ShieldCheck className="w-4 h-4 text-[#000000]" />
             </div>
-            <div className="text-2xl font-extrabold text-[#FACC15] mt-2 font-mono">
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {records.filter(r => r.verification_status === 'ANCHORED_AND_VERIFIED' || r.verification_status === 'INTACT').length}
             </div>
-            <p className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Zero divergence against audit state</p>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Zero hash divergence</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#FACC15] text-[10px] font-black font-mono">
+                MATCH
+              </span>
+            </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[125px]">
-            <div className="flex items-center justify-between text-[#D4D4D8] text-xs font-bold">
-              <span className="text-[11px] uppercase tracking-wider">Active Tamper Alerts</span>
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Active Tamper Alerts</span>
               <AlertTriangle className="w-4 h-4 text-[#EF4444]" />
             </div>
-            <div className="text-2xl font-extrabold text-[#EF4444] mt-2 font-mono">
+            <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {alerts.filter(a => a.status === 'OPEN').length}
             </div>
-            <p className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Detected evidence modifications</p>
+            <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Security deviations</span>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-black font-mono ${
+                alerts.filter(a => a.status === 'OPEN').length > 0 
+                  ? 'bg-[#EF4444] text-[#FFFFFF]' 
+                  : 'bg-[#000000] text-[#FACC15]'
+              }`}>
+                {alerts.filter(a => a.status === 'OPEN').length > 0 ? 'INVESTIGATE' : 'SECURE'}
+              </span>
+            </div>
           </div>
         </div>
 

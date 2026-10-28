@@ -166,27 +166,27 @@ export default function AuditTrailPage() {
           </div>
         </div>
 
-        {/* Governance Banner */}
-        <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+        {/* Governance Banner with Yellow Box + Black Text */}
+        <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
           <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#FACC15]/15 border border-[#FACC15]/30 flex items-center justify-center text-[#FACC15] flex-shrink-0 mt-0.5">
+            <div className="w-9 h-9 rounded-lg bg-[#000000] flex items-center justify-center text-[#FACC15] flex-shrink-0 mt-0.5">
               <Shield className="w-5 h-5" />
             </div>
             <div className="space-y-0.5">
-              <h3 className="text-sm font-bold text-[#FFFFFF] flex items-center gap-2">
+              <h3 className="text-sm font-black text-[#000000] flex items-center gap-2">
                 Append-Only Evidence Architecture
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded font-extrabold bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded font-black bg-[#000000] text-[#FACC15]">
                   TAMPER-EVIDENT
                 </span>
               </h3>
-              <p className="text-xs text-[#D4D4D8] leading-relaxed max-w-3xl">
+              <p className="text-xs text-[#1C1C1C] leading-relaxed max-w-3xl font-bold">
                 Audit records are append-only. Every evaluation is chained with SHA-256 integrity digests and can be committed to the MST EvidenceRegistry smart contract for public verification.
               </p>
             </div>
           </div>
-          <div className="flex-shrink-0 text-left md:text-right border-t md:border-t-0 pt-2 md:pt-0 border-[#27272A]">
-            <span className="text-[11px] text-[#D4D4D8] font-mono block font-bold">Indexed Records</span>
-            <span className="text-xl font-extrabold font-mono text-[#FACC15]">{total}</span>
+          <div className="flex-shrink-0 text-left md:text-right border-t md:border-t-0 pt-2 md:pt-0 border-[#000000]/25 bg-[#000000] px-4 py-2.5 rounded-xl border">
+            <span className="text-[10px] text-[#D4D4D8] font-mono block font-black uppercase">Indexed Records</span>
+            <span className="text-2xl font-black font-mono text-[#FACC15]">{total}</span>
           </div>
         </div>
 
