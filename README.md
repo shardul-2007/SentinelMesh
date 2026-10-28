@@ -1,13 +1,24 @@
 # SentinelMesh — Trust, Without Blind Faith
 
-> **Zero-Trust Security, Policy Enforcement & Blockchain-Backed Cryptographic Auditability for Autonomous AI Agents**  
-> *Final Buildathon Submission — Complete Full-Stack Platform (Phases 1–5)*
+> **Zero-Trust Security, Deterministic Policy Enforcement, Cryptographic Blockchain Anchoring, Adaptive Threat Detection, Multi-Agent Orchestration & Autonomous Governance for Autonomous AI Agents**  
+> *Complete Full-Stack Platform (Phases 1–8)*
 
+[![Live Deployment](https://img.shields.io/badge/Vercel-Live%20Platform-000000?logo=vercel&logoColor=white)](https://sentinelmesh-five.vercel.app)
+[![GitHub](https://img.shields.io/badge/GitHub-shardul--2007%2FSentinelMesh-181717?logo=github&logoColor=white)](https://github.com/shardul-2007/SentinelMesh)
 [![FastAPI](https://img.shields.io/badge/FastAPI-2.0.0-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2-black?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?logo=solidity&logoColor=white)](https://soliditylang.org)
 [![Web3.py](https://img.shields.io/badge/Web3.py-8.0.0-F16822?logo=ethereum&logoColor=white)](https://web3py.readthedocs.io)
-[![Tests](https://img.shields.io/badge/Pytest-39%20Passed-emerald)](backend/tests)
+[![Tests](https://img.shields.io/badge/Pytest-63%20Passed%20(100%25)-emerald)](backend/tests)
+
+---
+
+## 🌐 Live Deployments & Repository Links
+
+- **Production Application URL:** [https://sentinelmesh-five.vercel.app](https://sentinelmesh-five.vercel.app)
+- **Deployment Alternate URL:** [https://sentinelmesh-3x6wees20-shardulparihar2007-3775s-projects.vercel.app](https://sentinelmesh-3x6wees20-shardulparihar2007-3775s-projects.vercel.app)
+- **GitHub Repository:** [https://github.com/shardul-2007/SentinelMesh](https://github.com/shardul-2007/SentinelMesh)
+- **Vercel Project Dashboard:** [https://vercel.com/shardulparihar2007-3775s-projects/sentinelmesh](https://vercel.com/shardulparihar2007-3775s-projects/sentinelmesh)
 
 ---
 
@@ -92,6 +103,16 @@ flowchart TD
 | **Approval Center** | **Operational** | Pending review queue, risk justification, administrative approve/reject modal |
 | **Audit Trail & Evidence Export** | **Operational** | Pagination, multi-field search, filters, CSV and JSON compliance export (formula-safe) |
 | **Security Analytics Dashboard** | **Operational** | Velocity charts, decision breakdowns, agent activity summaries from persisted DB |
+| **Phase 6: Threat Detection Engine** | **Operational** | 6 deterministic rules (RULE-REP-BLK-01 to RULE-INTEG-FAIL-06) with SHA-256 deduplication |
+| **Phase 6: Agent Trust Profiles** | **Operational** | Explainable 0-100 Risk Score, factor breakdowns, INSUFFICIENT_DATA thresholds |
+| **Phase 6: Interactive Testing Lab** | **Operational** | 5 deterministic attack scenarios with 1-click state reset & negative controls |
+| **Phase 7: Multi-Agent Registry** | **Operational** | Agent registration, dynamic capability binding, operational states (`ACTIVE`, `QUARANTINED`) |
+| **Phase 7: Centralized Gateway** | **Operational** | Idempotency key tracking, automatic containment quarantine enforcement |
+| **Phase 7: Real-Time SSE Stream** | **Operational** | `/api/monitoring/stream` with 15s heartbeats, instant UI notifications |
+| **Phase 7: Incident Correlation** | **Operational** | Automatic correlation for multi-finding bursts & critical escalations |
+| **Phase 8: Provenance Chain** | **Operational** | Cryptographic verification link from Request -> Policy -> Hash -> EVM Anchor -> Findings |
+| **Phase 8: Policy Versioning** | **Operational** | Audit-logged policy change history with version pinning and side-by-side diffs |
+| **Phase 8: Governance Assurance** | **Operational** | Formula-neutralized executive compliance exports in CSV/JSON formats |
 
 ---
 
