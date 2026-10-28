@@ -51,24 +51,24 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in font-sans">
       <div 
-        className="w-full max-w-lg bg-[#2D3238] border border-[#414850] rounded-xl shadow-2xl flex flex-col overflow-hidden text-[#FFFFFF]"
+        className="w-full max-w-lg bg-[#121212] border border-[#27272A] rounded-xl shadow-2xl flex flex-col overflow-hidden text-[#FFFFFF]"
         role="dialog"
         aria-modal="true"
       >
         {/* Header */}
-        <div className="p-4 border-b border-[#414850] flex items-center justify-between bg-[#2D3238]">
+        <div className="p-4 border-b border-[#27272A] flex items-center justify-between bg-[#121212]">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-[#F59E0B]/15 border border-[#F59E0B]/30 flex items-center justify-center text-[#F59E0B]">
               <ShieldAlert className="w-4 h-4 text-[#F59E0B]" />
             </div>
             <div>
               <h3 className="text-sm font-bold text-[#FFFFFF]">Action Review &amp; Authorization</h3>
-              <p className="font-mono text-xs text-[#A0A5AD]">{event.id}</p>
+              <p className="font-mono text-xs text-[#D4D4D8]">{event.id}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-[#A0A5AD] hover:text-[#FFFFFF] hover:bg-[#353B42] transition"
+            className="p-1 rounded-lg text-[#D4D4D8] hover:text-[#FFFFFF] hover:bg-[#1C1C1C] transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -77,22 +77,22 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
         {/* Content */}
         <div className="p-5 space-y-4 text-xs">
           {/* Target details */}
-          <div className="p-3.5 rounded-lg bg-[#1A1D20] border border-[#414850] space-y-2">
+          <div className="p-3.5 rounded-lg bg-[#000000] border border-[#27272A] space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-[#A0A5AD]">Requesting Agent:</span>
+              <span className="text-[#D4D4D8]">Requesting Agent:</span>
               <span className="font-mono font-bold text-[#FFFFFF]">{event.agent_id}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[#A0A5AD]">Requested Operation:</span>
+              <span className="text-[#D4D4D8]">Requested Operation:</span>
               <span className="font-mono px-2 py-0.5 rounded bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 font-bold">
                 {event.action_type}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[#A0A5AD]">Target Resource:</span>
-              <span className="font-mono text-[#00FA9A] break-all text-right max-w-[260px] select-all font-semibold">{event.resource}</span>
+              <span className="text-[#D4D4D8]">Target Resource:</span>
+              <span className="font-mono text-[#FACC15] break-all text-right max-w-[260px] select-all font-semibold">{event.resource}</span>
             </div>
-            <div className="pt-2 border-t border-[#414850] text-[11px] text-[#A0A5AD]">
+            <div className="pt-2 border-t border-[#27272A] text-[11px] text-[#D4D4D8]">
               <span className="font-bold text-[#FFFFFF]">Policy Trigger:</span> {event.reason}
             </div>
           </div>
@@ -101,7 +101,7 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
           <div className="space-y-3">
             <div>
               <label className="flex items-center gap-1.5 text-xs font-bold text-[#FFFFFF] mb-1">
-                <Key className="w-3.5 h-3.5 text-[#00FA9A]" />
+                <Key className="w-3.5 h-3.5 text-[#FACC15]" />
                 Administrative Auth Key (Required)
               </label>
               <input
@@ -109,7 +109,7 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
                 value={adminKey}
                 onChange={(e) => setAdminKey(e.target.value)}
                 placeholder="Enter admin authorization key"
-                className="w-full px-3 py-1.5 rounded-lg bg-[#1A1D20] border border-[#414850] text-[#FFFFFF] text-xs font-mono focus:border-[#00FA9A] focus:outline-none placeholder-[#A0A5AD]"
+                className="w-full px-3 py-1.5 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] text-xs font-mono focus:border-[#FACC15] focus:outline-none placeholder-[#D4D4D8]"
               />
             </div>
 
@@ -119,7 +119,7 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
                 type="text"
                 value={approverId}
                 onChange={(e) => setApproverId(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-lg bg-[#1A1D20] border border-[#414850] text-[#FFFFFF] text-xs focus:border-[#00FA9A] focus:outline-none"
+                className="w-full px-3 py-1.5 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] text-xs focus:border-[#FACC15] focus:outline-none"
               />
             </div>
 
@@ -130,13 +130,13 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
                 onChange={(e) => setNote(e.target.value)}
                 rows={2}
                 placeholder="Specify justification or conditions for this decision"
-                className="w-full px-3 py-1.5 rounded-lg bg-[#1A1D20] border border-[#414850] text-[#FFFFFF] text-xs focus:border-[#00FA9A] focus:outline-none resize-none placeholder-[#A0A5AD]"
+                className="w-full px-3 py-1.5 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] text-xs focus:border-[#FACC15] focus:outline-none resize-none placeholder-[#D4D4D8]"
               />
             </div>
           </div>
 
           {/* Execution Isolation Notice */}
-          <div className="p-3 rounded-lg bg-[#1A1D20] border border-[#414850] text-[11px] text-[#A0A5AD] flex items-start gap-2">
+          <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A] text-[11px] text-[#D4D4D8] flex items-start gap-2">
             <AlertTriangle className="w-4 h-4 text-[#F59E0B] flex-shrink-0 mt-0.5" />
             <span>
               Execution Isolation Guardrail: Approved operations run strictly within an isolated containment environment. Destructive commands will never execute against unconstrained external infrastructure.
@@ -160,11 +160,11 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
         </div>
 
         {/* Footer */}
-        <div className="p-3 border-t border-[#414850] bg-[#2D3238] flex items-center justify-end gap-2">
+        <div className="p-3 border-t border-[#27272A] bg-[#121212] flex items-center justify-end gap-2">
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#A0A5AD] hover:text-[#FFFFFF] hover:bg-[#353B42] transition disabled:opacity-50"
+            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#D4D4D8] hover:text-[#FFFFFF] hover:bg-[#1C1C1C] transition disabled:opacity-50"
           >
             Cancel
           </button>
@@ -179,9 +179,9 @@ export function ApprovalModal({ event, isOpen, onClose, onDecisionSubmitted }: A
           <button
             onClick={() => handleSubmit('APPROVED')}
             disabled={isLoading || !permissions.canApprove}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold text-[#1A1D20] bg-[#00FA9A] hover:bg-[#00E58B] transition disabled:opacity-40 shadow-sm"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold text-[#000000] bg-[#FACC15] hover:bg-[#EAB308] transition disabled:opacity-40 shadow-sm"
           >
-            <CheckCircle className="w-3.5 h-3.5 text-[#1A1D20]" />
+            <CheckCircle className="w-3.5 h-3.5 text-[#000000]" />
             <span>Authorize (Simulated)</span>
           </button>
         </div>

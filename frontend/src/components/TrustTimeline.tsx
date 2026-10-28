@@ -138,7 +138,7 @@ export function TrustTimeline({
     switch (status) {
       case 'COMPLETED':
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-[#00FA9A] bg-[#00FA9A]/15 border border-[#00FA9A]/30 px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-[#FACC15] bg-[#FACC15]/15 border border-[#FACC15]/30 px-2 py-0.5 rounded-full">
             <Check className="w-3 h-3" />
             VERIFIED
           </span>
@@ -160,7 +160,7 @@ export function TrustTimeline({
       case 'PENDING':
       default:
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#A0A5AD] bg-[#1A1D20] border border-[#414850] px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#D4D4D8] bg-[#000000] border border-[#27272A] px-2 py-0.5 rounded-full">
             QUEUED
           </span>
         );
@@ -172,20 +172,20 @@ export function TrustTimeline({
   };
 
   return (
-    <div className="mst-card p-4 sm:p-5 rounded-xl bg-[#2D3238] border border-[#414850] shadow-xl space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#414850]">
+    <div className="mst-card p-4 sm:p-5 rounded-xl bg-[#121212] border border-[#27272A] shadow-xl space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#27272A]">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30 flex items-center justify-center">
-            <ShieldCheck className="w-4 h-4 text-[#00FA9A]" />
+          <div className="w-8 h-8 rounded-lg bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 flex items-center justify-center">
+            <ShieldCheck className="w-4 h-4 text-[#FACC15]" />
           </div>
           <div>
             <h3 className="text-sm font-extrabold text-[#FFFFFF]">Trust Timeline &amp; Evidence Provenance</h3>
-            <p className="text-[11px] text-[#A0A5AD]">
+            <p className="text-[11px] text-[#D4D4D8]">
               End-to-end cryptographic journey: Action &rarr; Policy &rarr; Digest &rarr; MST Blockchain &rarr; Verification
             </p>
           </div>
         </div>
-        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1A1D20] text-[#00FA9A] border border-[#414850] w-fit font-bold">
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#000000] text-[#FACC15] border border-[#27272A] w-fit font-bold">
           RFC-8785 Canonical Chain
         </span>
       </div>
@@ -202,7 +202,7 @@ export function TrustTimeline({
               {!isLast && (
                 <div 
                   className={`absolute left-4 top-8 bottom-[-14px] w-0.5 transition-colors ${
-                    step.status === 'COMPLETED' ? 'bg-[#00FA9A]/40' : 'bg-[#414850]'
+                    step.status === 'COMPLETED' ? 'bg-[#FACC15]/40' : 'bg-[#27272A]'
                   }`}
                   aria-hidden="true"
                 />
@@ -211,10 +211,10 @@ export function TrustTimeline({
               <div 
                 className={`p-3 sm:p-3.5 rounded-lg border transition-all duration-200 cursor-pointer ${
                   step.status === 'COMPLETED'
-                    ? 'bg-[#1A1D20] border-[#414850] hover:border-[#00FA9A]/40'
+                    ? 'bg-[#000000] border-[#27272A] hover:border-[#FACC15]/40'
                     : step.status === 'BLOCKED'
                     ? 'bg-[#EF4444]/15 border-[#EF4444]/30'
-                    : 'bg-[#1A1D20]/60 border-[#414850]/60'
+                    : 'bg-[#000000]/60 border-[#27272A]/60'
                 }`}
                 onClick={() => toggleExpand(step.id)}
               >
@@ -223,10 +223,10 @@ export function TrustTimeline({
                     {/* Step Icon Badge */}
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-xs flex-shrink-0 border ${
                       step.status === 'COMPLETED'
-                        ? 'bg-[#00FA9A]/20 text-[#00FA9A] border-[#00FA9A]/40'
+                        ? 'bg-[#FACC15]/20 text-[#FACC15] border-[#FACC15]/40'
                         : step.status === 'BLOCKED'
                         ? 'bg-[#EF4444]/20 text-[#EF4444] border-[#EF4444]/40'
-                        : 'bg-[#2D3238] text-[#A0A5AD] border-[#414850]'
+                        : 'bg-[#121212] text-[#D4D4D8] border-[#27272A]'
                     }`}>
                       {step.number}
                     </div>
@@ -236,36 +236,36 @@ export function TrustTimeline({
                         <span className="text-xs font-bold text-[#FFFFFF]">{step.title}</span>
                         {getStatusBadge(step.status)}
                       </div>
-                      <p className="text-[11px] text-[#A0A5AD] mt-0.5">{step.subtitle}</p>
+                      <p className="text-[11px] text-[#D4D4D8] mt-0.5">{step.subtitle}</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 flex-shrink-0 text-[#A0A5AD] hover:text-[#FFFFFF]">
+                  <div className="flex items-center gap-2 flex-shrink-0 text-[#D4D4D8] hover:text-[#FFFFFF]">
                     <span className="text-[10px] hidden sm:inline">Details</span>
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-[#00FA9A]' : ''}`} />
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-[#FACC15]' : ''}`} />
                   </div>
                 </div>
 
                 {/* Expanded Details Drawer */}
                 {isExpanded && (
-                  <div className="mt-3 pt-3 border-t border-[#414850] grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono animate-fade-in">
+                  <div className="mt-3 pt-3 border-t border-[#27272A] grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono animate-fade-in">
                     {step.details.map((d, dIdx) => (
-                      <div key={dIdx} className="p-2 rounded bg-[#2D3238] border border-[#414850] flex flex-col justify-between">
-                        <span className="text-[10px] text-[#A0A5AD] uppercase font-sans font-bold">{d.label}:</span>
+                      <div key={dIdx} className="p-2 rounded bg-[#121212] border border-[#27272A] flex flex-col justify-between">
+                        <span className="text-[10px] text-[#D4D4D8] uppercase font-sans font-bold">{d.label}:</span>
                         <div className="truncate mt-0.5">
                           {d.link ? (
                             <a
                               href={d.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#00FA9A] hover:underline flex items-center gap-1 font-bold"
+                              className="text-[#FACC15] hover:underline flex items-center gap-1 font-bold"
                               onClick={(e) => e.stopPropagation()}
                             >
                               <span className="truncate">{d.value}</span>
-                              <ExternalLink className="w-3 h-3 flex-shrink-0 text-[#00FA9A]" />
+                              <ExternalLink className="w-3 h-3 flex-shrink-0 text-[#FACC15]" />
                             </a>
                           ) : (
-                            <span className={d.isCode ? 'text-[#00FA9A] font-bold' : 'text-[#FFFFFF]'}>{d.value}</span>
+                            <span className={d.isCode ? 'text-[#FACC15] font-bold' : 'text-[#FFFFFF]'}>{d.value}</span>
                           )}
                         </div>
                       </div>

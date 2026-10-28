@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-[#111317] text-[#F8FAFC] min-h-screen font-sans antialiased">
+      <body className="bg-[#000000] text-[#FFFFFF] min-h-screen font-sans antialiased">
         <Web3WalletProvider>
           <RBACProvider>
             <AppShell>

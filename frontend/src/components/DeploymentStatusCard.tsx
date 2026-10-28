@@ -65,131 +65,131 @@ export function DeploymentStatusCard() {
   return (
     <div className="space-y-4 font-sans">
       {/* Title */}
-      <div className="flex items-center justify-between pb-2 border-b border-[#414850]">
+      <div className="flex items-center justify-between pb-2 border-b border-[#27272A]">
         <div className="flex items-center gap-2">
-          <Activity className="w-4 h-4 text-[#00FA9A]" />
+          <Activity className="w-4 h-4 text-[#FACC15]" />
           <h3 className="text-sm font-extrabold text-[#FFFFFF]">Deployment &amp; Blockchain Status</h3>
         </div>
-        <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30 font-bold">
+        <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 font-bold">
           OFFICIAL MST AUDIT CHECKLIST
         </span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Card 1: MST Testnet */}
-        <div className="bg-[#2D3238] border border-[#414850] p-4 rounded-xl flex flex-col justify-between shadow-lg space-y-3 min-h-[360px]">
+        <div className="bg-[#121212] border border-[#27272A] p-4 rounded-xl flex flex-col justify-between shadow-lg space-y-3 min-h-[360px]">
           <div>
-            <div className="flex items-center justify-between pb-2 border-b border-[#414850]">
+            <div className="flex items-center justify-between pb-2 border-b border-[#27272A]">
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#00FA9A] animate-ping"></span>
+                <span className="w-2 h-2 rounded-full bg-[#FACC15] animate-ping"></span>
                 <span className="text-xs font-extrabold text-[#FFFFFF]">{testnetData.network}</span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30 font-extrabold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 font-extrabold">
                 {testnetData.readbackVerification}
               </span>
             </div>
 
             <div className="space-y-2 mt-3 text-xs">
               <div className="flex justify-between items-center">
-                <span className="text-[#A0A5AD]">Chain ID:</span>
-                <span className="font-mono text-[#00FA9A] font-bold">{testnetData.chainId}</span>
+                <span className="text-[#D4D4D8]">Chain ID:</span>
+                <span className="font-mono text-[#FACC15] font-bold">{testnetData.chainId}</span>
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-[#A0A5AD]">RPC URL:</span>
+                <span className="text-[#D4D4D8]">RPC URL:</span>
                 <span className="font-mono text-[11px] text-[#FFFFFF] truncate max-w-[170px]" title={testnetData.rpcUrl}>
                   {testnetData.rpcUrl}
                 </span>
               </div>
 
-              <div className="space-y-0.5 pt-1 border-t border-[#414850]">
+              <div className="space-y-0.5 pt-1 border-t border-[#27272A]">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#A0A5AD] text-[11px]">Contract Address:</span>
+                  <span className="text-[#D4D4D8] text-[11px]">Contract Address:</span>
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => handleCopy(testnetData.contractAddress, 'contract')}
-                      className="p-1 rounded text-[#A0A5AD] hover:text-[#00FA9A] transition"
+                      className="p-1 rounded text-[#D4D4D8] hover:text-[#FACC15] transition"
                       title="Copy contract address"
                     >
-                      {copiedKey === 'contract' ? <Check className="w-3 h-3 text-[#00FA9A]" /> : <Copy className="w-3 h-3 text-[#A0A5AD]" />}
+                      {copiedKey === 'contract' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3 text-[#D4D4D8]" />}
                     </button>
                     <a
                       href={`${testnetData.explorer}/address/${testnetData.contractAddress}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#00FA9A] hover:underline"
+                      className="text-[#FACC15] hover:underline"
                     >
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
                 </div>
-                <div className="font-mono text-[10px] text-[#00FA9A] break-all bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850] font-semibold">
+                <div className="font-mono text-[10px] text-[#FACC15] break-all bg-[#000000] p-1.5 rounded-lg border border-[#27272A] font-semibold">
                   {testnetData.contractAddress}
                 </div>
               </div>
 
               <div className="space-y-0.5 pt-1">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#A0A5AD] text-[11px]">Backend Signer Account:</span>
+                  <span className="text-[#D4D4D8] text-[11px]">Backend Signer Account:</span>
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => handleCopy(testnetData.signerAddress, 'signer')}
-                      className="p-1 rounded text-[#A0A5AD] hover:text-[#00FA9A] transition"
+                      className="p-1 rounded text-[#D4D4D8] hover:text-[#FACC15] transition"
                       title="Copy signer address"
                     >
-                      {copiedKey === 'signer' ? <Check className="w-3 h-3 text-[#00FA9A]" /> : <Copy className="w-3 h-3 text-[#A0A5AD]" />}
+                      {copiedKey === 'signer' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3 text-[#D4D4D8]" />}
                     </button>
                     <a
                       href={`${testnetData.explorer}/address/${testnetData.signerAddress}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#00FA9A] hover:underline"
+                      className="text-[#FACC15] hover:underline"
                     >
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
                 </div>
-                <div className="font-mono text-[10px] text-[#A0A5AD] truncate bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]" title={testnetData.signerAddress}>
+                <div className="font-mono text-[10px] text-[#D4D4D8] truncate bg-[#000000] p-1.5 rounded-lg border border-[#27272A]" title={testnetData.signerAddress}>
                   {testnetData.signerAddress}
                 </div>
               </div>
 
               <div className="space-y-0.5 pt-1">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#A0A5AD] text-[11px]">Signer Gas Balance:</span>
+                  <span className="text-[#D4D4D8] text-[11px]">Signer Gas Balance:</span>
                   <a
                     href={testnetData.faucetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[10px] font-bold text-[#00FA9A] hover:underline flex items-center gap-0.5"
+                    className="text-[10px] font-bold text-[#FACC15] hover:underline flex items-center gap-0.5"
                   >
                     <span>Claim Faucet</span>
                     <ExternalLink className="w-2.5 h-2.5" />
                   </a>
                 </div>
-                <div className="font-mono text-[10px] text-[#F59E0B] font-semibold bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]">
+                <div className="font-mono text-[10px] text-[#F59E0B] font-semibold bg-[#000000] p-1.5 rounded-lg border border-[#27272A]">
                   {testnetData.signerBalance}
                 </div>
               </div>
 
               <div className="space-y-0.5 pt-1">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#A0A5AD] text-[11px]">Contract Verification:</span>
-                  <span className="text-[10px] font-mono text-[#00FA9A] font-bold">27/27 Tests OK</span>
+                  <span className="text-[#D4D4D8] text-[11px]">Contract Verification:</span>
+                  <span className="text-[10px] font-mono text-[#FACC15] font-bold">27/27 Tests OK</span>
                 </div>
-                <div className="font-mono text-[10px] text-[#FFFFFF] bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]">
+                <div className="font-mono text-[10px] text-[#FFFFFF] bg-[#000000] p-1.5 rounded-lg border border-[#27272A]">
                   EvidenceRegistry.sol (Solidity 0.8.20)
                 </div>
               </div>
 
               <div className="flex justify-between items-center pt-1 text-[11px]">
-                <span className="text-[#A0A5AD]">Active Benchmark ID:</span>
+                <span className="text-[#D4D4D8]">Active Benchmark ID:</span>
                 <span className="font-mono text-[#FFFFFF] font-semibold">{testnetData.evidenceId}</span>
               </div>
 
               <div className="flex justify-between items-center text-[11px]">
-                <span className="text-[#A0A5AD]">Evidence SHA-256:</span>
-                <span className="font-mono text-[#00FA9A] font-semibold" title={testnetData.evidenceSha256}>
+                <span className="text-[#D4D4D8]">Evidence SHA-256:</span>
+                <span className="font-mono text-[#FACC15] font-semibold" title={testnetData.evidenceSha256}>
                   {testnetData.evidenceSha256.slice(0, 10)}...{testnetData.evidenceSha256.slice(-6)}
                 </span>
               </div>
@@ -200,7 +200,7 @@ export function DeploymentStatusCard() {
             href={testnetData.explorer}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-1.5 px-3 rounded-lg text-xs font-bold text-center bg-[#00FA9A]/15 border border-[#00FA9A]/30 text-[#00FA9A] hover:bg-[#00FA9A]/25 transition flex items-center justify-center gap-1.5"
+            className="w-full py-1.5 px-3 rounded-lg text-xs font-bold text-center bg-[#FACC15]/15 border border-[#FACC15]/30 text-[#FACC15] hover:bg-[#FACC15]/25 transition flex items-center justify-center gap-1.5"
           >
             <span>Open MSTScan Testnet</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -208,55 +208,55 @@ export function DeploymentStatusCard() {
         </div>
 
         {/* Card 2: MST Mainnet */}
-        <div className="bg-[#2D3238] border border-[#414850] p-4 rounded-xl flex flex-col justify-between shadow-lg space-y-3 min-h-[360px]">
+        <div className="bg-[#121212] border border-[#27272A] p-4 rounded-xl flex flex-col justify-between shadow-lg space-y-3 min-h-[360px]">
           <div>
-            <div className="flex items-center justify-between pb-2 border-b border-[#414850]">
+            <div className="flex items-center justify-between pb-2 border-b border-[#27272A]">
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#38BDF8]"></span>
+                <span className="w-2 h-2 rounded-full bg-[#EF4444]"></span>
                 <span className="text-xs font-extrabold text-[#FFFFFF]">{mainnetData.network}</span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 font-extrabold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 font-extrabold">
                 {mainnetData.verificationStatus}
               </span>
             </div>
 
             <div className="space-y-2 mt-3 text-xs">
               <div className="flex justify-between items-center">
-                <span className="text-[#A0A5AD]">Chain ID:</span>
-                <span className="font-mono text-[#38BDF8] font-bold">{mainnetData.chainId}</span>
+                <span className="text-[#D4D4D8]">Chain ID:</span>
+                <span className="font-mono text-[#EF4444] font-bold">{mainnetData.chainId}</span>
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-[#A0A5AD]">RPC URL:</span>
+                <span className="text-[#D4D4D8]">RPC URL:</span>
                 <span className="font-mono text-[11px] text-[#FFFFFF] truncate max-w-[170px]" title={mainnetData.rpcUrl}>
                   {mainnetData.rpcUrl}
                 </span>
               </div>
 
-              <div className="space-y-0.5 pt-1 border-t border-[#414850]">
+              <div className="space-y-0.5 pt-1 border-t border-[#27272A]">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#A0A5AD] text-[11px]">Contract Address:</span>
-                  <span className="text-[10px] font-mono text-[#38BDF8] bg-[#38BDF8]/15 px-1.5 py-0.5 rounded border border-[#38BDF8]/30 font-bold">
+                  <span className="text-[#D4D4D8] text-[11px]">Contract Address:</span>
+                  <span className="text-[10px] font-mono text-[#EF4444] bg-[#EF4444]/15 px-1.5 py-0.5 rounded border border-[#EF4444]/30 font-bold">
                     {mainnetData.contractAddress}
                   </span>
                 </div>
-                <div className="text-[11px] text-[#A0A5AD] bg-[#1A1D20] p-2 rounded-lg border border-[#414850] leading-relaxed">
+                <div className="text-[11px] text-[#D4D4D8] bg-[#000000] p-2 rounded-lg border border-[#27272A] leading-relaxed">
                   {mainnetData.policyNotice}
                 </div>
               </div>
 
               <div className="flex justify-between items-center pt-2 text-[11px]">
-                <span className="text-[#A0A5AD]">Deployment Tx:</span>
-                <span className="font-mono text-[#A0A5AD]">{mainnetData.deploymentTxHash}</span>
+                <span className="text-[#D4D4D8]">Deployment Tx:</span>
+                <span className="font-mono text-[#D4D4D8]">{mainnetData.deploymentTxHash}</span>
               </div>
 
               <div className="flex justify-between items-center text-[11px]">
-                <span className="text-[#A0A5AD]">Verification Status:</span>
-                <span className="font-mono text-[#38BDF8] font-bold">{mainnetData.verificationStatus}</span>
+                <span className="text-[#D4D4D8]">Verification Status:</span>
+                <span className="font-mono text-[#EF4444] font-bold">{mainnetData.verificationStatus}</span>
               </div>
 
-              <div className="p-2.5 rounded-lg bg-[#38BDF8]/10 border border-[#38BDF8]/20 text-[11px] text-[#A0A5AD] leading-snug">
-                <strong className="text-[#38BDF8]">Mainnet Rule:</strong> Deploy and anchor on Mainnet only after Testnet verification and explicit authorization.
+              <div className="p-2.5 rounded-lg bg-[#EF4444]/10 border border-[#EF4444]/20 text-[11px] text-[#D4D4D8] leading-snug">
+                <strong className="text-[#EF4444]">Mainnet Rule:</strong> Deploy and anchor on Mainnet only after Testnet verification and explicit authorization.
               </div>
             </div>
           </div>
@@ -265,7 +265,7 @@ export function DeploymentStatusCard() {
             href={mainnetData.explorer}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-1.5 px-3 rounded-lg text-xs font-bold text-center bg-[#38BDF8]/15 border border-[#38BDF8]/30 text-[#38BDF8] hover:bg-[#38BDF8]/25 transition flex items-center justify-center gap-1.5"
+            className="w-full py-1.5 px-3 rounded-lg text-xs font-bold text-center bg-[#EF4444]/15 border border-[#EF4444]/30 text-[#EF4444] hover:bg-[#EF4444]/25 transition flex items-center justify-center gap-1.5"
           >
             <span>Open MSTScan Mainnet</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -273,69 +273,69 @@ export function DeploymentStatusCard() {
         </div>
 
         {/* Card 3: Application & Source Code */}
-        <div className="bg-[#2D3238] border border-[#414850] p-4 rounded-xl flex flex-col justify-between shadow-lg space-y-3 min-h-[360px]">
+        <div className="bg-[#121212] border border-[#27272A] p-4 rounded-xl flex flex-col justify-between shadow-lg space-y-3 min-h-[360px]">
           <div>
-            <div className="flex items-center justify-between pb-2 border-b border-[#414850]">
+            <div className="flex items-center justify-between pb-2 border-b border-[#27272A]">
               <div className="flex items-center gap-1.5">
-                <Globe className="w-3.5 h-3.5 text-[#00FA9A]" />
+                <Globe className="w-3.5 h-3.5 text-[#FACC15]" />
                 <span className="text-xs font-extrabold text-[#FFFFFF]">Application &amp; Source Code</span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30 font-extrabold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 font-extrabold">
                 PRODUCTION LIVE
               </span>
             </div>
 
             <div className="space-y-2 mt-3 text-xs">
               <div className="space-y-0.5">
-                <span className="text-[#A0A5AD] text-[11px]">Live Application URL:</span>
-                <div className="flex items-center justify-between bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]">
+                <span className="text-[#D4D4D8] text-[11px]">Live Application URL:</span>
+                <div className="flex items-center justify-between bg-[#000000] p-1.5 rounded-lg border border-[#27272A]">
                   <a
                     href={appData.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[#00FA9A] hover:underline truncate text-[11px] font-bold"
+                    className="font-mono text-[#FACC15] hover:underline truncate text-[11px] font-bold"
                   >
                     {appData.liveUrl}
                   </a>
                   <button
                     onClick={() => handleCopy(appData.liveUrl, 'liveUrl')}
-                    className="p-1 rounded text-[#A0A5AD] hover:text-[#00FA9A] transition"
+                    className="p-1 rounded text-[#D4D4D8] hover:text-[#FACC15] transition"
                   >
-                    {copiedKey === 'liveUrl' ? <Check className="w-3 h-3 text-[#00FA9A]" /> : <Copy className="w-3 h-3 text-[#A0A5AD]" />}
+                    {copiedKey === 'liveUrl' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3 text-[#D4D4D8]" />}
                   </button>
                 </div>
               </div>
 
               <div className="space-y-0.5">
-                <span className="text-[#A0A5AD] text-[11px]">Public GitHub Repository:</span>
-                <div className="flex items-center justify-between bg-[#1A1D20] p-1.5 rounded-lg border border-[#414850]">
+                <span className="text-[#D4D4D8] text-[11px]">Public GitHub Repository:</span>
+                <div className="flex items-center justify-between bg-[#000000] p-1.5 rounded-lg border border-[#27272A]">
                   <a
                     href={appData.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[#00FA9A] hover:underline truncate text-[11px] font-bold"
+                    className="font-mono text-[#FACC15] hover:underline truncate text-[11px] font-bold"
                   >
                     {appData.repoUrl}
                   </a>
                   <button
                     onClick={() => handleCopy(appData.repoUrl, 'repoUrl')}
-                    className="p-1 rounded text-[#A0A5AD] hover:text-[#00FA9A] transition"
+                    className="p-1 rounded text-[#D4D4D8] hover:text-[#FACC15] transition"
                   >
-                    {copiedKey === 'repoUrl' ? <Check className="w-3 h-3 text-[#00FA9A]" /> : <Copy className="w-3 h-3 text-[#A0A5AD]" />}
+                    {copiedKey === 'repoUrl' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3 text-[#D4D4D8]" />}
                   </button>
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-1 border-t border-[#414850]">
-                <span className="text-[#A0A5AD]">BridgeKey Integration:</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30 font-bold">
+              <div className="flex justify-between items-center pt-1 border-t border-[#27272A]">
+                <span className="text-[#D4D4D8]">BridgeKey Integration:</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 font-bold">
                   {appData.bridgeKeyStatus}
                 </span>
               </div>
 
               <div className="space-y-0.5 pt-1">
-                <span className="text-[#A0A5AD] text-[11px]">Last End-to-End Test:</span>
-                <div className="text-[10px] font-mono text-[#FFFFFF] bg-[#1A1D20] p-2 rounded-lg border border-[#414850] leading-relaxed">
+                <span className="text-[#D4D4D8] text-[11px]">Last End-to-End Test:</span>
+                <div className="text-[10px] font-mono text-[#FFFFFF] bg-[#000000] p-2 rounded-lg border border-[#27272A] leading-relaxed">
                   {appData.lastTest}
                 </div>
               </div>
@@ -346,9 +346,9 @@ export function DeploymentStatusCard() {
             href={appData.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-1.5 px-3 rounded-lg text-xs font-bold text-center bg-[#1A1D20] border border-[#414850] hover:bg-[#353B42] text-[#FFFFFF] transition flex items-center justify-center gap-1.5"
+            className="w-full py-1.5 px-3 rounded-lg text-xs font-bold text-center bg-[#000000] border border-[#27272A] hover:bg-[#1C1C1C] text-[#FFFFFF] transition flex items-center justify-center gap-1.5"
           >
-            <GitBranch className="w-3.5 h-3.5 text-[#00FA9A]" />
+            <GitBranch className="w-3.5 h-3.5 text-[#FACC15]" />
             <span>View Public Repository</span>
           </a>
         </div>

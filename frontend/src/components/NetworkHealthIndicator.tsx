@@ -53,77 +53,77 @@ export function NetworkHealthIndicator() {
   const blockNum = status?.latest_block || 1428594;
 
   return (
-    <div className="mst-card p-4 sm:p-5 rounded-xl bg-[#2D3238] border border-[#414850] shadow-xl space-y-3">
-      <div className="flex items-center justify-between pb-3 border-b border-[#414850]">
+    <div className="mst-card p-4 sm:p-5 rounded-xl bg-[#121212] border border-[#27272A] shadow-xl space-y-3">
+      <div className="flex items-center justify-between pb-3 border-b border-[#27272A]">
         <div className="flex items-center gap-2">
-          <Wifi className="w-4 h-4 text-[#00FA9A]" />
+          <Wifi className="w-4 h-4 text-[#FACC15]" />
           <h3 className="text-sm font-extrabold text-[#FFFFFF]">MST Network Health &amp; RPC Telemetry</h3>
         </div>
         <button
           type="button"
           onClick={probeNetwork}
           disabled={isLoading}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#1A1D20] hover:bg-[#353B42] text-[11px] font-bold text-[#FFFFFF] border border-[#414850] hover:border-[#00FA9A]/40 transition"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#000000] hover:bg-[#1C1C1C] text-[11px] font-bold text-[#FFFFFF] border border-[#27272A] hover:border-[#FACC15]/40 transition"
         >
-          <RefreshCw className={`w-3 h-3 text-[#00FA9A] ${isLoading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-3 h-3 text-[#FACC15] ${isLoading ? 'animate-spin' : ''}`} />
           <span>Probe RPC</span>
         </button>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-        <div className="p-3 rounded-lg bg-[#1A1D20] border border-[#414850]">
-          <span className="text-[10px] text-[#A0A5AD] uppercase font-mono block mb-1 font-bold">Network Status</span>
+        <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A]">
+          <span className="text-[10px] text-[#D4D4D8] uppercase font-mono block mb-1 font-bold">Network Status</span>
           <div className="flex items-center gap-1.5 font-extrabold font-mono">
-            <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-[#00FA9A] animate-pulse' : 'bg-[#EF4444]'}`}></span>
-            <span className={isConnected ? 'text-[#00FA9A]' : 'text-[#EF4444]'}>
+            <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-[#FACC15] animate-pulse' : 'bg-[#EF4444]'}`}></span>
+            <span className={isConnected ? 'text-[#FACC15]' : 'text-[#EF4444]'}>
               {isConnected ? 'ONLINE' : 'DEGRADED'}
             </span>
           </div>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#1A1D20] border border-[#414850]">
-          <span className="text-[10px] text-[#A0A5AD] uppercase font-mono block mb-1 font-bold">Chain ID</span>
-          <span className="font-extrabold font-mono text-[#00FA9A] text-sm">
+        <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A]">
+          <span className="text-[10px] text-[#D4D4D8] uppercase font-mono block mb-1 font-bold">Chain ID</span>
+          <span className="font-extrabold font-mono text-[#FACC15] text-sm">
             {status?.detected_chain_id || 91562037}
           </span>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#1A1D20] border border-[#414850]">
-          <span className="text-[10px] text-[#A0A5AD] uppercase font-mono block mb-1 font-bold">Latest Block</span>
+        <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A]">
+          <span className="text-[10px] text-[#D4D4D8] uppercase font-mono block mb-1 font-bold">Latest Block</span>
           <span className="font-extrabold font-mono text-[#FFFFFF] text-sm">
             #{blockNum.toLocaleString()}
           </span>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#1A1D20] border border-[#414850]">
-          <span className="text-[10px] text-[#A0A5AD] uppercase font-mono block mb-1 font-bold">RPC Latency</span>
-          <span className="font-extrabold font-mono text-[#00FA9A] text-sm">
+        <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A]">
+          <span className="text-[10px] text-[#D4D4D8] uppercase font-mono block mb-1 font-bold">RPC Latency</span>
+          <span className="font-extrabold font-mono text-[#FACC15] text-sm">
             {latencyMs !== null ? `${latencyMs}ms` : '38ms'}
           </span>
         </div>
       </div>
 
-      <div className="p-3 rounded-lg bg-[#1A1D20] border border-[#414850] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+      <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-[#A0A5AD] text-[11px] font-sans">EvidenceRegistry:</span>
-          <code className="text-[#00FA9A] font-mono text-[11px] truncate font-bold">{contractAddr}</code>
+          <span className="text-[#D4D4D8] text-[11px] font-sans">EvidenceRegistry:</span>
+          <code className="text-[#FACC15] font-mono text-[11px] truncate font-bold">{contractAddr}</code>
           <button
             type="button"
             onClick={() => handleCopy(contractAddr)}
-            className="text-[#A0A5AD] hover:text-[#FFFFFF] transition p-0.5"
+            className="text-[#D4D4D8] hover:text-[#FFFFFF] transition p-0.5"
             title="Copy contract address"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-[#00FA9A]" /> : <Copy className="w-3.5 h-3.5 text-[#A0A5AD]" />}
+            {copied ? <Check className="w-3.5 h-3.5 text-[#FACC15]" /> : <Copy className="w-3.5 h-3.5 text-[#D4D4D8]" />}
           </button>
         </div>
         <a
           href={`https://testnet.mstscan.com/address/${contractAddr}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[#00FA9A] hover:underline flex items-center gap-1 font-sans text-[11px] flex-shrink-0 font-bold"
+          className="text-[#FACC15] hover:underline flex items-center gap-1 font-sans text-[11px] flex-shrink-0 font-bold"
         >
           <span>View on MSTScan</span>
-          <ExternalLink className="w-3 h-3 text-[#00FA9A]" />
+          <ExternalLink className="w-3 h-3 text-[#FACC15]" />
         </a>
       </div>
     </div>

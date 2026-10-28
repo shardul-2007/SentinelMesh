@@ -31,7 +31,7 @@ export function AppShell({ children }: AppShellProps) {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#1A1D20] text-[#FFFFFF] font-sans">
+    <div className="flex min-h-screen bg-[#000000] text-[#FFFFFF] font-sans">
       {/* Navigation Rail (Collapsible Desktop + Accessible Mobile Drawer) */}
       <Sidebar 
         mobileOpen={mobileNavOpen} 
@@ -46,33 +46,33 @@ export function AppShell({ children }: AppShellProps) {
         <DemoModeIndicator />
 
         {/* Mobile Header Bar (<1024px) */}
-        <header className="lg:hidden h-14 bg-[#2D3238] text-[#FFFFFF] px-4 flex items-center justify-between border-b border-[#414850] sticky top-0 z-30 shadow-md">
+        <header className="lg:hidden h-14 bg-[#121212] text-[#FFFFFF] px-4 flex items-center justify-between border-b border-[#27272A] sticky top-0 z-30 shadow-md">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileNavOpen(true)}
-              className="p-2 rounded-lg text-[#A0A5AD] hover:text-[#FFFFFF] hover:bg-[#353B42] border border-[#414850] transition min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-[#00FA9A]"
+              className="p-2 rounded-lg text-[#D4D4D8] hover:text-[#FFFFFF] hover:bg-[#1C1C1C] border border-[#27272A] transition min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-[#FACC15]"
               aria-label="Open navigation menu"
             >
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#00FA9A]/15 border border-[#00FA9A]/30 flex items-center justify-center text-[#00FA9A]">
-                <Shield className="w-4 h-4 text-[#00FA9A]" />
+              <div className="w-8 h-8 rounded-lg bg-[#FACC15]/15 border border-[#FACC15]/30 flex items-center justify-center text-[#FACC15]">
+                <Shield className="w-4 h-4 text-[#FACC15]" />
               </div>
               <span className="text-sm font-extrabold tracking-tight text-[#FFFFFF]">SentinelMesh</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-[#1A1D20] text-[#00FA9A] border border-[#00FA9A]/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00FA9A] animate-pulse"></span>
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-[#000000] text-[#FACC15] border border-[#FACC15]/30">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FACC15] animate-pulse"></span>
               MST Testnet
             </span>
           </div>
         </header>
 
         {/* Page Content Container */}
-        <main className="flex-1 min-h-0 bg-[#1A1D20] focus:outline-none">
+        <main className="flex-1 min-h-0 bg-[#000000] focus:outline-none">
           {children}
         </main>
       </div>

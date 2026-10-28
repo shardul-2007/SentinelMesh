@@ -146,7 +146,7 @@ export default function SimulatorPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-full bg-[#1A1D20] text-[#A0A5AD] font-sans">
+    <div className="flex flex-col min-h-full bg-[#000000] text-[#D4D4D8] font-sans">
       <Header 
         title="Action Gateway" 
         subtitle="Submit agent operations, evaluate deterministic policies & commit cryptographic audit evidence"
@@ -154,19 +154,19 @@ export default function SimulatorPage() {
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
         {/* Role Governance Banner */}
-        <div className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="text-xs text-[#A0A5AD]">Active Role Session:</span>
-            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30">
+            <span className="text-xs text-[#D4D4D8]">Active Role Session:</span>
+            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30">
               {roleBadgeText}
             </span>
-            <span className="text-xs text-[#A0A5AD] hidden md:inline font-semibold">| {roleDescription}</span>
+            <span className="text-xs text-[#D4D4D8] hidden md:inline font-semibold">| {roleDescription}</span>
           </div>
           <div className="text-[11px] font-mono flex items-center gap-3">
-            <span className={permissions.canSubmitActions ? 'text-[#00FA9A] font-bold' : 'text-[#A0A5AD] font-medium'}>
+            <span className={permissions.canSubmitActions ? 'text-[#FACC15] font-bold' : 'text-[#D4D4D8] font-medium'}>
               {permissions.canSubmitActions ? '✓ Policy Execution Authorized' : '✗ Execution Restricted (Auditor)'}
             </span>
-            <span className={permissions.canVerifyHashes ? 'text-[#00FA9A] font-bold' : 'text-[#A0A5AD] font-medium'}>
+            <span className={permissions.canVerifyHashes ? 'text-[#FACC15] font-bold' : 'text-[#D4D4D8] font-medium'}>
               {permissions.canVerifyHashes ? '✓ Hash Verification' : '✗ Read-Only'}
             </span>
           </div>
@@ -183,7 +183,7 @@ export default function SimulatorPage() {
                   VIEWER / AUDITOR
                 </span>
               </div>
-              <p className="text-[11px] text-[#A0A5AD] leading-relaxed">
+              <p className="text-[11px] text-[#D4D4D8] leading-relaxed">
                 Compliance Auditors have view-only monitoring and verification privileges. You can inspect test scenarios, policy outcomes, and existing audit trails, but live action submission and simulation execution are restricted. Switch to Security Analyst or CSO in the top header to evaluate live actions.
               </p>
             </div>
@@ -198,7 +198,7 @@ export default function SimulatorPage() {
           <div className="flex items-center gap-2 mb-1.5">
             <h3 className="text-sm font-bold text-[#FFFFFF]">Standard Test Scenarios</h3>
           </div>
-          <p className="text-xs text-[#A0A5AD] mb-3">
+          <p className="text-xs text-[#D4D4D8] mb-3">
             Select a verified scenario to populate request parameters with known policy outcomes:
           </p>
 
@@ -208,26 +208,26 @@ export default function SimulatorPage() {
                 key={idx}
                 type="button"
                 onClick={() => applyPreset(p)}
-                className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#00FA9A] hover:shadow-[0_0_15px_rgba(0,250,154,0.15)] hover:-translate-y-0.5 text-left transition-all duration-200 flex flex-col justify-between group shadow-sm min-h-[110px]"
+                className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#FACC15] hover:shadow-[0_0_15px_rgba(250,204,21,0.15)] hover:-translate-y-0.5 text-left transition-all duration-200 flex flex-col justify-between group shadow-sm min-h-[110px]"
               >
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-bold text-[#FFFFFF] group-hover:text-[#00FA9A] transition">
+                    <span className="text-xs font-bold text-[#FFFFFF] group-hover:text-[#FACC15] transition">
                       {p.title}
                     </span>
                     <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-extrabold ${
-                      p.expectedDecision === 'ALLOW' ? 'bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30' :
+                      p.expectedDecision === 'ALLOW' ? 'bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30' :
                       p.expectedDecision === 'BLOCK' ? 'bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30' :
                       'bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30'
                     }`}>
                       {p.expectedDecision}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#A0A5AD] line-clamp-1 font-medium">{p.desc}</p>
+                  <p className="text-[11px] text-[#D4D4D8] line-clamp-1 font-medium">{p.desc}</p>
                 </div>
-                <div className="mt-2.5 text-[10px] font-mono text-[#A0A5AD] flex items-center justify-between border-t border-[#414850] pt-1.5 font-semibold">
+                <div className="mt-2.5 text-[10px] font-mono text-[#D4D4D8] flex items-center justify-between border-t border-[#27272A] pt-1.5 font-semibold">
                   <span>Policy: {p.policy}</span>
-                  <span className="text-[#00FA9A] font-bold group-hover:translate-x-0.5 transition-transform">Use Preset &rarr;</span>
+                  <span className="text-[#FACC15] font-bold group-hover:translate-x-0.5 transition-transform">Use Preset &rarr;</span>
                 </div>
               </button>
             ))}
@@ -237,16 +237,16 @@ export default function SimulatorPage() {
         {/* Main Grid: Form & Evaluation Outcome */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Action Submission Form (7 cols) */}
-          <div className="lg:col-span-7 p-5 sm:p-6 rounded-xl bg-[#2D3238] border border-[#414850] space-y-4 shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-[#414850]">
+          <div className="lg:col-span-7 p-5 sm:p-6 rounded-xl bg-[#121212] border border-[#27272A] space-y-4 shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-[#27272A]">
               <div className="flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-[#00FA9A]" />
+                <Terminal className="w-4 h-4 text-[#FACC15]" />
                 <h3 className="text-sm font-bold text-[#FFFFFF]">Action Parameters</h3>
               </div>
               <button
                 type="button"
                 onClick={handleReset}
-                className="flex items-center gap-1 text-xs text-[#A0A5AD] hover:text-[#FFFFFF] transition font-semibold"
+                className="flex items-center gap-1 text-xs text-[#D4D4D8] hover:text-[#FFFFFF] transition font-semibold"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Reset</span>
@@ -272,8 +272,8 @@ export default function SimulatorPage() {
                       onClick={() => setAgentId(ag.id)}
                       className={`px-2.5 py-1.5 rounded-lg text-xs text-left font-mono transition border ${
                         agentId === ag.id
-                          ? 'bg-[#00FA9A]/15 text-[#00FA9A] border-[#00FA9A]/40 font-bold'
-                          : 'bg-[#1A1D20] text-[#A0A5AD] border-[#414850] hover:border-[#00FA9A]/40'
+                          ? 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/40 font-bold'
+                          : 'bg-[#000000] text-[#D4D4D8] border-[#27272A] hover:border-[#FACC15]/40'
                       }`}
                     >
                       {ag.id}
@@ -286,7 +286,7 @@ export default function SimulatorPage() {
                   onChange={(e) => setAgentId(e.target.value)}
                   placeholder="Or enter custom agent ID"
                   required
-                  className="w-full px-3 py-2 rounded-lg bg-[#1A1D20] border border-[#414850] text-[#FFFFFF] text-xs font-mono focus:border-[#00FA9A] focus:outline-none placeholder-[#A0A5AD]"
+                  className="w-full px-3 py-2 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] text-xs font-mono focus:border-[#FACC15] focus:outline-none placeholder-[#D4D4D8]"
                 />
               </div>
 
@@ -299,7 +299,7 @@ export default function SimulatorPage() {
                   <select
                     value={actionType}
                     onChange={(e) => setActionType(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-[#1A1D20] border border-[#414850] text-[#FFFFFF] text-xs font-mono focus:border-[#00FA9A] focus:outline-none"
+                    className="w-full px-3 py-2 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] text-xs font-mono focus:border-[#FACC15] focus:outline-none"
                   >
                     <option value="READ">READ (Inspect resource)</option>
                     <option value="UPDATE">UPDATE (Modify DB record)</option>
@@ -316,12 +316,12 @@ export default function SimulatorPage() {
                     <label className="text-xs font-bold text-[#FFFFFF]">
                       Client-Supplied Risk
                     </label>
-                    <span className="text-[10px] text-[#38BDF8] font-mono font-bold">SERVER DERIVED</span>
+                    <span className="text-[10px] text-[#EF4444] font-mono font-bold">SERVER DERIVED</span>
                   </div>
                   <select
                     value={clientRisk}
                     onChange={(e) => setClientRisk(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-[#1A1D20] border border-[#414850] text-[#FFFFFF] text-xs font-mono focus:border-[#00FA9A] focus:outline-none"
+                    className="w-full px-3 py-2 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] text-xs font-mono focus:border-[#FACC15] focus:outline-none"
                   >
                     <option value="LOW">LOW</option>
                     <option value="MEDIUM">MEDIUM</option>
@@ -342,7 +342,7 @@ export default function SimulatorPage() {
                   onChange={(e) => setResource(e.target.value)}
                   placeholder="e.g. public/report.pdf, restricted/keys.env, db://users/pii"
                   required
-                  className="w-full px-3 py-2 rounded-lg bg-[#1A1D20] border border-[#414850] text-[#FFFFFF] text-xs font-mono focus:border-[#00FA9A] focus:outline-none placeholder-[#A0A5AD]"
+                  className="w-full px-3 py-2 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] text-xs font-mono focus:border-[#FACC15] focus:outline-none placeholder-[#D4D4D8]"
                 />
               </div>
 
@@ -356,13 +356,13 @@ export default function SimulatorPage() {
                   onChange={(e) => setReason(e.target.value)}
                   rows={2}
                   placeholder="Explain why the agent is requesting this operation"
-                  className="w-full px-3 py-2 rounded-lg bg-[#1A1D20] border border-[#414850] text-[#FFFFFF] text-xs focus:border-[#00FA9A] focus:outline-none resize-none placeholder-[#A0A5AD]"
+                  className="w-full px-3 py-2 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] text-xs focus:border-[#FACC15] focus:outline-none resize-none placeholder-[#D4D4D8]"
                 />
               </div>
 
               {/* Security Boundary Notice */}
-              <div className="p-3 rounded-lg bg-[#1A1D20] border border-[#414850] text-[11px] text-[#A0A5AD] flex items-start gap-2.5">
-                <Info className="w-4 h-4 text-[#00FA9A] flex-shrink-0 mt-0.5" />
+              <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A] text-[11px] text-[#D4D4D8] flex items-start gap-2.5">
+                <Info className="w-4 h-4 text-[#FACC15] flex-shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
                   <strong className="text-[#FFFFFF]">Backend Policy Enforcement:</strong> Every request is evaluated deterministically on the backend. Client-supplied risk ratings are ignored; risk is derived strictly from policy rule evaluation.
                 </span>
@@ -380,7 +380,7 @@ export default function SimulatorPage() {
                 type="submit"
                 disabled={isLoading || !permissions.canSubmitActions}
                 title={permissions.canSubmitActions ? 'Evaluate policy against request' : 'Viewer / Auditor role is read-only. Switch to Analyst or Admin to simulate.'}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold bg-[#00FA9A] hover:bg-[#00E58B] text-[#1A1D20] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm hover:-translate-y-0.5"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm hover:-translate-y-0.5"
               >
                 <Play className={`w-3.5 h-3.5 fill-current ${isLoading ? 'animate-pulse' : ''}`} />
                 <span>
@@ -395,11 +395,11 @@ export default function SimulatorPage() {
           </div>
 
           {/* Evaluation Outcome (5 cols) */}
-          <div className="lg:col-span-5 p-5 sm:p-6 rounded-xl bg-[#2D3238] border border-[#414850] space-y-4 shadow-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-[#414850]">
+          <div className="lg:col-span-5 p-5 sm:p-6 rounded-xl bg-[#121212] border border-[#27272A] space-y-4 shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-[#27272A]">
               <h3 className="text-sm font-bold text-[#FFFFFF]">Evaluation Outcome</h3>
               {result && (
-                <span className="text-[10px] font-mono text-[#A0A5AD]">
+                <span className="text-[10px] font-mono text-[#D4D4D8]">
                   {new Date(result.timestamp).toLocaleTimeString()}
                 </span>
               )}
@@ -407,11 +407,11 @@ export default function SimulatorPage() {
 
             {!result ? (
               <div className="py-16 px-4 text-center space-y-2.5">
-                <div className="w-10 h-10 rounded-full bg-[#1A1D20] border border-[#414850] flex items-center justify-center mx-auto text-[#A0A5AD]">
-                  <Play className="w-4 h-4 ml-0.5 text-[#A0A5AD]" />
+                <div className="w-10 h-10 rounded-full bg-[#000000] border border-[#27272A] flex items-center justify-center mx-auto text-[#D4D4D8]">
+                  <Play className="w-4 h-4 ml-0.5 text-[#D4D4D8]" />
                 </div>
                 <h4 className="text-xs font-bold text-[#FFFFFF]">Awaiting Action Request</h4>
-                <p className="text-[11px] text-[#A0A5AD] max-w-xs mx-auto">
+                <p className="text-[11px] text-[#D4D4D8] max-w-xs mx-auto">
                   Configure an action on the left or click a standard scenario above to run policy evaluation.
                 </p>
               </div>
@@ -419,16 +419,16 @@ export default function SimulatorPage() {
               <div className="space-y-4">
                 {/* Decision Banner */}
                 <div className={`p-4 rounded-xl border flex items-center justify-between ${
-                  result.decision === 'ALLOW' ? 'bg-[#00FA9A]/15 border-[#00FA9A]/30' :
+                  result.decision === 'ALLOW' ? 'bg-[#FACC15]/15 border-[#FACC15]/30' :
                   result.decision === 'BLOCK' ? 'bg-[#EF4444]/15 border-[#EF4444]/30' :
                   'bg-[#F59E0B]/15 border-[#F59E0B]/30'
                 }`}>
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider block text-[#A0A5AD] mb-0.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider block text-[#D4D4D8] mb-0.5">
                       Enforced Decision
                     </span>
                     <span className={`text-lg font-extrabold font-mono tracking-tight ${
-                      result.decision === 'ALLOW' ? 'text-[#00FA9A]' :
+                      result.decision === 'ALLOW' ? 'text-[#FACC15]' :
                       result.decision === 'BLOCK' ? 'text-[#EF4444]' :
                       'text-[#F59E0B]'
                     }`}>
@@ -451,7 +451,7 @@ export default function SimulatorPage() {
                           : 'Administrative Approval Enqueued'}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#A0A5AD] leading-relaxed">
+                    <p className="text-[11px] text-[#D4D4D8] leading-relaxed">
                       {role === 'ADMIN'
                         ? 'This operation triggered a high-risk policy requiring administrative authorization. You possess full administrative authority to review and approve or reject this request.'
                         : role === 'SECURITY_ANALYST'
@@ -461,14 +461,14 @@ export default function SimulatorPage() {
                     {role === 'ADMIN' ? (
                       <Link
                         href="/approvals"
-                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#00FA9A] hover:bg-[#00E58B] text-[#1A1D20] transition shadow-sm"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] transition shadow-sm"
                       >
                         <span>Open Approval Queue to Authorize &rarr;</span>
                       </Link>
                     ) : (
                       <Link
                         href="/approvals"
-                        className="inline-flex items-center gap-1.5 text-xs text-[#00FA9A] hover:underline font-bold"
+                        className="inline-flex items-center gap-1.5 text-xs text-[#FACC15] hover:underline font-bold"
                       >
                         <span>View Approval Queue (Audit Log) &rarr;</span>
                       </Link>
@@ -477,44 +477,44 @@ export default function SimulatorPage() {
                 )}
 
                 {/* Policy Identification */}
-                <div className="p-3.5 rounded-lg bg-[#1A1D20] border border-[#414850] space-y-2 text-xs">
+                <div className="p-3.5 rounded-lg bg-[#000000] border border-[#27272A] space-y-2 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-[#A0A5AD] font-medium">Triggered Policy:</span>
+                    <span className="text-[#D4D4D8] font-medium">Triggered Policy:</span>
                     <span className="font-mono font-bold text-[#FFFFFF]">
                       {result.policy_id} — {result.policy_name}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#A0A5AD] font-medium">Derived Server Risk:</span>
+                    <span className="text-[#D4D4D8] font-medium">Derived Server Risk:</span>
                     <StatusBadge type="risk" value={result.derived_risk_level} />
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#A0A5AD] font-medium">Execution Status:</span>
+                    <span className="text-[#D4D4D8] font-medium">Execution Status:</span>
                     <StatusBadge type="execution" value={result.execution_status} />
                   </div>
                 </div>
 
                 {/* Explanation */}
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#A0A5AD] block mb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#D4D4D8] block mb-1">
                     Policy Rationale
                   </span>
-                  <div className="p-3 rounded-lg bg-[#1A1D20] border border-[#414850] text-xs text-[#FFFFFF] leading-relaxed">
+                  <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A] text-xs text-[#FFFFFF] leading-relaxed">
                     {result.reason}
                   </div>
                 </div>
 
                 {/* Audit Event Reference & Cryptographic Hash */}
-                <div className="p-3.5 rounded-lg bg-[#1A1D20] border border-[#414850] space-y-2 text-xs">
+                <div className="p-3.5 rounded-lg bg-[#000000] border border-[#27272A] space-y-2 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-[#A0A5AD]">Audit Event ID:</span>
-                    <span className="font-mono text-[#00FA9A] font-bold">{result.event_id}</span>
+                    <span className="text-[#D4D4D8]">Audit Event ID:</span>
+                    <span className="font-mono text-[#FACC15] font-bold">{result.event_id}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-[#A0A5AD] uppercase tracking-wider block mb-0.5 font-bold">
+                    <span className="text-[10px] text-[#D4D4D8] uppercase tracking-wider block mb-0.5 font-bold">
                       SHA-256 Event Hash (Chained)
                     </span>
-                    <div className="font-mono text-[10px] text-[#00FA9A] break-all bg-[#2D3238] p-2 rounded-lg border border-[#414850] select-all font-semibold">
+                    <div className="font-mono text-[10px] text-[#FACC15] break-all bg-[#121212] p-2 rounded-lg border border-[#27272A] select-all font-semibold">
                       {result.integrity_hash}
                     </div>
                   </div>
@@ -524,14 +524,14 @@ export default function SimulatorPage() {
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <Link
                     href={`/blockchain?search=${result.event_id}`}
-                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold bg-[#00FA9A] hover:bg-[#00E58B] text-[#1A1D20] transition shadow-sm"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-bold bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] transition shadow-sm"
                   >
-                    <Boxes className="w-3.5 h-3.5 text-[#1A1D20]" />
+                    <Boxes className="w-3.5 h-3.5 text-[#000000]" />
                     <span>Inspect On-Chain</span>
                   </Link>
                   <Link
                     href="/audit"
-                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-semibold text-[#FFFFFF] bg-[#1A1D20] border border-[#414850] hover:bg-[#353B42] transition"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-semibold text-[#FFFFFF] bg-[#000000] border border-[#27272A] hover:bg-[#1C1C1C] transition"
                   >
                     <span>Audit Trail</span>
                     <ArrowRight className="w-3.5 h-3.5" />

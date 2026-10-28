@@ -91,7 +91,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-full bg-[#1A1D20] text-[#A0A5AD] font-sans">
+    <div className="flex flex-col min-h-full bg-[#000000] text-[#D4D4D8] font-sans">
       <Header 
         title="Security Operations Overview" 
         subtitle="Real-time policy enforcement, audit evidence logging & MST blockchain commitments"
@@ -101,20 +101,20 @@ export default function DashboardPage() {
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
         {/* Hackathon Judge Fast-Track Callout Banner */}
-        <div className="mst-card relative overflow-hidden rounded-2xl bg-[#2D3238] border-2 border-[#00FA9A]/40 p-5 shadow-2xl">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#00FA9A]/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
+        <div className="mst-card relative overflow-hidden rounded-2xl bg-[#121212] border-2 border-[#FACC15]/40 p-5 shadow-2xl">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#FACC15]/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
             <div className="space-y-2 max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30 text-xs font-black tracking-wider uppercase">
-                  <Sparkles className="w-3.5 h-3.5 text-[#00FA9A]" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 text-xs font-black tracking-wider uppercase">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FACC15]" />
                   MST Buildathon Evaluator Quick-Start
                 </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30 text-xs font-mono font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00FA9A] animate-pulse"></span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 text-xs font-mono font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FACC15] animate-pulse"></span>
                   MST Testnet Verified (Chain ID 91562037)
                 </span>
-                <span className="text-xs text-[#A0A5AD] font-mono hidden sm:inline">
+                <span className="text-xs text-[#D4D4D8] font-mono hidden sm:inline">
                   Contract: 0x00E0...69Ce
                 </span>
               </div>
@@ -122,22 +122,22 @@ export default function DashboardPage() {
               <h2 className="text-base sm:text-lg font-bold text-[#FFFFFF]">
                 Complete End-to-End Evaluation Workflow in 7 Guided Steps
               </h2>
-              <p className="text-xs text-[#A0A5AD] leading-relaxed">
+              <p className="text-xs text-[#D4D4D8] leading-relaxed">
                 Test how SentinelMesh governs AI-agent execution with deterministic policy evaluation (ALLOW / BLOCK / REQUIRE_APPROVAL), canonical RFC-8785 SHA-256 evidence generation, smart contract anchoring on MST Testnet, and byte-for-byte on-chain read-back integrity verification.
               </p>
 
               <div className="flex flex-wrap items-center gap-3 pt-1 text-xs">
-                <span className="flex items-center gap-1 text-[#00FA9A] font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#00FA9A]" /> Deterministic Policies
+                <span className="flex items-center gap-1 text-[#FACC15] font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#FACC15]" /> Deterministic Policies
                 </span>
-                <span className="flex items-center gap-1 text-[#00FA9A] font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#00FA9A]" /> EvidenceRegistry.sol
+                <span className="flex items-center gap-1 text-[#FACC15] font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#FACC15]" /> EvidenceRegistry.sol
                 </span>
-                <span className="flex items-center gap-1 text-[#00FA9A] font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#00FA9A]" /> On-Chain Readback Verification
+                <span className="flex items-center gap-1 text-[#FACC15] font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#FACC15]" /> On-Chain Readback Verification
                 </span>
-                <span className="flex items-center gap-1 text-[#00FA9A] font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#00FA9A]" /> BridgeKey Ready
+                <span className="flex items-center gap-1 text-[#FACC15] font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#FACC15]" /> BridgeKey Ready
                 </span>
               </div>
             </div>
@@ -145,16 +145,16 @@ export default function DashboardPage() {
             <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 w-full lg:w-auto flex-shrink-0">
               <Link
                 href="/simulator"
-                className="px-5 py-3 rounded-xl bg-[#00FA9A] hover:bg-[#00E58B] text-[#1A1D20] font-black text-xs uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2 text-center"
+                className="px-5 py-3 rounded-xl bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] font-black text-xs uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2 text-center"
               >
                 <span>Launch 7-Step Judging Tour</span>
-                <ArrowRight className="w-4 h-4 text-[#1A1D20]" />
+                <ArrowRight className="w-4 h-4 text-[#000000]" />
               </Link>
               <Link
                 href="/blockchain"
-                className="px-4 py-2.5 rounded-xl bg-[#1A1D20] hover:bg-[#353B42] text-[#FFFFFF] border border-[#414850] hover:border-[#00FA9A]/40 font-bold text-xs transition flex items-center justify-center gap-2 text-center"
+                className="px-4 py-2.5 rounded-xl bg-[#000000] hover:bg-[#1C1C1C] text-[#FFFFFF] border border-[#27272A] hover:border-[#FACC15]/40 font-bold text-xs transition flex items-center justify-center gap-2 text-center"
               >
-                <Boxes className="w-3.5 h-3.5 text-[#00FA9A]" />
+                <Boxes className="w-3.5 h-3.5 text-[#FACC15]" />
                 <span>Inspect On-Chain Proofs</span>
               </Link>
             </div>
@@ -197,7 +197,7 @@ export default function DashboardPage() {
             </div>
             <Link
               href="/threats"
-              className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-[#F59E0B] text-[#1A1D20] hover:bg-[#D97706] transition flex items-center gap-1 shadow-sm"
+              className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-[#F59E0B] text-[#000000] hover:bg-[#D97706] transition flex items-center gap-1 shadow-sm"
             >
               <span>Inspect Findings</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -206,32 +206,32 @@ export default function DashboardPage() {
         )}
 
         {/* Active Role Governance Mission Banner */}
-        <div className="mst-card p-4 rounded-xl bg-[#2D3238] border border-[#414850] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
+        <div className="mst-card p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
           <div className="flex items-start gap-3">
             <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${
               role === 'ADMIN'
                 ? 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30'
                 : role === 'SECURITY_ANALYST'
-                ? 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/30'
-                : 'bg-[#00FA9A]/15 text-[#00FA9A] border-[#00FA9A]/30'
+                ? 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
+                : 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30'
             }`}>
               <Shield className="w-5 h-5" />
             </div>
             <div className="space-y-0.5">
               <div className="flex items-center gap-2">
-                <span className="text-xs text-[#A0A5AD]">Active Role Session:</span>
+                <span className="text-xs text-[#D4D4D8]">Active Role Session:</span>
                 <span className={`text-xs px-2.5 py-0.5 rounded font-mono font-bold border ${
                   role === 'ADMIN'
                     ? 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30'
                     : role === 'SECURITY_ANALYST'
-                    ? 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/30'
-                    : 'bg-[#00FA9A]/15 text-[#00FA9A] border-[#00FA9A]/30'
+                    ? 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
+                    : 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30'
                 }`}>
                   {roleBadgeText}
                 </span>
-                <span className="text-xs text-[#A0A5AD] hidden lg:inline font-semibold">| {roleTitle}</span>
+                <span className="text-xs text-[#D4D4D8] hidden lg:inline font-semibold">| {roleTitle}</span>
               </div>
-              <p className="text-xs text-[#A0A5AD] leading-relaxed max-w-3xl">
+              <p className="text-xs text-[#D4D4D8] leading-relaxed max-w-3xl">
                 {roleDescription}
               </p>
             </div>
@@ -240,28 +240,28 @@ export default function DashboardPage() {
             {role === 'ADMIN' && (
               <Link
                 href="/simulator"
-                className="px-4 py-2 rounded-lg text-xs font-bold bg-[#00FA9A] hover:bg-[#00E58B] text-[#1A1D20] transition shadow-sm flex items-center gap-1.5"
+                className="px-4 py-2 rounded-lg text-xs font-bold bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] transition shadow-sm flex items-center gap-1.5"
               >
                 <span>Authorize Action</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#1A1D20]" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#000000]" />
               </Link>
             )}
             {role === 'SECURITY_ANALYST' && (
               <Link
                 href="/integrity"
-                className="px-4 py-2 rounded-lg text-xs font-bold bg-[#38BDF8] hover:bg-[#0284C7] text-[#1A1D20] transition shadow-sm flex items-center gap-1.5"
+                className="px-4 py-2 rounded-lg text-xs font-bold bg-[#EF4444] hover:bg-[#DC2626] text-[#FFFFFF] transition shadow-sm flex items-center gap-1.5"
               >
                 <span>Verify Hashes</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#1A1D20]" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#000000]" />
               </Link>
             )}
             {role === 'VIEWER' && (
               <Link
                 href="/audit"
-                className="px-4 py-2 rounded-lg text-xs font-bold bg-[#00FA9A] hover:bg-[#00E58B] text-[#1A1D20] transition shadow-sm flex items-center gap-1.5"
+                className="px-4 py-2 rounded-lg text-xs font-bold bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] transition shadow-sm flex items-center gap-1.5"
               >
                 <span>Export Evidence</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#1A1D20]" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#000000]" />
               </Link>
             )}
           </div>
@@ -271,63 +271,63 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           {role === 'ADMIN' && (
             <>
-              <Link href="/simulator" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#00FA9A]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
-                <span className="font-extrabold text-[#00FA9A]">Action Gateway</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Submit &amp; evaluate live policies</span>
+              <Link href="/simulator" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+                <span className="font-extrabold text-[#FACC15]">Action Gateway</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Submit &amp; evaluate live policies</span>
               </Link>
-              <Link href="/approvals" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#F59E0B]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+              <Link href="/approvals" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#F59E0B]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
                 <span className="font-extrabold text-[#F59E0B]">Approval Queue</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Authorize or reject pending actions</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Authorize or reject pending actions</span>
               </Link>
-              <Link href="/policies" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#38BDF8]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
-                <span className="font-extrabold text-[#38BDF8]">Policy Studio</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Author &amp; toggle deterministic rules</span>
+              <Link href="/policies" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#EF4444]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+                <span className="font-extrabold text-[#EF4444]">Policy Studio</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Author &amp; toggle deterministic rules</span>
               </Link>
-              <Link href="/integrity" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#00FA9A]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
-                <span className="font-extrabold text-[#00FA9A]">Integrity Lab</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Commit on-chain &amp; test tampering</span>
+              <Link href="/integrity" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+                <span className="font-extrabold text-[#FACC15]">Integrity Lab</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Commit on-chain &amp; test tampering</span>
               </Link>
             </>
           )}
 
           {role === 'SECURITY_ANALYST' && (
             <>
-              <Link href="/integrity" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#00FA9A]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
-                <span className="font-extrabold text-[#00FA9A]">Hash Verification</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Recalculate SHA-256 digests</span>
+              <Link href="/integrity" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+                <span className="font-extrabold text-[#FACC15]">Hash Verification</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Recalculate SHA-256 digests</span>
               </Link>
-              <Link href="/threats" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#EF4444]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+              <Link href="/threats" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#EF4444]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
                 <span className="font-extrabold text-[#EF4444]">Threat Alerts</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Investigate behavioral anomalies</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Investigate behavioral anomalies</span>
               </Link>
-              <Link href="/audit" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#00FA9A]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
-                <span className="font-extrabold text-[#00FA9A]">Export Audits</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Download CSV &amp; JSON reports</span>
+              <Link href="/audit" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+                <span className="font-extrabold text-[#FACC15]">Export Audits</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Download CSV &amp; JSON reports</span>
               </Link>
-              <Link href="/policies" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#38BDF8]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
-                <span className="font-extrabold text-[#38BDF8]">Policy Matrix</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Inspect rule patterns &amp; versions</span>
+              <Link href="/policies" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#EF4444]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+                <span className="font-extrabold text-[#EF4444]">Policy Matrix</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Inspect rule patterns &amp; versions</span>
               </Link>
             </>
           )}
 
           {role === 'VIEWER' && (
             <>
-              <Link href="/audit" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#00FA9A]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
-                <span className="font-extrabold text-[#00FA9A]">Audit Explorer</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Inspect immutable event history</span>
+              <Link href="/audit" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+                <span className="font-extrabold text-[#FACC15]">Audit Explorer</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Inspect immutable event history</span>
               </Link>
-              <Link href="/blockchain" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#00FA9A]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
-                <span className="font-extrabold text-[#00FA9A]">On-Chain Proofs</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Read EVM contract commitments</span>
+              <Link href="/blockchain" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+                <span className="font-extrabold text-[#FACC15]">On-Chain Proofs</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Read EVM contract commitments</span>
               </Link>
-              <Link href="/integrity" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#38BDF8]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
-                <span className="font-extrabold text-[#38BDF8]">Integrity Ledger</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Verify zero hash divergence</span>
+              <Link href="/integrity" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#EF4444]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+                <span className="font-extrabold text-[#EF4444]">Integrity Ledger</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Verify zero hash divergence</span>
               </Link>
-              <Link href="/policies" className="p-3.5 rounded-xl bg-[#2D3238] border border-[#414850] hover:border-[#F59E0B]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
+              <Link href="/policies" className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] hover:border-[#F59E0B]/40 flex flex-col justify-between min-h-[95px] shadow-sm transition">
                 <span className="font-extrabold text-[#F59E0B]">Policy Catalog</span>
-                <span className="text-[11px] text-[#A0A5AD] mt-1 font-medium">Review active compliance rules</span>
+                <span className="text-[11px] text-[#D4D4D8] mt-1 font-medium">Review active compliance rules</span>
               </Link>
             </>
           )}
@@ -336,43 +336,43 @@ export default function DashboardPage() {
         {/* KPI Operational Cards with Fixed Ratios and Differentiated Blocks */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Total Events */}
-          <div className="bg-[#2D3238] border border-[#414850] hover:border-[#00FA9A]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
-            <div className="flex items-center justify-between text-[#A0A5AD] mb-1">
+          <div className="bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
+            <div className="flex items-center justify-between text-[#D4D4D8] mb-1">
               <span className="text-[11px] font-bold uppercase tracking-wider">Total Evaluated Actions</span>
-              <Activity className="w-4 h-4 text-[#00FA9A]" />
+              <Activity className="w-4 h-4 text-[#FACC15]" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-2xl font-extrabold font-mono text-[#FFFFFF]">
                 {isLoading ? '—' : (stats?.total_events ?? 0)}
               </span>
-              <span className="text-xs text-[#A0A5AD] font-semibold">actions</span>
+              <span className="text-xs text-[#D4D4D8] font-semibold">actions</span>
             </div>
-            <div className="mt-2 text-[11px] text-[#A0A5AD] flex items-center gap-1.5 pt-2 border-t border-[#414850] font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00FA9A] animate-ping"></span>
+            <div className="mt-2 text-[11px] text-[#D4D4D8] flex items-center gap-1.5 pt-2 border-t border-[#27272A] font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FACC15] animate-ping"></span>
               SHA-256 integrity chained
             </div>
           </div>
 
           {/* Allowed Actions */}
-          <div className="bg-[#2D3238] border border-[#414850] hover:border-[#00FA9A]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
-            <div className="flex items-center justify-between text-[#A0A5AD] mb-1">
+          <div className="bg-[#121212] border border-[#27272A] hover:border-[#FACC15]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
+            <div className="flex items-center justify-between text-[#D4D4D8] mb-1">
               <span className="text-[11px] font-bold uppercase tracking-wider">Permitted Actions</span>
-              <ShieldCheck className="w-4 h-4 text-[#00FA9A]" />
+              <ShieldCheck className="w-4 h-4 text-[#FACC15]" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-extrabold font-mono text-[#00FA9A]">
+              <span className="text-2xl font-extrabold font-mono text-[#FACC15]">
                 {isLoading ? '—' : (stats?.allowed_count ?? 0)}
               </span>
-              <span className="text-xs text-[#A0A5AD] font-semibold">ALLOW</span>
+              <span className="text-xs text-[#D4D4D8] font-semibold">ALLOW</span>
             </div>
-            <div className="mt-2 text-[11px] text-[#A0A5AD] pt-2 border-t border-[#414850] font-medium">
+            <div className="mt-2 text-[11px] text-[#D4D4D8] pt-2 border-t border-[#27272A] font-medium">
               Deterministic policy match
             </div>
           </div>
 
           {/* Blocked Actions */}
-          <div className="bg-[#2D3238] border border-[#414850] hover:border-[#EF4444]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
-            <div className="flex items-center justify-between text-[#A0A5AD] mb-1">
+          <div className="bg-[#121212] border border-[#27272A] hover:border-[#EF4444]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
+            <div className="flex items-center justify-between text-[#D4D4D8] mb-1">
               <span className="text-[11px] font-bold uppercase tracking-wider">Blocked Operations</span>
               <XCircle className="w-4 h-4 text-[#EF4444]" />
             </div>
@@ -380,16 +380,16 @@ export default function DashboardPage() {
               <span className="text-2xl font-extrabold font-mono text-[#EF4444]">
                 {isLoading ? '—' : (stats?.blocked_count ?? 0)}
               </span>
-              <span className="text-xs text-[#A0A5AD] font-semibold">BLOCK</span>
+              <span className="text-xs text-[#D4D4D8] font-semibold">BLOCK</span>
             </div>
-            <div className="mt-2 text-[11px] text-[#A0A5AD] pt-2 border-t border-[#414850] font-medium">
+            <div className="mt-2 text-[11px] text-[#D4D4D8] pt-2 border-t border-[#27272A] font-medium">
               Zero execution allowed
             </div>
           </div>
 
           {/* Pending Approvals */}
-          <div className="bg-[#2D3238] border border-[#414850] hover:border-[#F59E0B]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
-            <div className="flex items-center justify-between text-[#A0A5AD] mb-1">
+          <div className="bg-[#121212] border border-[#27272A] hover:border-[#F59E0B]/40 p-4 rounded-xl flex flex-col justify-between shadow-sm min-h-[145px] transition">
+            <div className="flex items-center justify-between text-[#D4D4D8] mb-1">
               <span className="text-[11px] font-bold uppercase tracking-wider">Pending Approvals</span>
               <AlertTriangle className="w-4 h-4 text-[#F59E0B]" />
             </div>
@@ -397,9 +397,9 @@ export default function DashboardPage() {
               <span className="text-2xl font-extrabold font-mono text-[#F59E0B]">
                 {isLoading ? '—' : (stats?.pending_approvals_count ?? 0)}
               </span>
-              <span className="text-xs text-[#A0A5AD] font-semibold">gated</span>
+              <span className="text-xs text-[#D4D4D8] font-semibold">gated</span>
             </div>
-            <div className="mt-2 text-[11px] text-[#A0A5AD] pt-2 border-t border-[#414850] font-medium">
+            <div className="mt-2 text-[11px] text-[#D4D4D8] pt-2 border-t border-[#27272A] font-medium">
               Human authorization required
             </div>
           </div>
@@ -408,18 +408,18 @@ export default function DashboardPage() {
         {/* Operational Intelligence & System Architecture Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Velocity Chart */}
-          <div className="lg:col-span-2 p-5 rounded-xl bg-[#2D3238] border border-[#414850] flex flex-col shadow-sm">
+          <div className="lg:col-span-2 p-5 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-sm font-bold text-[#FFFFFF]">Security Actions Velocity (Last 7 Days)</h3>
-                <p className="text-xs text-[#A0A5AD]">Evaluated operations grouped by policy decision</p>
+                <p className="text-xs text-[#D4D4D8]">Evaluated operations grouped by policy decision</p>
               </div>
               <div className="flex items-center gap-4 text-xs">
-                <span className="flex items-center gap-1.5 text-[#A0A5AD] font-semibold">
-                  <span className="w-2.5 h-2.5 rounded bg-[#00FA9A]"></span>
+                <span className="flex items-center gap-1.5 text-[#D4D4D8] font-semibold">
+                  <span className="w-2.5 h-2.5 rounded bg-[#FACC15]"></span>
                   Allowed
                 </span>
-                <span className="flex items-center gap-1.5 text-[#A0A5AD] font-semibold">
+                <span className="flex items-center gap-1.5 text-[#D4D4D8] font-semibold">
                   <span className="w-2.5 h-2.5 rounded bg-[#EF4444]"></span>
                   Blocked
                 </span>
@@ -427,7 +427,7 @@ export default function DashboardPage() {
             </div>
 
             {/* SVG Velocity Bar Chart */}
-            <div className="h-44 w-full flex items-end justify-between gap-3 pt-4 pb-2 px-2 border-b border-[#414850]">
+            <div className="h-44 w-full flex items-end justify-between gap-3 pt-4 pb-2 px-2 border-b border-[#27272A]">
               {stats?.events_by_date && stats.events_by_date.length > 0 ? (
                 stats.events_by_date.map((d, i) => {
                   const maxVal = Math.max(...stats.events_by_date.map(x => x.total), 5);
@@ -437,14 +437,14 @@ export default function DashboardPage() {
                   return (
                     <div key={i} className="flex-1 flex flex-col items-center gap-1 group relative">
                       {/* Tooltip */}
-                      <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition pointer-events-none bg-[#1A1D20] text-[10px] text-[#FFFFFF] py-1 px-2 rounded-lg whitespace-nowrap z-10 shadow border border-[#414850] font-mono">
+                      <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition pointer-events-none bg-[#000000] text-[10px] text-[#FFFFFF] py-1 px-2 rounded-lg whitespace-nowrap z-10 shadow border border-[#27272A] font-mono">
                         {d.date}: {d.total} total ({d.allowed} allow, {d.blocked} block)
                       </div>
 
-                      <div className="w-full max-w-[36px] flex items-end justify-center gap-1 h-32 bg-[#1A1D20] rounded-lg p-1 border border-[#414850]">
+                      <div className="w-full max-w-[36px] flex items-end justify-center gap-1 h-32 bg-[#000000] rounded-lg p-1 border border-[#27272A]">
                         <div 
                           style={{ height: `${allowedHeight}px` }} 
-                          className="w-full bg-[#00FA9A] hover:bg-[#00E58B] rounded-t transition-all"
+                          className="w-full bg-[#FACC15] hover:bg-[#EAB308] rounded-t transition-all"
                         ></div>
                         {blockedHeight > 0 && (
                           <div 
@@ -453,12 +453,12 @@ export default function DashboardPage() {
                           ></div>
                         )}
                       </div>
-                      <span className="text-[11px] font-mono text-[#A0A5AD] font-bold">{d.date.slice(5)}</span>
+                      <span className="text-[11px] font-mono text-[#D4D4D8] font-bold">{d.date.slice(5)}</span>
                     </div>
                   );
                 })
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-xs text-[#A0A5AD]">
+                <div className="w-full h-full flex items-center justify-center text-xs text-[#D4D4D8]">
                   No historical activity recorded yet
                 </div>
               )}
@@ -466,54 +466,54 @@ export default function DashboardPage() {
           </div>
 
           {/* System & Architecture Status */}
-          <div className="p-5 rounded-xl bg-[#2D3238] border border-[#414850] flex flex-col justify-between shadow-sm">
+          <div className="p-5 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm">
             <div>
               <h3 className="text-sm font-bold text-[#FFFFFF] mb-1">Architecture &amp; Ledger Status</h3>
-              <p className="text-xs text-[#A0A5AD] mb-4">Operational status across policy engine and EVM ledger</p>
+              <p className="text-xs text-[#D4D4D8] mb-4">Operational status across policy engine and EVM ledger</p>
 
               <div className="space-y-2.5">
-                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#1A1D20] border border-[#414850]">
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#000000] border border-[#27272A]">
                   <div className="flex items-center gap-2">
-                    <Cpu className="w-4 h-4 text-[#A0A5AD]" />
+                    <Cpu className="w-4 h-4 text-[#D4D4D8]" />
                     <span className="text-xs font-bold text-[#FFFFFF]">Policy Engine</span>
                   </div>
-                  <span className="text-[11px] font-mono font-bold text-[#00FA9A] flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00FA9A]"></span>
+                  <span className="text-[11px] font-mono font-bold text-[#FACC15] flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FACC15]"></span>
                     OPERATIONAL
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#1A1D20] border border-[#414850]">
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#000000] border border-[#27272A]">
                   <div className="flex items-center gap-2">
-                    <Database className="w-4 h-4 text-[#A0A5AD]" />
+                    <Database className="w-4 h-4 text-[#D4D4D8]" />
                     <span className="text-xs font-bold text-[#FFFFFF]">Audit Store</span>
                   </div>
-                  <span className="text-[11px] font-mono font-bold text-[#00FA9A] flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00FA9A]"></span>
+                  <span className="text-[11px] font-mono font-bold text-[#FACC15] flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FACC15]"></span>
                     PERSISTED
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#1A1D20] border border-[#414850]">
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#000000] border border-[#27272A]">
                   <div className="flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-[#A0A5AD]" />
+                    <Lock className="w-4 h-4 text-[#D4D4D8]" />
                     <span className="text-xs font-bold text-[#FFFFFF]">Canonical Hashing</span>
                   </div>
-                  <span className="text-[11px] font-mono font-bold text-[#00FA9A] flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00FA9A]"></span>
+                  <span className="text-[11px] font-mono font-bold text-[#FACC15] flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FACC15]"></span>
                     RFC-8785 (SHA-256)
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#1A1D20] border border-[#414850]">
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#000000] border border-[#27272A]">
                   <div className="flex items-center gap-2">
-                    <Boxes className="w-4 h-4 text-[#00FA9A]" />
+                    <Boxes className="w-4 h-4 text-[#FACC15]" />
                     <span className="text-xs font-bold text-[#FFFFFF]">MST EvidenceRegistry</span>
                   </div>
                   <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
                     bStatus?.connected
-                      ? 'bg-[#00FA9A]/15 text-[#00FA9A] border-[#00FA9A]/30'
-                      : 'bg-[#1A1D20] text-[#A0A5AD] border-[#414850]'
+                      ? 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30'
+                      : 'bg-[#000000] text-[#D4D4D8] border-[#27272A]'
                   }`}>
                     {bStatus?.connected ? `CONNECTED (${bStatus?.detected_chain_id || bStatus?.configured_chain_id || 91562037})` : 'READY (EVM)'}
                   </span>
@@ -521,13 +521,13 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-[#414850]">
+            <div className="pt-4 border-t border-[#27272A]">
               <Link
                 href="/blockchain"
-                className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-bold bg-[#00FA9A] hover:bg-[#00E58B] text-[#1A1D20] transition shadow-sm"
+                className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-bold bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] transition shadow-sm"
               >
                 <span>View Blockchain Activity</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#1A1D20]" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#000000]" />
               </Link>
             </div>
           </div>
@@ -556,24 +556,24 @@ export default function DashboardPage() {
         />
 
         {/* Live Security Event Log Table */}
-        <div className="p-5 rounded-xl bg-[#2D3238] border border-[#414850] space-y-4 shadow-sm">
+        <div className="p-5 rounded-xl bg-[#121212] border border-[#27272A] space-y-4 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-sm font-bold text-[#FFFFFF]">Live Audit Activity Log</h3>
-              <p className="text-xs text-[#A0A5AD]">Latest deterministic actions evaluated against active policies</p>
+              <p className="text-xs text-[#D4D4D8]">Latest deterministic actions evaluated against active policies</p>
             </div>
             <Link
               href="/audit"
-              className="flex items-center gap-1 text-xs font-bold text-[#00FA9A] hover:underline transition"
+              className="flex items-center gap-1 text-xs font-bold text-[#FACC15] hover:underline transition"
             >
               <span>View full audit trail</span>
-              <ExternalLink className="w-3.5 h-3.5 text-[#00FA9A]" />
+              <ExternalLink className="w-3.5 h-3.5 text-[#FACC15]" />
             </Link>
           </div>
 
-          <div className="overflow-x-auto rounded-lg border border-[#414850]">
+          <div className="overflow-x-auto rounded-lg border border-[#27272A]">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#1A1D20] text-[#A0A5AD] uppercase font-bold text-[11px] border-b border-[#414850]">
+              <thead className="bg-[#000000] text-[#D4D4D8] uppercase font-bold text-[11px] border-b border-[#27272A]">
                 <tr>
                   <th className="px-4 py-3">Timestamp (UTC)</th>
                   <th className="px-4 py-3">Agent</th>
@@ -584,34 +584,34 @@ export default function DashboardPage() {
                   <th className="px-4 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#414850] font-mono">
+              <tbody className="divide-y divide-[#27272A] font-mono">
                 {isLoading ? (
                   <tr>
-                    <td colSpan={7} className="px-4 py-8 text-center text-[#A0A5AD] font-sans font-medium">
+                    <td colSpan={7} className="px-4 py-8 text-center text-[#D4D4D8] font-sans font-medium">
                       Loading audit events from backend...
                     </td>
                   </tr>
                 ) : !stats?.recent_events || stats.recent_events.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-4 py-8 text-center text-[#A0A5AD] font-sans font-medium">
+                    <td colSpan={7} className="px-4 py-8 text-center text-[#D4D4D8] font-sans font-medium">
                       No actions recorded yet. Run an action in the Action Gateway to generate the first verifiable record.
                     </td>
                   </tr>
                 ) : (
                   stats.recent_events.map((event) => (
-                    <tr key={event.id} className="mst-table-row transition border-b border-[#414850]/60">
-                      <td className="px-4 py-3 text-[#A0A5AD] whitespace-nowrap font-medium">
+                    <tr key={event.id} className="mst-table-row transition border-b border-[#27272A]/60">
+                      <td className="px-4 py-3 text-[#D4D4D8] whitespace-nowrap font-medium">
                         {new Date(event.timestamp).toLocaleTimeString()}
                       </td>
                       <td className="px-4 py-3 text-[#FFFFFF] font-bold">
                         {event.agent_id}
                       </td>
                       <td className="px-4 py-3">
-                        <span className="px-2 py-0.5 rounded bg-[#1A1D20] text-[#00FA9A] border border-[#414850] font-bold">
+                        <span className="px-2 py-0.5 rounded bg-[#000000] text-[#FACC15] border border-[#27272A] font-bold">
                           {event.action_type}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-[#A0A5AD] max-w-[200px] truncate" title={event.resource}>
+                      <td className="px-4 py-3 text-[#D4D4D8] max-w-[200px] truncate" title={event.resource}>
                         {event.resource}
                       </td>
                       <td className="px-4 py-3">
@@ -640,7 +640,7 @@ export default function DashboardPage() {
                               </span>
                             ) : (
                               <span 
-                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#2D3238] border border-[#414850] text-[#A0A5AD] text-[10px] font-mono cursor-not-allowed"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#121212] border border-[#27272A] text-[#D4D4D8] text-[10px] font-mono cursor-not-allowed"
                                 title="Compliance auditors have read-only access."
                               >
                                 Pending Review
@@ -649,7 +649,7 @@ export default function DashboardPage() {
                           )}
                           <button
                             onClick={() => handleInspect(event.id)}
-                            className="px-2.5 py-1 rounded-lg text-[11px] font-sans text-[#FFFFFF] hover:bg-[#353B42] bg-[#1A1D20] border border-[#414850] transition font-bold"
+                            className="px-2.5 py-1 rounded-lg text-[11px] font-sans text-[#FFFFFF] hover:bg-[#1C1C1C] bg-[#000000] border border-[#27272A] transition font-bold"
                           >
                             Inspect
                           </button>
