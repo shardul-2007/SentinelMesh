@@ -167,15 +167,15 @@ export default function AuditTrailPage() {
         </div>
 
         {/* Governance Banner */}
-        <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+        <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded bg-[#10B981]/15 border border-[#10B981]/30 flex items-center justify-center text-[#10B981] flex-shrink-0 mt-0.5">
-              <Shield className="w-4 h-4" />
+            <div className="w-9 h-9 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0 mt-0.5 shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+              <Shield className="w-5 h-5" />
             </div>
             <div className="space-y-0.5">
               <h3 className="text-sm font-semibold text-[#F8FAFC] flex items-center gap-2">
                 Append-Only Evidence Architecture
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded font-semibold bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                   TAMPER-EVIDENT
                 </span>
               </h3>
@@ -184,16 +184,16 @@ export default function AuditTrailPage() {
               </p>
             </div>
           </div>
-          <div className="flex-shrink-0 text-left md:text-right border-t md:border-t-0 pt-2 md:pt-0 border-[#263244]">
+          <div className="flex-shrink-0 text-left md:text-right border-t md:border-t-0 pt-2 md:pt-0 border-slate-800">
             <span className="text-[11px] text-[#94A3B8] font-mono block">Indexed Records</span>
-            <span className="text-lg font-bold font-mono text-[#F8FAFC]">{total}</span>
+            <span className="text-xl font-bold font-mono text-cyan-400">{total}</span>
           </div>
         </div>
 
         {/* Filter & Search Controls */}
-        <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between shadow-sm">
+        <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between shadow-xl">
           {/* Decision Filter Tabs */}
-          <div className="flex items-center gap-1 p-1 bg-[#0B0F17] rounded border border-[#263244] overflow-x-auto">
+          <div className="flex items-center gap-1 p-1 bg-[#070A12] rounded-lg border border-slate-800 overflow-x-auto">
             {['ALL', 'ALLOW', 'BLOCK', 'REQUIRE_APPROVAL'].map((dec) => (
               <button
                 key={dec}
@@ -201,9 +201,9 @@ export default function AuditTrailPage() {
                   setDecisionFilter(dec);
                   setPage(1);
                 }}
-                className={`px-3 py-1 rounded text-xs font-semibold whitespace-nowrap transition ${
+                className={`px-3 py-1 rounded-md text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
                   decisionFilter === dec
-                    ? 'bg-[#1A2332] text-[#38BDF8] shadow-sm border border-[#263244]'
+                    ? 'bg-gradient-to-r from-cyan-500/20 to-blue-600/20 text-cyan-400 shadow-sm border border-cyan-500/30'
                     : 'text-[#94A3B8] hover:text-[#F8FAFC]'
                 }`}
               >
@@ -221,7 +221,7 @@ export default function AuditTrailPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search resource, action, reason, or event ID..."
-                className="w-full pl-9 pr-3 py-1.5 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] text-xs focus:border-[#38BDF8] focus:outline-none placeholder-[#64748B]"
+                className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-[#070A12] border border-slate-800 text-[#F8FAFC] text-xs focus:border-cyan-400 focus:outline-none placeholder-[#64748B] transition"
               />
             </div>
             <input
@@ -229,11 +229,11 @@ export default function AuditTrailPage() {
               value={agentFilter}
               onChange={(e) => setAgentFilter(e.target.value)}
               placeholder="Agent ID..."
-              className="w-32 px-3 py-1.5 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] text-xs font-mono focus:border-[#38BDF8] focus:outline-none placeholder-[#64748B]"
+              className="w-32 px-3 py-1.5 rounded-lg bg-[#070A12] border border-slate-800 text-[#F8FAFC] text-xs font-mono focus:border-cyan-400 focus:outline-none placeholder-[#64748B] transition"
             />
             <button
               type="submit"
-              className="px-3 py-1.5 rounded text-xs font-semibold bg-[#38BDF8] text-[#0B0F17] hover:bg-[#0284C7] transition"
+              className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-[#070A12] hover:from-cyan-400 hover:to-blue-500 transition shadow-[0_0_12px_rgba(6,182,212,0.25)] hover:scale-105 active:scale-95"
             >
               Filter
             </button>
@@ -245,7 +245,7 @@ export default function AuditTrailPage() {
               onClick={() => handleExport('csv')}
               disabled={!permissions.canExportReports}
               title={permissions.canExportReports ? 'Export filtered CSV audit trail' : 'Security Analyst or Admin role required to export'}
-              className="px-2.5 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] border border-[#263244] text-[#F8FAFC] transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[#070A12] hover:bg-[#1A2332] border border-slate-800 hover:border-cyan-500/40 text-[#F8FAFC] transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
             >
               <Download className="w-3.5 h-3.5 text-emerald-400" />
               <span>CSV</span>
@@ -254,7 +254,7 @@ export default function AuditTrailPage() {
               onClick={() => handleExport('json')}
               disabled={!permissions.canExportReports}
               title={permissions.canExportReports ? 'Export filtered JSON audit trail' : 'Security Analyst or Admin role required to export'}
-              className="px-2.5 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] border border-[#263244] text-[#F8FAFC] transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[#070A12] hover:bg-[#1A2332] border border-slate-800 hover:border-cyan-500/40 text-[#F8FAFC] transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
             >
               <Download className="w-3.5 h-3.5 text-cyan-400" />
               <span>JSON</span>
@@ -263,7 +263,7 @@ export default function AuditTrailPage() {
         </div>
 
         {/* Audit Events Table */}
-        <div className="rounded bg-[#131A24] border border-[#263244] overflow-hidden shadow-sm">
+        <div className="mst-card rounded-xl bg-[#131A24]/90 border border-slate-800 overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-[#1A2332] text-[#94A3B8] uppercase font-semibold text-[11px] border-b border-[#263244]">
@@ -293,7 +293,7 @@ export default function AuditTrailPage() {
                   </tr>
                 ) : (
                   events.map((event) => (
-                    <tr key={event.id} className="hover:bg-[#1A2332]/60 transition">
+                    <tr key={event.id} className="mst-table-row hover:bg-[#1A2332]/70 transition-all duration-200">
                       <td className="px-4 py-3 text-[#94A3B8] whitespace-nowrap">
                         {new Date(event.timestamp).toLocaleString()}
                       </td>
@@ -322,14 +322,14 @@ export default function AuditTrailPage() {
                           {event.policy_decision === 'REQUIRE_APPROVAL' && event.approval_status === 'PENDING' && (
                             <button
                               onClick={() => handleOpenApproval(event)}
-                              className="px-2.5 py-1 rounded text-[11px] font-medium bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 hover:bg-[#F59E0B]/25 transition"
+                              className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 hover:bg-[#F59E0B]/25 transition hover:scale-105 active:scale-95"
                             >
                               Review
                             </button>
                           )}
                           <button
                             onClick={() => handleInspect(event.id)}
-                            className="px-2.5 py-1 rounded text-[11px] text-[#F8FAFC] hover:bg-[#263244] bg-[#0B0F17] border border-[#263244] transition"
+                            className="px-2.5 py-1 rounded-md text-[11px] text-[#F8FAFC] hover:bg-[#263244] hover:border-cyan-500/40 bg-[#070A12] border border-slate-800 transition hover:scale-105 active:scale-95"
                           >
                             Inspect
                           </button>

@@ -185,7 +185,7 @@ export default function SimulatorPage() {
                 key={idx}
                 type="button"
                 onClick={() => applyPreset(p)}
-                className="p-3.5 rounded bg-[#131A24] border border-[#263244] hover:border-[#38BDF8] text-left transition flex flex-col justify-between group shadow-sm"
+                className="p-3.5 rounded-xl bg-[#131A24] border border-[#263244] hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.18)] hover:-translate-y-1 text-left transition-all duration-200 flex flex-col justify-between group shadow-sm"
               >
                 <div>
                   <div className="flex items-center justify-between mb-1">
@@ -357,7 +357,7 @@ export default function SimulatorPage() {
                 type="submit"
                 disabled={isLoading || !permissions.canSubmitActions}
                 title={permissions.canSubmitActions ? 'Evaluate policy against request' : 'Viewer / Auditor role is read-only. Switch to Analyst or Admin to simulate.'}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded text-xs font-bold bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-[#0B0F17] transition disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(16,185,129,0.2)]"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-[#0B0F17] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(16,185,129,0.25)] hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] hover:-translate-y-0.5 mst-btn-shimmer"
               >
                 <Play className={`w-3.5 h-3.5 fill-current ${isLoading ? 'animate-pulse' : ''}`} />
                 <span>

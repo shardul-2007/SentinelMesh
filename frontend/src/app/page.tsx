@@ -140,10 +140,10 @@ export default function DashboardPage() {
         {/* KPI Operational Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Total Events */}
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="p-4 rounded-xl mst-card flex flex-col justify-between shadow-sm">
             <div className="flex items-center justify-between text-[#94A3B8] mb-1">
               <span className="text-[11px] font-semibold uppercase tracking-wider">Total Evaluated Actions</span>
-              <Activity className="w-4 h-4 text-[#94A3B8]" />
+              <Activity className="w-4 h-4 text-cyan-400" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-2xl font-bold font-mono text-[#F8FAFC]">
@@ -152,13 +152,13 @@ export default function DashboardPage() {
               <span className="text-xs text-[#94A3B8]">actions</span>
             </div>
             <div className="mt-2 text-[11px] text-[#94A3B8] flex items-center gap-1.5 pt-2 border-t border-[#263244]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-ping"></span>
               SHA-256 integrity chained
             </div>
           </div>
 
           {/* Allowed Actions */}
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="p-4 rounded-xl mst-card flex flex-col justify-between shadow-sm">
             <div className="flex items-center justify-between text-[#94A3B8] mb-1">
               <span className="text-[11px] font-semibold uppercase tracking-wider">Permitted Actions</span>
               <ShieldCheck className="w-4 h-4 text-[#10B981]" />
@@ -175,7 +175,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Blocked Actions */}
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="p-4 rounded-xl mst-card flex flex-col justify-between shadow-sm">
             <div className="flex items-center justify-between text-[#94A3B8] mb-1">
               <span className="text-[11px] font-semibold uppercase tracking-wider">Blocked Operations</span>
               <XCircle className="w-4 h-4 text-[#EF4444]" />
@@ -192,7 +192,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Pending Approvals */}
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="p-4 rounded-xl mst-card flex flex-col justify-between shadow-sm">
             <div className="flex items-center justify-between text-[#94A3B8] mb-1">
               <span className="text-[11px] font-semibold uppercase tracking-wider">Pending Approvals</span>
               <AlertTriangle className="w-4 h-4 text-[#F59E0B]" />
@@ -212,7 +212,7 @@ export default function DashboardPage() {
         {/* Operational Intelligence & System Architecture Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Velocity Chart */}
-          <div className="lg:col-span-2 p-5 rounded bg-[#131A24] border border-[#263244] flex flex-col shadow-sm">
+          <div className="lg:col-span-2 p-5 rounded-xl mst-card flex flex-col shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-sm font-semibold text-[#F8FAFC]">Security Actions Velocity (Last 7 Days)</h3>
@@ -381,7 +381,7 @@ export default function DashboardPage() {
                   </tr>
                 ) : (
                   stats.recent_events.map((event) => (
-                    <tr key={event.id} className="hover:bg-[#1A2332]/60 transition">
+                    <tr key={event.id} className="mst-table-row transition border-b border-[#263244]/60">
                       <td className="px-4 py-3 text-[#94A3B8] whitespace-nowrap">
                         {new Date(event.timestamp).toLocaleTimeString()}
                       </td>

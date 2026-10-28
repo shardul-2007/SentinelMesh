@@ -57,13 +57,13 @@ export function Sidebar({ mobileOpen = false, onClose }: SidebarProps) {
   const content = (
     <div className="w-64 bg-[#131A24] text-[#F8FAFC] flex flex-col flex-shrink-0 min-h-screen border-r border-[#263244] select-none">
       {/* Brand & Identity */}
-      <div className="p-4 border-b border-[#263244] flex items-center justify-between">
+      <div className="p-4 border-b border-[#263244] flex items-center justify-between bg-[#0B0F17]/40">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-[#10B981]/10 border border-[#10B981]/30 flex items-center justify-center text-[#10B981]">
-            <Shield className="w-4 h-4 text-[#10B981]" />
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-600/30 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+            <Shield className="w-4 h-4 text-cyan-400" />
           </div>
           <div>
-            <h1 className="text-sm font-semibold tracking-tight text-[#F8FAFC] flex items-center gap-1.5 font-sans">
+            <h1 className="text-sm font-bold tracking-tight text-[#F8FAFC] flex items-center gap-1.5 font-sans">
               SentinelMesh
             </h1>
             <p className="text-[10px] text-[#94A3B8] font-medium tracking-wide">Trust, Without Blind Faith</p>
@@ -105,17 +105,17 @@ export function Sidebar({ mobileOpen = false, onClose }: SidebarProps) {
               key={item.href}
               href={item.href}
               onClick={() => onClose && onClose()}
-              className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+              className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 group ${
                 isActive
-                  ? 'bg-[#38BDF8]/10 text-[#38BDF8] font-semibold border-l-2 border-[#38BDF8]'
-                  : 'text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1A2332]'
+                  ? 'bg-gradient-to-r from-cyan-500/20 via-cyan-500/10 to-transparent text-cyan-300 font-bold border-l-2 border-cyan-400 shadow-[inset_0_0_15px_rgba(6,182,212,0.12)]'
+                  : 'text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1A2332] hover:translate-x-1 hover:border-l-2 hover:border-cyan-500/40'
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <Icon className={`w-4 h-4 ${isActive ? 'text-[#38BDF8]' : 'text-[#94A3B8]'}`} />
+                <Icon className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'text-cyan-400' : 'text-[#94A3B8] group-hover:text-cyan-300'}`} />
                 <span>{item.name}</span>
               </div>
-              {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#38BDF8]" />}
+              {isActive && <ChevronRight className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />}
             </Link>
           );
         })}

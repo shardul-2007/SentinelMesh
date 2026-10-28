@@ -192,16 +192,16 @@ export default function IntegrityCenterPage() {
 
         {/* KPI Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col justify-between shadow-lg">
             <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Total Evidence Records</span>
-              <Lock className="w-4 h-4 text-[#94A3B8]" />
+              <Lock className="w-4 h-4 text-cyan-400" />
             </div>
             <div className="text-2xl font-bold text-[#F8FAFC] mt-2 font-mono">{records.length}</div>
             <p className="text-[11px] text-[#94A3B8] mt-1">RFC-8785 canonical digests</p>
           </div>
 
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col justify-between shadow-lg">
             <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Confirmed On-Chain</span>
               <Boxes className="w-4 h-4 text-[#38BDF8]" />
@@ -212,7 +212,7 @@ export default function IntegrityCenterPage() {
             <p className="text-[11px] text-[#94A3B8] mt-1">MST EvidenceRegistry commitments</p>
           </div>
 
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col justify-between shadow-lg">
             <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Cryptographically Intact</span>
               <ShieldCheck className="w-4 h-4 text-[#10B981]" />
@@ -223,7 +223,7 @@ export default function IntegrityCenterPage() {
             <p className="text-[11px] text-[#94A3B8] mt-1">Zero divergence against audit state</p>
           </div>
 
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col justify-between shadow-lg">
             <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Active Tamper Alerts</span>
               <AlertTriangle className="w-4 h-4 text-[#EF4444]" />
@@ -236,7 +236,7 @@ export default function IntegrityCenterPage() {
         </div>
 
         {/* Security Resilience Simulation Panel */}
-        <div className="p-5 rounded bg-[#131A24] border border-[#263244] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="mst-card p-5 rounded-xl bg-[#131A24]/90 border border-slate-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-sm font-semibold text-[#F8FAFC]">
               <Wrench className="w-4 h-4 text-[#38BDF8]" />
@@ -256,7 +256,7 @@ export default function IntegrityCenterPage() {
               onClick={handleSimulateTamper}
               disabled={actionLoading === 'simulate-tamper' || !permissions.canSimulateTamper}
               title={permissions.canSimulateTamper ? 'Simulate local hash divergence' : 'Admin Role Required to Simulate Tamper'}
-              className="px-3 py-1.5 rounded text-xs font-semibold bg-[#EF4444]/15 hover:bg-[#EF4444]/25 text-[#EF4444] border border-[#EF4444]/30 transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#EF4444]/15 hover:bg-[#EF4444]/25 text-[#EF4444] border border-[#EF4444]/30 transition shadow-[0_0_12px_rgba(239,68,68,0.2)] flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
             >
               <AlertTriangle className="w-3.5 h-3.5" />
               <span>{permissions.canSimulateTamper ? 'Simulate Tamper' : 'Tamper (Admin Only)'}</span>
@@ -265,7 +265,7 @@ export default function IntegrityCenterPage() {
               onClick={handleRestoreTamper}
               disabled={actionLoading === 'restore-tamper' || !permissions.canSimulateTamper}
               title={permissions.canSimulateTamper ? 'Restore canonical baseline state' : 'Admin Role Required to Restore'}
-              className="px-3 py-1.5 rounded text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] text-[#F8FAFC] border border-[#263244] transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[#0B0F17] hover:bg-[#1A2332] text-[#F8FAFC] border border-[#263244] transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
             >
               <RotateCcw className="w-3.5 h-3.5 text-[#94A3B8]" />
               <span>{permissions.canSimulateTamper ? 'Restore Baseline' : 'Restore (Admin Only)'}</span>
@@ -275,7 +275,7 @@ export default function IntegrityCenterPage() {
 
         {/* Active Tamper Alerts Table */}
         {alerts.length > 0 && (
-          <div className="rounded bg-[#131A24] border border-[#263244] overflow-hidden shadow-sm">
+          <div className="mst-card rounded-xl bg-[#131A24]/90 border border-slate-800 overflow-hidden shadow-xl">
             <div className="p-4 border-b border-[#263244] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 text-[#EF4444]" />
@@ -300,7 +300,7 @@ export default function IntegrityCenterPage() {
                 </thead>
                 <tbody className="divide-y divide-[#263244] font-mono">
                   {alerts.map((alt) => (
-                    <tr key={alt.id} className="hover:bg-[#1A2332]/60 transition">
+                    <tr key={alt.id} className="mst-table-row hover:bg-[#1A2332]/70 transition-all duration-200">
                       <td className="py-3 px-4 font-medium text-[#EF4444]">{alt.id}</td>
                       <td className="py-3 px-4 text-[#F8FAFC]">{alt.event_id}</td>
                       <td className="py-3 px-4 text-[#94A3B8] font-sans">{new Date(alt.detection_timestamp).toLocaleTimeString()}</td>
@@ -316,7 +316,7 @@ export default function IntegrityCenterPage() {
                       <td className="py-3 px-4 text-right space-x-2 font-sans">
                         <button
                           onClick={() => handleInspect(alt.event_id)}
-                          className="px-2 py-1 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] hover:bg-[#1A2332] transition text-[11px]"
+                          className="px-2.5 py-1 rounded-md bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] hover:bg-[#1A2332] hover:border-cyan-500/40 transition text-[11px]"
                         >
                           Inspect
                         </button>
@@ -325,7 +325,7 @@ export default function IntegrityCenterPage() {
                             onClick={() => handleResolveAlert(alt.id)}
                             disabled={!permissions.canResolveAlerts}
                             title={permissions.canResolveAlerts ? 'Resolve alert and commit administrative justification' : 'Admin Role Required to Resolve Alert'}
-                            className="px-2 py-1 rounded bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#F59E0B] hover:bg-[#F59E0B]/25 transition text-[11px] disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="px-2.5 py-1 rounded-md bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#F59E0B] hover:bg-[#F59E0B]/25 transition text-[11px] disabled:opacity-40 disabled:cursor-not-allowed"
                           >
                             {permissions.canResolveAlerts ? 'Resolve (Admin)' : 'Admin Required'}
                           </button>
@@ -340,7 +340,7 @@ export default function IntegrityCenterPage() {
         )}
 
         {/* Integrity Records Ledger */}
-        <div className="rounded bg-[#131A24] border border-[#263244] overflow-hidden shadow-sm">
+        <div className="mst-card rounded-xl bg-[#131A24]/90 border border-slate-800 overflow-hidden shadow-xl">
           <div className="p-4 border-b border-[#263244] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
               <h3 className="text-sm font-semibold text-[#F8FAFC]">Cryptographic Integrity Records</h3>
@@ -351,7 +351,7 @@ export default function IntegrityCenterPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="bg-[#0B0F17] border border-[#263244] rounded px-2.5 py-1 text-xs text-[#F8FAFC] focus:outline-none focus:border-[#38BDF8]"
+                className="bg-[#0B0F17] border border-[#263244] rounded-lg px-2.5 py-1 text-xs text-[#F8FAFC] focus:outline-none focus:border-cyan-400 transition"
               >
                 <option value="ALL">All Records</option>
                 <option value="ANCHORED">Anchored On-Chain</option>
@@ -382,7 +382,7 @@ export default function IntegrityCenterPage() {
                   </tr>
                 ) : (
                   records.map((r) => (
-                    <tr key={r.id} className="hover:bg-[#1A2332]/60 transition">
+                    <tr key={r.id} className="mst-table-row hover:bg-[#1A2332]/70 transition-all duration-200">
                       <td className="py-3 px-4 font-medium text-[#F8FAFC]">{r.event_id}</td>
                       <td className="py-3 px-4 text-[#94A3B8] text-[11px]">
                         {r.event_hash.slice(0, 16)}...{r.event_hash.slice(-8)}
@@ -415,7 +415,7 @@ export default function IntegrityCenterPage() {
                               href={bStatus?.explorer_base_url ? `${bStatus.explorer_base_url}/tx/${r.transaction_hash}` : `https://testnet.mstscan.com/tx/${r.transaction_hash}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#38BDF8] hover:underline"
+                              className="text-[#38BDF8] hover:text-cyan-300 hover:underline transition"
                               title="View on MSTScan Explorer"
                             >
                               <ExternalLink className="w-3 h-3" />
@@ -430,7 +430,7 @@ export default function IntegrityCenterPage() {
                       <td className="py-3 px-4 text-right space-x-1.5 font-sans">
                         <button
                           onClick={() => handleInspect(r.event_id)}
-                          className="px-2 py-1 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] hover:bg-[#1A2332] transition text-[11px]"
+                          className="px-2.5 py-1 rounded-md bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] hover:bg-[#1A2332] hover:border-cyan-500/40 transition text-[11px]"
                         >
                           Inspect
                         </button>
@@ -438,7 +438,7 @@ export default function IntegrityCenterPage() {
                           onClick={() => handleVerify(r.event_id)}
                           disabled={actionLoading === `verify-${r.event_id}` || !permissions.canVerifyHashes}
                           title={permissions.canVerifyHashes ? 'Run independent cryptographic verification' : 'Auditor mode is read-only'}
-                          className="px-2 py-1 rounded bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] hover:bg-[#10B981]/25 transition disabled:opacity-40 disabled:cursor-not-allowed text-[11px]"
+                          className="px-2.5 py-1 rounded-md bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981] hover:bg-[#10B981]/25 transition disabled:opacity-40 disabled:cursor-not-allowed text-[11px] hover:scale-105 active:scale-95"
                         >
                           {actionLoading === `verify-${r.event_id}` ? 'Checking...' : permissions.canVerifyHashes ? 'Verify' : 'Read-Only'}
                         </button>
@@ -447,7 +447,7 @@ export default function IntegrityCenterPage() {
                             onClick={() => handleAnchor(r.event_id, r.event_hash)}
                             disabled={actionLoading === `anchor-${r.event_id}` || !permissions.canAnchor}
                             title={permissions.canAnchor ? 'Commit SHA-256 evidence to MST Blockchain' : 'Admin Role Required to Anchor'}
-                            className="px-2 py-1 rounded bg-gradient-to-r from-cyan-500 to-blue-600 text-[#0B0F17] font-semibold hover:from-cyan-400 hover:to-blue-500 transition disabled:opacity-30 disabled:cursor-not-allowed text-[11px] shadow-[0_0_10px_rgba(6,182,212,0.2)]"
+                            className="mst-btn-shimmer relative overflow-hidden px-3 py-1 rounded-md bg-gradient-to-r from-cyan-500 to-blue-600 text-[#070A12] font-semibold hover:from-cyan-400 hover:to-blue-500 transition disabled:opacity-30 disabled:cursor-not-allowed text-[11px] shadow-[0_0_12px_rgba(6,182,212,0.3)] hover:scale-105 active:scale-95"
                           >
                             {actionLoading === `anchor-${r.event_id}` ? 'Anchoring...' : permissions.canAnchor ? 'Anchor (Admin)' : 'Admin Only'}
                           </button>

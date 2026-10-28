@@ -17,28 +17,35 @@
 }
 
 body {
-  background-color: #0B0F17;
+  background: radial-gradient(circle at 50% -10%, rgba(35, 41, 122, 0.25) 0%, transparent 55%),
+              radial-gradient(circle at 90% 25%, rgba(6, 182, 212, 0.12) 0%, transparent 45%),
+              radial-gradient(circle at 5% 75%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
+              #070A12;
   color: #F8FAFC;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
-/* Custom fine dark cyber scrollbar */
+/* Official MST Custom Cyber Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0F17;
+  background: #070A12;
 }
 ::-webkit-scrollbar-thumb {
-  background: #263244;
-  border-radius: 3px;
+  background: #1E293B;
+  border-radius: 4px;
+  border: 1px solid rgba(6, 182, 212, 0.15);
+  transition: all 0.2s ease;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #00F2FE;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
 }
 
 /* Focus styles for accessible keyboard navigation */
@@ -47,13 +54,31 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   outline-offset: 2px;
 }
 
-/* Official MST Cyber Glow and Micro-Animations */
+/* Official MST Cyber Glow, Shimmer & Micro-Animations */
 @keyframes cyber-pulse {
   0%, 100% {
     box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
   }
   50% {
     box-shadow: 0 0 25px rgba(6, 182, 212, 0.35);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
   }
 }
 
@@ -68,11 +93,44 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .mst-card {
   background: linear-gradient(180deg, rgba(19, 26, 36, 0.95) 0%, rgba(11, 15, 23, 0.98) 100%);
   border: 1px solid rgba(6, 182, 212, 0.18);
-  transition: all 0.25s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mst-card:hover {
-  border-color: rgba(6, 182, 212, 0.45);
-  box-shadow: 0 0 25px rgba(6, 182, 212, 0.12);
-  transform: translateY(-1px);
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 25px rgba(6, 182, 212, 0.18);
+  transform: translateY(-2px);
+}
+
+/* Interactive Table Row Hover with Neon Left Bar */
+.mst-table-row {
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.mst-table-row:hover {
+  background-color: rgba(30, 41, 59, 0.65) !important;
+  box-shadow: inset 3px 0 0 0 #00F2FE;
+}
+
+/* Button Shimmer Overlay */
+.mst-btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.mst-btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.mst-btn-shimmer:hover::after {
+  transform: translateX(100%);
 }

@@ -144,7 +144,7 @@ export function Header({ title, subtitle, onRefresh, isRefreshing, onToggleMobil
           </button>
 
           {isRoleDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-80 rounded-xl bg-[#131A24] border border-[#263244] shadow-2xl p-2 z-50 space-y-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
+            <div className="mst-card absolute right-0 mt-2 w-80 rounded-xl bg-[#131A24]/95 border border-slate-800 shadow-2xl p-2 z-50 space-y-1.5 animate-in fade-in slide-in-from-top-2 duration-150 backdrop-blur-xl">
               <div className="px-3 py-2 border-b border-[#263244]">
                 <div className="flex items-center justify-between">
                   <span className="text-[#94A3B8] text-[10px] uppercase tracking-wider font-bold">RBAC Demo Switcher</span>

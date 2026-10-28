@@ -99,7 +99,7 @@ export default function ApprovalCenterPage() {
 
         {/* KPI Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col justify-between shadow-lg">
             <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Pending Review</span>
               <AlertTriangle className="w-4 h-4 text-[#F59E0B]" />
@@ -108,7 +108,7 @@ export default function ApprovalCenterPage() {
             <p className="text-[11px] text-[#94A3B8] mt-1">Actions awaiting administrator authorization</p>
           </div>
 
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col justify-between shadow-lg">
             <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Approved Operations</span>
               <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
@@ -119,7 +119,7 @@ export default function ApprovalCenterPage() {
             <p className="text-[11px] text-[#94A3B8] mt-1">Authorized for isolated execution</p>
           </div>
 
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex flex-col justify-between shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex flex-col justify-between shadow-lg">
             <div className="flex items-center justify-between text-[#94A3B8] text-xs font-medium">
               <span className="text-[11px] uppercase tracking-wider font-semibold">Rejected Operations</span>
               <XCircle className="w-4 h-4 text-[#EF4444]" />
@@ -132,7 +132,7 @@ export default function ApprovalCenterPage() {
         </div>
 
         {/* Safety Guarantee Notice */}
-        <div className="p-4 rounded bg-[#131A24] border border-[#263244] flex items-start gap-3 shadow-sm">
+        <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 flex items-start gap-3 shadow-lg">
           <Shield className="w-5 h-5 text-[#10B981] flex-shrink-0 mt-0.5" />
           <div className="text-xs space-y-0.5">
             <p className="font-semibold text-[#F8FAFC]">Execution Boundary Guarantee</p>
@@ -143,7 +143,7 @@ export default function ApprovalCenterPage() {
         </div>
 
         {/* Pending Approvals Table */}
-        <div className="rounded bg-[#131A24] border border-[#263244] overflow-hidden shadow-sm">
+        <div className="mst-card rounded-xl bg-[#131A24]/90 border border-slate-800 overflow-hidden shadow-xl">
           <div className="p-4 border-b border-[#263244] flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-[#F59E0B]" />
@@ -176,7 +176,7 @@ export default function ApprovalCenterPage() {
                 </thead>
                 <tbody className="divide-y divide-[#263244] font-mono">
                   {pendingEvents.map((event) => (
-                    <tr key={event.id} className="hover:bg-[#1A2332]/60 transition">
+                    <tr key={event.id} className="mst-table-row hover:bg-[#1A2332]/70 transition-all duration-200">
                       <td className="py-3 px-4 font-medium text-[#F8FAFC]">{event.id}</td>
                       <td className="py-3 px-4 text-[#F8FAFC] font-semibold">{event.agent_id}</td>
                       <td className="py-3 px-4">
@@ -194,14 +194,14 @@ export default function ApprovalCenterPage() {
                       <td className="py-3 px-4 text-right space-x-1.5 font-sans">
                         <button
                           onClick={() => handleInspect(event.id)}
-                          className="px-2 py-1 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] hover:bg-[#1A2332] transition text-[11px]"
+                          className="px-2.5 py-1 rounded-md bg-[#070A12] border border-slate-800 text-[#F8FAFC] hover:bg-[#1A2332] hover:border-cyan-500/40 transition text-[11px] hover:scale-105 active:scale-95"
                         >
                           Inspect
                         </button>
                         {permissions.canApprove ? (
                           <button
                             onClick={() => handleOpenDecision(event)}
-                            className="px-2.5 py-1 rounded bg-[#F59E0B] text-[#0B0F17] hover:bg-[#D97706] transition font-bold text-[11px] shadow-[0_0_10px_rgba(245,158,11,0.2)]"
+                            className="mst-btn-shimmer relative overflow-hidden px-3 py-1 rounded-md bg-gradient-to-r from-amber-500 to-amber-600 text-[#070A12] hover:from-amber-400 hover:to-amber-500 transition font-bold text-[11px] shadow-[0_0_12px_rgba(245,158,11,0.3)] hover:scale-105 active:scale-95"
                           >
                             Decide (Admin)
                           </button>
@@ -232,7 +232,7 @@ export default function ApprovalCenterPage() {
         </div>
 
         {/* Historical Decisions Table */}
-        <div className="rounded bg-[#131A24] border border-[#263244] overflow-hidden shadow-sm">
+        <div className="mst-card rounded-xl bg-[#131A24]/90 border border-slate-800 overflow-hidden shadow-xl">
           <div className="p-4 border-b border-[#263244]">
             <h3 className="text-sm font-semibold text-[#F8FAFC]">Historical Approval Decisions</h3>
             <p className="text-xs text-[#94A3B8] mt-0.5">Auditable records of all past administrative authorizations</p>
@@ -254,7 +254,7 @@ export default function ApprovalCenterPage() {
                   .filter(e => e.approval_status !== 'PENDING')
                   .slice(0, 10)
                   .map((event) => (
-                    <tr key={event.id} className="hover:bg-[#1A2332]/60 transition">
+                    <tr key={event.id} className="mst-table-row hover:bg-[#1A2332]/70 transition-all duration-200">
                       <td className="py-3 px-4 font-medium text-[#F8FAFC]">{event.id}</td>
                       <td className="py-3 px-4 text-[#F8FAFC]">{event.agent_id}</td>
                       <td className="py-3 px-4">
@@ -278,7 +278,7 @@ export default function ApprovalCenterPage() {
                       <td className="py-3 px-4 text-right font-sans">
                         <button
                           onClick={() => handleInspect(event.id)}
-                          className="px-2 py-1 rounded bg-[#0B0F17] border border-[#263244] text-[#F8FAFC] hover:bg-[#1A2332] transition text-[11px]"
+                          className="px-2.5 py-1 rounded-md bg-[#070A12] border border-slate-800 text-[#F8FAFC] hover:bg-[#1A2332] hover:border-cyan-500/40 transition text-[11px] hover:scale-105 active:scale-95"
                         >
                           Inspect
                         </button>

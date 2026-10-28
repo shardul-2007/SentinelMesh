@@ -117,66 +117,66 @@ export default function BlockchainActivityPage() {
         {/* Network & Contract Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Active Network */}
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 shadow-xl">
             <div className="flex items-center justify-between text-xs text-[#94A3B8] mb-1">
               <span className="font-semibold uppercase text-[10px] tracking-wider">Active Network</span>
-              <span className={`inline-flex items-center gap-1 font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded border ${
+              <span className={`inline-flex items-center gap-1 font-mono text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
                 status?.connected 
-                  ? 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/30' 
-                  : 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30'
+                  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' 
+                  : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
               }`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${status?.connected ? 'bg-[#10B981] animate-pulse' : 'bg-[#F59E0B]'}`}></span>
+                <span className={`w-1.5 h-1.5 rounded-full ${status?.connected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`}></span>
                 {status?.connected ? 'ONLINE' : 'LOCAL SIM'}
               </span>
             </div>
             <p className="text-base font-bold text-[#F8FAFC] mt-1">{status?.network_name || 'MST Testnet'}</p>
             <div className="flex items-center justify-between text-[11px] text-[#94A3B8] mt-2 pt-2 border-t border-[#263244]">
-              <span>Chain ID: <strong className="font-mono text-[#38BDF8]">{status?.detected_chain_id || status?.configured_chain_id || 91562037}</strong></span>
-              <span>Gas: <strong className="font-mono text-[#38BDF8]">{nativeToken}</strong></span>
+              <span>Chain ID: <strong className="font-mono text-cyan-400">{status?.detected_chain_id || status?.configured_chain_id || 91562037}</strong></span>
+              <span>Gas: <strong className="font-mono text-cyan-400">{nativeToken}</strong></span>
             </div>
           </div>
 
           {/* Evidence Registry Contract */}
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 shadow-xl">
             <div className="flex items-center justify-between text-xs text-[#94A3B8] mb-1">
               <span className="font-semibold uppercase text-[10px] tracking-wider">EvidenceRegistry Contract</span>
-              <Lock className="w-3.5 h-3.5 text-[#38BDF8]" />
+              <Lock className="w-3.5 h-3.5 text-cyan-400" />
             </div>
             <div className="mt-1 flex items-center justify-between">
               {status?.contract_address ? (
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs text-[#38BDF8] font-semibold">
+                  <span className="font-mono text-xs text-cyan-400 font-semibold">
                     {status.contract_address.slice(0, 10)}...{status.contract_address.slice(-6)}
                   </span>
                   <button 
                     onClick={() => handleCopy(status.contract_address || '')} 
-                    className="p-1 rounded text-[#94A3B8] hover:text-[#38BDF8] transition"
+                    className="p-1 rounded text-[#94A3B8] hover:text-cyan-400 transition"
                     title="Copy Contract Address"
                   >
-                    {copiedHash === status.contract_address ? <Check className="w-3.5 h-3.5 text-[#10B981]" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedHash === status.contract_address ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                   <a
                     href={status.contract_explorer_url || `${explorerBase}/address/${status.contract_address}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1 rounded text-[#38BDF8] hover:text-[#0284C7] transition"
+                    className="p-1 rounded text-cyan-400 hover:text-cyan-300 transition"
                     title="View on MSTScan"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
               ) : (
-                <span className="text-xs text-[#F59E0B] font-mono">Not deployed on current RPC</span>
+                <span className="text-xs text-amber-400 font-mono">Not deployed on current RPC</span>
               )}
             </div>
             <div className="flex items-center justify-between text-[11px] text-[#94A3B8] mt-2 pt-2 border-t border-[#263244]">
               <span>Total Anchors: <strong className="font-mono text-[#F8FAFC]">{status?.total_anchors ?? transactions.length}</strong></span>
-              <span className="text-[10px] font-mono text-[#10B981]">Immutable V1</span>
+              <span className="text-[10px] font-mono text-emerald-400">Immutable V1</span>
             </div>
           </div>
 
           {/* Current Block Height */}
-          <div className="p-4 rounded bg-[#131A24] border border-[#263244] shadow-sm">
+          <div className="mst-card p-4 rounded-xl bg-[#131A24]/90 border border-slate-800 shadow-xl">
             <div className="flex items-center justify-between text-xs text-[#94A3B8] mb-1">
               <span className="font-semibold uppercase text-[10px] tracking-wider">Node Block Height</span>
               <Boxes className="w-3.5 h-3.5 text-[#94A3B8]" />
@@ -190,7 +190,7 @@ export default function BlockchainActivityPage() {
                 href={explorerBase}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#38BDF8] font-medium hover:underline flex items-center gap-0.5"
+                className="text-cyan-400 font-medium hover:underline flex items-center gap-0.5"
               >
                 <span>MSTScan</span>
                 <ArrowUpRight className="w-3 h-3" />
@@ -203,7 +203,7 @@ export default function BlockchainActivityPage() {
         <DeploymentStatusCard />
 
         {/* Transaction Search & Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 rounded bg-[#131A24] border border-[#263244] shadow-sm">
+        <div className="mst-card flex flex-col sm:flex-row items-center justify-between gap-3 p-3.5 rounded-xl bg-[#131A24]/90 border border-slate-800 shadow-xl">
           <div className="relative flex-1 w-full sm:w-auto">
             <Search className="w-4 h-4 text-[#94A3B8] absolute left-3 top-2.5" />
             <input
@@ -211,7 +211,7 @@ export default function BlockchainActivityPage() {
               placeholder="Search by transaction hash, audit event ID, or contract address..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 text-xs bg-[#0B0F17] border border-[#263244] rounded text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#38BDF8] font-mono"
+              className="w-full pl-9 pr-3 py-1.5 text-xs bg-[#070A12] border border-slate-800 rounded-lg text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-cyan-400 font-mono transition"
             />
           </div>
           <div className="flex items-center gap-2 self-end sm:self-auto">
@@ -219,7 +219,7 @@ export default function BlockchainActivityPage() {
               href="https://faucet.mstblockchain.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1.5 rounded text-xs font-medium text-[#F8FAFC] bg-[#0B0F17] border border-[#263244] hover:bg-[#1A2332] transition flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-lg text-xs font-medium text-[#F8FAFC] bg-[#070A12] border border-slate-800 hover:bg-[#1A2332] hover:border-cyan-500/40 transition flex items-center gap-1.5 hover:scale-105 active:scale-95"
             >
               <span>MST Faucet</span>
               <ExternalLink className="w-3 h-3 text-[#94A3B8]" />
@@ -228,7 +228,7 @@ export default function BlockchainActivityPage() {
               href={explorerBase}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1.5 rounded text-xs font-semibold text-[#0B0F17] bg-[#38BDF8] hover:bg-[#0284C7] transition flex items-center gap-1.5"
+              className="mst-btn-shimmer relative overflow-hidden px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#070A12] bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition shadow-[0_0_12px_rgba(6,182,212,0.3)] flex items-center gap-1.5 hover:scale-105 active:scale-95"
             >
               <span>MST Explorer</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
@@ -237,13 +237,13 @@ export default function BlockchainActivityPage() {
         </div>
 
         {/* Transaction Records Table */}
-        <div className="rounded bg-[#131A24] border border-[#263244] overflow-hidden shadow-sm">
+        <div className="mst-card rounded-xl bg-[#131A24]/90 border border-slate-800 overflow-hidden shadow-xl">
           <div className="p-4 border-b border-[#263244] flex items-center justify-between">
             <div>
               <h3 className="text-sm font-semibold text-[#F8FAFC]">On-Chain Evidence Anchors</h3>
               <p className="text-xs text-[#94A3B8] mt-0.5">Real commitments recorded in the smart contract on MST Blockchain</p>
             </div>
-            <span className="text-xs font-mono text-[#94A3B8]">{filteredTransactions.length} records</span>
+            <span className="text-xs font-mono text-cyan-400">{filteredTransactions.length} records</span>
           </div>
 
           <div className="overflow-x-auto">
@@ -274,15 +274,15 @@ export default function BlockchainActivityPage() {
                   </tr>
                 ) : (
                   filteredTransactions.map((tx) => (
-                    <tr key={tx.transaction_hash} className="hover:bg-[#1A2332]/60 transition">
+                    <tr key={tx.transaction_hash} className="mst-table-row hover:bg-[#1A2332]/70 transition-all duration-200">
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-[#38BDF8]">
+                          <span className="font-semibold text-cyan-400">
                             {tx.transaction_hash.slice(0, 10)}...{tx.transaction_hash.slice(-8)}
                           </span>
                           <button
                             onClick={() => handleCopy(tx.transaction_hash)}
-                            className="text-[#94A3B8] hover:text-[#38BDF8] transition"
+                            className="text-[#94A3B8] hover:text-cyan-400 transition"
                             title="Copy Transaction Hash"
                           >
                             {copiedHash === tx.transaction_hash ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
@@ -292,7 +292,7 @@ export default function BlockchainActivityPage() {
                               href={tx.explorer_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#38BDF8] hover:text-[#0284C7]"
+                              className="text-cyan-400 hover:text-cyan-300 transition"
                               title="View on MSTScan"
                             >
                               <ExternalLink className="w-3 h-3" />
@@ -308,7 +308,7 @@ export default function BlockchainActivityPage() {
                         {tx.block_number ? `#${tx.block_number}` : 'Pending'}
                       </td>
                       <td className="py-3 px-4">
-                        <span className="inline-flex items-center gap-1 font-semibold px-2 py-0.5 rounded text-[10px] font-mono bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30">
+                        <span className="inline-flex items-center gap-1 font-semibold px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                           <CheckCircle2 className="w-3 h-3" />
                           CONFIRMED
                         </span>
@@ -316,7 +316,7 @@ export default function BlockchainActivityPage() {
                       <td className="py-3 px-4 text-right space-x-2 font-sans">
                         <button
                           onClick={() => openInspector(tx.event_id)}
-                          className="px-2.5 py-1 rounded text-xs font-semibold bg-[#38BDF8] text-[#0B0F17] hover:bg-[#0284C7] transition"
+                          className="px-2.5 py-1 rounded-md text-xs font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 transition hover:scale-105 active:scale-95"
                         >
                           Inspect Evidence
                         </button>

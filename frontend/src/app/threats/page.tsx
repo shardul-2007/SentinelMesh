@@ -268,7 +268,7 @@ export default function ThreatsPage() {
 
           {/* Intelligence KPI Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 shadow-sm">
+            <div className="mst-card bg-[#131A24]/90 border border-slate-800 rounded-xl p-5 shadow-lg">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Threat Findings</span>
                 <span className="p-1.5 rounded-md bg-red-950/60 text-red-400 border border-red-800/40">
@@ -288,7 +288,7 @@ export default function ThreatsPage() {
               </div>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 shadow-sm">
+            <div className="mst-card bg-[#131A24]/90 border border-slate-800 rounded-xl p-5 shadow-lg">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Agents Under Review</span>
                 <span className="p-1.5 rounded-md bg-orange-950/60 text-orange-400 border border-orange-800/40">
@@ -304,23 +304,23 @@ export default function ThreatsPage() {
               </div>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 shadow-sm">
+            <div className="mst-card bg-[#131A24]/90 border border-slate-800 rounded-xl p-5 shadow-lg">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Registered Detectors</span>
-                <span className="p-1.5 rounded-md bg-blue-950/60 text-blue-400 border border-blue-800/40">
+                <span className="p-1.5 rounded-md bg-cyan-950/60 text-cyan-400 border border-cyan-800/40 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
                   <Cpu className="w-4 h-4" />
                 </span>
               </div>
               <div className="mt-3 flex items-baseline gap-2">
                 <span className="text-3xl font-extrabold text-white">{rules.length || 6}</span>
-                <span className="text-xs text-emerald-400 font-medium">Deterministic Rules</span>
+                <span className="text-xs text-cyan-400 font-medium">Deterministic Rules</span>
               </div>
               <div className="mt-3 text-xs text-slate-400">
                 Idempotent with bounded time windows
               </div>
             </div>
 
-            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 shadow-sm">
+            <div className="mst-card bg-[#131A24]/90 border border-slate-800 rounded-xl p-5 shadow-lg">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Investigation Resolution</span>
                 <span className="p-1.5 rounded-md bg-emerald-950/60 text-emerald-400 border border-emerald-800/40">
@@ -338,12 +338,12 @@ export default function ThreatsPage() {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="border-b border-slate-800 flex gap-6">
+          <div className="border-b border-slate-800 flex gap-6 overflow-x-auto">
             <button
               onClick={() => setActiveTab('findings')}
-              className={`pb-3 text-sm font-semibold transition border-b-2 flex items-center gap-2 ${
+              className={`pb-3 text-sm font-semibold transition border-b-2 flex items-center gap-2 whitespace-nowrap ${
                 activeTab === 'findings'
-                  ? 'border-indigo-500 text-indigo-400'
+                  ? 'border-cyan-400 text-cyan-400'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -352,9 +352,9 @@ export default function ThreatsPage() {
             </button>
             <button
               onClick={() => setActiveTab('profiles')}
-              className={`pb-3 text-sm font-semibold transition border-b-2 flex items-center gap-2 ${
+              className={`pb-3 text-sm font-semibold transition border-b-2 flex items-center gap-2 whitespace-nowrap ${
                 activeTab === 'profiles'
-                  ? 'border-indigo-500 text-indigo-400'
+                  ? 'border-cyan-400 text-cyan-400'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -363,9 +363,9 @@ export default function ThreatsPage() {
             </button>
             <button
               onClick={() => setActiveTab('lab')}
-              className={`pb-3 text-sm font-semibold transition border-b-2 flex items-center gap-2 ${
+              className={`pb-3 text-sm font-semibold transition border-b-2 flex items-center gap-2 whitespace-nowrap ${
                 activeTab === 'lab'
-                  ? 'border-indigo-500 text-indigo-400'
+                  ? 'border-cyan-400 text-cyan-400'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -374,9 +374,9 @@ export default function ThreatsPage() {
             </button>
             <button
               onClick={() => setActiveTab('rules')}
-              className={`pb-3 text-sm font-semibold transition border-b-2 flex items-center gap-2 ${
+              className={`pb-3 text-sm font-semibold transition border-b-2 flex items-center gap-2 whitespace-nowrap ${
                 activeTab === 'rules'
-                  ? 'border-indigo-500 text-indigo-400'
+                  ? 'border-cyan-400 text-cyan-400'
                   : 'border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -389,7 +389,7 @@ export default function ThreatsPage() {
           {activeTab === 'findings' && (
             <div className="space-y-4">
               {/* Search & Filters */}
-              <div className="flex flex-col md:flex-row gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+              <div className="mst-card flex flex-col md:flex-row gap-3 bg-[#131A24]/90 p-4 rounded-xl border border-slate-800 shadow-xl">
                 <div className="relative flex-1">
                   <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
                   <input
@@ -397,7 +397,7 @@ export default function ThreatsPage() {
                     placeholder="Search findings by agent, rule, or title..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-slate-200 focus:outline-none focus:border-indigo-500"
+                    className="w-full pl-9 pr-4 py-2 bg-[#070A12] border border-slate-800 rounded-lg text-sm text-slate-200 focus:outline-none focus:border-cyan-400 transition"
                   />
                 </div>
                 <div className="flex items-center gap-3">
@@ -408,7 +408,7 @@ export default function ThreatsPage() {
                   <select
                     value={severityFilter}
                     onChange={(e) => setSeverityFilter(e.target.value)}
-                    className="bg-slate-950 border border-slate-800 rounded-lg text-xs py-2 px-3 text-slate-200 focus:outline-none focus:border-indigo-500"
+                    className="bg-[#070A12] border border-slate-800 rounded-lg text-xs py-2 px-3 text-slate-200 focus:outline-none focus:border-cyan-400 transition"
                   >
                     <option value="ALL">All Severities</option>
                     <option value="CRITICAL">Critical</option>
@@ -423,7 +423,7 @@ export default function ThreatsPage() {
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    className="bg-slate-950 border border-slate-800 rounded-lg text-xs py-2 px-3 text-slate-200 focus:outline-none focus:border-indigo-500"
+                    className="bg-[#070A12] border border-slate-800 rounded-lg text-xs py-2 px-3 text-slate-200 focus:outline-none focus:border-cyan-400 transition"
                   >
                     <option value="ALL">All Statuses</option>
                     <option value="ACTIVE">Active</option>
@@ -435,9 +435,9 @@ export default function ThreatsPage() {
               </div>
 
               {/* Findings Table */}
-              <div className="bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+              <div className="mst-card bg-[#131A24]/90 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
                 <table className="w-full text-left text-sm">
-                  <thead className="bg-slate-950/70 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                  <thead className="bg-[#1A2332] text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
                     <tr>
                       <th className="px-5 py-3.5">Severity</th>
                       <th className="px-5 py-3.5">Finding & Rule</th>
@@ -448,17 +448,17 @@ export default function ThreatsPage() {
                       <th className="px-5 py-3.5 text-right">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60">
+                  <tbody className="divide-y divide-slate-800/60 font-mono">
                     {filteredFindings.length === 0 ? (
                       <tr>
-                        <td colSpan={7} className="px-5 py-12 text-center text-slate-500">
-                          <CheckCircle2 className="w-8 h-8 mx-auto mb-2 text-slate-600" />
+                        <td colSpan={7} className="px-5 py-12 text-center text-slate-500 font-sans">
+                          <CheckCircle2 className="w-8 h-8 mx-auto mb-2 text-emerald-500/60" />
                           No security findings match the current criteria.
                         </td>
                       </tr>
                     ) : (
                       filteredFindings.map((f) => (
-                        <tr key={f.id} className="hover:bg-slate-800/40 transition">
+                        <tr key={f.id} className="mst-table-row hover:bg-slate-800/60 transition-all duration-200">
                           <td className="px-5 py-3.5 whitespace-nowrap">
                             {getSeverityBadge(f.severity)}
                           </td>
@@ -483,7 +483,7 @@ export default function ThreatsPage() {
                           <td className="px-5 py-3.5 text-right whitespace-nowrap">
                             <button
                               onClick={() => handleOpenFinding(f)}
-                              className="px-3 py-1.5 text-xs font-medium text-indigo-400 hover:text-indigo-300 hover:bg-indigo-950/50 rounded-lg transition border border-indigo-800/50 flex items-center gap-1.5 ml-auto"
+                              className="px-3 py-1.5 text-xs font-medium text-cyan-400 hover:text-cyan-300 hover:bg-cyan-950/40 rounded-lg transition border border-cyan-800/50 hover:border-cyan-500/50 flex items-center gap-1.5 ml-auto hover:scale-105 active:scale-95 shadow-[0_0_10px_rgba(6,182,212,0.15)]"
                             >
                               <Eye className="w-3.5 h-3.5" />
                               Investigate
@@ -512,19 +512,19 @@ export default function ThreatsPage() {
               {/* Agent Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {profiles.map((p) => (
-                  <div key={p.agent_id} className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 shadow-sm hover:border-slate-700 transition flex flex-col justify-between">
+                  <div key={p.agent_id} className="mst-card bg-[#131A24]/90 border border-slate-800 rounded-xl p-5 shadow-lg hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-between">
                     <div>
                       {/* Header */}
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-bold text-white text-base">{p.agent_name}</h3>
-                          <span className="text-xs font-mono text-indigo-400">{p.agent_id}</span>
+                          <span className="text-xs font-mono text-cyan-400">{p.agent_id}</span>
                         </div>
                         {getRiskTierBadge(p.risk_score_breakdown.risk_tier)}
                       </div>
 
                       {/* Score Gauge */}
-                      <div className="mt-4 p-4 rounded-xl bg-slate-950 border border-slate-800/80">
+                      <div className="mt-4 p-4 rounded-xl bg-[#070A12] border border-slate-800/80">
                         <div className="flex justify-between items-center mb-1.5">
                           <span className="text-xs font-semibold text-slate-400">Behavioral Risk Index</span>
                           <span className="text-lg font-extrabold text-white">
@@ -548,7 +548,7 @@ export default function ThreatsPage() {
                         <div className="mt-2 text-right">
                           <button
                             onClick={() => setExplainProfile(p)}
-                            className="text-xs text-indigo-400 hover:text-indigo-300 font-medium inline-flex items-center gap-1"
+                            className="text-xs text-cyan-400 hover:text-cyan-300 font-medium inline-flex items-center gap-1"
                           >
                             Explain Score Breakdown <ChevronRight className="w-3 h-3" />
                           </button>
