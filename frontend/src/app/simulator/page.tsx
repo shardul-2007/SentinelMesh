@@ -18,6 +18,7 @@ import {
 import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
 import { TrustTimeline } from '@/components/TrustTimeline';
+import { JudgeDemoTour } from '@/components/JudgeDemoTour';
 import { api } from '@/lib/api';
 import { useRBAC } from '@/lib/rbac';
 import { ActionEvaluateResponse } from '@/lib/types';
@@ -188,6 +189,9 @@ export default function SimulatorPage() {
             </div>
           </div>
         )}
+
+        {/* Hackathon Judge Evaluation Walkthrough */}
+        <JudgeDemoTour />
 
         {/* Scenario Presets */}
         <div>

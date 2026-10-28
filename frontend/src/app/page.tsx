@@ -14,7 +14,9 @@ import {
   ArrowRight,
   Shield,
   Lock,
-  Boxes
+  Boxes,
+  Sparkles,
+  CheckCircle2
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
@@ -98,6 +100,66 @@ export default function DashboardPage() {
       />
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+        {/* Hackathon Judge Fast-Track Callout Banner */}
+        <div className="mst-card relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#1A1D24] via-[#1F242D] to-[#1A1D24] border-2 border-[#FF9900]/40 p-5 shadow-2xl">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF9900]/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+            <div className="space-y-2 max-w-3xl">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF9900]/20 text-[#FF9900] border border-[#FF9900]/40 text-xs font-black tracking-wider uppercase">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  MST Buildathon Evaluator Quick-Start
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 text-xs font-mono font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+                  MST Testnet Verified (Chain ID 91562037)
+                </span>
+                <span className="text-xs text-[#94A3B8] font-mono hidden sm:inline">
+                  Contract: 0x00E0...69Ce
+                </span>
+              </div>
+
+              <h2 className="text-base sm:text-lg font-bold text-[#F8FAFC]">
+                Complete End-to-End Evaluation Workflow in 7 Guided Steps
+              </h2>
+              <p className="text-xs text-[#94A3B8] leading-relaxed">
+                Test how SentinelMesh governs AI-agent execution with deterministic policy evaluation (ALLOW / BLOCK / REQUIRE_APPROVAL), canonical RFC-8785 SHA-256 evidence generation, smart contract anchoring on MST Testnet, and byte-for-byte on-chain read-back integrity verification.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-3 pt-1 text-xs">
+                <span className="flex items-center gap-1 text-[#10B981] font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" /> Deterministic Policies
+                </span>
+                <span className="flex items-center gap-1 text-[#10B981] font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" /> EvidenceRegistry.sol
+                </span>
+                <span className="flex items-center gap-1 text-[#10B981] font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" /> On-Chain Readback Verification
+                </span>
+                <span className="flex items-center gap-1 text-[#10B981] font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" /> BridgeKey Ready
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 w-full lg:w-auto flex-shrink-0">
+              <Link
+                href="/simulator"
+                className="mst-btn-shimmer px-5 py-3 rounded-xl bg-gradient-to-r from-[#FF9900] to-[#FB641B] text-[#111317] font-black text-xs uppercase tracking-wider hover:brightness-110 transition shadow-[0_0_20px_rgba(255,153,0,0.35)] flex items-center justify-center gap-2 text-center"
+              >
+                <span>Launch 7-Step Judging Tour</span>
+                <ArrowRight className="w-4 h-4 text-[#111317]" />
+              </Link>
+              <Link
+                href="/blockchain"
+                className="px-4 py-2.5 rounded-xl bg-[#111317] hover:bg-[#262B35] text-[#F8FAFC] border border-[#2E3442] hover:border-[#FF9900]/40 font-bold text-xs transition flex items-center justify-center gap-2 text-center"
+              >
+                <Boxes className="w-3.5 h-3.5 text-[#FF9900]" />
+                <span>Inspect On-Chain Proofs</span>
+              </Link>
+            </div>
+          </div>
+        </div>
         {/* Active Tamper Alerts Warning Banner */}
         {alerts.filter(a => a.status === 'OPEN').length > 0 && (
           <div className="p-4 rounded-xl bg-[#EF4444]/15 border border-[#EF4444]/30 flex items-center justify-between">

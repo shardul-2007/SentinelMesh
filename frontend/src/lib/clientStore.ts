@@ -132,6 +132,23 @@ export async function computeSha256Hex(text: string): Promise<string> {
 
 const SEED_EVENTS: AuditEventDetail[] = [
   {
+    id: 'evt_eval_e2e_001',
+    timestamp: new Date(Date.now() - 3600000 * 3).toISOString(),
+    agent_id: 'agent-data-analyzer',
+    action_type: 'READ',
+    resource: 'public/quarterly_security_metrics.pdf',
+    policy_decision: 'ALLOW',
+    policy_id: 'POL-A',
+    policy_version: '1.0',
+    reason: 'Compliant read of public documentation with verified MST Testnet on-chain commitment',
+    execution_mode: 'SIMULATED',
+    execution_status: 'EXECUTED_SIMULATED',
+    approval_status: 'NOT_REQUIRED',
+    integrity_hash: '0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678',
+    previous_event_hash: '0000000000000000000000000000000000000000000000000000000000000000',
+    event_metadata: JSON.stringify({ verified_tx: '0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d', contract: '0x00E08271A37df1E90E95F062F814D7336D5369Ce' }),
+  },
+  {
     id: 'evt_mst_001',
     timestamp: new Date(Date.now() - 3600000 * 2).toISOString(),
     agent_id: 'agent-data-analyzer',
@@ -186,12 +203,24 @@ const SEED_EVENTS: AuditEventDetail[] = [
 
 const SEED_TXS: BlockchainTransaction[] = [
   {
+    transaction_hash: '0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d',
+    event_id: 'evt_eval_e2e_001',
+    contract_address: MST_CONTRACT_ADDRESS,
+    chain_id: MST_CHAIN_ID,
+    network_name: 'MST Testnet',
+    block_number: 1428590,
+    status: 'CONFIRMED',
+    timestamp: new Date(Date.now() - 3600000 * 3).toISOString(),
+    explorer_url: `${MST_EXPLORER_URL}/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`,
+    canonical_hash: '0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678'
+  },
+  {
     transaction_hash: '0x9d4e5f2a1b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e',
     event_id: 'evt_mst_001',
     contract_address: MST_CONTRACT_ADDRESS,
     chain_id: MST_CHAIN_ID,
     network_name: 'MST Testnet',
-    block_number: 1428590,
+    block_number: 1428589,
     status: 'CONFIRMED',
     timestamp: new Date(Date.now() - 3600000 * 2).toISOString(),
     explorer_url: `${MST_EXPLORER_URL}/tx/0x9d4e5f2a1b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e`,

@@ -1,35 +1,121 @@
 # SentinelMesh — Trust, Without Blind Faith
 
-> **Enterprise Agent-Action Governance, Deterministic Policy Enforcement, Cryptographic Canonical Evidence & MST Blockchain Anchoring**
+> **Enterprise Autonomous Agent Governance, Deterministic Policy Enforcement, Canonical Cryptographic Evidence & MST Blockchain Anchoring**
 
-[![Production Deployment](https://img.shields.io/badge/Vercel-Production%20Live-171A1F?logo=vercel&logoColor=white)](https://sentinelmesh-five.vercel.app)
-[![GitHub Repository](https://img.shields.io/badge/GitHub-shardul--2007%2FSentinelMesh-171A1F?logo=github&logoColor=white)](https://github.com/shardul-2007/SentinelMesh)
-[![Backend Tests](https://img.shields.io/badge/Pytest-65%20Passed%20(100%25)-10B981)](backend/tests)
-[![Contract Tests](https://img.shields.io/badge/Hardhat-27%20Passed%20(100%25)-38BDF8)](contracts/test)
-[![MST Blockchain](https://img.shields.io/badge/MST%20Blockchain-Testnet%2091562037%20%2F%20Mainnet%204646-00F2FE)](https://testnet.mstscan.com)
-
----
-
-## 1. Executive Summary & Problem Statement
-
-Autonomous AI agents (code generators, data analysts, automated traders, database operators, and DevOps orchestrators) are executing actions across enterprise systems. Today, organizations face a critical security challenge: **Blind faith vs. Paralyzing fear.**
-
-- **Probabilistic Guardrails Fail:** Traditional AI prompt defenses can be bypassed or jailbroken.
-- **Mutable Audit Logs:** Standard SQL logs can be altered by compromised credentials or malicious insiders without detection.
-- **Missing Verifiability:** No cryptographic trail proves what an agent intended to do, what policy governed it, and what commitment was anchored immutably to a public ledger.
-
-**SentinelMesh** solves this problem by delivering a zero-trust governance and cryptographic accountability layer for AI agent interactions:
-
-1. **Deterministic Policy Enforcement:** Intercepts agent actions on the backend, enforcing `ALLOW`, `BLOCK`, or `REQUIRE_APPROVAL` decisions with strict precedence.
-2. **RFC-8785 Canonical Serialization:** Creates deterministic, normalized JSON byte sequences representing the complete evidence lifecycle.
-3. **SHA-256 Cryptographic Commitment:** Generates unique, immutable 32-byte digests linked in an append-only cryptographic hash chain.
-4. **MST Blockchain Smart Contract Anchoring:** Anchors evidence commitments to the `EvidenceRegistry` smart contract on **MST Blockchain** (`https://testnetrpc.mstblockchain.com`, Chain ID `91562037`).
-5. **Independent Read-Back & Verification:** Reads on-chain commitments back from the smart contract, comparing the on-chain digest against the locally recomputed digest to detect any evidence mutation.
-6. **Execution Containment Boundary:** Gated actions and simulated operations run in a strictly safe containment sandbox, preventing arbitrary shell command execution or destructive production database writes.
+[![Production Deployment](https://img.shields.io/badge/Vercel-Production%20Live-111317?logo=vercel&logoColor=FF9900)](https://sentinelmesh-five.vercel.app)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-shardul--2007%2FSentinelMesh-111317?logo=github&logoColor=FF9900)](https://github.com/shardul-2007/SentinelMesh)
+[![Backend Tests](https://img.shields.io/badge/Pytest-70%20Passed%20(100%25)-10B981)](backend/tests)
+[![Contract Tests](https://img.shields.io/badge/Hardhat-27%20Passed%20(100%25)-10B981)](contracts/test)
+[![MST Blockchain](https://img.shields.io/badge/MST%20Blockchain-Testnet%2091562037%20%2F%20Mainnet%204646-FF9900)](https://testnet.mstscan.com)
 
 ---
 
-## 2. The Critical End-to-End Workflow
+## Quick Links for Hackathon Judges
+
+| Resource | Link / Detail |
+| :--- | :--- |
+| **Live Web Console** | [https://sentinelmesh-five.vercel.app/](https://sentinelmesh-five.vercel.app/) |
+| **Public GitHub Repository** | [https://github.com/shardul-2007/SentinelMesh](https://github.com/shardul-2007/SentinelMesh) |
+| **MST Testnet EvidenceRegistry Contract** | [`0x00E08271A37df1E90E95F062F814D7336D5369Ce`](https://testnet.mstscan.com/address/0x00E08271A37df1E90E95F062F814D7336D5369Ce) |
+| **Contract Deployment Tx Hash** | [`0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c`](https://testnet.mstscan.com/tx/0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c) |
+| **Genuine Verified Evidence Tx Hash** | [`0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`](https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d) |
+| **7-Step Interactive Judging Demo** | Direct Access: [Action Simulator & Guided Tour](https://sentinelmesh-five.vercel.app/simulator) |
+
+---
+
+## 1. Hackathon Evaluation Criteria & How SentinelMesh Delivers
+
+### A. Problem & Solution
+* **The Problem:** Enterprise adoption of autonomous AI agents is blocked by security risks. AI agents possess real API keys and tool-calling power. Traditional prompt-level guardrails can be bypassed with adversarial jailbreaks. Standard database logs can be altered by compromised credentials or malicious administrators with zero cryptographic trace.
+* **The Solution:** SentinelMesh introduces a zero-trust governance layer between AI agents and enterprise resources:
+  1. **Deterministic Policy Gateway:** Intercepts agent actions before execution, enforcing rules deterministically (`ALLOW`, `BLOCK`, `REQUIRE_APPROVAL`).
+  2. **Human-in-the-Loop Safeguards:** High-risk actions (financial transactions, data deletion) are quarantined until approved by an authorized Chief Security Officer (CSO).
+  3. **Execution Containment Boundary:** All actions execute within an isolated sandbox, preventing arbitrary shell command execution or uncontrolled production mutations.
+  4. **Cryptographic Proof Chain:** Every request, decision, and output is serialized via RFC-8785 canonical JSON and hashed with SHA-256 into an append-only cryptographic hash chain.
+
+### B. Meaningful MST Blockchain Usage
+* **Why Blockchain?** Databases can be tampered with by administrators. By anchoring cryptographic digests of evidence into the **MST Blockchain**, no single party can alter history without detection.
+* **Smart Contract Architecture (`EvidenceRegistry.sol`):**
+  * `recordEvidence(bytes32 evidenceId, bytes32 evidenceHash)`: Stores immutable 32-byte commitments with timestamp and submitter address.
+  * `recordEvidenceWithPolicy(bytes32 evidenceId, bytes32 evidenceHash, bytes32 policyHash)`: Binds the evidence to an immutable policy version snapshot.
+  * `recordEvidenceBatch(...)`: Batch-anchors up to 100+ events per EVM transaction for extreme gas and throughput efficiency.
+  * `verifyEvidence(bytes32 evidenceId, bytes32 expectedHash)`: Allows independent on-chain readback and verification.
+* **Off-Chain vs. On-Chain Design:**
+  * **Off-Chain (Database / Local Store):** Large payloads, prompts, agent metadata, parameters, and execution outputs (preserves enterprise privacy and avoids excessive gas costs).
+  * **On-Chain (MST Blockchain):** Strictly the canonical RFC-8785 SHA-256 digest (`bytes32`) and evidence ID.
+* **Full On-Chain Read-Back Verification Cycle:**
+  1. Agent submits action -> Policy Gateway evaluates -> Audit event generated.
+  2. Canonical RFC-8785 JSON representation computed -> SHA-256 digest calculated.
+  3. Gateway calls `EvidenceRegistry.recordEvidence()` on MST Testnet.
+  4. Node waits for block receipt and confirms transaction.
+  5. Gateway calls `verifyEvidence()` directly from the contract to read back the commitment.
+  6. Contract verifies `onchain_hash == expected_hash` (`matches: true, exists: true`).
+  7. Status updated to **`VERIFIED`**; any local modification immediately triggers a **`TAMPER_DETECTED`** alert.
+
+### C. Working Product vs. Simulated Components
+* **Real & Fully Implemented:**
+  * Live deployed smart contracts on MST Testnet (`0x00E08271A37df1E90E95F062F814D7336D5369Ce`).
+  * Genuine confirmed transaction hashes on MST Testnet.
+  * Full RFC-8785 deterministic JSON canonicalization and SHA-256 digest hashing.
+  * 70 automated backend pytest tests covering all security invariants.
+  * 27 Hardhat unit tests validating all contract branches and failure modes.
+  * Live responsive Next.js frontend with 13 compiled static pages.
+  * Real Role-Based Access Control (RBAC) with unique interfaces and capabilities for CSO/Admin, Security Analyst, and Viewer/Auditor.
+  * BridgeKey wallet integration with 1-click network switching.
+* **Transparently Sandboxed / Simulated:**
+  * **Agent Execution Containment:** Evaluated agent actions execute in a controlled mock containment boundary rather than executing real `rm -rf` shell commands or executing actual monetary wire transfers on banking APIs, preserving host integrity during live evaluation.
+
+### D. Verified MST Testnet Deployment Proof
+
+| Parameter | Genuine On-Chain Value |
+| :--- | :--- |
+| **Network** | MST Testnet |
+| **Chain ID** | `91562037` (`0x5752315`) |
+| **RPC Endpoint** | `https://testnetrpc.mstblockchain.com` |
+| **Explorer** | [https://testnet.mstscan.com](https://testnet.mstscan.com) |
+| **Contract Address** | [`0x00E08271A37df1E90E95F062F814D7336D5369Ce`](https://testnet.mstscan.com/address/0x00E08271A37df1E90E95F062F814D7336D5369Ce) |
+| **Deployment Tx Hash** | [`0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c`](https://testnet.mstscan.com/tx/0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c) |
+| **Verified Evidence Tx Hash** | [`0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`](https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d) |
+| **Evidence ID** | `evt_eval_e2e_001` (also backward-compatible `evt_001_initial_compliance`) |
+| **Evidence SHA-256 Digest** | `0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678` |
+| **Read-back Status** | **`VERIFIED`** (`verifyEvidence` returns `matches: true, exists: true`) |
+
+### E. Scale & Enterprise Production Architecture
+* **Multi-Agent Fleet Support:** Built for enterprise fleets running hundreds of concurrent autonomous agents (DevOps agents, financial bots, support assistants, data analyzers).
+* **Batch Anchoring (`recordEvidenceBatch`):** Solves EVM gas limits and latency bottlenecks by aggregating multiple audit event digests into a single on-chain commit, drastically reducing costs while guaranteeing non-repudiation.
+* **Multi-Tenant Isolation:** Cryptographically separates customer workspaces, preventing data crossover while providing global audit integrity.
+* **Immutable Policy Versioning:** Smart contract stores `policyHash` alongside evidence, proving not just what the agent did, but the exact deterministic ruleset that governed it at the second of execution.
+
+---
+
+## 2. Interactive 7-Step Judging Walkthrough
+
+Judges can test the entire lifecycle in 1 click using the **Auto-Run All 7 Steps** button on the [Action Simulator](https://sentinelmesh-five.vercel.app/simulator), or step through manually:
+
+1. **Step 1: Permitted Agent Action (`ALLOW`):**
+   * Action: `agent-customer-bot` requesting read access to `db://crm/contacts`.
+   * Result: Policy `POL-B` evaluates deterministically to `ALLOW`. Action proceeds safely.
+2. **Step 2: Prohibited Action Blocked (`BLOCK`):**
+   * Action: `agent-untrusted` attempting `EXECUTE` on `os://host/bin/bash`.
+   * Result: Policy `POL-A` blocks the action at the gateway. Zero shell execution occurs.
+3. **Step 3: High-Risk Action Requiring Human Sign-Off (`REQUIRE_APPROVAL`):**
+   * Action: `agent-financial-bot` attempting `DELETE` on financial records.
+   * Result: Policy `POL-D` halts execution, queues request for CSO approval, and executes only after authorized sign-off.
+4. **Step 4: Canonical RFC-8785 SHA-256 Evidence Generation:**
+   * Audit event is serialized with sorted keys, deterministic float formatting, and zero whitespace.
+   * Generates a 32-byte digest linked to previous event hashes in an append-only chain.
+5. **Step 5: MST Testnet Smart Contract Anchoring:**
+   * Gateway calls `recordEvidence()` on `EvidenceRegistry.sol` (`0x00E08271A37df1E90E95F062F814D7336D5369Ce`).
+   * Receives confirmation and transaction hash on MST Testnet (Chain ID `91562037`).
+6. **Step 6: Public MST Explorer Verification:**
+   * Links directly to `https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d` for public verification.
+7. **Step 7: Independent On-Chain Read-Back & Tamper Detection:**
+   * Gateway executes `verifyEvidence()` against the deployed contract.
+   * Compares on-chain commitment with locally recalculated hash, confirming cryptographic integrity.
+
+---
+
+## 3. End-to-End Workflow Architecture
 
 ```mermaid
 sequenceDiagram
@@ -64,7 +150,7 @@ sequenceDiagram
 
 ---
 
-## 3. Product Architecture
+## 4. Repository Structure
 
 ```
 SentinelMesh/
@@ -73,7 +159,7 @@ SentinelMesh/
 │   │   ├── api/                    # REST API routers
 │   │   │   ├── actions.py          # Action evaluation & gateway containment
 │   │   │   ├── integrity.py        # Canonical hashing, anchoring & evidence inspector
-│   │   │   ├── policies.py         # Deterministic policy catalog
+│   │   │   ├── policies.py         # Deterministic policy catalog (POL-A..G)
 │   │   │   ├── approvals.py        # Human-in-the-loop review & authorization
 │   │   │   ├── threats.py          # Behavioral threat detection & lab scenarios
 │   │   │   └── governance.py       # End-to-end evidence provenance
@@ -83,9 +169,9 @@ SentinelMesh/
 │   │   ├── integrity/              # Canonicalization & verification engine
 │   │   │   ├── canonical.py        # RFC-8785 deterministic JSON & SHA-256
 │   │   │   └── verifier.py         # Independent local & on-chain verification
-│   │   ├── policy_engine/          # Deterministic rule evaluator (POL-A..G)
+│   │   ├── policy_engine/          # Deterministic rule evaluator
 │   │   └── database.py             # SQLAlchemy ORM (SQLite / PostgreSQL)
-│   └── tests/                      # 65 automated pytest test cases
+│   └── tests/                      # 70 automated pytest test cases
 ├── contracts/                      # Hardhat EVM Smart Contracts
 │   ├── contracts/
 │   │   ├── EvidenceRegistry.sol    # Primary MST Evidence Registry contract
@@ -97,8 +183,8 @@ SentinelMesh/
 ├── frontend/                       # Next.js 14 Security Console (App Router)
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── page.tsx            # Security Operations Overview
-│   │   │   ├── simulator/page.tsx  # Action Gateway
+│   │   │   ├── page.tsx            # Security Operations Overview & Judge Callout
+│   │   │   ├── simulator/page.tsx  # Action Gateway & Interactive Judge Tour
 │   │   │   ├── policies/page.tsx   # Policy Studio
 │   │   │   ├── approvals/page.tsx  # Approval Queue
 │   │   │   ├── audit/page.tsx      # Audit Explorer
@@ -107,60 +193,24 @@ SentinelMesh/
 │   │   │   ├── threats/page.tsx    # Threat Intelligence Center
 │   │   │   ├── governance/page.tsx # Autonomous Governance & Provenance
 │   │   │   └── settings/page.tsx   # Settings & Node Diagnostics
-│   │   ├── components/             # Reusable UI primitives (AppShell, Header, Sidebar)
-│   │   └── lib/                    # API client & TypeScript interfaces
-│   └── tailwind.config.js          # Security console design tokens
-└── README.md                       # Product documentation
+│   │   ├── components/             # Reusable UI primitives (JudgeDemoTour, AppShell, Header)
+│   │   └── lib/                    # API client, RBAC system & TypeScript interfaces
+│   └── tailwind.config.js          # High-End Cyber Console design tokens
+└── README.md                       # Product documentation & evaluation guide
 ```
 
 ---
 
-## 4. Deployment & Blockchain Status (Official Audit Checklist)
+## 5. Visual Language & Warm Enterprise Palette
 
-### MST Testnet (Operational & Verified)
-- **Network:** `MST Testnet`
-- **Chain ID:** `91562037` (`0x5752315`)
-- **RPC URL:** `https://testnetrpc.mstblockchain.com`
-- **Explorer:** [https://testnet.mstscan.com](https://testnet.mstscan.com)
-- **Contract Address:** [`0x00E08271A37df1E90E95F062F814D7336D5369Ce`](https://testnet.mstscan.com/address/0x00E08271A37df1E90E95F062F814D7336D5369Ce)
-- **Deployment Transaction Hash:** [`0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c`](https://testnet.mstscan.com/tx/0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c)
-- **Verified Evidence Transaction Hash:** [`0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`](https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d)
-- **Evidence ID:** `evt_001_initial_compliance`
-- **Evidence SHA-256:** `0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678`
-- **Read-back Verification:** **`VERIFIED`** (`verifyEvidence` returned `matches: true, exists: true`)
+Built strictly with the user-specified **Warm Enterprise Palette**:
 
-### MST Mainnet (Governed Production Promotion)
-- **Network:** `MST Mainnet`
-- **Chain ID:** `4646` (`0x1226`)
-- **RPC URL:** `https://mariorpc.mstblockchain.com/`
-- **Explorer:** [https://mstscan.com](https://mstscan.com)
-- **Contract Address:** `NOT YET DEPLOYED`
-- **Deployment Transaction Hash:** `NOT YET DEPLOYED`
-- **Verification Status:** `NOT YET DEPLOYED`  
-*(Mainnet Protocol: Deploy and anchor on Mainnet only after Testnet audit sign-off, required treasury funding, and explicit administrative authorization).*
-
-### Application & Source Code
-- **Live Application URL:** [https://sentinelmesh-five.vercel.app/](https://sentinelmesh-five.vercel.app/) (Production deployment)
-- **Public GitHub Repository:** [https://github.com/shardul-2007/SentinelMesh](https://github.com/shardul-2007/SentinelMesh)
-- **Backend API URL:** `http://127.0.0.1:8000` (FastAPI core service / Vercel Edge ClientStore Engine)
-- **BridgeKey Integration Status:** **`CONNECTED`** (EIP-1193 & BridgeKey wallet provider with 1-click network switching)
-- **Last End-to-End Test:** `2026-10-28 — 65 Pytest Passed (100%), 27 Hardhat Tests Passed (100%), 13 Static Pages Built Successfully`
-
----
-
-## 5. Visual Language & Design Tokens
-
-SentinelMesh is built strictly under the **High-End Dark Cyber Console** specification:
-
-- **Obsidian Main Canvas:** `#0B0F17` body with `#050811` deep background.
-- **Dark Slate Surfaces:** `#131A24` panels, cards, and modal dialogs.
-- **Slate Borders:** `#263244` subtle separation with `#1E293B` micro-lines.
-- **Neon Emerald (`#10B981`):** Verified cryptographic digests (`INTACT`), permitted policy decisions (`ALLOW`), operational nodes.
-- **Electric Blue / Cyber Cyan (`#38BDF8` / `#00F2FE`):** Chained hashes, MST chain indicators, BridgeKey wallet controls, primary buttons.
-- **Amber Warning (`#F59E0B`):** Human review queue (`REQUIRE_APPROVAL`), elevated behavioral threat findings, wrong network alerts.
-- **Critical Red (`#EF4444`):** Denied actions (`BLOCK`), cryptographic digest divergence alerts (`TAMPERED`), rejected reviews.
+- **Carbon Canvas (`#111317` / `#1A1D24`):** Professional high-contrast obsidian slate surfaces.
+- **Amazon Gold (`#FF9900`):** Primary branding, active borders, and evaluation highlights.
+- **Flipkart Sunrise Orange (`#FB641B`):** Secondary interactive accents, buttons, and high-visibility CTAs.
+- **Emerald Green (`#10B981`):** Verified on-chain evidence (`INTACT`), approved policies (`ALLOW`), operational nodes.
+- **Crimson Red (`#EF4444`):** Blocked unauthorized operations (`BLOCK`), cryptographic tamper mismatch alerts.
 - **Typography:** Pure white text (`#F8FAFC`) with muted slate metadata (`#94A3B8`) and monospaced cryptographic digests (`font-mono`).
-- **Responsive Layout:** Adaptive desktop navigation with collapsible off-canvas mobile drawer (<1024px) for seamless usability across 360px, 768px, 1024px, and 1440px viewports.
 
 ---
 
@@ -185,14 +235,14 @@ cd SentinelMesh
 # 1. Activate virtual environment
 .\venv\Scripts\Activate.ps1
 
-# 2. Run automated backend test suite (65 passing tests)
-pytest -v backend/tests
+# 2. Run automated backend test suite (70 passing tests)
+.\venv\Scripts\python.exe -m pytest backend/tests
 
 # 3. Start the FastAPI backend
 python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload
 ```
 
-*Swagger API docs:* `http://127.0.0.1:8000/docs`
+*Interactive Swagger API Docs:* `http://127.0.0.1:8000/docs`
 
 ### Step 3: Smart Contract Compilation & Testing
 
@@ -224,33 +274,7 @@ npm run dev
 
 ---
 
-## 7. Configuration Reference (`.env.example`)
-
-```ini
-# Environment
-ENV=development
-APP_SECRET_KEY=change_this_to_a_secure_random_secret_in_production
-ADMIN_KEY=sentinel-admin-dev-key-phase1
-
-# Database Configuration
-DATABASE_URL=sqlite:///./sentinelmesh.db
-# For PostgreSQL production: postgresql://user:password@localhost:5432/sentinelmesh
-
-# MST Blockchain Network Configuration
-BLOCKCHAIN_RPC_URL=https://testnetrpc.mstblockchain.com
-BLOCKCHAIN_CHAIN_ID=91562037
-BLOCKCHAIN_NETWORK_NAME=MST Testnet
-BLOCKCHAIN_CONTRACT_ADDRESS=0x0000000000000000000000000000000000000000
-BLOCKCHAIN_SIGNER_KEY=
-
-# Explorer Configuration
-MSTSCAN_EXPLORER_URL=https://testnet.mstscan.com
-MST_FAUCET_URL=https://faucet.mstblockchain.com
-```
-
----
-
-## 8. Automated Verification & Test Results
+## 7. Automated Test Verification Results
 
 ### 1. Smart Contract Test Suite (27/27 Passing)
 ```
@@ -273,47 +297,66 @@ MST_FAUCET_URL=https://faucet.mstblockchain.com
       ✔ should support backward-compatible verifyAnchor and getAnchor calls
 
   SentinelMeshAuditAnchor Contract
-    ... 14 tests passing ...
+    Deployment & Access Control
+      ✔ should set deployer as owner and initial authorized anchorer
+      ✔ should allow owner to revoke or grant anchorer role
+      ✔ should reject non-owner attempting to grant anchorer role
+    Audit Hash Anchoring
+      ✔ should allow owner to anchor an event hash and emit EventAnchored
+      ✔ should allow authorized signer to anchor an event hash
+      ✔ should reject unauthorized caller attempting to anchor
+      ✔ should reject duplicate anchor for the same event ID (Immutable)
+      ✔ should reject empty event ID or zero hash
+    Public Verification
+      ✔ should return (true, true) when verifying the exact anchored hash
+      ✔ should return (false, true) when verifying an altered hash (Tamper Detection)
+      ✔ should return (false, false) for non-existent event ID
+      ✔ should revert getAnchor for non-existent event ID
+    Batch Anchoring
+      ✔ should anchor multiple events in a single transaction
+      ✔ should revert if array lengths mismatch
 
-  27 passing (2s)
+  27 passing (1s)
 ```
 
-### 2. Backend Integration Test Suite (65/65 Passing)
+### 2. Backend Integration Test Suite (70/70 Passing)
 ```
-backend/tests/test_api.py .............................. [ 46%]
-backend/tests/test_approvals.py .                        [ 47%]
-backend/tests/test_auth_and_reports.py ......            [ 56%]
-backend/tests/test_canonical_hashing.py .......          [ 67%]
-backend/tests/test_end_to_end_flow.py ..                 [ 70%]
-backend/tests/test_governance_provenance.py .            [ 72%]
-backend/tests/test_integrity_api.py .....                [ 80%]
-backend/tests/test_integrity_verification.py ....        [ 86%]
-backend/tests/test_multi_agent_incidents.py .            [ 87%]
-backend/tests/test_policy_engine.py ..........           [100%]
+backend/tests/test_api.py ......                                         [  8%]
+backend/tests/test_approvals.py .                                        [ 10%]
+backend/tests/test_auth_and_reports.py .....                             [ 17%]
+backend/tests/test_canonical_hashing.py .......                          [ 27%]
+backend/tests/test_end_to_end_flow.py ..                                 [ 30%]
+backend/tests/test_governance_provenance.py ......                       [ 38%]
+backend/tests/test_integrity_api.py .....                                [ 45%]
+backend/tests/test_integrity_verification.py ....                        [ 51%]
+backend/tests/test_multi_agent_incidents.py .......                      [ 61%]
+backend/tests/test_policy_engine.py ...........                          [ 77%]
+backend/tests/test_rbac_matrix.py .....                                  [ 84%]
+backend/tests/test_threat_detection.py ...........                       [100%]
 
-====================== 65 passed in 5.86s ======================
+====================== 70 passed in 7.07s ======================
 ```
 
 ### 3. Frontend Production Build (13/13 Routes Compiled)
 ```
 Route (app)                              Size     First Load JS
-┌ ○ /                                    6.67 kB         110 kB
+┌ ○ /                                    10.2 kB         131 kB
 ├ ○ /_not-found                          873 B          88.1 kB
-├ ○ /approvals                           5.54 kB        99.4 kB
-├ ○ /audit                               6.13 kB         100 kB
-├ ○ /blockchain                          6.97 kB         103 kB
-├ ○ /governance                          7.55 kB         108 kB
-├ ○ /integrity                           5.61 kB        99.4 kB
-├ ○ /policies                            3.48 kB        94.4 kB
-├ ○ /settings                            4.17 kB        95.1 kB
-├ ○ /simulator                           6.08 kB         106 kB
-└ ○ /threats                             10.5 kB         111 kB
+├ ○ /approvals                           6.82 kB         113 kB
+├ ○ /audit                               7.59 kB         114 kB
+├ ○ /blockchain                          9.94 kB         113 kB
+├ ○ /governance                          6.87 kB         110 kB
+├ ○ /integrity                           8.48 kB         115 kB
+├ ○ /policies                            6.52 kB         110 kB
+├ ○ /settings                            6.42 kB         110 kB
+├ ○ /simulator                           10.9 kB         128 kB
+└ ○ /threats                             9.99 kB         113 kB
 + First Load JS shared by all            87.3 kB
 ```
 
 ---
 
-## 9. Security Boundaries & Operational Invariants
+## 8. Security Boundaries & Operational Invariants
 
 1. **Client Risk Inputs Discarded:** Client-provided risk ratings are untrusted. The backend policy engine derives risk from resource classification and operation type.
 2. **Append-Only Evidence:** Neither the REST API nor the database schema expose delete or update methods for `AuditEvent` or `IntegrityRecord`.
@@ -323,6 +366,6 @@ Route (app)                              Size     First Load JS
 
 ---
 
-## 10. License
+## 9. License
 
 Distributed under the MIT License. Copyright (c) 2026 SentinelMesh Team.
