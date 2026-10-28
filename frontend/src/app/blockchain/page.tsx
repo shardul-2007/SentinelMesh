@@ -136,86 +136,86 @@ export default function BlockchainActivityPage() {
           </div>
         </div>
 
-        {/* Network & Contract Cards */}
+        {/* Network & Contract Cards (Small Boxes: Yellow Background + Black Text) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Active Network */}
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[140px]">
-            <div className="flex items-center justify-between text-xs text-[#D4D4D8] mb-1">
-              <span className="font-bold uppercase text-[10px] tracking-wider">Active Network</span>
-              <span className={`inline-flex items-center gap-1 font-mono text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+          {/* Box 1: Active Network */}
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="font-black uppercase text-[10px] tracking-wider text-[#000000]">Active Network</span>
+              <span className={`inline-flex items-center gap-1 font-mono text-[10px] font-black px-2.5 py-0.5 rounded-full ${
                 status?.connected 
-                  ? 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30' 
-                  : 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30'
+                  ? 'bg-[#000000] text-[#FACC15]' 
+                  : 'bg-[#EF4444] text-[#FFFFFF]'
               }`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${status?.connected ? 'bg-[#FACC15] animate-pulse' : 'bg-[#F59E0B]'}`}></span>
+                <span className={`w-1.5 h-1.5 rounded-full ${status?.connected ? 'bg-[#FACC15] animate-ping' : 'bg-[#FFFFFF]'}`}></span>
                 {status?.connected ? 'ONLINE' : 'LOCAL SIM'}
               </span>
             </div>
-            <p className="text-base font-extrabold text-[#FFFFFF] mt-1">{status?.network_name || 'MST Testnet'}</p>
-            <div className="flex items-center justify-between text-[11px] text-[#D4D4D8] mt-2 pt-2 border-t border-[#27272A] font-medium">
-              <span>Chain ID: <strong className="font-mono text-[#FACC15] font-bold">{status?.detected_chain_id || status?.configured_chain_id || 91562037}</strong></span>
-              <span>Gas: <strong className="font-mono text-[#FACC15] font-bold">{nativeToken}</strong></span>
+            <p className="text-xl font-black text-[#000000] mt-1 tracking-tight">{status?.network_name || 'MST Testnet'}</p>
+            <div className="flex items-center justify-between text-[11px] text-[#1C1C1C] mt-2 pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Chain ID: <strong className="font-mono text-[#000000] font-black">{status?.detected_chain_id || status?.configured_chain_id || 91562037}</strong></span>
+              <span>Gas: <strong className="font-mono text-[#000000] font-black">{nativeToken}</strong></span>
             </div>
           </div>
 
-          {/* Evidence Registry Contract */}
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[140px]">
-            <div className="flex items-center justify-between text-xs text-[#D4D4D8] mb-1">
-              <span className="font-bold uppercase text-[10px] tracking-wider">EvidenceRegistry Contract</span>
-              <Lock className="w-3.5 h-3.5 text-[#EF4444]" />
+          {/* Box 2: Evidence Registry Contract */}
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="font-black uppercase text-[10px] tracking-wider text-[#000000]">EvidenceRegistry Contract</span>
+              <Lock className="w-4 h-4 text-[#000000]" />
             </div>
             <div className="mt-1 flex items-center justify-between">
               {status?.contract_address ? (
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs text-[#EF4444] font-bold">
+                  <span className="font-mono text-xs text-[#FFFFFF] bg-[#000000] px-2 py-1 rounded font-black border border-[#000000]">
                     {status.contract_address.slice(0, 10)}...{status.contract_address.slice(-6)}
                   </span>
                   <button 
                     onClick={() => handleCopy(status.contract_address || '')} 
-                    className="p-1 rounded text-[#D4D4D8] hover:text-[#FFFFFF] transition"
+                    className="p-1 rounded bg-[#000000]/10 hover:bg-[#000000]/20 text-[#000000] transition"
                     title="Copy Contract Address"
                   >
-                    {copiedHash === status.contract_address ? <Check className="w-3.5 h-3.5 text-[#FACC15]" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedHash === status.contract_address ? <Check className="w-3.5 h-3.5 text-[#000000]" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                   <a
                     href={status.contract_explorer_url || `${explorerBase}/address/${status.contract_address}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1 rounded text-[#EF4444] hover:underline transition"
+                    className="p-1 rounded bg-[#000000]/10 hover:bg-[#000000]/20 text-[#000000] transition"
                     title="View on MSTScan"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
               ) : (
-                <span className="text-xs text-[#F59E0B] font-mono font-bold">Not deployed on current RPC</span>
+                <span className="text-xs text-[#000000] font-mono font-black bg-[#000000]/10 px-2 py-1 rounded">Not deployed on current RPC</span>
               )}
             </div>
-            <div className="flex items-center justify-between text-[11px] text-[#D4D4D8] mt-2 pt-2 border-t border-[#27272A] font-medium">
-              <span>Total Anchors: <strong className="font-mono text-[#FFFFFF] font-bold">{status?.total_anchors ?? transactions.length}</strong></span>
-              <span className="text-[10px] font-mono text-[#FACC15] font-bold">Immutable V1</span>
+            <div className="flex items-center justify-between text-[11px] text-[#1C1C1C] mt-2 pt-2 border-t border-[#000000]/25 font-bold">
+              <span>Total Anchors: <strong className="font-mono text-[#000000] font-black">{status?.total_anchors ?? transactions.length}</strong></span>
+              <span className="text-[10px] font-mono text-[#000000] font-black bg-[#000000]/15 px-2 py-0.5 rounded">Immutable V1</span>
             </div>
           </div>
 
-          {/* Current Block Height */}
-          <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col justify-between shadow-sm min-h-[140px]">
-            <div className="flex items-center justify-between text-xs text-[#D4D4D8] mb-1">
-              <span className="font-bold uppercase text-[10px] tracking-wider">Node Block Height</span>
-              <Boxes className="w-3.5 h-3.5 text-[#FACC15]" />
+          {/* Box 3: Current Block Height */}
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="font-black uppercase text-[10px] tracking-wider text-[#000000]">Node Block Height</span>
+              <Boxes className="w-4 h-4 text-[#000000]" />
             </div>
-            <p className="text-base font-extrabold font-mono text-[#FFFFFF] mt-1">
+            <p className="text-xl font-black font-mono text-[#000000] mt-1 tracking-tight">
               {status?.latest_block ? `#${status.latest_block.toLocaleString()}` : 'Live Syncing'}
             </p>
-            <div className="flex items-center justify-between text-[11px] text-[#D4D4D8] mt-2 pt-2 border-t border-[#27272A] font-medium">
-              <span className="truncate max-w-[200px]" title={status?.rpc_url || ''}>RPC: {status?.rpc_url ? 'testnetrpc.mstblockchain.com' : 'Local Node'}</span>
+            <div className="flex items-center justify-between text-[11px] text-[#1C1C1C] mt-2 pt-2 border-t border-[#000000]/25 font-bold">
+              <span className="truncate max-w-[190px] font-black" title={status?.rpc_url || ''}>RPC: {status?.rpc_url ? 'testnetrpc.mstblockchain.com' : 'Local Node'}</span>
               <a
                 href={explorerBase}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#FACC15] font-bold hover:underline flex items-center gap-0.5"
+                className="text-[#FACC15] bg-[#000000] px-2 py-0.5 rounded font-black hover:bg-[#1C1C1C] flex items-center gap-1 text-[10px] transition"
               >
                 <span>MSTScan</span>
-                <ArrowUpRight className="w-3 h-3" />
+                <ArrowUpRight className="w-3 h-3 text-[#FACC15]" />
               </a>
             </div>
           </div>
