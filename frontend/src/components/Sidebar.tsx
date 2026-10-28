@@ -99,19 +99,19 @@ export function Sidebar({
   const navItems = getNavItems();
 
   const renderContent = (collapsed: boolean) => (
-    <div className={`${collapsed ? 'w-16' : 'w-64'} bg-[#1A1D24] text-[#FFFFFF] flex flex-col flex-shrink-0 min-h-screen border-r border-[#2E3442] select-none transition-all duration-300 font-sans`}>
+    <div className={`${collapsed ? 'w-16' : 'w-64'} bg-[#2D3238] text-[#FFFFFF] flex flex-col flex-shrink-0 min-h-screen border-r border-[#414850] select-none transition-all duration-300 font-sans`}>
       {/* Brand & Identity Header */}
-      <div className={`p-4 border-b border-[#2E3442] flex items-center ${collapsed ? 'justify-center' : 'justify-between'} bg-[#15181F]`}>
+      <div className={`p-4 border-b border-[#414850] flex items-center ${collapsed ? 'justify-center' : 'justify-between'} bg-[#2D3238]`}>
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-600/30 border border-amber-500/40 flex items-center justify-center text-[#FF9900] shadow-[0_0_15px_rgba(255,153,0,0.25)] flex-shrink-0">
-            <Shield className="w-4 h-4 text-[#FF9900]" />
+          <div className="w-8 h-8 rounded-lg bg-[#00FA9A]/15 border border-[#00FA9A]/30 flex items-center justify-center text-[#00FA9A] flex-shrink-0">
+            <Shield className="w-4 h-4 text-[#00FA9A]" />
           </div>
           {!collapsed && (
             <div className="min-w-0">
               <h1 className="text-sm font-extrabold tracking-tight text-[#FFFFFF] flex items-center gap-1.5 font-sans truncate">
                 SentinelMesh
               </h1>
-              <p className="text-[10px] text-[#9E9EA8] font-semibold tracking-wide truncate">Trust, Without Blind Faith</p>
+              <p className="text-[10px] text-[#A0A5AD] font-semibold tracking-wide truncate">Trust, Without Blind Faith</p>
             </div>
           )}
         </div>
@@ -119,7 +119,7 @@ export function Sidebar({
         {onClose && (
           <button
             onClick={onClose}
-            className="lg:hidden p-2 rounded text-[#9E9EA8] hover:text-[#FFFFFF] hover:bg-[#222630] transition min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="lg:hidden p-2 rounded text-[#A0A5AD] hover:text-[#FFFFFF] hover:bg-[#353B42] transition min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Close navigation"
           >
             <X className="w-5 h-5" />
@@ -129,15 +129,15 @@ export function Sidebar({
 
       {/* Role Session Badge */}
       {!collapsed ? (
-        <div className="px-3.5 py-2.5 border-b border-[#2E3442] bg-[#111317]">
+        <div className="px-3.5 py-2.5 border-b border-[#414850] bg-[#1A1D20]">
           <div className="flex items-center justify-between text-[10px] font-mono mb-1">
-            <span className="text-[#9E9EA8] uppercase font-bold">RBAC Session</span>
+            <span className="text-[#A0A5AD] uppercase font-bold">RBAC Session</span>
             <span className={`px-2 py-0.5 rounded font-bold border ${
               role === 'ADMIN'
-                ? 'bg-amber-500/15 text-[#FF9900] border-amber-500/30'
+                ? 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30'
                 : role === 'SECURITY_ANALYST'
-                ? 'bg-orange-500/15 text-[#FB641B] border-orange-500/30'
-                : 'bg-emerald-500/15 text-[#10B981] border-emerald-500/30'
+                ? 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/30'
+                : 'bg-[#00FA9A]/15 text-[#00FA9A] border-[#00FA9A]/30'
             }`}>
               {role === 'ADMIN' ? 'CSO (ADMIN)' : role === 'SECURITY_ANALYST' ? 'ANALYST' : 'AUDITOR'}
             </span>
@@ -145,31 +145,31 @@ export function Sidebar({
           <p className="text-[11px] text-[#FFFFFF] font-bold truncate">{roleTitle}</p>
         </div>
       ) : (
-        <div className="py-2 border-b border-[#2E3442] bg-[#111317] flex justify-center" title={`RBAC Role: ${roleTitle}`}>
+        <div className="py-2 border-b border-[#414850] bg-[#1A1D20] flex justify-center" title={`RBAC Role: ${roleTitle}`}>
           <span className={`w-2.5 h-2.5 rounded-full ${
-            role === 'ADMIN' ? 'bg-[#FF9900]' : role === 'SECURITY_ANALYST' ? 'bg-[#FB641B]' : 'bg-[#10B981]'
+            role === 'ADMIN' ? 'bg-[#F59E0B]' : role === 'SECURITY_ANALYST' ? 'bg-[#38BDF8]' : 'bg-[#00FA9A]'
           }`}></span>
         </div>
       )}
 
       {/* Network Badge */}
       {!collapsed ? (
-        <div className="px-4 py-2 border-b border-[#2E3442] bg-[#15181F]">
+        <div className="px-4 py-2 border-b border-[#414850] bg-[#2D3238]">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-[#9E9EA8] text-[10px] uppercase tracking-wider font-bold">MST Chain</span>
+            <span className="text-[#A0A5AD] text-[10px] uppercase tracking-wider font-bold">MST Chain</span>
             <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-mono font-bold border ${
               isConnected
-                ? 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/40'
-                : 'bg-[#222630] text-[#9E9EA8] border-[#2E3442]'
+                ? 'bg-[#00FA9A]/15 text-[#00FA9A] border-[#00FA9A]/40'
+                : 'bg-[#353B42] text-[#A0A5AD] border-[#414850]'
             }`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-[#10B981] animate-pulse' : 'bg-[#6B7280]'}`}></span>
+              <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-[#00FA9A] animate-pulse' : 'bg-[#6B7280]'}`}></span>
               {networkLabel}
             </span>
           </div>
         </div>
       ) : (
-        <div className="py-2 border-b border-[#2E3442] bg-[#15181F] flex justify-center" title={`MST Network: ${networkLabel}`}>
-          <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}`}></span>
+        <div className="py-2 border-b border-[#414850] bg-[#2D3238] flex justify-center" title={`MST Network: ${networkLabel}`}>
+          <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-[#00FA9A] animate-pulse' : 'bg-slate-500'}`}></span>
         </div>
       )}
 
@@ -187,27 +187,27 @@ export function Sidebar({
               title={collapsed ? `${item.name} (${item.badge})` : undefined}
               className={`flex items-center ${collapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2.5'} rounded-lg text-xs font-bold transition-all duration-200 group min-h-[44px] ${
                 isActive
-                  ? 'bg-gradient-to-r from-amber-500/20 via-orange-500/10 to-transparent text-[#FF9900] border-l-2 border-[#FF9900] shadow-[inset_0_0_15px_rgba(255,153,0,0.12)]'
-                  : 'text-[#9E9EA8] hover:text-[#FFFFFF] hover:bg-[#222630] hover:translate-x-0.5'
+                  ? 'bg-[#00FA9A]/10 text-[#00FA9A] border-l-2 border-[#00FA9A]'
+                  : 'text-[#A0A5AD] hover:text-[#FFFFFF] hover:bg-[#353B42] hover:translate-x-0.5'
               }`}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <Icon className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'text-[#FF9900]' : 'text-[#9E9EA8] group-hover:text-[#FF9900]'}`} />
+                <Icon className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'text-[#00FA9A]' : 'text-[#A0A5AD] group-hover:text-[#00FA9A]'}`} />
                 {!collapsed && <span className="truncate">{item.name}</span>}
               </div>
 
               {!collapsed && (
                 <div className="flex items-center gap-1 flex-shrink-0">
                   {item.badge && (
-                    <span className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border ${
+                    <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border ${
                       isActive
-                        ? 'bg-amber-500/20 text-[#FF9900] border-amber-500/40'
-                        : 'bg-black/40 text-slate-400 border-[#2E3442]'
+                        ? 'bg-[#00FA9A]/20 text-[#00FA9A] border-[#00FA9A]/40'
+                        : 'bg-[#1A1D20] text-[#A0A5AD] border-[#414850]'
                     }`}>
                       {item.badge}
                     </span>
                   )}
-                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#FF9900] animate-pulse ml-0.5" />}
+                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#00FA9A] ml-0.5" />}
                 </div>
               )}
             </Link>
@@ -217,18 +217,18 @@ export function Sidebar({
 
       {/* Trust Anchor Callout */}
       {!collapsed && (
-        <div className="p-3 m-2.5 rounded-lg bg-[#111317] border border-[#2E3442] space-y-1">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF9900]">
+        <div className="p-3 m-2.5 rounded-lg bg-[#1A1D20] border border-[#414850] space-y-1">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[#00FA9A]">
             <Lock className="w-3.5 h-3.5" />
             <span>MST Blockchain Anchor</span>
           </div>
-          <p className="text-[10px] text-[#9E9EA8] leading-relaxed">
+          <p className="text-[10px] text-[#A0A5AD] leading-relaxed">
             Deterministic SHA-256 evidence digests anchored immutably in MST EvidenceRegistry.
           </p>
           <Link 
             href="/blockchain"
             onClick={() => onClose && onClose()}
-            className="inline-flex items-center gap-1 text-[11px] text-[#FF9900] hover:underline transition pt-0.5 font-bold"
+            className="inline-flex items-center gap-1 text-[11px] text-[#00FA9A] hover:underline transition pt-0.5 font-bold"
           >
             <span>View On-Chain Activity</span>
             <ExternalLink className="w-3 h-3" />
@@ -237,12 +237,12 @@ export function Sidebar({
       )}
 
       {/* Collapse Toggle Button (Desktop Only) */}
-      <div className="p-2 border-t border-[#2E3442] hidden lg:flex items-center justify-between bg-[#111317]">
-        {!collapsed && <span className="text-[10px] text-slate-500 font-mono font-bold pl-2">Collapse Rail</span>}
+      <div className="p-2 border-t border-[#414850] hidden lg:flex items-center justify-between bg-[#1A1D20]">
+        {!collapsed && <span className="text-[10px] text-[#A0A5AD] font-mono font-bold pl-2">Collapse Rail</span>}
         <button
           type="button"
           onClick={onToggleCollapse}
-          className={`p-2 rounded-lg text-slate-400 hover:text-[#FF9900] hover:bg-[#222630] transition ${collapsed ? 'w-full flex justify-center' : ''}`}
+          className={`p-2 rounded-lg text-[#A0A5AD] hover:text-[#00FA9A] hover:bg-[#353B42] transition ${collapsed ? 'w-full flex justify-center' : ''}`}
           title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
           aria-label={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
@@ -252,9 +252,9 @@ export function Sidebar({
 
       {/* Footer Info */}
       {!collapsed && (
-        <div className="p-3 border-t border-[#2E3442] text-[10px] text-[#9E9EA8] flex items-center justify-between bg-[#15181F]">
+        <div className="p-3 border-t border-[#414850] text-[10px] text-[#A0A5AD] flex items-center justify-between bg-[#2D3238]">
           <span className="font-semibold">SentinelMesh v2.5</span>
-          <span className="font-mono text-[10px] font-bold text-[#FF9900]">MST Verified</span>
+          <span className="font-mono text-[10px] font-bold text-[#00FA9A]">MST Verified</span>
         </div>
       )}
     </div>
@@ -280,7 +280,7 @@ export function Sidebar({
             onClick={onClose}
             aria-hidden="true"
           />
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#1A1D24] z-10 shadow-2xl">
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#2D3238] z-10 shadow-2xl">
             {renderContent(false)}
           </div>
         </div>

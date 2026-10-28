@@ -13,15 +13,15 @@ export function DemoModeIndicator() {
     <>
       <aside 
         aria-label="Evaluation mode notification"
-        className="bg-[#181B22] border-b border-[#2E3442] text-[#9E9EA8] px-3 sm:px-4 py-1.5 text-[11px] flex items-center justify-between z-30 transition-colors font-sans"
+        className="bg-[#1A1D20] border-b border-[#414850] text-[#A0A5AD] px-3 sm:px-4 py-1.5 text-[11px] flex items-center justify-between z-30 transition-colors font-sans"
       >
         <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
-          <span className="inline-flex items-center gap-1 font-mono font-extrabold text-[9px] uppercase px-2 py-0.5 rounded bg-amber-500/15 text-[#FF9900] border border-amber-500/30">
+          <span className="inline-flex items-center gap-1 font-mono font-extrabold text-[9px] uppercase px-2 py-0.5 rounded bg-[#00FA9A]/15 text-[#00FA9A] border border-[#00FA9A]/30">
             MST Testnet
           </span>
           <span className="hidden sm:inline text-[#FFFFFF] font-bold">Chain ID: 91562037</span>
-          <span className="hidden md:inline text-slate-500">|</span>
-          <span className="text-[#9E9EA8] font-medium truncate">
+          <span className="hidden md:inline text-[#414850]">|</span>
+          <span className="text-[#A0A5AD] font-medium truncate">
             Deterministic SHA-256 Engine Active • Live EVM Evidence Registry Connected
           </span>
         </div>
@@ -30,7 +30,7 @@ export function DemoModeIndicator() {
           <button
             type="button"
             onClick={() => setShowModal(true)}
-            className="text-[#FF9900] hover:text-[#FFB800] font-bold flex items-center gap-1 transition text-[11px] min-h-[28px] px-1.5 rounded hover:bg-amber-500/10 focus-visible:ring-2 focus-visible:ring-[#FF9900]"
+            className="text-[#00FA9A] hover:text-[#00E58B] font-bold flex items-center gap-1 transition text-[11px] min-h-[28px] px-1.5 rounded hover:bg-[#00FA9A]/10 focus-visible:ring-2 focus-visible:ring-[#00FA9A]"
           >
             <HelpCircle className="w-3.5 h-3.5" />
             <span className="hidden xs:inline">Judge / Evaluator Notice</span>
@@ -38,7 +38,7 @@ export function DemoModeIndicator() {
           <button
             type="button"
             onClick={() => setIsDismissed(true)}
-            className="p-1 text-[#6B7280] hover:text-[#FFFFFF] transition rounded focus-visible:ring-2 focus-visible:ring-[#FF9900]"
+            className="p-1 text-[#A0A5AD] hover:text-[#FFFFFF] transition rounded focus-visible:ring-2 focus-visible:ring-[#00FA9A]"
             aria-label="Dismiss banner"
           >
             <X className="w-3.5 h-3.5" />
@@ -52,12 +52,12 @@ export function DemoModeIndicator() {
           role="dialog" 
           aria-modal="true" 
           aria-labelledby="evaluator-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in font-sans"
         >
-          <div className="w-full max-w-lg rounded-2xl bg-[#1A1D24] border border-[#2E3442] shadow-2xl p-5 sm:p-6 space-y-4 font-sans">
-            <div className="flex items-center justify-between pb-3 border-b border-[#2E3442]">
+          <div className="w-full max-w-lg rounded-2xl bg-[#2D3238] border border-[#414850] shadow-2xl p-5 sm:p-6 space-y-4 font-sans">
+            <div className="flex items-center justify-between pb-3 border-b border-[#414850]">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-[#FF9900]" />
+                <ShieldCheck className="w-5 h-5 text-[#00FA9A]" />
                 <h2 id="evaluator-modal-title" className="text-sm font-extrabold text-[#FFFFFF]">
                   Evaluator &amp; Judge Architecture Disclosure
                 </h2>
@@ -65,25 +65,25 @@ export function DemoModeIndicator() {
               <button
                 type="button"
                 onClick={() => setShowModal(false)}
-                className="p-1 rounded text-slate-400 hover:text-white focus-visible:ring-2 focus-visible:ring-[#FF9900]"
+                className="p-1 rounded text-[#A0A5AD] hover:text-[#FFFFFF] focus-visible:ring-2 focus-visible:ring-[#00FA9A]"
                 aria-label="Close modal"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-3 text-xs text-[#9E9EA8] leading-relaxed">
-              <div className="p-3.5 rounded-xl bg-[#111317] border border-[#2E3442] space-y-1">
-                <span className="font-extrabold text-emerald-400 block font-mono text-[10px] uppercase">
+            <div className="space-y-3 text-xs text-[#A0A5AD] leading-relaxed">
+              <div className="p-3.5 rounded-xl bg-[#1A1D20] border border-[#414850] space-y-1">
+                <span className="font-extrabold text-[#00FA9A] block font-mono text-[10px] uppercase">
                   ✓ Real On-Chain MST Testnet Integration
                 </span>
                 <p>
-                  SentinelMesh anchors evidence digests to an actual EVM smart contract (<code className="text-[#FF9900] font-mono">EvidenceRegistry</code>) deployed on MST Testnet (Chain ID: <code className="text-[#FF9900] font-mono">91562037</code>). Transactions can be inspected live on <a href="https://testnet.mstscan.com" target="_blank" rel="noopener noreferrer" className="text-[#FF9900] hover:underline font-bold">MSTScan</a>.
+                  SentinelMesh anchors evidence digests to an actual EVM smart contract (<code className="text-[#00FA9A] font-mono">EvidenceRegistry</code>) deployed on MST Testnet (Chain ID: <code className="text-[#00FA9A] font-mono">91562037</code>). Transactions can be inspected live on <a href="https://testnet.mstscan.com" target="_blank" rel="noopener noreferrer" className="text-[#00FA9A] hover:underline font-bold">MSTScan</a>.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#111317] border border-[#2E3442] space-y-1">
-                <span className="font-extrabold text-[#FF9900] block font-mono text-[10px] uppercase">
+              <div className="p-3.5 rounded-xl bg-[#1A1D20] border border-[#414850] space-y-1">
+                <span className="font-extrabold text-[#00FA9A] block font-mono text-[10px] uppercase">
                   ✓ Interactive RBAC Demo Switcher
                 </span>
                 <p>
@@ -91,8 +91,8 @@ export function DemoModeIndicator() {
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#111317] border border-[#2E3442] space-y-1">
-                <span className="font-extrabold text-[#FB641B] block font-mono text-[10px] uppercase">
+              <div className="p-3.5 rounded-xl bg-[#1A1D20] border border-[#414850] space-y-1">
+                <span className="font-extrabold text-[#38BDF8] block font-mono text-[10px] uppercase">
                   ✓ Zero Host Execution Boundary
                 </span>
                 <p>
@@ -101,13 +101,13 @@ export function DemoModeIndicator() {
               </div>
             </div>
 
-            <div className="flex items-center justify-end pt-2 border-t border-[#2E3442]">
+            <div className="pt-2 flex justify-end">
               <button
                 type="button"
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 rounded-lg text-xs font-extrabold bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 hover:from-amber-400 hover:to-orange-400 transition"
+                className="px-4 py-2 bg-[#00FA9A] hover:bg-[#00E58B] text-[#1A1D20] rounded-lg text-xs font-bold transition shadow-sm"
               >
-                Understood, Proceed to App
+                I Understand
               </button>
             </div>
           </div>
