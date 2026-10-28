@@ -101,17 +101,15 @@ export default function GovernancePage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
-        <Header
-          title="Autonomous Security Governance"
-          subtitle="End-to-end evidence provenance, immutable policy versioning, and system-wide assurance."
-          onRefresh={fetchOverview}
-          isRefreshing={loading}
-        />
+    <div className="flex flex-col min-h-full bg-[#F5F4F0] text-[#171A1F]">
+      <Header
+        title="Autonomous Security Governance"
+        subtitle="End-to-end evidence provenance, immutable policy versioning, and system-wide assurance"
+        onRefresh={fetchOverview}
+        isRefreshing={loading}
+      />
 
-        <main className="p-8 space-y-6 max-w-7xl mx-auto w-full">
+      <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
           {/* Top Governance KPI Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 shadow-sm">
@@ -469,8 +467,7 @@ export default function GovernancePage() {
               </div>
             </div>
           )}
-        </main>
-      </div>
+        </div>
 
       {/* POLICY VERSION HISTORY MODAL */}
       {selectedPolicy && (

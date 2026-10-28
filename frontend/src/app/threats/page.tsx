@@ -206,17 +206,15 @@ export default function ThreatsPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
-        <Header
-          title="Security Intelligence"
-          subtitle="Threat detection, agent risk scoring, and simulation lab"
-          onRefresh={fetchData}
-          isRefreshing={loading}
-        />
+    <div className="flex flex-col min-h-full bg-[#F5F4F0] text-[#171A1F]">
+      <Header
+        title="Threat Intelligence Center"
+        subtitle="Deterministic behavioral pattern detection, explainable risk scoring & simulation lab"
+        onRefresh={fetchData}
+        isRefreshing={loading}
+      />
 
-        <main className="p-8 space-y-6 max-w-7xl mx-auto w-full">
+      <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
           {/* Page Title & Actions */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
@@ -801,8 +799,7 @@ export default function ThreatsPage() {
               </div>
             </div>
           )}
-        </main>
-      </div>
+        </div>
 
       {/* FINDING DETAIL & INVESTIGATION MODAL */}
       {selectedFinding && (

@@ -7,7 +7,6 @@ import {
   AlertTriangle, 
   Clock, 
   Shield, 
-  Filter, 
   RefreshCw,
   Eye,
   Check,
@@ -71,119 +70,119 @@ export default function ApprovalCenterPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-full">
+    <div className="flex flex-col min-h-full bg-[#F5F4F0]">
       <Header 
-        title="Security Approval Center" 
-        subtitle="Review, approve, or reject high-risk AI agent operations under Human-in-the-Loop governance"
+        title="Approval Queue" 
+        subtitle="Review, authorize, or reject high-risk AI agent operations under Human-in-the-Loop governance"
         onRefresh={() => loadApprovals(true)}
         isRefreshing={isRefreshing}
       />
 
-      <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
-        {/* KPI Summary */}
+      <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+        {/* KPI Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-5 rounded-xl bg-graphite-900 border border-graphite-750 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-              <span>Pending Action Approvals</span>
-              <AlertTriangle className="w-4 h-4 text-amber-400" />
+          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex flex-col justify-between shadow-sm">
+            <div className="flex items-center justify-between text-[#737B86] text-xs font-medium">
+              <span className="text-[11px] uppercase tracking-wider font-semibold">Pending Review</span>
+              <AlertTriangle className="w-4 h-4 text-[#98661C]" />
             </div>
-            <div className="text-2xl font-bold text-amber-400 mt-2 font-mono">{pendingEvents.length}</div>
-            <p className="text-[11px] text-slate-400 mt-1">Requiring administrator review</p>
+            <div className="text-2xl font-bold text-[#98661C] mt-2 font-mono">{pendingEvents.length}</div>
+            <p className="text-[11px] text-[#737B86] mt-1">Actions awaiting administrator authorization</p>
           </div>
 
-          <div className="p-5 rounded-xl bg-graphite-900 border border-graphite-750 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-              <span>Approved Operations</span>
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex flex-col justify-between shadow-sm">
+            <div className="flex items-center justify-between text-[#737B86] text-xs font-medium">
+              <span className="text-[11px] uppercase tracking-wider font-semibold">Approved Operations</span>
+              <CheckCircle2 className="w-4 h-4 text-[#287653]" />
             </div>
-            <div className="text-2xl font-bold text-emerald-400 mt-2 font-mono">
+            <div className="text-2xl font-bold text-[#287653] mt-2 font-mono">
               {allApprovalEvents.filter(e => e.approval_status === 'APPROVED').length}
             </div>
-            <p className="text-[11px] text-slate-400 mt-1">Authorized for simulated execution</p>
+            <p className="text-[11px] text-[#737B86] mt-1">Authorized for isolated execution</p>
           </div>
 
-          <div className="p-5 rounded-xl bg-graphite-900 border border-graphite-750 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-              <span>Rejected Operations</span>
-              <XCircle className="w-4 h-4 text-rose-400" />
+          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex flex-col justify-between shadow-sm">
+            <div className="flex items-center justify-between text-[#737B86] text-xs font-medium">
+              <span className="text-[11px] uppercase tracking-wider font-semibold">Rejected Operations</span>
+              <XCircle className="w-4 h-4 text-[#B53A3A]" />
             </div>
-            <div className="text-2xl font-bold text-rose-400 mt-2 font-mono">
+            <div className="text-2xl font-bold text-[#B53A3A] mt-2 font-mono">
               {allApprovalEvents.filter(e => e.approval_status === 'REJECTED').length}
             </div>
-            <p className="text-[11px] text-slate-400 mt-1">Denied and permanently blocked</p>
+            <p className="text-[11px] text-[#737B86] mt-1">Denied and halted at gateway</p>
           </div>
         </div>
 
-        {/* Safety Boundary Notice */}
-        <div className="p-4 rounded-xl bg-graphite-850/80 border border-graphite-750 flex items-start gap-3">
-          <Shield className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-          <div className="text-xs space-y-1">
-            <p className="font-semibold text-slate-200">Execution Boundary Guarantee</p>
-            <p className="text-slate-400 leading-relaxed">
-              Approved AI agent requests execute strictly within the sandbox in <span className="font-mono text-emerald-300">SIMULATED</span> mode. SentinelMesh never executes arbitrary shell commands, drops real databases, or accesses external network environments without explicit system boundaries.
+        {/* Safety Guarantee Notice */}
+        <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex items-start gap-3 shadow-sm">
+          <Shield className="w-5 h-5 text-[#287653] flex-shrink-0 mt-0.5" />
+          <div className="text-xs space-y-0.5">
+            <p className="font-semibold text-[#171A1F]">Execution Boundary Guarantee</p>
+            <p className="text-[#737B86] leading-relaxed">
+              Approved AI agent requests execute strictly within the sandbox in <span className="font-mono text-[#287653] font-semibold">SIMULATED</span> mode. SentinelMesh prevents unconstrained shell execution, direct database drops, or uncontrolled network requests.
             </p>
           </div>
         </div>
 
         {/* Pending Approvals Table */}
-        <div className="rounded-xl bg-graphite-900 border border-graphite-750 overflow-hidden">
-          <div className="p-4 border-b border-graphite-750 flex items-center justify-between">
+        <div className="rounded bg-[#FFFFFF] border border-[#D9DDE2] overflow-hidden shadow-sm">
+          <div className="p-4 border-b border-[#D9DDE2] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-amber-400" />
-              <h3 className="text-sm font-semibold text-slate-100">Pending Approval Queue</h3>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-800 font-mono">
+              <Clock className="w-4 h-4 text-[#98661C]" />
+              <h3 className="text-sm font-semibold text-[#171A1F]">Pending Approval Queue</h3>
+              <span className="text-xs px-2 py-0.5 rounded font-mono font-semibold bg-[#FDF7ED] text-[#98661C] border border-[#F5DEB3]">
                 {pendingEvents.length}
               </span>
             </div>
           </div>
 
           {pendingEvents.length === 0 ? (
-            <div className="p-12 text-center text-slate-400 space-y-2">
-              <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
-              <p className="text-sm font-medium text-slate-300">All caught up! No pending approvals.</p>
-              <p className="text-xs text-slate-400">Trigger high-risk simulator actions (e.g. DELETE database) to test approval queues.</p>
+            <div className="p-10 text-center text-[#737B86] space-y-1.5">
+              <CheckCircle2 className="w-8 h-8 text-[#287653] mx-auto" />
+              <p className="text-sm font-semibold text-[#171A1F]">All caught up! No pending approvals.</p>
+              <p className="text-xs text-[#737B86]">Trigger a high-risk action (such as DELETE database) in the Action Gateway to test approval flows.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-graphite-950/50 text-slate-400 border-b border-graphite-750">
+                <thead className="bg-[#F9F9F8] text-[#737B86] border-b border-[#D9DDE2]">
                   <tr>
-                    <th className="py-3 px-4 font-medium">Event ID</th>
-                    <th className="py-3 px-4 font-medium">Agent</th>
-                    <th className="py-3 px-4 font-medium">Requested Action</th>
-                    <th className="py-3 px-4 font-medium">Target Resource</th>
-                    <th className="py-3 px-4 font-medium">Applicable Policy</th>
-                    <th className="py-3 px-4 font-medium">Risk Rationale</th>
-                    <th className="py-3 px-4 font-medium text-right">Actions</th>
+                    <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Event ID</th>
+                    <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Agent</th>
+                    <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Requested Action</th>
+                    <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Target Resource</th>
+                    <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Policy</th>
+                    <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Risk Rationale</th>
+                    <th className="py-2.5 px-4 font-semibold uppercase text-[10px] text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-graphite-750/60">
+                <tbody className="divide-y divide-[#D9DDE2] font-mono">
                   {pendingEvents.map((event) => (
-                    <tr key={event.id} className="hover:bg-graphite-850/50 transition">
-                      <td className="py-3 px-4 font-mono font-medium text-slate-200">{event.id}</td>
-                      <td className="py-3 px-4 font-mono text-slate-300">{event.agent_id}</td>
+                    <tr key={event.id} className="hover:bg-[#F9FAFB] transition">
+                      <td className="py-3 px-4 font-medium text-[#171A1F]">{event.id}</td>
+                      <td className="py-3 px-4 text-[#171A1F] font-semibold">{event.agent_id}</td>
                       <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded bg-amber-950/80 border border-amber-800 text-amber-300 font-mono font-medium">
+                        <span className="px-2 py-0.5 rounded bg-[#FDF7ED] border border-[#F5DEB3] text-[#98661C] font-semibold">
                           {event.action_type}
                         </span>
                       </td>
-                      <td className="py-3 px-4 font-mono text-slate-300 max-w-[200px] truncate" title={event.resource}>
+                      <td className="py-3 px-4 text-[#737B86] max-w-[200px] truncate" title={event.resource}>
                         {event.resource}
                       </td>
-                      <td className="py-3 px-4 font-mono text-slate-400 text-[11px]">{event.policy_id}</td>
-                      <td className="py-3 px-4 text-slate-300 max-w-[250px] truncate" title={event.reason}>
+                      <td className="py-3 px-4 text-[#737B86] text-[11px]">{event.policy_id}</td>
+                      <td className="py-3 px-4 text-[#737B86] font-sans max-w-[250px] truncate" title={event.reason}>
                         {event.reason}
                       </td>
-                      <td className="py-3 px-4 text-right space-x-2">
+                      <td className="py-3 px-4 text-right space-x-1.5 font-sans">
                         <button
                           onClick={() => handleInspect(event.id)}
-                          className="px-2.5 py-1 rounded bg-graphite-800 border border-graphite-700 text-slate-300 hover:text-white transition"
+                          className="px-2 py-1 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] hover:bg-[#F5F4F0] transition text-[11px]"
                         >
                           Inspect
                         </button>
                         <button
                           onClick={() => handleOpenDecision(event)}
-                          className="px-2.5 py-1 rounded bg-amber-950/80 border border-amber-800 text-amber-300 hover:bg-amber-900 transition font-medium"
+                          className="px-2.5 py-1 rounded bg-[#98661C] text-[#FFFFFF] hover:bg-[#7D5316] transition font-semibold text-[11px]"
                         >
                           Decide (Admin)
                         </button>
@@ -197,55 +196,55 @@ export default function ApprovalCenterPage() {
         </div>
 
         {/* Historical Decisions Table */}
-        <div className="rounded-xl bg-graphite-900 border border-graphite-750 overflow-hidden">
-          <div className="p-4 border-b border-graphite-750">
-            <h3 className="text-sm font-semibold text-slate-100">Historical Approval Decisions</h3>
-            <p className="text-xs text-slate-400 mt-0.5">Auditable records of all past administrative decisions</p>
+        <div className="rounded bg-[#FFFFFF] border border-[#D9DDE2] overflow-hidden shadow-sm">
+          <div className="p-4 border-b border-[#D9DDE2]">
+            <h3 className="text-sm font-semibold text-[#171A1F]">Historical Approval Decisions</h3>
+            <p className="text-xs text-[#737B86] mt-0.5">Auditable records of all past administrative authorizations</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-graphite-950/50 text-slate-400 border-b border-graphite-750">
+              <thead className="bg-[#F9F9F8] text-[#737B86] border-b border-[#D9DDE2]">
                 <tr>
-                  <th className="py-3 px-4 font-medium">Event ID</th>
-                  <th className="py-3 px-4 font-medium">Agent</th>
-                  <th className="py-3 px-4 font-medium">Action & Resource</th>
-                  <th className="py-3 px-4 font-medium">Approval Status</th>
-                  <th className="py-3 px-4 font-medium">Execution Status</th>
-                  <th className="py-3 px-4 font-medium text-right">Inspect</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Event ID</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Agent</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Action & Resource</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Approval Status</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Execution Status</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px] text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-graphite-750/60">
+              <tbody className="divide-y divide-[#D9DDE2] font-mono">
                 {allApprovalEvents
                   .filter(e => e.approval_status !== 'PENDING')
                   .slice(0, 10)
                   .map((event) => (
-                    <tr key={event.id} className="hover:bg-graphite-850/50 transition">
-                      <td className="py-3 px-4 font-mono font-medium text-slate-300">{event.id}</td>
-                      <td className="py-3 px-4 font-mono text-slate-400">{event.agent_id}</td>
+                    <tr key={event.id} className="hover:bg-[#F9FAFB] transition">
+                      <td className="py-3 px-4 font-medium text-[#171A1F]">{event.id}</td>
+                      <td className="py-3 px-4 text-[#171A1F]">{event.agent_id}</td>
                       <td className="py-3 px-4">
-                        <span className="font-mono text-slate-300">{event.action_type}</span>{' '}
-                        <span className="font-mono text-slate-400 text-[11px] truncate inline-block max-w-[200px] align-bottom">
+                        <span className="font-semibold text-[#171A1F]">{event.action_type}</span>{' '}
+                        <span className="text-[#737B86] text-[11px] truncate inline-block max-w-[200px] align-bottom">
                           {event.resource}
                         </span>
                       </td>
                       <td className="py-3 px-4">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
                           event.approval_status === 'APPROVED'
-                            ? 'bg-emerald-950 text-emerald-300 border-emerald-800'
-                            : 'bg-rose-950 text-rose-300 border-rose-800'
+                            ? 'bg-[#EDF6F2] text-[#287653] border-[#BCE2D1]'
+                            : 'bg-[#FDF2F2] text-[#B53A3A] border-[#F7C4C4]'
                         }`}>
                           {event.approval_status}
                         </span>
                       </td>
-                      <td className="py-3 px-4 font-mono text-[11px] text-slate-400">
+                      <td className="py-3 px-4 text-[11px] text-[#737B86]">
                         {event.execution_status}
                       </td>
-                      <td className="py-3 px-4 text-right">
+                      <td className="py-3 px-4 text-right font-sans">
                         <button
                           onClick={() => handleInspect(event.id)}
-                          className="px-2.5 py-1 rounded bg-graphite-800 border border-graphite-700 text-slate-300 hover:text-white transition"
+                          className="px-2 py-1 rounded bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] hover:bg-[#F5F4F0] transition text-[11px]"
                         >
-                          Details
+                          Inspect
                         </button>
                       </td>
                     </tr>

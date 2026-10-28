@@ -1,9 +1,9 @@
 import './globals.css';
-import { Sidebar } from '@/components/Sidebar';
+import { AppShell } from '@/components/AppShell';
 
 export const metadata = {
   title: 'SentinelMesh — Trust, Without Blind Faith',
-  description: 'Security & Accountability Platform for Autonomous AI Agents',
+  description: 'Agent-action governance, deterministic policy enforcement, cryptographic evidence infrastructure, and MST Blockchain anchoring.',
 };
 
 export default function RootLayout({
@@ -12,14 +12,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-graphite-950 text-slate-100 flex min-h-screen">
-        <Sidebar />
-        <div className="flex-1 flex flex-col min-w-0">
-          <main className="flex-1 overflow-y-auto">
-            {children}
-          </main>
-        </div>
+    <html lang="en">
+      <body className="bg-[#F5F4F0] text-[#171A1F] min-h-screen font-sans antialiased">
+        <AppShell>
+          {children}
+        </AppShell>
       </body>
     </html>
   );

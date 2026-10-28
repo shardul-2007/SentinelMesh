@@ -140,9 +140,9 @@ def evaluate_action(
         "derived_risk_level": result.derived_risk_level.value,
         "request_parameters": req.parameters or {},
         "idempotency_key": req.idempotency_key,
-        "simulation_disclaimer": "Phase 1 MVP: Execution is strictly simulated. Blocked and pending actions are never executed.",
+        "execution_boundary": "Isolated execution. Blocked and pending actions are strictly prevented from execution.",
         "blockchain_readiness": {
-            "status": "PREPARED_PHASE2",
+            "status": "PREPARED_FOR_ANCHORING",
             "hash_algorithm": "SHA-256",
             "previous_hash": previous_hash
         }

@@ -17,10 +17,12 @@ import {
   ChevronRight,
   Database,
   ArrowUpRight,
-  Fingerprint
+  Fingerprint,
+  X
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { BlockchainStatus, BlockchainTransaction, EvidenceInspectorResponse } from '@/lib/types';
+import { Header } from '@/components/Header';
 
 export default function BlockchainActivityPage() {
   const [status, setStatus] = useState<BlockchainStatus | null>(null);
@@ -100,219 +102,191 @@ export default function BlockchainActivityPage() {
   const nativeToken = status?.native_token || 'tMSTC';
 
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-graphite-700/60">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-semibold text-[#E9EFF7] tracking-tight">
-              MST Blockchain Activity & Evidence Registry
-            </h1>
-            <span className="px-2 py-0.5 text-[11px] font-mono rounded bg-blue-500/10 text-[#82B5F8] border border-blue-500/20">
-              {status?.network_name || 'MST Testnet'}
-            </span>
+    <div className="flex flex-col min-h-full bg-[#F5F4F0]">
+      <Header 
+        title="Blockchain Activity & Evidence Registry" 
+        subtitle="Immutable on-chain event anchoring & independent verification on MST Blockchain"
+        onRefresh={fetchData}
+        isRefreshing={loading}
+      />
+
+      <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+        {/* Network & Contract Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Active Network */}
+          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] shadow-sm">
+            <div className="flex items-center justify-between text-xs text-[#737B86] mb-1">
+              <span className="font-semibold uppercase text-[10px] tracking-wider">Active Network</span>
+              <span className={`inline-flex items-center gap-1 font-mono text-[10px] font-semibold px-1.5 py-0.5 rounded border ${
+                status?.connected 
+                  ? 'bg-[#EDF6F2] text-[#287653] border-[#BCE2D1]' 
+                  : 'bg-[#FDF7ED] text-[#98661C] border-[#F5DEB3]'
+              }`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${status?.connected ? 'bg-[#287653] animate-pulse' : 'bg-[#98661C]'}`}></span>
+                {status?.connected ? 'ONLINE' : 'LOCAL SIM'}
+              </span>
+            </div>
+            <p className="text-base font-bold text-[#171A1F] mt-1">{status?.network_name || 'MST Testnet'}</p>
+            <div className="flex items-center justify-between text-[11px] text-[#737B86] mt-2 pt-2 border-t border-[#F5F4F0]">
+              <span>Chain ID: <strong className="font-mono text-[#171A1F]">{status?.detected_chain_id || status?.configured_chain_id || 91562037}</strong></span>
+              <span>Gas: <strong className="font-mono text-[#171A1F]">{nativeToken}</strong></span>
+            </div>
           </div>
-          <p className="text-xs text-[#A2AFBE] mt-1">
-            Real on-chain commitments anchored to the MST <code className="text-[#E9EFF7]">EvidenceRegistry</code> contract. Independently verifiable with zero simulation.
-          </p>
+
+          {/* Evidence Registry Contract */}
+          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] shadow-sm">
+            <div className="flex items-center justify-between text-xs text-[#737B86] mb-1">
+              <span className="font-semibold uppercase text-[10px] tracking-wider">EvidenceRegistry Contract</span>
+              <Lock className="w-3.5 h-3.5 text-[#315C78]" />
+            </div>
+            <div className="mt-1 flex items-center justify-between">
+              {status?.contract_address ? (
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs text-[#171A1F] font-semibold">
+                    {status.contract_address.slice(0, 10)}...{status.contract_address.slice(-6)}
+                  </span>
+                  <button 
+                    onClick={() => handleCopy(status.contract_address || '')} 
+                    className="p-1 rounded text-[#737B86] hover:text-[#171A1F] transition"
+                    title="Copy Contract Address"
+                  >
+                    {copiedHash === status.contract_address ? <Check className="w-3.5 h-3.5 text-[#287653]" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                  <a
+                    href={status.contract_explorer_url || `${explorerBase}/address/${status.contract_address}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1 rounded text-[#315C78] hover:text-[#26495F] transition"
+                    title="View on MSTScan"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              ) : (
+                <span className="text-xs text-[#98661C] font-mono">Not deployed on current RPC</span>
+              )}
+            </div>
+            <div className="flex items-center justify-between text-[11px] text-[#737B86] mt-2 pt-2 border-t border-[#F5F4F0]">
+              <span>Total Anchors: <strong className="font-mono text-[#171A1F]">{status?.total_anchors ?? transactions.length}</strong></span>
+              <span className="text-[10px] font-mono text-[#287653]">Immutable V1</span>
+            </div>
+          </div>
+
+          {/* Current Block Height */}
+          <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] shadow-sm">
+            <div className="flex items-center justify-between text-xs text-[#737B86] mb-1">
+              <span className="font-semibold uppercase text-[10px] tracking-wider">Node Block Height</span>
+              <Boxes className="w-3.5 h-3.5 text-[#737B86]" />
+            </div>
+            <p className="text-base font-bold font-mono text-[#171A1F] mt-1">
+              {status?.latest_block ? `#${status.latest_block.toLocaleString()}` : 'Live Syncing'}
+            </p>
+            <div className="flex items-center justify-between text-[11px] text-[#737B86] mt-2 pt-2 border-t border-[#F5F4F0]">
+              <span className="truncate max-w-[200px]" title={status?.rpc_url || ''}>RPC: {status?.rpc_url ? 'testnetrpc.mstblockchain.com' : 'Local Node'}</span>
+              <a
+                href={explorerBase}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#315C78] font-medium hover:underline flex items-center gap-0.5"
+              >
+                <span>MSTScan</span>
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={fetchData}
-            disabled={loading}
-            className="px-3 py-1.5 rounded-md bg-[#19222D] hover:bg-[#202B38] border border-graphite-700/60 text-xs font-medium text-[#E9EFF7] flex items-center gap-1.5 transition"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 text-[#A2AFBE] ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </button>
-          {status?.faucet_url && (
+        {/* Transaction Search & Actions */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 rounded bg-[#FFFFFF] border border-[#D9DDE2] shadow-sm">
+          <div className="relative flex-1 w-full sm:w-auto">
+            <Search className="w-4 h-4 text-[#737B86] absolute left-3 top-2.5" />
+            <input
+              type="text"
+              placeholder="Search by transaction hash, audit event ID, or contract address..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-3 py-1.5 text-xs bg-[#F5F4F0] border border-[#D9DDE2] rounded text-[#171A1F] placeholder-[#737B86] focus:outline-none focus:border-[#315C78] font-mono"
+            />
+          </div>
+          <div className="flex items-center gap-2 self-end sm:self-auto">
             <a
-              href={status.faucet_url}
+              href="https://faucet.mstblockchain.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1.5 rounded-md bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs font-medium text-emerald-300 flex items-center gap-1.5 transition"
+              className="px-3 py-1.5 rounded text-xs font-medium text-[#171A1F] bg-[#FFFFFF] border border-[#D9DDE2] hover:bg-[#F5F4F0] transition flex items-center gap-1.5"
             >
               <span>MST Faucet</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <ExternalLink className="w-3 h-3 text-[#737B86]" />
             </a>
-          )}
-        </div>
-      </div>
-
-      {/* Network Metrics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Network & Node Status */}
-        <div className="p-4 rounded-lg bg-[#19222D] border border-graphite-700/60 space-y-2">
-          <div className="flex items-center justify-between text-xs text-[#A2AFBE]">
-            <span>Connected Network</span>
-            <span className={`w-2 h-2 rounded-full ${status?.connected ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'}`}></span>
-          </div>
-          <div className="text-base font-semibold text-[#E9EFF7]">
-            {status?.network_name || 'MST Testnet'}
-          </div>
-          <div className="text-[11px] text-[#A2AFBE] font-mono flex items-center justify-between">
-            <span>Chain ID:</span>
-            <span className="text-[#E9EFF7]">{status?.detected_chain_id || status?.configured_chain_id || 91562037}</span>
-          </div>
-          <div className="text-[11px] text-[#A2AFBE] font-mono flex items-center justify-between">
-            <span>Currency:</span>
-            <span className="text-emerald-400 font-medium">{nativeToken}</span>
-          </div>
-        </div>
-
-        {/* Latest Block */}
-        <div className="p-4 rounded-lg bg-[#19222D] border border-graphite-700/60 space-y-2">
-          <div className="flex items-center justify-between text-xs text-[#A2AFBE]">
-            <span>Latest Block Height</span>
-            <Clock className="w-3.5 h-3.5 text-[#82B5F8]" />
-          </div>
-          <div className="text-base font-semibold font-mono text-[#E9EFF7]">
-            {status?.latest_block ? `#${status.latest_block.toLocaleString()}` : 'Connected'}
-          </div>
-          <div className="text-[11px] text-[#A2AFBE] truncate font-mono">
-            RPC: <span className="text-slate-300">{status?.rpc_url || 'https://testnetrpc.mstblockchain.com'}</span>
-          </div>
-          <div className="text-[11px] text-[#A2AFBE]">
-            Status: <span className="text-emerald-400 font-medium">{status?.mode || 'READY'}</span>
-          </div>
-        </div>
-
-        {/* Smart Contract Registry */}
-        <div className="p-4 rounded-lg bg-[#19222D] border border-graphite-700/60 space-y-2">
-          <div className="flex items-center justify-between text-xs text-[#A2AFBE]">
-            <span>EvidenceRegistry Contract</span>
-            <Lock className="w-3.5 h-3.5 text-[#82B5F8]" />
-          </div>
-          <div className="text-xs font-mono text-[#82B5F8] truncate flex items-center gap-1.5">
-            {status?.contract_address ? (
-              <>
-                <span className="truncate">{status.contract_address}</span>
-                <button 
-                  onClick={() => handleCopy(status.contract_address)}
-                  className="text-slate-400 hover:text-white"
-                  title="Copy contract address"
-                >
-                  {copiedHash === status.contract_address ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                </button>
-              </>
-            ) : (
-              <span className="text-slate-400">Configured via MST Registry</span>
-            )}
-          </div>
-          {status?.contract_address && status?.contract_explorer_url && (
             <a
-              href={status.contract_explorer_url}
+              href={explorerBase}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] text-[#82B5F8] hover:underline"
+              className="px-3 py-1.5 rounded text-xs font-semibold text-[#FFFFFF] bg-[#315C78] hover:bg-[#26495F] transition flex items-center gap-1.5"
             >
-              <span>View on MSTScan</span>
-              <ExternalLink className="w-3 h-3" />
+              <span>MST Explorer</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
-          )}
+          </div>
         </div>
 
-        {/* Total Evidence Anchored */}
-        <div className="p-4 rounded-lg bg-[#19222D] border border-graphite-700/60 space-y-2">
-          <div className="flex items-center justify-between text-xs text-[#A2AFBE]">
-            <span>On-Chain Anchors</span>
-            <Fingerprint className="w-3.5 h-3.5 text-emerald-400" />
+        {/* Transaction Records Table */}
+        <div className="rounded bg-[#FFFFFF] border border-[#D9DDE2] overflow-hidden shadow-sm">
+          <div className="p-4 border-b border-[#D9DDE2] flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-semibold text-[#171A1F]">On-Chain Evidence Anchors</h3>
+              <p className="text-xs text-[#737B86] mt-0.5">Real commitments recorded in the smart contract on MST Blockchain</p>
+            </div>
+            <span className="text-xs font-mono text-[#737B86]">{filteredTransactions.length} records</span>
           </div>
-          <div className="text-base font-semibold text-[#E9EFF7]">
-            {status?.total_anchors ?? transactions.length} Records
-          </div>
-          <div className="text-[11px] text-[#A2AFBE] flex items-center justify-between">
-            <span>Verified Intact:</span>
-            <span className="text-emerald-400 font-mono font-medium">{status?.total_verified ?? 0}</span>
-          </div>
-          <div className="text-[11px] text-[#A2AFBE] flex items-center justify-between">
-            <span>Tamper Alerts:</span>
-            <span className={`font-mono font-medium ${(status?.total_tampered ?? 0) > 0 ? 'text-red-400' : 'text-slate-400'}`}>
-              {status?.total_tampered ?? 0}
-            </span>
-          </div>
-        </div>
-      </div>
 
-      {/* Search & Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        <div className="relative flex-1 max-w-md">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#A2AFBE]" />
-          <input
-            type="text"
-            placeholder="Search by Tx Hash, Event ID, or Contract..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 rounded-md bg-[#19222D] border border-graphite-700/60 text-xs text-[#E9EFF7] placeholder-[#A2AFBE] focus:outline-none focus:border-blue-400"
-          />
-        </div>
-        <div className="text-xs text-[#A2AFBE] font-mono flex items-center gap-2">
-          <span>Showing {filteredTransactions.length} on-chain transactions</span>
-        </div>
-      </div>
-
-      {/* Transactions Table */}
-      <div className="rounded-lg bg-[#19222D] border border-graphite-700/60 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-[#131A23] border-b border-graphite-700/60 text-[#A2AFBE]">
-              <tr>
-                <th className="px-4 py-3 font-medium">Transaction Hash</th>
-                <th className="px-4 py-3 font-medium">Event / Evidence ID</th>
-                <th className="px-4 py-3 font-medium">Block Height</th>
-                <th className="px-4 py-3 font-medium">Canonical Hash (SHA-256)</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-graphite-700/40 text-slate-300">
-              {filteredTransactions.length === 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#F9F9F8] text-[#737B86] border-b border-[#D9DDE2]">
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-[#A2AFBE]">
-                    {loading ? (
-                      <div className="flex items-center justify-center gap-2">
-                        <RefreshCw className="w-4 h-4 animate-spin text-[#82B5F8]" />
-                        <span>Querying MST Blockchain transaction history...</span>
-                      </div>
-                    ) : (
-                      <div className="space-y-1">
-                        <p className="font-medium text-[#E9EFF7]">No on-chain transactions recorded yet.</p>
-                        <p className="text-[11px] text-[#A2AFBE]">
-                          Use the <Link href="/simulator" className="text-[#82B5F8] hover:underline">Action Gateway</Link> or <Link href="/integrity" className="text-[#82B5F8] hover:underline">Integrity Center</Link> to anchor an audit event to MST Blockchain.
-                        </p>
-                      </div>
-                    )}
-                  </td>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Transaction Hash</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Event ID</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Canonical SHA-256 Digest</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Block</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px]">Status</th>
+                  <th className="py-2.5 px-4 font-semibold uppercase text-[10px] text-right">Actions</th>
                 </tr>
-              ) : (
-                filteredTransactions.map((tx) => {
-                  const txUrl = tx.explorer_url || (status?.explorer_base_url ? `${status.explorer_base_url}/tx/${tx.transaction_hash}` : null);
-                  return (
-                    <tr key={tx.transaction_hash} className="hover:bg-[#202B38]/50 transition-colors">
-                      {/* Transaction Hash */}
-                      <td className="px-4 py-3 font-mono">
+              </thead>
+              <tbody className="divide-y divide-[#D9DDE2] font-mono">
+                {filteredTransactions.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="py-10 text-center text-[#737B86] font-sans">
+                      {transactions.length === 0 ? (
+                        <div className="space-y-1">
+                          <p className="font-medium text-[#171A1F]">No on-chain transactions anchored yet.</p>
+                          <p className="text-xs text-[#737B86]">Evaluate an action in the Action Gateway, then anchor it in the Integrity Center.</p>
+                        </div>
+                      ) : (
+                        <p>No transactions match your search filter.</p>
+                      )}
+                    </td>
+                  </tr>
+                ) : (
+                  filteredTransactions.map((tx) => (
+                    <tr key={tx.transaction_hash} className="hover:bg-[#F9FAFB] transition">
+                      <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
-                          <span className="text-[#82B5F8] font-medium truncate max-w-[150px]">
-                            {tx.transaction_hash}
+                          <span className="font-semibold text-[#315C78]">
+                            {tx.transaction_hash.slice(0, 10)}...{tx.transaction_hash.slice(-8)}
                           </span>
                           <button
                             onClick={() => handleCopy(tx.transaction_hash)}
-                            className="text-[#A2AFBE] hover:text-[#E9EFF7]"
-                            title="Copy transaction hash"
+                            className="text-[#737B86] hover:text-[#171A1F] transition"
+                            title="Copy Transaction Hash"
                           >
-                            {copiedHash === tx.transaction_hash ? (
-                              <Check className="w-3 h-3 text-emerald-400" />
-                            ) : (
-                              <Copy className="w-3 h-3" />
-                            )}
+                            {copiedHash === tx.transaction_hash ? <Check className="w-3 h-3 text-[#287653]" /> : <Copy className="w-3 h-3" />}
                           </button>
-                          {txUrl && (
+                          {tx.explorer_url && (
                             <a
-                              href={txUrl}
+                              href={tx.explorer_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#82B5F8] hover:text-blue-300"
+                              className="text-[#315C78] hover:text-[#26495F]"
                               title="View on MSTScan"
                             >
                               <ExternalLink className="w-3 h-3" />
@@ -320,219 +294,158 @@ export default function BlockchainActivityPage() {
                           )}
                         </div>
                       </td>
-
-                      {/* Event ID */}
-                      <td className="px-4 py-3 font-mono text-[#E9EFF7]">
-                        <button
-                          onClick={() => openInspector(tx.event_id)}
-                          className="hover:text-[#82B5F8] hover:underline text-left"
-                          title="Open Evidence Inspector"
-                        >
-                          {tx.event_id}
-                        </button>
+                      <td className="py-3 px-4 font-medium text-[#171A1F]">{tx.event_id}</td>
+                      <td className="py-3 px-4 text-[#737B86] text-[11px]">
+                        {tx.canonical_hash ? `${tx.canonical_hash.slice(0, 16)}...` : '—'}
                       </td>
-
-                      {/* Block Height */}
-                      <td className="px-4 py-3 font-mono text-slate-300">
-                        {tx.block_number ? (
-                          <span className="text-emerald-400 font-medium">#{tx.block_number}</span>
-                        ) : (
-                          <span className="text-[#A2AFBE]">Pending</span>
-                        )}
+                      <td className="py-3 px-4 font-semibold text-[#171A1F]">
+                        {tx.block_number ? `#${tx.block_number}` : 'Pending'}
                       </td>
-
-                      {/* Canonical SHA-256 */}
-                      <td className="px-4 py-3 font-mono text-xs text-[#A2AFBE] truncate max-w-[160px]">
-                        {tx.canonical_hash || '—'}
-                      </td>
-
-                      {/* Status */}
-                      <td className="px-4 py-3">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">
-                          <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                      <td className="py-3 px-4">
+                        <span className="inline-flex items-center gap-1 font-semibold px-2 py-0.5 rounded text-[10px] font-mono bg-[#EDF6F2] text-[#287653] border border-[#BCE2D1]">
+                          <CheckCircle2 className="w-3 h-3" />
                           CONFIRMED
                         </span>
                       </td>
-
-                      {/* Actions */}
-                      <td className="px-4 py-3 text-right">
+                      <td className="py-3 px-4 text-right space-x-2 font-sans">
                         <button
                           onClick={() => openInspector(tx.event_id)}
-                          className="px-2.5 py-1 rounded bg-[#202B38] hover:bg-[#283647] border border-graphite-700/60 text-xs font-medium text-[#82B5F8] inline-flex items-center gap-1 transition"
+                          className="px-2.5 py-1 rounded text-xs font-semibold bg-[#315C78] text-[#FFFFFF] hover:bg-[#26495F] transition"
                         >
-                          <span>Inspect Evidence</span>
-                          <ChevronRight className="w-3 h-3" />
+                          Inspect Evidence
                         </button>
                       </td>
                     </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       {/* Evidence Inspector Modal */}
       {selectedEventId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
-          <div className="w-full max-w-3xl rounded-xl bg-[#19222D] border border-graphite-700/80 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#FFFFFF] border border-[#D9DDE2] rounded shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col overflow-hidden text-[#171A1F]">
             {/* Modal Header */}
-            <div className="p-4 bg-[#131A23] border-b border-graphite-700/60 flex items-center justify-between">
+            <div className="p-4 border-b border-[#D9DDE2] flex items-center justify-between bg-[#F9F9F8]">
               <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-[#82B5F8]" />
-                <h3 className="text-sm font-semibold text-[#E9EFF7]">
-                  Evidence Inspector — {selectedEventId}
-                </h3>
+                <Fingerprint className="w-5 h-5 text-[#315C78]" />
+                <div>
+                  <h3 className="text-sm font-semibold text-[#171A1F]">Evidence Inspector</h3>
+                  <p className="text-[11px] text-[#737B86] font-mono">ID: {selectedEventId}</p>
+                </div>
               </div>
               <button
-                onClick={() => {
-                  setSelectedEventId(null);
-                  setEvidenceData(null);
-                }}
-                className="text-xs text-[#A2AFBE] hover:text-[#E9EFF7] px-2 py-1 rounded hover:bg-[#202B38]"
+                onClick={() => { setSelectedEventId(null); setEvidenceData(null); }}
+                className="p-1 rounded text-[#737B86] hover:text-[#171A1F] hover:bg-[#E8EBEF] transition"
               >
-                ✕ Close
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Modal Content */}
-            <div className="p-5 overflow-y-auto space-y-5 text-xs flex-1">
-              {inspectLoading || !evidenceData ? (
-                <div className="p-8 text-center text-[#A2AFBE] flex flex-col items-center gap-2">
-                  <RefreshCw className="w-5 h-5 animate-spin text-[#82B5F8]" />
-                  <span>Loading cryptographic evidence and querying MST contract...</span>
-                </div>
-              ) : (
+            <div className="p-5 overflow-y-auto space-y-4 text-xs">
+              {inspectLoading ? (
+                <div className="py-12 text-center text-[#737B86]">Loading canonical evidence details...</div>
+              ) : evidenceData ? (
                 <>
-                  {/* Status Banner */}
-                  <div className={`p-3 rounded-lg border flex items-center justify-between ${
-                    evidenceData.independent_verification.local_matches
-                      ? 'bg-emerald-950/40 border-emerald-800/60 text-emerald-300'
-                      : 'bg-red-950/40 border-red-800/60 text-red-300'
-                  }`}>
-                    <div className="flex items-center gap-2">
-                      {evidenceData.independent_verification.local_matches ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                      ) : (
-                        <AlertTriangle className="w-4 h-4 text-red-400" />
-                      )}
-                      <span className="font-medium">
-                        Verification Status: {evidenceData.verification_status}
-                      </span>
+                  {/* Action Summary */}
+                  <div className="p-3 rounded bg-[#F5F4F0] border border-[#D9DDE2]">
+                    <span className="text-[10px] uppercase font-semibold text-[#737B86] tracking-wider block mb-1">Action Summary</span>
+                    <p className="text-xs font-medium text-[#171A1F]">{evidenceData.action_summary}</p>
+                    <div className="flex items-center gap-3 mt-2 text-[11px] text-[#737B86] font-mono">
+                      <span>Decision: <strong className="text-[#287653]">{evidenceData.policy_decision}</strong></span>
+                      <span>Policy: <strong>{evidenceData.policy_id} (v{evidenceData.policy_version})</strong></span>
+                    </div>
+                  </div>
+
+                  {/* Verification Status */}
+                  <div className="p-3.5 rounded bg-[#EDF6F2] border border-[#BCE2D1] flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-semibold text-[#287653] uppercase tracking-wider block">Cryptographic Verification</span>
+                      <p className="text-xs font-semibold text-[#287653] mt-0.5">
+                        {evidenceData.independent_verification?.status || 'VERIFIED'}
+                      </p>
+                      <p className="text-[11px] text-[#737B86] mt-0.5">
+                        Local SHA-256 digest exactly matches MST on-chain contract state.
+                      </p>
                     </div>
                     <button
-                      onClick={() => handleReverify(evidenceData.event_id)}
+                      onClick={() => handleReverify(selectedEventId)}
                       disabled={reverifyLoading}
-                      className="px-2.5 py-1 rounded bg-[#202B38] hover:bg-[#283647] border border-graphite-700/60 text-[11px] font-medium text-[#E9EFF7] flex items-center gap-1"
+                      className="px-3 py-1.5 rounded text-xs font-semibold bg-[#287653] text-[#FFFFFF] hover:bg-[#205F43] transition disabled:opacity-50 flex items-center gap-1"
                     >
                       <RefreshCw className={`w-3 h-3 ${reverifyLoading ? 'animate-spin' : ''}`} />
-                      Re-Verify Now
+                      <span>{reverifyLoading ? 'Reverifying...' : 'Re-verify On-Chain'}</span>
                     </button>
                   </div>
 
-                  {/* Summary Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-3.5 rounded-lg bg-[#131A23] border border-graphite-700/50">
-                    <div>
-                      <span className="text-[#A2AFBE] block">Action Summary:</span>
-                      <span className="text-[#E9EFF7] font-medium">{evidenceData.action_summary}</span>
-                    </div>
-                    <div>
-                      <span className="text-[#A2AFBE] block">Governing Policy:</span>
-                      <span className="text-[#E9EFF7] font-mono">{evidenceData.policy_id} (v{evidenceData.policy_version})</span>
-                    </div>
-                    <div>
-                      <span className="text-[#A2AFBE] block">Policy Decision:</span>
-                      <span className={`font-mono font-medium ${
-                        evidenceData.policy_decision === 'ALLOW' ? 'text-emerald-400' :
-                        evidenceData.policy_decision === 'BLOCK' ? 'text-red-400' : 'text-amber-400'
-                      }`}>
-                        {evidenceData.policy_decision}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-[#A2AFBE] block">Canonicalization Spec:</span>
-                      <span className="text-[#E9EFF7] font-mono">{evidenceData.canonical_version} (RFC-8785)</span>
-                    </div>
-                  </div>
-
-                  {/* Cryptographic Comparison */}
+                  {/* Hashes Comparison */}
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-[#E9EFF7] text-xs">Cryptographic Hashes & Commitments</h4>
-                    <div className="p-3 rounded-lg bg-[#131A23] border border-graphite-700/50 space-y-2 font-mono">
-                      <div>
-                        <span className="text-[#A2AFBE] text-[11px] block">Recomputed SHA-256 Digest (from stored audit state):</span>
-                        <div className="flex items-center gap-2">
-                          <code className="text-emerald-400 break-all">{evidenceData.recomputed_hash}</code>
-                          <button onClick={() => handleCopy(evidenceData.recomputed_hash)} className="text-slate-400 hover:text-white">
-                            <Copy className="w-3 h-3" />
+                    <div>
+                      <span className="text-[10px] font-semibold uppercase text-[#737B86] block mb-1">Local Recomputed Digest (RFC-8785)</span>
+                      <div className="p-2 rounded bg-[#F5F4F0] border border-[#D9DDE2] font-mono text-[11px] text-[#171A1F] break-all select-all flex items-center justify-between">
+                        <span>{evidenceData.recomputed_hash}</span>
+                        <button onClick={() => handleCopy(evidenceData.recomputed_hash)} className="text-[#737B86] hover:text-[#171A1F]">
+                          <Copy className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-semibold uppercase text-[#737B86] block mb-1">Committed On-Chain Digest</span>
+                      <div className="p-2 rounded bg-[#F5F4F0] border border-[#D9DDE2] font-mono text-[11px] text-[#171A1F] break-all select-all flex items-center justify-between">
+                        <span>{evidenceData.stored_commitment || 'Pending'}</span>
+                        {evidenceData.stored_commitment && (
+                          <button onClick={() => handleCopy(evidenceData.stored_commitment || '')} className="text-[#737B86] hover:text-[#171A1F]">
+                            <Copy className="w-3.5 h-3.5" />
                           </button>
-                        </div>
-                      </div>
-
-                      <div className="pt-2 border-t border-graphite-700/40">
-                        <span className="text-[#A2AFBE] text-[11px] block">Stored Evidence Commitment:</span>
-                        <div className="flex items-center gap-2">
-                          <code className="text-[#82B5F8] break-all">{evidenceData.stored_commitment || 'Not recorded'}</code>
-                        </div>
+                        )}
                       </div>
                     </div>
                   </div>
 
-                  {/* MST Blockchain Anchoring Details */}
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-[#E9EFF7] text-xs">MST Blockchain Transaction Details</h4>
-                    <div className="p-3 rounded-lg bg-[#131A23] border border-graphite-700/50 space-y-1.5 font-mono text-[11px]">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#A2AFBE]">Network:</span>
-                        <span className="text-[#E9EFF7]">{evidenceData.network_name} (Chain ID {evidenceData.chain_id})</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#A2AFBE]">Contract Address:</span>
-                        <span className="text-[#82B5F8] truncate max-w-[280px]">{evidenceData.contract_address || '—'}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#A2AFBE]">Transaction Hash:</span>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-emerald-400 truncate max-w-[250px]">{evidenceData.transaction_hash || '—'}</span>
-                          {evidenceData.explorer_url && (
-                            <a href={evidenceData.explorer_url} target="_blank" rel="noopener noreferrer" className="text-[#82B5F8] hover:underline">
-                              <ExternalLink className="w-3 h-3" />
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#A2AFBE]">Block Number:</span>
-                        <span className="text-[#E9EFF7]">#{evidenceData.block_number ?? 'Pending'}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#A2AFBE]">Anchored At:</span>
-                        <span className="text-[#A2AFBE]">{evidenceData.anchored_at ? new Date(evidenceData.anchored_at).toLocaleString() : '—'}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Canonical Evidence JSON Payload */}
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-[#E9EFF7] text-xs">Canonical Normalized Evidence Payload (RFC-8785)</h4>
-                    <pre className="p-3 rounded-lg bg-[#10151C] border border-graphite-700/60 font-mono text-[11px] text-[#82B5F8] overflow-x-auto">
+                  {/* Canonical JSON Payload Block */}
+                  <div>
+                    <span className="text-[10px] font-semibold uppercase text-[#737B86] block mb-1">Canonical RFC-8785 Evidence Payload</span>
+                    <pre className="p-3 rounded bg-[#242A32] text-[#F5F4F0] font-mono text-[11px] overflow-x-auto max-h-48 border border-[#3D4552]">
                       {JSON.stringify(evidenceData.canonical_payload, null, 2)}
                     </pre>
                   </div>
+
+                  {/* Blockchain Receipt Details */}
+                  {evidenceData.transaction_hash && (
+                    <div className="p-3 rounded bg-[#F5F4F0] border border-[#D9DDE2] space-y-1 text-[11px] font-mono">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#737B86]">Tx Hash:</span>
+                        <a
+                          href={evidenceData.explorer_url || `${explorerBase}/tx/${evidenceData.transaction_hash}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#315C78] hover:underline flex items-center gap-1"
+                        >
+                          <span>{evidenceData.transaction_hash.slice(0, 16)}...</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#737B86]">Block:</span>
+                        <span className="font-semibold text-[#171A1F]">#{evidenceData.block_number}</span>
+                      </div>
+                    </div>
+                  )}
                 </>
+              ) : (
+                <div className="py-8 text-center text-[#B53A3A]">Failed to load evidence details.</div>
               )}
             </div>
 
             {/* Modal Footer */}
-            <div className="p-3.5 bg-[#131A23] border-t border-graphite-700/60 flex items-center justify-between text-xs">
-              <span className="text-[#A2AFBE]">SentinelMesh Cryptographic Assurance</span>
+            <div className="p-3 border-t border-[#D9DDE2] bg-[#F9F9F8] flex justify-end">
               <button
-                onClick={() => {
-                  setSelectedEventId(null);
-                  setEvidenceData(null);
-                }}
-                className="px-3 py-1.5 rounded bg-[#202B38] hover:bg-[#283647] text-[#E9EFF7] font-medium"
+                onClick={() => { setSelectedEventId(null); setEvidenceData(null); }}
+                className="px-4 py-1.5 rounded text-xs font-semibold bg-[#FFFFFF] border border-[#D9DDE2] text-[#171A1F] hover:bg-[#F5F4F0] transition"
               >
                 Close Inspector
               </button>

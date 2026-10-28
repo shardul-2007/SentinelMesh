@@ -88,43 +88,43 @@ export default function AuditTrailPage() {
   const totalPages = Math.ceil(total / pageSize) || 1;
 
   return (
-    <div className="flex flex-col min-h-full">
+    <div className="flex flex-col min-h-full bg-[#F5F4F0]">
       <Header 
-        title="Cryptographic Audit Trail" 
-        subtitle="Append-only immutable record of all evaluated AI agent security decisions"
+        title="Audit Explorer" 
+        subtitle="Append-only immutable record of evaluated AI agent actions, decisions & cryptographic evidence"
         onRefresh={() => loadEvents(true)}
         isRefreshing={isRefreshing}
       />
 
-      <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
-        {/* Security & Immutability Architecture Callout */}
-        <div className="p-4 rounded-xl bg-graphite-900 border border-graphite-750 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+        {/* Governance Banner */}
+        <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0 mt-0.5">
+            <div className="w-8 h-8 rounded bg-[#EDF6F2] border border-[#BCE2D1] flex items-center justify-center text-[#287653] flex-shrink-0 mt-0.5">
               <Shield className="w-4 h-4" />
             </div>
-            <div className="space-y-1">
-              <h3 className="text-sm font-semibold text-slate-100 flex items-center gap-2">
-                Append-Only Governance Model
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+            <div className="space-y-0.5">
+              <h3 className="text-sm font-semibold text-[#171A1F] flex items-center gap-2">
+                Append-Only Evidence Architecture
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded font-semibold bg-[#EDF6F2] text-[#287653] border border-[#BCE2D1]">
                   TAMPER-EVIDENT
                 </span>
               </h3>
-              <p className="text-xs text-slate-400 leading-relaxed max-w-3xl">
-                Audit records cannot be edited or purged via this interface. Each entry is anchored by a deterministic SHA-256 integrity hash and can be committed directly to the MST EvidenceRegistry smart contract for independent on-chain verification.
+              <p className="text-xs text-[#737B86] leading-relaxed max-w-3xl">
+                Audit records are append-only. Every evaluation is chained with SHA-256 integrity digests and can be committed to the MST EvidenceRegistry smart contract for public verification.
               </p>
             </div>
           </div>
-          <div className="flex-shrink-0 text-right">
-            <span className="text-xs text-slate-500 font-mono block">Indexed Records</span>
-            <span className="text-lg font-bold font-mono text-slate-200">{total}</span>
+          <div className="flex-shrink-0 text-left md:text-right border-t md:border-t-0 pt-2 md:pt-0 border-[#F5F4F0]">
+            <span className="text-[11px] text-[#737B86] font-mono block">Indexed Records</span>
+            <span className="text-lg font-bold font-mono text-[#171A1F]">{total}</span>
           </div>
         </div>
 
-        {/* Filter & Search Bar */}
-        <div className="p-4 rounded-xl bg-graphite-900 border border-graphite-750 flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
+        {/* Filter & Search Controls */}
+        <div className="p-4 rounded bg-[#FFFFFF] border border-[#D9DDE2] flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between shadow-sm">
           {/* Decision Filter Tabs */}
-          <div className="flex items-center gap-1.5 p-1 bg-graphite-950 rounded-lg border border-graphite-800 overflow-x-auto">
+          <div className="flex items-center gap-1 p-1 bg-[#F5F4F0] rounded border border-[#D9DDE2] overflow-x-auto">
             {['ALL', 'ALLOW', 'BLOCK', 'REQUIRE_APPROVAL'].map((dec) => (
               <button
                 key={dec}
@@ -132,10 +132,10 @@ export default function AuditTrailPage() {
                   setDecisionFilter(dec);
                   setPage(1);
                 }}
-                className={`px-3 py-1.5 rounded text-xs font-medium whitespace-nowrap transition ${
+                className={`px-3 py-1 rounded text-xs font-semibold whitespace-nowrap transition ${
                   decisionFilter === dec
-                    ? 'bg-graphite-800 text-slate-100 shadow border border-graphite-700'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-[#FFFFFF] text-[#171A1F] shadow-sm border border-[#D9DDE2]'
+                    : 'text-[#737B86] hover:text-[#171A1F]'
                 }`}
               >
                 {dec === 'REQUIRE_APPROVAL' ? 'APPROVAL REQUIRED' : dec}
@@ -144,15 +144,15 @@ export default function AuditTrailPage() {
           </div>
 
           {/* Search & Agent Filter Form */}
-          <form onSubmit={handleSearchSubmit} className="flex flex-1 max-w-lg items-center gap-2">
+          <form onSubmit={handleSearchSubmit} className="flex flex-1 max-w-xl items-center gap-2">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-[#737B86] absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search resource, action, reason, or event ID..."
-                className="w-full pl-9 pr-3 py-2 rounded-lg bg-graphite-950 border border-graphite-750 text-slate-200 text-xs focus:border-emerald-500 focus:outline-none"
+                className="w-full pl-9 pr-3 py-1.5 rounded bg-[#F5F4F0] border border-[#D9DDE2] text-[#171A1F] text-xs focus:border-[#315C78] focus:outline-none"
               />
             </div>
             <input
@@ -160,88 +160,88 @@ export default function AuditTrailPage() {
               value={agentFilter}
               onChange={(e) => setAgentFilter(e.target.value)}
               placeholder="Agent ID..."
-              className="w-36 px-3 py-2 rounded-lg bg-graphite-950 border border-graphite-750 text-slate-200 text-xs font-mono focus:border-emerald-500 focus:outline-none"
+              className="w-32 px-3 py-1.5 rounded bg-[#F5F4F0] border border-[#D9DDE2] text-[#171A1F] text-xs font-mono focus:border-[#315C78] focus:outline-none"
             />
             <button
               type="submit"
-              className="px-3.5 py-2 rounded-lg text-xs font-medium bg-graphite-800 border border-graphite-700 text-slate-300 hover:text-white hover:bg-graphite-750 transition"
+              className="px-3 py-1.5 rounded text-xs font-semibold bg-[#315C78] text-[#FFFFFF] hover:bg-[#26495F] transition"
             >
               Filter
             </button>
           </form>
 
-          {/* Export Controls (Compliance Reporting) */}
+          {/* Export Controls */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <a
               href={api.getExportUrl('csv', { decision: decisionFilter, agentId: agentFilter })}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-2 rounded-lg text-xs font-medium bg-graphite-850 hover:bg-graphite-800 border border-graphite-700 text-slate-300 hover:text-white transition flex items-center gap-1.5"
+              className="px-2.5 py-1.5 rounded text-xs font-medium bg-[#FFFFFF] hover:bg-[#F5F4F0] border border-[#D9DDE2] text-[#171A1F] transition flex items-center gap-1.5"
               title="Export CSV Audit Trail"
             >
-              <Download className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Export CSV</span>
+              <Download className="w-3.5 h-3.5 text-[#287653]" />
+              <span>CSV</span>
             </a>
             <a
               href={api.getExportUrl('json', { decision: decisionFilter, agentId: agentFilter })}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-2 rounded-lg text-xs font-medium bg-graphite-850 hover:bg-graphite-800 border border-graphite-700 text-slate-300 hover:text-white transition flex items-center gap-1.5"
+              className="px-2.5 py-1.5 rounded text-xs font-medium bg-[#FFFFFF] hover:bg-[#F5F4F0] border border-[#D9DDE2] text-[#171A1F] transition flex items-center gap-1.5"
               title="Export JSON Audit Trail"
             >
-              <Download className="w-3.5 h-3.5 text-blue-400" />
-              <span>Export JSON</span>
+              <Download className="w-3.5 h-3.5 text-[#315C78]" />
+              <span>JSON</span>
             </a>
           </div>
         </div>
 
         {/* Audit Events Table */}
-        <div className="rounded-xl bg-graphite-900 border border-graphite-750 overflow-hidden shadow">
+        <div className="rounded bg-[#FFFFFF] border border-[#D9DDE2] overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-graphite-850 text-slate-400 uppercase font-semibold text-[11px] border-b border-graphite-750">
+              <thead className="bg-[#F9F9F8] text-[#737B86] uppercase font-semibold text-[11px] border-b border-[#D9DDE2]">
                 <tr>
-                  <th className="px-4 py-3">Timestamp (UTC)</th>
-                  <th className="px-4 py-3">Event ID</th>
-                  <th className="px-4 py-3">Agent</th>
-                  <th className="px-4 py-3">Action</th>
-                  <th className="px-4 py-3">Target Resource</th>
-                  <th className="px-4 py-3">Policy Decision</th>
-                  <th className="px-4 py-3">Execution Status</th>
-                  <th className="px-4 py-3 text-right">Verification</th>
+                  <th className="px-4 py-2.5">Timestamp (UTC)</th>
+                  <th className="px-4 py-2.5">Event ID</th>
+                  <th className="px-4 py-2.5">Agent</th>
+                  <th className="px-4 py-2.5">Action</th>
+                  <th className="px-4 py-2.5">Target Resource</th>
+                  <th className="px-4 py-2.5">Policy Decision</th>
+                  <th className="px-4 py-2.5">Execution Status</th>
+                  <th className="px-4 py-2.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-graphite-750/60 font-mono">
+              <tbody className="divide-y divide-[#D9DDE2] font-mono">
                 {isLoading ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-12 text-center text-slate-500 font-sans">
+                    <td colSpan={8} className="px-4 py-12 text-center text-[#737B86] font-sans">
                       Loading audit records...
                     </td>
                   </tr>
                 ) : events.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-12 text-center text-slate-500 font-sans">
+                    <td colSpan={8} className="px-4 py-12 text-center text-[#737B86] font-sans">
                       No audit events found matching the active filters.
                     </td>
                   </tr>
                 ) : (
                   events.map((event) => (
-                    <tr key={event.id} className="hover:bg-graphite-850/50 transition">
-                      <td className="px-4 py-3 text-slate-400 whitespace-nowrap">
+                    <tr key={event.id} className="hover:bg-[#F9FAFB] transition">
+                      <td className="px-4 py-3 text-[#737B86] whitespace-nowrap">
                         {new Date(event.timestamp).toLocaleString()}
                       </td>
-                      <td className="px-4 py-3 text-emerald-400 font-medium">
+                      <td className="px-4 py-3 text-[#315C78] font-semibold">
                         {event.id}
                       </td>
-                      <td className="px-4 py-3 text-slate-200">
+                      <td className="px-4 py-3 text-[#171A1F] font-semibold">
                         {event.agent_id}
                       </td>
                       <td className="px-4 py-3">
-                        <span className="px-2 py-0.5 rounded bg-graphite-800 text-slate-200 border border-graphite-700">
+                        <span className="px-2 py-0.5 rounded bg-[#F5F4F0] text-[#171A1F] border border-[#D9DDE2]">
                           {event.action_type}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-slate-300 max-w-[220px] truncate" title={event.resource}>
+                      <td className="px-4 py-3 text-[#737B86] max-w-[220px] truncate" title={event.resource}>
                         {event.resource}
                       </td>
                       <td className="px-4 py-3">
@@ -250,19 +250,19 @@ export default function AuditTrailPage() {
                       <td className="px-4 py-3">
                         <StatusBadge type="execution" value={event.execution_status} />
                       </td>
-                      <td className="px-4 py-3 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-2">
+                      <td className="px-4 py-3 text-right whitespace-nowrap font-sans">
+                        <div className="flex items-center justify-end gap-1.5">
                           {event.policy_decision === 'REQUIRE_APPROVAL' && event.approval_status === 'PENDING' && (
                             <button
                               onClick={() => handleOpenApproval(event)}
-                              className="px-2.5 py-1 rounded text-[11px] font-sans font-medium bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 transition"
+                              className="px-2.5 py-1 rounded text-[11px] font-medium bg-[#FDF7ED] text-[#98661C] border border-[#F5DEB3] hover:bg-[#F7E7CD] transition"
                             >
                               Review
                             </button>
                           )}
                           <button
                             onClick={() => handleInspect(event.id)}
-                            className="px-2.5 py-1 rounded text-[11px] font-sans text-slate-300 hover:text-white bg-graphite-800 hover:bg-graphite-750 border border-graphite-700 transition"
+                            className="px-2.5 py-1 rounded text-[11px] text-[#171A1F] hover:bg-[#F5F4F0] bg-[#FFFFFF] border border-[#D9DDE2] transition"
                           >
                             Inspect
                           </button>
@@ -276,31 +276,31 @@ export default function AuditTrailPage() {
           </div>
 
           {/* Pagination Footer */}
-          <div className="p-4 border-t border-graphite-750 bg-graphite-850 flex items-center justify-between text-xs text-slate-400">
+          <div className="p-3.5 border-t border-[#D9DDE2] bg-[#F9F9F8] flex items-center justify-between text-xs text-[#737B86]">
             <div>
-              Showing <span className="text-slate-200 font-mono font-medium">{events.length}</span> of{' '}
-              <span className="text-slate-200 font-mono font-medium">{total}</span> total events
+              Showing <span className="text-[#171A1F] font-mono font-medium">{events.length}</span> of{' '}
+              <span className="text-[#171A1F] font-mono font-medium">{total}</span> total events
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page <= 1}
-                className="p-1.5 rounded bg-graphite-800 border border-graphite-700 hover:bg-graphite-750 disabled:opacity-40 transition"
+                className="p-1 rounded bg-[#FFFFFF] border border-[#D9DDE2] hover:bg-[#F5F4F0] disabled:opacity-40 transition"
                 aria-label="Previous page"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-4 h-4 text-[#171A1F]" />
               </button>
-              <span className="font-mono text-slate-300 px-2">
+              <span className="font-mono text-[#171A1F] px-2 text-xs">
                 Page {page} of {totalPages}
               </span>
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages}
-                className="p-1.5 rounded bg-graphite-800 border border-graphite-700 hover:bg-graphite-750 disabled:opacity-40 transition"
+                className="p-1 rounded bg-[#FFFFFF] border border-[#D9DDE2] hover:bg-[#F5F4F0] disabled:opacity-40 transition"
                 aria-label="Next page"
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4 text-[#171A1F]" />
               </button>
             </div>
           </div>
