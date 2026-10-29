@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { EVIDENCE_REGISTRY_BYTECODE } from './contracts/EvidenceRegistryBytecode';
 
 export interface MSTNetworkConfig {
   key: 'testnet' | 'mainnet';
@@ -57,6 +58,12 @@ interface Web3WalletContextType {
   disconnectWallet: () => void;
   switchNetwork: (target: 'testnet' | 'mainnet') => Promise<boolean>;
   anchorWithWallet: (eventId: string, hashHex: string) => Promise<{ transactionHash: string; explorerUrl: string }>;
+  deployWithWallet: () => Promise<{
+    transactionHash: string;
+    contractAddress: string;
+    explorerUrl: string;
+    blockNumber: number;
+  }>;
   isModalOpen: boolean;
   setIsModalOpen: (open: boolean) => void;
 }
@@ -311,6 +318,101 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const deployWithWallet = async () => {
+    if (!isConnected || !address) {
+      setIsModalOpen(true);
+      throw new Error('Please connect your BridgeKey or Web3 wallet first.');
+    }
+
+    const provider = getInjectedProvider();
+    if (!provider) throw new Error('No BridgeKey or Web3 wallet provider detected.');
+
+    // Ensure we are on MST Testnet
+    if (chainId !== MST_NETWORKS.testnet.chainIdDec) {
+      const switched = await switchNetwork('testnet');
+      if (!switched) {
+        throw new Error('Please switch to MST Testnet (Chain ID 91562037) to deploy.');
+      }
+    }
+
+    try {
+      // Send contract creation transaction (to is undefined for deployment)
+      const txHash = await provider.request({
+        method: 'eth_sendTransaction',
+        params: [
+          {
+            from: address,
+            data: EVIDENCE_REGISTRY_BYTECODE,
+            gas: '0x1E8480', // 2,000,000 gas limit (deployment consumes ~970k gas)
+          }
+        ]
+      });
+
+      // Poll for receipt on MST Testnet RPC
+      let receipt: any = null;
+      const startTime = Date.now();
+      const rpcUrl = MST_NETWORKS.testnet.rpcUrl;
+
+      while (!receipt && Date.now() - startTime < 60000) {
+        await new Promise((r) => setTimeout(r, 2000));
+        try {
+          const res = await fetch(rpcUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              jsonrpc: '2.0',
+              id: Date.now(),
+              method: 'eth_getTransactionReceipt',
+              params: [txHash]
+            })
+          });
+          const json = await res.json();
+          if (json.result) {
+            receipt = json.result;
+          }
+        } catch {
+          // retry
+        }
+      }
+
+      if (!receipt) {
+        throw new Error(`Deployment transaction submitted (${txHash}), but receipt confirmation timed out. Check ${MST_NETWORKS.testnet.explorerUrl}/tx/${txHash}`);
+      }
+
+      if (receipt.status !== '0x1') {
+        throw new Error(`Deployment transaction reverted on MST Testnet (tx: ${txHash}).`);
+      }
+
+      const deployedAddr = receipt.contractAddress;
+      const blockNum = parseInt(receipt.blockNumber, 16);
+
+      // Verify runtime bytecode on-chain
+      const codeRes = await fetch(rpcUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: Date.now(),
+          method: 'eth_getCode',
+          params: [deployedAddr, 'latest']
+        })
+      });
+      const codeJson = await codeRes.json();
+      if (!codeJson.result || codeJson.result === '0x') {
+        throw new Error(`Verification failed: No runtime bytecode found at ${deployedAddr}`);
+      }
+
+      return {
+        transactionHash: txHash as string,
+        contractAddress: deployedAddr as string,
+        explorerUrl: `${MST_NETWORKS.testnet.explorerUrl}/address/${deployedAddr}`,
+        blockNumber: blockNum
+      };
+    } catch (err: any) {
+      throw new Error(err.message || 'Deployment transaction rejected or failed.');
+    }
+  };
+
   // Determine active network config
   const activeNetwork = 
     chainId === MST_NETWORKS.testnet.chainIdDec 
@@ -337,6 +439,7 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
         disconnectWallet,
         switchNetwork,
         anchorWithWallet,
+        deployWithWallet,
         isModalOpen,
         setIsModalOpen
       }}

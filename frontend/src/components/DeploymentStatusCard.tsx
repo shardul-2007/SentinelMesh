@@ -13,18 +13,42 @@ import {
   Activity, 
   Cpu, 
   Lock, 
-  Wallet 
+  Wallet,
+  Zap,
+  Loader2 
 } from 'lucide-react';
 import { useWeb3Wallet } from '@/lib/web3Wallet';
 
 export function DeploymentStatusCard() {
-  const { isConnected, address, activeNetwork } = useWeb3Wallet();
+  const { isConnected, address, activeNetwork, deployWithWallet, balance } = useWeb3Wallet();
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [isDeploying, setIsDeploying] = useState(false);
+  const [deployResult, setDeployResult] = useState<{
+    contractAddress: string;
+    transactionHash: string;
+    explorerUrl: string;
+    blockNumber: number;
+  } | null>(null);
+  const [deployError, setDeployError] = useState<string | null>(null);
 
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
     setCopiedKey(key);
     setTimeout(() => setCopiedKey(null), 2000);
+  };
+
+  const handleDeployContract = async () => {
+    setIsDeploying(true);
+    setDeployError(null);
+    setDeployResult(null);
+    try {
+      const res = await deployWithWallet();
+      setDeployResult(res);
+    } catch (err: any) {
+      setDeployError(err.message || 'Deployment failed.');
+    } finally {
+      setIsDeploying(false);
+    }
   };
 
   const testnetData = {
@@ -194,17 +218,74 @@ export function DeploymentStatusCard() {
                 </span>
               </div>
             </div>
+
+            {/* In-browser BridgeKey Deployment Result / Errors */}
+            {deployResult && (
+              <div className="mt-2 p-2.5 rounded-lg bg-[#000000] border border-[#000000] text-xs space-y-1 text-left animate-in fade-in">
+                <div className="flex items-center gap-1.5 text-[#FACC15] font-black">
+                  <Check className="w-3.5 h-3.5" />
+                  <span>EvidenceRegistry Deployed!</span>
+                </div>
+                <div className="font-mono text-[10px] text-[#FFFFFF] break-all select-all font-bold">
+                  {deployResult.contractAddress}
+                </div>
+                <div className="flex items-center justify-between pt-1 text-[10px]">
+                  <span className="text-[#D4D4D8] font-bold">Block #{deployResult.blockNumber}</span>
+                  <a 
+                    href={deployResult.explorerUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-[#FACC15] font-bold hover:underline flex items-center gap-0.5"
+                  >
+                    <span>MSTScan</span>
+                    <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
+                </div>
+              </div>
+            )}
+
+            {deployError && (
+              <div className="mt-2 p-2 rounded-lg bg-[#EF4444] text-[#FFFFFF] text-[10px] font-bold text-left animate-in fade-in">
+                {deployError}
+              </div>
+            )}
           </div>
 
-          <a
-            href={testnetData.explorer}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-2 px-3 rounded-lg text-xs font-black text-center bg-[#000000] text-[#FACC15] hover:bg-[#1C1C1C] transition flex items-center justify-center gap-1.5 shadow-md mt-2"
-          >
-            <span>Open MSTScan Testnet</span>
-            <ExternalLink className="w-3.5 h-3.5 text-[#FACC15]" />
-          </a>
+          <div className="space-y-1.5 mt-2">
+            {isConnected ? (
+              <button
+                onClick={handleDeployContract}
+                disabled={isDeploying}
+                className="w-full py-2.5 px-3 rounded-lg text-xs font-black text-center bg-[#000000] text-[#FACC15] hover:bg-[#1C1C1C] transition flex items-center justify-center gap-1.5 shadow-md disabled:opacity-50 active:scale-95"
+              >
+                {isDeploying ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-[#FACC15]" />
+                    <span>Awaiting BridgeKey Approval...</span>
+                  </>
+                ) : (
+                  <>
+                    <Zap className="w-3.5 h-3.5 text-[#FACC15]" />
+                    <span>Deploy with BridgeKey ({balance || 'tMSTC'})</span>
+                  </>
+                )}
+              </button>
+            ) : (
+              <div className="text-[10px] text-[#000000] font-black bg-[#000000]/10 p-2 rounded-lg text-center">
+                Connect BridgeKey wallet to deploy EvidenceRegistry on MST Testnet
+              </div>
+            )}
+
+            <a
+              href={testnetData.explorer}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-1.5 px-3 rounded-lg text-[11px] font-bold text-center bg-[#000000]/15 text-[#000000] hover:bg-[#000000]/25 transition flex items-center justify-center gap-1.5"
+            >
+              <span>Open MSTScan Explorer</span>
+              <ExternalLink className="w-3 h-3 text-[#000000]" />
+            </a>
+          </div>
         </div>
 
         {/* Card 2: MST Mainnet (Box 5: Yellow Background + Black Text) */}
