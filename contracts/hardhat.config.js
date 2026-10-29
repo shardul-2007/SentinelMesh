@@ -1,6 +1,45 @@
 require("@nomicfoundation/hardhat-toolbox");
+const fs = require("fs");
+const path = require("path");
 
-const accounts = process.env.BLOCKCHAIN_SIGNER_KEY ? [process.env.BLOCKCHAIN_SIGNER_KEY] : [];
+// Load local environment files if present
+function loadEnvFiles() {
+  const envCandidates = [
+    path.join(__dirname, ".env"),
+    path.join(__dirname, "..", "backend", ".env"),
+    path.join(__dirname, "..", ".env"),
+  ];
+  for (const envPath of envCandidates) {
+    if (fs.existsSync(envPath)) {
+      try {
+        const lines = fs.readFileSync(envPath, "utf-8").split("\n");
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed && !trimmed.startsWith("#") && trimmed.includes("=")) {
+            const [key, ...vals] = trimmed.split("=");
+            const k = key.trim();
+            const v = vals.join("=").trim().replace(/^['"]|['"]$/g, "");
+            if (k && !process.env[k]) {
+              process.env[k] = v;
+            }
+          }
+        }
+      } catch (err) {
+        // ignore read errors
+      }
+    }
+  }
+}
+loadEnvFiles();
+
+const rawKey = (
+  process.env.BLOCKCHAIN_SIGNER_KEY ||
+  process.env.DEPLOYER_PRIVATE_KEY ||
+  process.env.PRIVATE_KEY ||
+  ""
+).trim();
+
+const accounts = rawKey ? [rawKey.startsWith("0x") ? rawKey : `0x${rawKey}`] : [];
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {

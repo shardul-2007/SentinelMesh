@@ -17,6 +17,26 @@ async function main() {
   const contractAddress = await registryContract.getAddress();
   console.log("[SentinelMesh] EvidenceRegistry successfully deployed to:", contractAddress);
 
+  // Verify real mined receipt and bytecode existence
+  if (deployTx) {
+    const receipt = await deployTx.wait();
+    if (!receipt || receipt.status !== 1) {
+      throw new Error(`Deployment transaction reverted or failed on-chain! Status: ${receipt?.status}`);
+    }
+    console.log(`[SentinelMesh] Transaction mined in block #${receipt.blockNumber} (Gas used: ${receipt.gasUsed})`);
+  }
+
+  const bytecode = await hre.ethers.provider.getCode(contractAddress);
+  if (!bytecode || bytecode === "0x") {
+    throw new Error(`Bytecode verification failed! No runtime bytecode detected at ${contractAddress}`);
+  }
+  console.log(`[SentinelMesh] Bytecode successfully confirmed on-chain (${bytecode.length / 2 - 1} bytes).`);
+
+  if (deployer) {
+    const isDeployerAuthorized = await registryContract.authorizedSubmitters(deployer.address);
+    console.log(`[SentinelMesh] Initial submitter authorization for deployer ${deployer.address}: ${isDeployerAuthorized}`);
+  }
+
   const deploymentData = {
     contractName: "EvidenceRegistry",
     address: contractAddress,
@@ -44,6 +64,49 @@ async function main() {
     const backendAbiPath = path.join(backendAbiDir, "EvidenceRegistry.json");
     fs.writeFileSync(backendAbiPath, JSON.stringify(artifact, null, 2));
     console.log("[SentinelMesh] EvidenceRegistry ABI exported to backend at:", backendAbiPath);
+  }
+
+  // If deployed to a live network (e.g. mstTestnet or testnet), sync the address to config files
+  if (hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
+    try {
+      // 1. Update backend .env
+      const backendEnvPath = path.join(__dirname, "..", "..", "backend", ".env");
+      if (fs.existsSync(backendEnvPath)) {
+        let envContent = fs.readFileSync(backendEnvPath, "utf-8");
+        envContent = envContent.replace(
+          /BLOCKCHAIN_CONTRACT_ADDRESS=.*/g,
+          `BLOCKCHAIN_CONTRACT_ADDRESS=${contractAddress}`
+        );
+        fs.writeFileSync(backendEnvPath, envContent);
+        console.log("[SentinelMesh] Synchronized backend/.env BLOCKCHAIN_CONTRACT_ADDRESS");
+      }
+
+      // 2. Update frontend web3Wallet.tsx
+      const web3WalletPath = path.join(__dirname, "..", "..", "frontend", "src", "lib", "web3Wallet.tsx");
+      if (fs.existsSync(web3WalletPath)) {
+        let wwContent = fs.readFileSync(web3WalletPath, "utf-8");
+        wwContent = wwContent.replace(
+          /contractAddress: '0x[0-9a-fA-F]{40}',/g,
+          `contractAddress: '${contractAddress}',`
+        );
+        fs.writeFileSync(web3WalletPath, wwContent);
+        console.log("[SentinelMesh] Synchronized frontend/src/lib/web3Wallet.tsx contractAddress");
+      }
+
+      // 3. Update frontend clientStore.ts
+      const clientStorePath = path.join(__dirname, "..", "..", "frontend", "src", "lib", "clientStore.ts");
+      if (fs.existsSync(clientStorePath)) {
+        let csContent = fs.readFileSync(clientStorePath, "utf-8");
+        csContent = csContent.replace(
+          /export const MST_CONTRACT_ADDRESS = '0x[0-9a-fA-F]{40}';/g,
+          `export const MST_CONTRACT_ADDRESS = '${contractAddress}';`
+        );
+        fs.writeFileSync(clientStorePath, csContent);
+        console.log("[SentinelMesh] Synchronized frontend/src/lib/clientStore.ts MST_CONTRACT_ADDRESS");
+      }
+    } catch (syncErr) {
+      console.warn("[SentinelMesh] Address sync warning:", syncErr.message);
+    }
   }
 }
 
