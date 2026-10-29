@@ -63,6 +63,13 @@ interface Web3WalletContextType {
 
 const Web3WalletContext = createContext<Web3WalletContextType | undefined>(undefined);
 
+// Helper to locate injected Web3 provider (BridgeKey or standard EVM)
+export function getInjectedProvider(): any {
+  if (typeof window === 'undefined') return null;
+  const w = window as any;
+  return w.bridgekey || w.bridgeKey || w.BridgeKey || w.ethereum || null;
+}
+
 // Helper to encode recordEvidence(string,bytes32) ABI call
 function encodeRecordEvidence(evidenceId: string, evidenceHashHex: string): string {
   const selector = '4502d959';
@@ -95,18 +102,23 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Check window.ethereum availability
+  // Check injected wallet (BridgeKey / Ethereum) availability
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const eth = (window as any).ethereum;
-    if (eth) {
+    const provider = getInjectedProvider();
+    if (provider) {
       setIsWalletAvailable(true);
-      const isBk = !!(eth.isBridgeKey || (window as any).bridgekey);
+      const isBk = !!(
+        provider.isBridgeKey || 
+        (window as any).bridgekey || 
+        (window as any).bridgeKey || 
+        (window as any).BridgeKey
+      );
       setIsBridgeKey(isBk);
-      setWalletName(isBk ? 'BridgeKey Wallet' : (eth.isMetaMask ? 'MetaMask / BridgeKey' : 'EVM Web3 Wallet'));
+      setWalletName(isBk ? 'BridgeKey Wallet' : (provider.isMetaMask ? 'MetaMask / BridgeKey' : 'EVM Web3 Wallet'));
 
       // Check already connected
-      eth.request({ method: 'eth_accounts' })
+      provider.request({ method: 'eth_accounts' })
         .then((accounts: string[]) => {
           if (accounts && accounts.length > 0) {
             setAddress(accounts[0]);
@@ -135,21 +147,21 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
         if (address) updateBalance(address, id);
       };
 
-      eth.on?.('accountsChanged', handleAccountsChanged);
-      eth.on?.('chainChanged', handleChainChanged);
+      provider.on?.('accountsChanged', handleAccountsChanged);
+      provider.on?.('chainChanged', handleChainChanged);
 
       return () => {
-        eth.removeListener?.('accountsChanged', handleAccountsChanged);
-        eth.removeListener?.('chainChanged', handleChainChanged);
+        provider.removeListener?.('accountsChanged', handleAccountsChanged);
+        provider.removeListener?.('chainChanged', handleChainChanged);
       };
     }
   }, [address]);
 
   const updateChainAndBalance = async (acc: string) => {
-    const eth = (window as any).ethereum;
-    if (!eth) return;
+    const provider = getInjectedProvider();
+    if (!provider) return;
     try {
-      const cIdHex = await eth.request({ method: 'eth_chainId' });
+      const cIdHex = await provider.request({ method: 'eth_chainId' });
       const id = parseInt(cIdHex, 16);
       setChainId(id);
       await updateBalance(acc, id);
@@ -159,10 +171,10 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
   };
 
   const updateBalance = async (acc: string, currentChain: number) => {
-    const eth = (window as any).ethereum;
-    if (!eth) return;
+    const provider = getInjectedProvider();
+    if (!provider) return;
     try {
-      const balHex = await eth.request({
+      const balHex = await provider.request({
         method: 'eth_getBalance',
         params: [acc, 'latest']
       });
@@ -179,15 +191,15 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
     setError(null);
     setIsConnecting(true);
 
-    if (typeof window === 'undefined' || !(window as any).ethereum) {
+    const provider = getInjectedProvider();
+    if (!provider) {
       setIsConnecting(false);
       setIsModalOpen(true);
       return;
     }
 
     try {
-      const eth = (window as any).ethereum;
-      const accounts = await eth.request({ method: 'eth_requestAccounts' });
+      const accounts = await provider.request({ method: 'eth_requestAccounts' });
       if (accounts && accounts.length > 0) {
         setAddress(accounts[0]);
         setIsConnected(true);
@@ -208,16 +220,16 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
 
   const switchNetwork = async (target: 'testnet' | 'mainnet'): Promise<boolean> => {
     setError(null);
-    if (typeof window === 'undefined' || !(window as any).ethereum) {
+    const provider = getInjectedProvider();
+    if (!provider) {
       setIsModalOpen(true);
       return false;
     }
 
     const net = MST_NETWORKS[target];
-    const eth = (window as any).ethereum;
 
     try {
-      await eth.request({
+      await provider.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: net.chainIdHex }]
       });
@@ -228,7 +240,7 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
       // 4902 means the chain has not been added to the wallet yet
       if (switchError.code === 4902 || switchError?.data?.originalError?.code === 4902) {
         try {
-          await eth.request({
+          await provider.request({
             method: 'wallet_addEthereumChain',
             params: [
               {
@@ -263,8 +275,8 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
       throw new Error('Please connect your BridgeKey or Web3 wallet first.');
     }
 
-    const eth = (window as any).ethereum;
-    if (!eth) throw new Error('No Web3 wallet provider detected.');
+    const provider = getInjectedProvider();
+    if (!provider) throw new Error('No BridgeKey or Web3 wallet provider detected.');
 
     // Ensure we are on MST Testnet
     if (chainId !== MST_NETWORKS.testnet.chainIdDec) {
@@ -278,14 +290,14 @@ export function Web3WalletProvider({ children }: { children: ReactNode }) {
     const callData = encodeRecordEvidence(eventId, hashHex);
 
     try {
-      const txHash = await eth.request({
+      const txHash = await provider.request({
         method: 'eth_sendTransaction',
         params: [
           {
             from: address,
             to: targetContract,
             data: callData,
-            gas: '0x186A0', // 100,000 gas
+            gas: '0x30D40', // 200,000 gas limit
           }
         ]
       });
