@@ -99,10 +99,10 @@ export default function ApprovalCenterPage() {
 
         {/* KPI Summary Cards with Yellow Background + Black Text */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Pending Review</span>
-              <AlertTriangle className="w-4 h-4 text-[#000000]" />
+              <AlertTriangle className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="text-3xl font-black text-[#000000] mt-1 font-mono">{pendingEvents.length}</div>
             <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
@@ -113,10 +113,10 @@ export default function ApprovalCenterPage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Approved Operations</span>
-              <CheckCircle2 className="w-4 h-4 text-[#000000]" />
+              <CheckCircle2 className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {allApprovalEvents.filter(e => e.approval_status === 'APPROVED').length}
@@ -129,17 +129,17 @@ export default function ApprovalCenterPage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Rejected Operations</span>
-              <XCircle className="w-4 h-4 text-[#EF4444]" />
+              <XCircle className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {allApprovalEvents.filter(e => e.approval_status === 'REJECTED').length}
             </div>
             <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
               <span>Halted at gateway</span>
-              <span className="px-2 py-0.5 rounded-full bg-[#EF4444] text-[#FFFFFF] text-[10px] font-black font-mono">
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#EF4444] text-[10px] font-black font-mono border border-[#000000]">
                 DENIED
               </span>
             </div>

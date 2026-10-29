@@ -8,9 +8,8 @@ import {
   Copy, 
   Check, 
   RefreshCw, 
-  ExternalLink,
-  Lock,
-  ArrowRight
+  ExternalLink, 
+  Lock 
 } from 'lucide-react';
 
 interface IntegrityComparisonViewProps {
@@ -47,11 +46,11 @@ export function IntegrityComparisonView({
   };
 
   return (
-    <div className="mst-card p-4 sm:p-5 rounded-xl bg-[#121212] border border-[#27272A] shadow-xl space-y-4">
+    <div className="mst-card p-4 sm:p-5 rounded-xl bg-[#121212] border border-[#27272A] shadow-xl space-y-4 overflow-hidden">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#27272A]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 flex items-center justify-center flex-shrink-0">
             <Hash className="w-4 h-4 text-[#FACC15]" />
           </div>
           <div>
@@ -88,7 +87,7 @@ export function IntegrityComparisonView({
       {/* Side-by-side Hash Comparison Box */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Local Digest Panel */}
-        <div className="p-4 rounded-xl bg-[#000000] border border-[#FACC15]/30 space-y-2">
+        <div className="p-4 rounded-xl bg-[#000000] border border-[#FACC15]/30 space-y-2 overflow-hidden">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono uppercase font-bold text-[#FACC15]">
               1. Local Canonical SHA-256 Digest
@@ -96,7 +95,7 @@ export function IntegrityComparisonView({
             <button
               type="button"
               onClick={() => copyToClipboard(localHash, 'local')}
-              className="text-[10px] text-[#D4D4D8] hover:text-[#FFFFFF] flex items-center gap-1 transition"
+              className="text-[10px] text-[#D4D4D8] hover:text-[#FFFFFF] flex items-center gap-1 transition flex-shrink-0"
             >
               {copiedKey === 'local' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3" />}
               <span>{copiedKey === 'local' ? 'Copied' : 'Copy'}</span>
@@ -112,7 +111,7 @@ export function IntegrityComparisonView({
         </div>
 
         {/* On-Chain Commitment Panel */}
-        <div className="p-4 rounded-xl bg-[#000000] border border-[#FACC15]/30 space-y-2">
+        <div className="p-4 rounded-xl bg-[#000000] border border-[#FACC15]/30 space-y-2 overflow-hidden">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono uppercase font-bold text-[#FACC15]">
               2. On-Chain Smart Contract Digest
@@ -120,7 +119,7 @@ export function IntegrityComparisonView({
             <button
               type="button"
               onClick={() => copyToClipboard(onChainHash, 'onchain')}
-              className="text-[10px] text-[#D4D4D8] hover:text-[#FFFFFF] flex items-center gap-1 transition"
+              className="text-[10px] text-[#D4D4D8] hover:text-[#FFFFFF] flex items-center gap-1 transition flex-shrink-0"
             >
               {copiedKey === 'onchain' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3" />}
               <span>{copiedKey === 'onchain' ? 'Copied' : 'Copy'}</span>
@@ -140,14 +139,14 @@ export function IntegrityComparisonView({
 
       {/* Contract & Verification Footprint */}
       <div className="p-3.5 rounded-lg bg-[#000000] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 min-w-0 max-w-full">
           <Lock className="w-4 h-4 text-[#FACC15] flex-shrink-0" />
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <span className="text-[#D4D4D8] text-[11px]">EVM Contract Address:</span>{' '}
-            <code className="text-[#FACC15] font-mono text-[11px] font-bold">{contractAddress}</code>
+            <code className="text-[#FACC15] font-mono text-[11px] font-bold break-all">{contractAddress}</code>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-shrink-0">
           <a
             href={`https://testnet.mstscan.com/address/${contractAddress}`}
             target="_blank"

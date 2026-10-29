@@ -167,13 +167,13 @@ export default function AuditTrailPage() {
         </div>
 
         {/* Governance Banner with Yellow Box + Black Text */}
-        <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
-          <div className="flex items-start gap-3">
+        <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl overflow-hidden">
+          <div className="flex items-start gap-3 min-w-0">
             <div className="w-9 h-9 rounded-lg bg-[#000000] flex items-center justify-center text-[#FACC15] flex-shrink-0 mt-0.5">
               <Shield className="w-5 h-5" />
             </div>
-            <div className="space-y-0.5">
-              <h3 className="text-sm font-black text-[#000000] flex items-center gap-2">
+            <div className="space-y-0.5 min-w-0">
+              <h3 className="text-sm font-black text-[#000000] flex items-center gap-2 flex-wrap">
                 Append-Only Evidence Architecture
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded font-black bg-[#000000] text-[#FACC15]">
                   TAMPER-EVIDENT
@@ -184,7 +184,7 @@ export default function AuditTrailPage() {
               </p>
             </div>
           </div>
-          <div className="flex-shrink-0 text-left md:text-right border-t md:border-t-0 pt-2 md:pt-0 border-[#000000]/25 bg-[#000000] px-4 py-2.5 rounded-xl border">
+          <div className="flex-shrink-0 text-left md:text-right border-t md:border-t-0 pt-2 md:pt-0 border-[#000000]/25 bg-[#000000] px-4 py-2.5 rounded-xl border border-[#000000]">
             <span className="text-[10px] text-[#D4D4D8] font-mono block font-black uppercase">Indexed Records</span>
             <span className="text-2xl font-black font-mono text-[#FACC15]">{total}</span>
           </div>

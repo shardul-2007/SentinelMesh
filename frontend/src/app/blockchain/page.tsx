@@ -139,7 +139,7 @@ export default function BlockchainActivityPage() {
         {/* Network & Contract Cards (Small Boxes: Yellow Background + Black Text) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Box 1: Active Network */}
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="font-black uppercase text-[10px] tracking-wider text-[#000000]">Active Network</span>
               <span className={`inline-flex items-center gap-1 font-mono text-[10px] font-black px-2.5 py-0.5 rounded-full ${
@@ -151,7 +151,7 @@ export default function BlockchainActivityPage() {
                 {status?.connected ? 'ONLINE' : 'LOCAL SIM'}
               </span>
             </div>
-            <p className="text-xl font-black text-[#000000] mt-1 tracking-tight">{status?.network_name || 'MST Testnet'}</p>
+            <p className="text-xl font-black text-[#000000] mt-1 tracking-tight truncate">{status?.network_name || 'MST Testnet'}</p>
             <div className="flex items-center justify-between text-[11px] text-[#1C1C1C] mt-2 pt-2 border-t border-[#000000]/25 font-bold">
               <span>Chain ID: <strong className="font-mono text-[#000000] font-black">{status?.detected_chain_id || status?.configured_chain_id || 91562037}</strong></span>
               <span>Gas: <strong className="font-mono text-[#000000] font-black">{nativeToken}</strong></span>
@@ -159,20 +159,20 @@ export default function BlockchainActivityPage() {
           </div>
 
           {/* Box 2: Evidence Registry Contract */}
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="font-black uppercase text-[10px] tracking-wider text-[#000000]">EvidenceRegistry Contract</span>
-              <Lock className="w-4 h-4 text-[#000000]" />
+              <Lock className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
-            <div className="mt-1 flex items-center justify-between">
+            <div className="mt-1 flex items-center justify-between min-w-0">
               {status?.contract_address ? (
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs text-[#FFFFFF] bg-[#000000] px-2 py-1 rounded font-black border border-[#000000]">
+                <div className="flex items-center gap-1.5 min-w-0 max-w-full">
+                  <span className="font-mono text-xs text-[#FACC15] bg-[#000000] px-2 py-1 rounded font-black border border-[#000000] truncate min-w-0">
                     {status.contract_address.slice(0, 10)}...{status.contract_address.slice(-6)}
                   </span>
                   <button 
                     onClick={() => handleCopy(status.contract_address || '')} 
-                    className="p-1 rounded bg-[#000000]/10 hover:bg-[#000000]/20 text-[#000000] transition"
+                    className="p-1 rounded bg-[#000000]/10 hover:bg-[#000000]/20 text-[#000000] transition flex-shrink-0"
                     title="Copy Contract Address"
                   >
                     {copiedHash === status.contract_address ? <Check className="w-3.5 h-3.5 text-[#000000]" /> : <Copy className="w-3.5 h-3.5" />}
@@ -181,7 +181,7 @@ export default function BlockchainActivityPage() {
                     href={status.contract_explorer_url || `${explorerBase}/address/${status.contract_address}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1 rounded bg-[#000000]/10 hover:bg-[#000000]/20 text-[#000000] transition"
+                    className="p-1 rounded bg-[#000000]/10 hover:bg-[#000000]/20 text-[#000000] transition flex-shrink-0"
                     title="View on MSTScan"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -198,21 +198,21 @@ export default function BlockchainActivityPage() {
           </div>
 
           {/* Box 3: Current Block Height */}
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="font-black uppercase text-[10px] tracking-wider text-[#000000]">Node Block Height</span>
-              <Boxes className="w-4 h-4 text-[#000000]" />
+              <Boxes className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
-            <p className="text-xl font-black font-mono text-[#000000] mt-1 tracking-tight">
+            <p className="text-xl font-black font-mono text-[#000000] mt-1 tracking-tight truncate">
               {status?.latest_block ? `#${status.latest_block.toLocaleString()}` : 'Live Syncing'}
             </p>
-            <div className="flex items-center justify-between text-[11px] text-[#1C1C1C] mt-2 pt-2 border-t border-[#000000]/25 font-bold">
-              <span className="truncate max-w-[190px] font-black" title={status?.rpc_url || ''}>RPC: {status?.rpc_url ? 'testnetrpc.mstblockchain.com' : 'Local Node'}</span>
+            <div className="flex items-center justify-between text-[11px] text-[#1C1C1C] mt-2 pt-2 border-t border-[#000000]/25 font-bold gap-2">
+              <span className="truncate min-w-0 flex-1 font-black" title={status?.rpc_url || ''}>RPC: {status?.rpc_url ? 'testnetrpc.mstblockchain.com' : 'Local Node'}</span>
               <a
                 href={explorerBase}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#FACC15] bg-[#000000] px-2 py-0.5 rounded font-black hover:bg-[#1C1C1C] flex items-center gap-1 text-[10px] transition"
+                className="text-[#FACC15] bg-[#000000] px-2 py-0.5 rounded font-black hover:bg-[#1C1C1C] flex items-center gap-1 text-[10px] transition flex-shrink-0"
               >
                 <span>MSTScan</span>
                 <ArrowUpRight className="w-3 h-3 text-[#FACC15]" />
@@ -237,7 +237,7 @@ export default function BlockchainActivityPage() {
 
         {/* Transaction Search & Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3.5 rounded-xl bg-[#121212] border border-[#27272A] shadow-sm">
-          <div className="relative flex-1 w-full sm:w-auto">
+          <div className="relative flex-1 w-full sm:w-auto min-w-0">
             <Search className="w-4 h-4 text-[#D4D4D8] absolute left-3 top-2.5" />
             <input
               type="text"
@@ -247,7 +247,7 @@ export default function BlockchainActivityPage() {
               className="w-full pl-9 pr-3 py-1.5 text-xs bg-[#000000] border border-[#27272A] rounded-lg text-[#FFFFFF] placeholder-[#D4D4D8]/60 focus:outline-none focus:border-[#FACC15] font-mono transition font-medium"
             />
           </div>
-          <div className="flex items-center gap-2 self-end sm:self-auto">
+          <div className="flex items-center gap-2 self-end sm:self-auto flex-shrink-0">
             <a
               href="https://faucet.mstblockchain.com"
               target="_blank"
@@ -271,11 +271,11 @@ export default function BlockchainActivityPage() {
 
         {/* MSTScan Indexing & Simulation Notice */}
         <div className="p-3.5 rounded-xl bg-[#121212] border border-[#FACC15]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-          <div className="flex items-start gap-2.5">
+          <div className="flex items-start gap-2.5 min-w-0">
             <Fingerprint className="w-4 h-4 text-[#FACC15] flex-shrink-0 mt-0.5" />
-            <div>
+            <div className="min-w-0">
               <span className="font-extrabold text-[#FFFFFF] block">MSTScan Testnet Indexing &amp; Real Transaction Note:</span>
-              <p className="text-[#D4D4D8] text-[11px] leading-relaxed">
+              <p className="text-[#D4D4D8] text-[11px] leading-relaxed break-words">
                 Records tagged <span className="font-mono text-[#FACC15] font-bold">LOCAL</span> are cryptographically verified in offline simulation (RFC-8785 + SHA-256) and do not exist on the public block explorer yet. Connect your <strong>BridgeKey Wallet</strong> or fund the signer via the MST Faucet to broadcast live transactions that can be opened on MSTScan.
               </p>
             </div>
@@ -301,8 +301,8 @@ export default function BlockchainActivityPage() {
             <span className="text-xs font-mono text-[#FACC15] font-bold">{filteredTransactions.length} records</span>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto responsive-table-wrapper">
+            <table className="w-full text-left text-xs min-w-[700px]">
               <thead className="bg-[#000000] text-[#D4D4D8] border-b border-[#27272A]">
                 <tr>
                   <th className="py-2.5 px-4 font-bold uppercase text-[10px]">Transaction Hash</th>
@@ -331,13 +331,13 @@ export default function BlockchainActivityPage() {
                   filteredTransactions.map((tx) => (
                     <tr key={tx.transaction_hash} className="hover:bg-[#1C1C1C] transition-colors duration-150">
                       <td className="py-3 px-4">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-[#FACC15]">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="font-bold text-[#FACC15] truncate">
                             {tx.transaction_hash.slice(0, 10)}...{tx.transaction_hash.slice(-8)}
                           </span>
                           <button
                             onClick={() => handleCopy(tx.transaction_hash)}
-                            className="text-[#D4D4D8] hover:text-[#FFFFFF] transition"
+                            className="text-[#D4D4D8] hover:text-[#FFFFFF] transition flex-shrink-0"
                             title="Copy Transaction Hash"
                           >
                             {copiedHash === tx.transaction_hash ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3" />}
@@ -347,14 +347,14 @@ export default function BlockchainActivityPage() {
                               href={tx.explorer_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#FACC15] hover:underline transition"
+                              className="text-[#FACC15] hover:underline transition flex-shrink-0"
                               title="View Verified Receipt on MSTScan"
                             >
                               <ExternalLink className="w-3 h-3" />
                             </a>
                           ) : (
                             <span
-                              className="text-[#71717A] cursor-help inline-flex items-center"
+                              className="text-[#71717A] cursor-help inline-flex items-center flex-shrink-0"
                               title="Local simulated hash (RFC-8785 + SHA-256). Connect BridgeKey or provide testnet gas to broadcast and view live on MSTScan."
                             >
                               <span className="px-1 py-0.2 rounded text-[9px] font-mono bg-[#27272A] text-[#71717A] border border-[#27272A]">LOCAL</span>
@@ -376,13 +376,13 @@ export default function BlockchainActivityPage() {
                             CONFIRMED
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 font-bold px-2 py-0.5 rounded text-[10px] font-mono bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30" title="Cryptographically computed in local simulation mode. Connect BridgeKey or provide testnet gas to submit on-chain.">
+                          <span className="inline-flex items-center gap-1 font-bold px-2 py-0.5 rounded text-[10px] font-mono bg-[#000000] text-[#FACC15] border border-[#27272A]" title="Cryptographically computed in local simulation mode. Connect BridgeKey or provide testnet gas to submit on-chain.">
                             <Clock className="w-3 h-3" />
                             SIMULATED
                           </span>
                         )}
                       </td>
-                      <td className="py-3 px-4 text-right space-x-2 font-sans">
+                      <td className="py-3 px-4 text-right space-x-2 font-sans whitespace-nowrap">
                         <button
                           onClick={() => openInspector(tx.event_id)}
                           className="px-2.5 py-1 rounded-md text-xs font-bold bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 hover:bg-[#FACC15]/25 transition active:scale-95"
@@ -437,8 +437,8 @@ export default function BlockchainActivityPage() {
                   </div>
 
                   {/* Verification Status */}
-                  <div className="p-3.5 rounded-lg bg-[#FACC15]/15 border border-[#FACC15]/30 flex items-center justify-between">
-                    <div>
+                  <div className="p-3.5 rounded-lg bg-[#FACC15]/15 border border-[#FACC15]/30 flex items-center justify-between gap-3">
+                    <div className="min-w-0">
                       <span className="text-[10px] font-bold text-[#FACC15] uppercase tracking-wider block">Cryptographic Verification</span>
                       <p className="text-xs font-bold text-[#FACC15] mt-0.5">
                         {evidenceData.independent_verification?.status || 'VERIFIED'}
@@ -450,7 +450,7 @@ export default function BlockchainActivityPage() {
                     <button
                       onClick={() => handleReverify(selectedEventId)}
                       disabled={reverifyLoading}
-                      className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#FACC15] text-[#000000] hover:bg-[#FACC15]/90 transition disabled:opacity-50 flex items-center gap-1 shadow-sm"
+                      className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#FACC15] text-[#000000] hover:bg-[#FACC15]/90 transition disabled:opacity-50 flex items-center gap-1 shadow-sm flex-shrink-0"
                     >
                       <RefreshCw className={`w-3 h-3 ${reverifyLoading ? 'animate-spin' : ''}`} />
                       <span>{reverifyLoading ? 'Reverifying...' : 'Re-verify On-Chain'}</span>
@@ -461,19 +461,19 @@ export default function BlockchainActivityPage() {
                   <div className="space-y-2">
                     <div>
                       <span className="text-[10px] font-bold uppercase text-[#D4D4D8] block mb-1">Local Recomputed Digest (RFC-8785)</span>
-                      <div className="p-2 rounded-lg bg-[#000000] border border-[#27272A] font-mono text-[11px] text-[#FACC15] break-all select-all flex items-center justify-between font-bold">
-                        <span>{evidenceData.recomputed_hash}</span>
-                        <button onClick={() => handleCopy(evidenceData.recomputed_hash)} className="text-[#D4D4D8] hover:text-[#FFFFFF]">
+                      <div className="p-2 rounded-lg bg-[#000000] border border-[#27272A] font-mono text-[11px] text-[#FACC15] select-all flex items-center justify-between font-bold gap-2">
+                        <span className="break-all min-w-0 flex-1">{evidenceData.recomputed_hash}</span>
+                        <button onClick={() => handleCopy(evidenceData.recomputed_hash)} className="text-[#D4D4D8] hover:text-[#FFFFFF] flex-shrink-0">
                           <Copy className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
                     <div>
                       <span className="text-[10px] font-bold uppercase text-[#D4D4D8] block mb-1">Committed On-Chain Digest</span>
-                      <div className="p-2 rounded-lg bg-[#000000] border border-[#27272A] font-mono text-[11px] text-[#FACC15] break-all select-all flex items-center justify-between font-bold">
-                        <span>{evidenceData.stored_commitment || 'Pending'}</span>
+                      <div className="p-2 rounded-lg bg-[#000000] border border-[#27272A] font-mono text-[11px] text-[#FACC15] select-all flex items-center justify-between font-bold gap-2">
+                        <span className="break-all min-w-0 flex-1">{evidenceData.stored_commitment || 'Pending'}</span>
                         {evidenceData.stored_commitment && (
-                          <button onClick={() => handleCopy(evidenceData.stored_commitment || '')} className="text-[#D4D4D8] hover:text-[#FFFFFF]">
+                          <button onClick={() => handleCopy(evidenceData.stored_commitment || '')} className="text-[#D4D4D8] hover:text-[#FFFFFF] flex-shrink-0">
                             <Copy className="w-3.5 h-3.5" />
                           </button>
                         )}
@@ -492,22 +492,22 @@ export default function BlockchainActivityPage() {
                   {/* Blockchain Receipt Details */}
                   {evidenceData.transaction_hash && (
                     <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A] space-y-1 text-[11px] font-mono">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#D4D4D8]">Tx Hash:</span>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[#D4D4D8] flex-shrink-0">Tx Hash:</span>
                         {evidenceData.anchoring_status === 'ANCHORED' && evidenceData.explorer_url ? (
                           <a
                             href={evidenceData.explorer_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#FACC15] hover:underline flex items-center gap-1 font-bold"
+                            className="text-[#FACC15] hover:underline flex items-center gap-1 font-bold truncate min-w-0"
                           >
-                            <span>{evidenceData.transaction_hash.slice(0, 16)}...</span>
-                            <ExternalLink className="w-3 h-3" />
+                            <span className="truncate">{evidenceData.transaction_hash}</span>
+                            <ExternalLink className="w-3 h-3 flex-shrink-0" />
                           </a>
                         ) : (
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-[#D4D4D8] font-bold">{evidenceData.transaction_hash.slice(0, 16)}...</span>
-                            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#27272A] text-[#71717A] border border-[#27272A]" title="Simulated local hash. Not yet indexed on MSTScan.">LOCAL</span>
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span className="text-[#D4D4D8] font-bold truncate">{evidenceData.transaction_hash}</span>
+                            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#27272A] text-[#71717A] border border-[#27272A] flex-shrink-0" title="Simulated local hash. Not yet indexed on MSTScan.">LOCAL</span>
                           </div>
                         )}
                       </div>

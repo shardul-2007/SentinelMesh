@@ -163,19 +163,19 @@ export default function DashboardPage() {
 
         {/* Active Tamper Alerts Warning Banner */}
         {alerts.filter(a => a.status === 'OPEN').length > 0 && (
-          <div className="p-4 rounded-xl bg-[#EF4444]/15 border border-[#EF4444]/30 flex items-center justify-between">
-            <div className="flex items-center gap-3 text-[#EF4444] text-xs sm:text-sm">
+          <div className="p-4 rounded-xl bg-[#EF4444]/15 border border-[#EF4444]/30 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 text-[#EF4444] text-xs sm:text-sm min-w-0">
               <AlertTriangle className="w-5 h-5 flex-shrink-0 text-[#EF4444]" />
-              <div>
+              <div className="min-w-0">
                 <span className="font-bold text-[#FFFFFF]">Security Alert: </span>
-                <span>
+                <span className="truncate block sm:inline">
                   {alerts.filter(a => a.status === 'OPEN').length} active cryptographic tamper mismatch detected in audit evidence!
                 </span>
               </div>
             </div>
             <Link
               href="/integrity"
-              className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-[#EF4444] text-white hover:bg-[#DC2626] transition flex items-center gap-1"
+              className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-[#EF4444] text-white hover:bg-[#DC2626] transition flex items-center gap-1 flex-shrink-0"
             >
               <span>Investigate</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -185,19 +185,19 @@ export default function DashboardPage() {
 
         {/* Active Threat Intelligence Banner */}
         {threats && threats.active_findings > 0 && (
-          <div className="p-4 rounded-xl bg-[#F59E0B]/10 border border-[#F59E0B]/30 flex items-center justify-between">
-            <div className="flex items-center gap-3 text-[#F59E0B] text-xs sm:text-sm">
+          <div className="p-4 rounded-xl bg-[#F59E0B]/10 border border-[#F59E0B]/30 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 text-[#F59E0B] text-xs sm:text-sm min-w-0">
               <Shield className="w-5 h-5 flex-shrink-0 text-[#F59E0B]" />
-              <div>
+              <div className="min-w-0">
                 <span className="font-bold text-[#FFFFFF]">Threat Intelligence: </span>
-                <span>
+                <span className="truncate block sm:inline">
                   {threats.active_findings} active behavioral findings flagged ({threats.findings_by_severity.CRITICAL} Critical, {threats.findings_by_severity.HIGH} High).
                 </span>
               </div>
             </div>
             <Link
               href="/threats"
-              className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-[#F59E0B] text-[#000000] hover:bg-[#D97706] transition flex items-center gap-1 shadow-sm"
+              className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-[#F59E0B] text-[#000000] hover:bg-[#D97706] transition flex items-center gap-1 shadow-sm flex-shrink-0"
             >
               <span>Inspect Findings</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -207,7 +207,7 @@ export default function DashboardPage() {
 
         {/* Active Role Governance Mission Banner */}
         <div className="mst-card p-4 rounded-xl bg-[#121212] border border-[#27272A] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
-          <div className="flex items-start gap-3">
+          <div className="flex items-start gap-3 min-w-0">
             <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${
               role === 'ADMIN'
                 ? 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30'
@@ -217,8 +217,8 @@ export default function DashboardPage() {
             }`}>
               <Shield className="w-5 h-5" />
             </div>
-            <div className="space-y-0.5">
-              <div className="flex items-center gap-2">
+            <div className="space-y-0.5 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-xs text-[#D4D4D8]">Active Role Session:</span>
                 <span className={`text-xs px-2.5 py-0.5 rounded font-mono font-bold border ${
                   role === 'ADMIN'
@@ -252,7 +252,7 @@ export default function DashboardPage() {
                 className="px-4 py-2 rounded-lg text-xs font-bold bg-[#EF4444] hover:bg-[#DC2626] text-[#FFFFFF] transition shadow-sm flex items-center gap-1.5"
               >
                 <span>Verify Hashes</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#000000]" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#FFFFFF]" />
               </Link>
             )}
             {role === 'VIEWER' && (
@@ -336,10 +336,10 @@ export default function DashboardPage() {
         {/* KPI Operational Cards with Yellow Background + Black Text */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Total Events */}
-          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] transition">
+          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden transition">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Total Evaluated Actions</span>
-              <Activity className="w-4 h-4 text-[#000000]" />
+              <Activity className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-3xl font-black font-mono text-[#000000]">
@@ -359,10 +359,10 @@ export default function DashboardPage() {
           </div>
 
           {/* Allowed Actions */}
-          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] transition">
+          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden transition">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Permitted Actions</span>
-              <ShieldCheck className="w-4 h-4 text-[#000000]" />
+              <ShieldCheck className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-3xl font-black font-mono text-[#000000]">
@@ -379,10 +379,10 @@ export default function DashboardPage() {
           </div>
 
           {/* Blocked Actions */}
-          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] transition">
+          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden transition">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Blocked Operations</span>
-              <XCircle className="w-4 h-4 text-[#EF4444]" />
+              <XCircle className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-3xl font-black font-mono text-[#000000]">
@@ -392,17 +392,17 @@ export default function DashboardPage() {
             </div>
             <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
               <span>Halted at gateway</span>
-              <span className="px-2 py-0.5 rounded-full bg-[#EF4444] text-[#FFFFFF] text-[10px] font-black font-mono">
+              <span className="px-2 py-0.5 rounded-full bg-[#000000] text-[#EF4444] text-[10px] font-black font-mono border border-[#000000]">
                 ENFORCED
               </span>
             </div>
           </div>
 
           {/* Pending Approvals */}
-          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] transition">
+          <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden transition">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Pending Approvals</span>
-              <AlertTriangle className="w-4 h-4 text-[#000000]" />
+              <AlertTriangle className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-3xl font-black font-mono text-[#000000]">
@@ -519,12 +519,12 @@ export default function DashboardPage() {
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#000000] border border-[#27272A]">
-                  <div className="flex items-center gap-2">
-                    <Boxes className="w-4 h-4 text-[#FACC15]" />
-                    <span className="text-xs font-bold text-[#FFFFFF]">MST EvidenceRegistry</span>
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#000000] border border-[#27272A] flex-wrap sm:flex-nowrap gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Boxes className="w-4 h-4 text-[#FACC15] flex-shrink-0" />
+                    <span className="text-xs font-bold text-[#FFFFFF] truncate">MST EvidenceRegistry</span>
                   </div>
-                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
+                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border flex-shrink-0 ${
                     bStatus?.connected
                       ? 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30'
                       : 'bg-[#000000] text-[#D4D4D8] border-[#27272A]'
@@ -585,8 +585,8 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto rounded-lg border border-[#27272A]">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto rounded-lg border border-[#27272A] responsive-table-wrapper">
+            <table className="w-full text-left text-xs min-w-[700px]">
               <thead className="bg-[#000000] text-[#D4D4D8] uppercase font-bold text-[11px] border-b border-[#27272A]">
                 <tr>
                   <th className="px-4 py-3">Timestamp (UTC)</th>

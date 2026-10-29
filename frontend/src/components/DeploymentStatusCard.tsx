@@ -77,14 +77,14 @@ export function DeploymentStatusCard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Card 1: MST Testnet (Box 4: Yellow Background + Black Text) */}
-        <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl space-y-3 min-h-[360px]">
+        <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl space-y-3 min-h-[360px] overflow-hidden">
           <div>
-            <div className="flex items-center justify-between pb-2 border-b border-[#000000]/25">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#000000] animate-ping"></span>
-                <span className="text-xs font-black text-[#000000]">{testnetData.network}</span>
+            <div className="flex items-center justify-between pb-2 border-b border-[#000000]/25 gap-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#000000] animate-ping flex-shrink-0"></span>
+                <span className="text-xs font-black text-[#000000] truncate">{testnetData.network}</span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#000000] text-[#FACC15] font-black">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#000000] text-[#FACC15] font-black flex-shrink-0">
                 {testnetData.readbackVerification}
               </span>
             </div>
@@ -95,9 +95,9 @@ export function DeploymentStatusCard() {
                 <span className="font-mono text-[#000000] font-black">{testnetData.chainId}</span>
               </div>
 
-              <div className="flex justify-between items-center font-bold">
-                <span className="text-[#1C1C1C]">RPC URL:</span>
-                <span className="font-mono text-[11px] text-[#000000] truncate max-w-[170px]" title={testnetData.rpcUrl}>
+              <div className="flex justify-between items-center font-bold gap-2">
+                <span className="text-[#1C1C1C] flex-shrink-0">RPC URL:</span>
+                <span className="font-mono text-[11px] text-[#000000] truncate min-w-0 flex-1 text-right font-black" title={testnetData.rpcUrl}>
                   {testnetData.rpcUrl}
                 </span>
               </div>
@@ -123,7 +123,7 @@ export function DeploymentStatusCard() {
                     </a>
                   </div>
                 </div>
-                <div className="font-mono text-[10px] text-[#FACC15] break-all bg-[#000000] p-1.5 rounded-lg border border-[#000000] font-black">
+                <div className="font-mono text-[10px] text-[#FACC15] break-all bg-[#000000] p-1.5 rounded-lg border border-[#000000] font-black select-all">
                   {testnetData.contractAddress}
                 </div>
               </div>
@@ -149,7 +149,7 @@ export function DeploymentStatusCard() {
                     </a>
                   </div>
                 </div>
-                <div className="font-mono text-[10px] text-[#FFFFFF] truncate bg-[#000000] p-1.5 rounded-lg border border-[#000000] font-bold" title={testnetData.signerAddress}>
+                <div className="font-mono text-[10px] text-[#FACC15] break-all bg-[#000000] p-1.5 rounded-lg border border-[#000000] font-bold select-all" title={testnetData.signerAddress}>
                   {testnetData.signerAddress}
                 </div>
               </div>
@@ -167,7 +167,7 @@ export function DeploymentStatusCard() {
                     <ExternalLink className="w-2.5 h-2.5" />
                   </a>
                 </div>
-                <div className="font-mono text-[10px] text-[#FFFFFF] font-black bg-[#000000] p-1.5 rounded-lg border border-[#000000]">
+                <div className="font-mono text-[10px] text-[#FACC15] font-black bg-[#000000] p-1.5 rounded-lg border border-[#000000]">
                   {testnetData.signerBalance}
                 </div>
               </div>
@@ -177,7 +177,7 @@ export function DeploymentStatusCard() {
                   <span className="text-[#1C1C1C] text-[11px] font-black">Contract Verification:</span>
                   <span className="text-[10px] font-mono text-[#000000] font-black bg-[#000000]/15 px-1.5 py-0.5 rounded">27/27 Tests OK</span>
                 </div>
-                <div className="font-mono text-[10px] text-[#FFFFFF] bg-[#000000] p-1.5 rounded-lg border border-[#000000] font-bold">
+                <div className="font-mono text-[10px] text-[#FACC15] bg-[#000000] p-1.5 rounded-lg border border-[#000000] font-bold">
                   EvidenceRegistry.sol (Solidity 0.8.20)
                 </div>
               </div>
@@ -200,22 +200,22 @@ export function DeploymentStatusCard() {
             href={testnetData.explorer}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-2 px-3 rounded-lg text-xs font-black text-center bg-[#000000] text-[#FACC15] hover:bg-[#1C1C1C] transition flex items-center justify-center gap-1.5 shadow-md"
+            className="w-full py-2 px-3 rounded-lg text-xs font-black text-center bg-[#000000] text-[#FACC15] hover:bg-[#1C1C1C] transition flex items-center justify-center gap-1.5 shadow-md mt-2"
           >
             <span>Open MSTScan Testnet</span>
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-3.5 h-3.5 text-[#FACC15]" />
           </a>
         </div>
 
         {/* Card 2: MST Mainnet (Box 5: Yellow Background + Black Text) */}
-        <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl space-y-3 min-h-[360px]">
+        <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl space-y-3 min-h-[360px] overflow-hidden">
           <div>
-            <div className="flex items-center justify-between pb-2 border-b border-[#000000]/25">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
-                <span className="text-xs font-black text-[#000000]">{mainnetData.network}</span>
+            <div className="flex items-center justify-between pb-2 border-b border-[#000000]/25 gap-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#000000] flex-shrink-0"></span>
+                <span className="text-xs font-black text-[#000000] truncate">{mainnetData.network}</span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#EF4444] text-[#FFFFFF] font-black">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#000000] text-[#EF4444] font-black flex-shrink-0">
                 {mainnetData.verificationStatus}
               </span>
             </div>
@@ -226,9 +226,9 @@ export function DeploymentStatusCard() {
                 <span className="font-mono text-[#000000] font-black">{mainnetData.chainId}</span>
               </div>
 
-              <div className="flex justify-between items-center font-bold">
-                <span className="text-[#1C1C1C]">RPC URL:</span>
-                <span className="font-mono text-[11px] text-[#000000] truncate max-w-[170px]" title={mainnetData.rpcUrl}>
+              <div className="flex justify-between items-center font-bold gap-2">
+                <span className="text-[#1C1C1C] flex-shrink-0">RPC URL:</span>
+                <span className="font-mono text-[11px] text-[#000000] truncate min-w-0 flex-1 text-right font-black" title={mainnetData.rpcUrl}>
                   {mainnetData.rpcUrl}
                 </span>
               </div>
@@ -236,26 +236,26 @@ export function DeploymentStatusCard() {
               <div className="space-y-0.5 pt-1 border-t border-[#000000]/20">
                 <div className="flex justify-between items-center">
                   <span className="text-[#1C1C1C] text-[11px] font-black">Contract Address:</span>
-                  <span className="text-[10px] font-mono text-[#FFFFFF] bg-[#EF4444] px-1.5 py-0.5 rounded font-black">
+                  <span className="text-[10px] font-mono text-[#EF4444] bg-[#000000] px-2 py-0.5 rounded font-black border border-[#000000]">
                     {mainnetData.contractAddress}
                   </span>
                 </div>
-                <div className="text-[11px] text-[#FFFFFF] bg-[#000000] p-2 rounded-lg border border-[#000000] leading-relaxed font-medium">
+                <div className="text-[11px] text-[#FACC15] bg-[#000000] p-2 rounded-lg border border-[#000000] leading-relaxed font-bold">
                   {mainnetData.policyNotice}
                 </div>
               </div>
 
               <div className="flex justify-between items-center pt-2 text-[11px] font-bold">
                 <span className="text-[#1C1C1C]">Deployment Tx:</span>
-                <span className="font-mono text-[#000000]">{mainnetData.deploymentTxHash}</span>
+                <span className="font-mono text-[#000000] font-black">{mainnetData.deploymentTxHash}</span>
               </div>
 
               <div className="flex justify-between items-center text-[11px] font-bold">
                 <span className="text-[#1C1C1C]">Verification Status:</span>
-                <span className="font-mono text-[#EF4444] font-black">{mainnetData.verificationStatus}</span>
+                <span className="font-mono text-[#000000] font-black bg-[#000000]/15 px-2 py-0.5 rounded">{mainnetData.verificationStatus}</span>
               </div>
 
-              <div className="p-2.5 rounded-lg bg-[#000000]/15 border border-[#000000]/25 text-[11px] text-[#000000] leading-snug font-bold">
+              <div className="p-2.5 rounded-lg bg-[#000000] border border-[#000000] text-[11px] text-[#FFFFFF] leading-snug font-bold">
                 <strong className="text-[#EF4444]">Mainnet Rule:</strong> Deploy and anchor on Mainnet only after Testnet verification and explicit authorization.
               </div>
             </div>
@@ -265,7 +265,7 @@ export function DeploymentStatusCard() {
             href={mainnetData.explorer}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-2 px-3 rounded-lg text-xs font-black text-center bg-[#000000] text-[#FFFFFF] hover:bg-[#1C1C1C] transition flex items-center justify-center gap-1.5 shadow-md"
+            className="w-full py-2 px-3 rounded-lg text-xs font-black text-center bg-[#000000] text-[#FFFFFF] hover:bg-[#1C1C1C] transition flex items-center justify-center gap-1.5 shadow-md mt-2"
           >
             <span>Open MSTScan Mainnet</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -273,14 +273,14 @@ export function DeploymentStatusCard() {
         </div>
 
         {/* Card 3: Application & Source Code (Box 6: Yellow Background + Black Text) */}
-        <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl space-y-3 min-h-[360px]">
+        <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] p-4 rounded-xl flex flex-col justify-between shadow-xl space-y-3 min-h-[360px] overflow-hidden">
           <div>
-            <div className="flex items-center justify-between pb-2 border-b border-[#000000]/25">
-              <div className="flex items-center gap-1.5">
-                <Globe className="w-3.5 h-3.5 text-[#000000]" />
-                <span className="text-xs font-black text-[#000000]">Application &amp; Source Code</span>
+            <div className="flex items-center justify-between pb-2 border-b border-[#000000]/25 gap-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <Globe className="w-3.5 h-3.5 text-[#000000] flex-shrink-0" />
+                <span className="text-xs font-black text-[#000000] truncate">Application &amp; Source Code</span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#000000] text-[#FACC15] font-black">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#000000] text-[#FACC15] font-black flex-shrink-0">
                 PRODUCTION LIVE
               </span>
             </div>
@@ -288,18 +288,18 @@ export function DeploymentStatusCard() {
             <div className="space-y-2 mt-3 text-xs">
               <div className="space-y-0.5">
                 <span className="text-[#1C1C1C] text-[11px] font-black">Live Application URL:</span>
-                <div className="flex items-center justify-between bg-[#000000] p-1.5 rounded-lg border border-[#000000]">
+                <div className="flex items-center justify-between bg-[#000000] p-1.5 rounded-lg border border-[#000000] min-w-0 gap-2">
                   <a
                     href={appData.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[#FACC15] hover:underline truncate text-[11px] font-black"
+                    className="font-mono text-[#FACC15] hover:underline truncate text-[11px] font-black min-w-0 flex-1"
                   >
                     {appData.liveUrl}
                   </a>
                   <button
                     onClick={() => handleCopy(appData.liveUrl, 'liveUrl')}
-                    className="p-1 rounded text-[#FFFFFF] hover:text-[#FACC15] transition"
+                    className="p-1 rounded text-[#FFFFFF] hover:text-[#FACC15] transition flex-shrink-0"
                   >
                     {copiedKey === 'liveUrl' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3 text-[#FFFFFF]" />}
                   </button>
@@ -308,18 +308,18 @@ export function DeploymentStatusCard() {
 
               <div className="space-y-0.5">
                 <span className="text-[#1C1C1C] text-[11px] font-black">Public GitHub Repository:</span>
-                <div className="flex items-center justify-between bg-[#000000] p-1.5 rounded-lg border border-[#000000]">
+                <div className="flex items-center justify-between bg-[#000000] p-1.5 rounded-lg border border-[#000000] min-w-0 gap-2">
                   <a
                     href={appData.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[#FACC15] hover:underline truncate text-[11px] font-black"
+                    className="font-mono text-[#FACC15] hover:underline truncate text-[11px] font-black min-w-0 flex-1"
                   >
                     {appData.repoUrl}
                   </a>
                   <button
                     onClick={() => handleCopy(appData.repoUrl, 'repoUrl')}
-                    className="p-1 rounded text-[#FFFFFF] hover:text-[#FACC15] transition"
+                    className="p-1 rounded text-[#FFFFFF] hover:text-[#FACC15] transition flex-shrink-0"
                   >
                     {copiedKey === 'repoUrl' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3 text-[#FFFFFF]" />}
                   </button>
@@ -335,7 +335,7 @@ export function DeploymentStatusCard() {
 
               <div className="space-y-0.5 pt-1">
                 <span className="text-[#1C1C1C] text-[11px] font-black">Last End-to-End Test:</span>
-                <div className="text-[10px] font-mono text-[#FFFFFF] bg-[#000000] p-2 rounded-lg border border-[#000000] leading-relaxed font-bold">
+                <div className="text-[10px] font-mono text-[#FACC15] bg-[#000000] p-2 rounded-lg border border-[#000000] leading-relaxed font-bold break-words">
                   {appData.lastTest}
                 </div>
               </div>
@@ -346,7 +346,7 @@ export function DeploymentStatusCard() {
             href={appData.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-2 px-3 rounded-lg text-xs font-black text-center bg-[#000000] text-[#FACC15] hover:bg-[#1C1C1C] transition flex items-center justify-center gap-1.5 shadow-md"
+            className="w-full py-2 px-3 rounded-lg text-xs font-black text-center bg-[#000000] text-[#FACC15] hover:bg-[#1C1C1C] transition flex items-center justify-center gap-1.5 shadow-md mt-2"
           >
             <GitBranch className="w-3.5 h-3.5 text-[#FACC15]" />
             <span>View Public Repository</span>

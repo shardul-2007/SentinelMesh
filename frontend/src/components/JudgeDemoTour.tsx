@@ -571,26 +571,26 @@ export function JudgeDemoTour() {
             <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] space-y-3 text-xs">
               <div className="space-y-1.5 font-mono">
                 <div className="text-[#D4D4D8] text-[11px]">MST Testnet Contract:</div>
-                <div className="flex items-center justify-between p-2 rounded bg-[#000000] border border-[#27272A]">
-                  <span className="text-[#FACC15] font-bold truncate">{MST_TESTNET_CONFIG.contractAddress}</span>
+                <div className="flex items-center justify-between p-2 rounded bg-[#000000] border border-[#27272A] min-w-0 gap-2">
+                  <span className="text-[#FACC15] font-bold truncate min-w-0 flex-1">{MST_TESTNET_CONFIG.contractAddress}</span>
                   <button
                     type="button"
                     onClick={() => handleCopy(MST_TESTNET_CONFIG.contractAddress)}
-                    className="text-[#D4D4D8] hover:text-[#FFFFFF] ml-2"
+                    className="text-[#D4D4D8] hover:text-[#FFFFFF] ml-2 flex-shrink-0"
                   >
                     {copiedText === MST_TESTNET_CONFIG.contractAddress ? <Check className="w-3.5 h-3.5 text-[#FACC15]" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                 </div>
 
                 <div className="text-[#D4D4D8] text-[11px] pt-1">Verified Evidence Transaction Hash:</div>
-                <div className="flex items-center justify-between p-2 rounded bg-[#000000] border border-[#27272A]">
-                  <span className="text-[#FFFFFF] font-bold truncate">
+                <div className="flex items-center justify-between p-2 rounded bg-[#000000] border border-[#27272A] min-w-0 gap-2">
+                  <span className="text-[#FFFFFF] font-bold truncate min-w-0 flex-1">
                     {anchorResult?.transaction_hash || MST_TESTNET_CONFIG.verifiedEvidenceTxHash}
                   </span>
                   <button
                     type="button"
                     onClick={() => handleCopy(anchorResult?.transaction_hash || MST_TESTNET_CONFIG.verifiedEvidenceTxHash)}
-                    className="text-[#D4D4D8] hover:text-[#FFFFFF] ml-2"
+                    className="text-[#D4D4D8] hover:text-[#FFFFFF] ml-2 flex-shrink-0"
                   >
                     {copiedText === (anchorResult?.transaction_hash || MST_TESTNET_CONFIG.verifiedEvidenceTxHash) ? <Check className="w-3.5 h-3.5 text-[#FACC15]" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>

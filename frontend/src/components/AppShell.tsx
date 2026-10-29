@@ -18,6 +18,21 @@ export function AppShell({ children }: AppShellProps) {
       if (stored === 'true') {
         setIsSidebarCollapsed(true);
       }
+
+      // Suppress benign third-party browser extension errors (e.g. video grabbers, wallet message channel drops)
+      const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+        const reasonMsg = event?.reason?.message || String(event?.reason || '');
+        if (
+          reasonMsg.includes('A listener indicated an asynchronous response') ||
+          reasonMsg.includes('message channel closed') ||
+          reasonMsg.includes('Video element not found')
+        ) {
+          event.preventDefault(); // Prevents logging "Uncaught (in promise)" in the console
+        }
+      };
+
+      window.addEventListener('unhandledrejection', handleUnhandledRejection);
+      return () => window.removeEventListener('unhandledrejection', handleUnhandledRejection);
     }
   }, []);
 
@@ -30,7 +45,7 @@ export function AppShell({ children }: AppShellProps) {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#000000] text-[#FFFFFF] font-sans">
+    <div className="flex min-h-screen bg-[#000000] text-[#FFFFFF] font-sans overflow-x-hidden">
       {/* Navigation Rail (Collapsible Desktop + Accessible Mobile Drawer) */}
       <Sidebar 
         mobileOpen={mobileNavOpen} 
@@ -40,7 +55,7 @@ export function AppShell({ children }: AppShellProps) {
       />
 
       {/* Main Workspace Area */}
-      <div className="flex-1 flex flex-col min-w-0 max-w-full">
+      <div className="flex-1 flex flex-col min-w-0 max-w-full overflow-hidden">
         {/* Mobile Header Bar (<1024px) */}
         <header className="lg:hidden h-14 bg-[#121212] text-[#FFFFFF] px-4 flex items-center justify-between border-b border-[#27272A] sticky top-0 z-30 shadow-md">
           <div className="flex items-center gap-3">
@@ -68,7 +83,7 @@ export function AppShell({ children }: AppShellProps) {
         </header>
 
         {/* Page Content Container */}
-        <main className="flex-1 min-h-0 bg-[#000000] focus:outline-none">
+        <main className="flex-1 min-h-0 bg-[#000000] focus:outline-none overflow-x-hidden">
           {children}
         </main>
       </div>

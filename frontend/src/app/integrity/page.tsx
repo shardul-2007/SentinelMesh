@@ -193,10 +193,10 @@ export default function IntegrityCenterPage() {
 
         {/* KPI Summary Cards with Yellow Background + Black Text */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Total Evidence Records</span>
-              <Lock className="w-4 h-4 text-[#000000]" />
+              <Lock className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="text-3xl font-black text-[#000000] mt-1 font-mono">{records.length}</div>
             <div className="mt-2 text-[11px] text-[#1C1C1C] flex items-center justify-between pt-2 border-t border-[#000000]/25 font-bold">
@@ -207,10 +207,10 @@ export default function IntegrityCenterPage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Confirmed On-Chain</span>
-              <Boxes className="w-4 h-4 text-[#000000]" />
+              <Boxes className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {bStatus?.total_anchors ?? records.filter(r => r.anchoring_status === 'ANCHORED').length}
@@ -223,10 +223,10 @@ export default function IntegrityCenterPage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Cryptographically Intact</span>
-              <ShieldCheck className="w-4 h-4 text-[#000000]" />
+              <ShieldCheck className="w-4 h-4 text-[#000000] flex-shrink-0" />
             </div>
             <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {records.filter(r => r.verification_status === 'ANCHORED_AND_VERIFIED' || r.verification_status === 'INTACT').length}
@@ -239,10 +239,10 @@ export default function IntegrityCenterPage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px]">
+          <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] flex flex-col justify-between shadow-xl min-h-[145px] overflow-hidden">
             <div className="flex items-center justify-between text-xs mb-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[#000000]">Active Tamper Alerts</span>
-              <AlertTriangle className="w-4 h-4 text-[#EF4444]" />
+              <AlertTriangle className="w-4 h-4 text-[#EF4444] flex-shrink-0" />
             </div>
             <div className="text-3xl font-black text-[#000000] mt-1 font-mono">
               {alerts.filter(a => a.status === 'OPEN').length}
@@ -251,7 +251,7 @@ export default function IntegrityCenterPage() {
               <span>Security deviations</span>
               <span className={`px-2 py-0.5 rounded-full text-[10px] font-black font-mono ${
                 alerts.filter(a => a.status === 'OPEN').length > 0 
-                  ? 'bg-[#EF4444] text-[#FFFFFF]' 
+                  ? 'bg-[#000000] text-[#EF4444] border border-[#000000]' 
                   : 'bg-[#000000] text-[#FACC15]'
               }`}>
                 {alerts.filter(a => a.status === 'OPEN').length > 0 ? 'INVESTIGATE' : 'SECURE'}
@@ -310,8 +310,8 @@ export default function IntegrityCenterPage() {
                 </span>
               </div>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+            <div className="overflow-x-auto responsive-table-wrapper">
+              <table className="w-full text-left text-xs min-w-[700px]">
                 <thead className="bg-[#000000] text-[#D4D4D8] border-b border-[#27272A]">
                   <tr>
                     <th className="py-2.5 px-4 font-bold uppercase text-[10px]">Alert ID</th>
@@ -397,8 +397,8 @@ export default function IntegrityCenterPage() {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto responsive-table-wrapper">
+            <table className="w-full text-left text-xs min-w-[700px]">
               <thead className="bg-[#000000] text-[#D4D4D8] border-b border-[#27272A]">
                 <tr>
                   <th className="py-2.5 px-4 font-bold uppercase text-[10px]">Event ID</th>

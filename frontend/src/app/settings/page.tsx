@@ -150,16 +150,16 @@ export default function SettingsPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px]">
+            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px] overflow-hidden">
               <span className="text-[#000000] text-[10px] font-black uppercase tracking-wider">Active Network</span>
               <div className="font-mono text-[#000000] font-black text-base flex items-center justify-between">
-                <span>{chainStatus?.network_name || 'MST Testnet'}</span>
-                <span className={`w-2 h-2 rounded-full ${chainStatus?.connected ? 'bg-[#000000] animate-ping' : 'bg-[#EF4444]'}`}></span>
+                <span className="truncate">{chainStatus?.network_name || 'MST Testnet'}</span>
+                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${chainStatus?.connected ? 'bg-[#000000] animate-ping' : 'bg-[#EF4444]'}`}></span>
               </div>
               <span className="text-[10px] font-bold text-[#1C1C1C]">Primary EVM Node</span>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px]">
+            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px] overflow-hidden">
               <span className="text-[#000000] text-[10px] font-black uppercase tracking-wider">Chain ID</span>
               <div className="font-mono text-[#000000] font-black text-xl">
                 {chainStatus?.detected_chain_id || chainStatus?.configured_chain_id || 91562037}
@@ -167,15 +167,15 @@ export default function SettingsPage() {
               <span className="text-[10px] font-bold text-[#1C1C1C]">EIP-155 Identifier</span>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px]">
+            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px] overflow-hidden">
               <span className="text-[#000000] text-[10px] font-black uppercase tracking-wider">Latest Node Block</span>
-              <div className="font-mono text-[#000000] font-black text-xl">
+              <div className="font-mono text-[#000000] font-black text-xl truncate">
                 {chainStatus?.latest_block ? `#${chainStatus.latest_block.toLocaleString()}` : '#6,641,721'}
               </div>
               <span className="text-[10px] font-bold text-[#1C1C1C]">Synchronized &amp; Mining</span>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px]">
+            <div className="p-4 rounded-xl bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] shadow-xl flex flex-col justify-between min-h-[110px] overflow-hidden">
               <span className="text-[#000000] text-[10px] font-black uppercase tracking-wider">Native Gas Token</span>
               <div className="font-mono text-[#000000] font-black text-xl">
                 {chainStatus?.native_token || 'tMSTC'}
@@ -186,20 +186,20 @@ export default function SettingsPage() {
 
           {/* RPC & Contract Diagnostic Details */}
           <div className="space-y-2 pt-2 text-xs font-mono">
-            <div className="p-3 rounded bg-[#000000] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div>
+            <div className="p-3 rounded bg-[#000000] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-2 min-w-0">
+              <div className="min-w-0 flex-1">
                 <span className="text-[#D4D4D8] block text-[10px] uppercase font-sans font-semibold">RPC Endpoint:</span>
-                <span className="text-[#FFFFFF]">{chainStatus?.rpc_url || 'https://testnetrpc.mstblockchain.com'}</span>
+                <span className="text-[#FFFFFF] break-all">{chainStatus?.rpc_url || 'https://testnetrpc.mstblockchain.com'}</span>
               </div>
-              <span className="text-[#FACC15] font-sans font-semibold text-[11px] px-2 py-0.5 rounded bg-[#FACC15]/15 border border-[#FACC15]/30 w-fit">
+              <span className="text-[#FACC15] font-sans font-semibold text-[11px] px-2 py-0.5 rounded bg-[#FACC15]/15 border border-[#FACC15]/30 w-fit flex-shrink-0">
                 {chainStatus?.mode || 'READY'}
               </span>
             </div>
 
-            <div className="p-3 rounded bg-[#000000] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div>
+            <div className="p-3 rounded bg-[#000000] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-2 min-w-0">
+              <div className="min-w-0 flex-1">
                 <span className="text-[#D4D4D8] block text-[10px] uppercase font-sans font-semibold">EvidenceRegistry Contract:</span>
-                <span className="text-[#FACC15] font-semibold truncate max-w-[320px] inline-block">
+                <span className="text-[#FACC15] font-semibold break-all inline-block">
                   {chainStatus?.contract_address || '0x00E08271A37df1E90E95F062F814D7336D5369Ce'}
                 </span>
               </div>
@@ -208,7 +208,7 @@ export default function SettingsPage() {
                   href={chainStatus.contract_explorer_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-[#FACC15] hover:underline flex items-center gap-1 font-sans font-semibold"
+                  className="text-xs text-[#FACC15] hover:underline flex items-center gap-1 font-sans font-semibold flex-shrink-0"
                 >
                   <span>View on MSTScan</span>
                   <ExternalLink className="w-3 h-3" />

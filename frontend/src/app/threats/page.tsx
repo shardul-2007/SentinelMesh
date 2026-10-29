@@ -268,10 +268,10 @@ export default function ThreatsPage() {
 
           {/* Intelligence KPI Cards with Yellow Background + Black Text */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Active Threat Findings</span>
-                <span className="p-1 rounded-md bg-[#EF4444] text-[#FFFFFF]">
+                <span className="p-1 rounded-md bg-[#000000] text-[#EF4444] border border-[#000000]">
                   <AlertTriangle className="w-4 h-4" />
                 </span>
               </div>
@@ -287,7 +287,7 @@ export default function ThreatsPage() {
               </div>
             </div>
 
-            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Agents Under Review</span>
                 <span className="p-1 rounded-md bg-[#000000] text-[#FACC15]">
@@ -303,7 +303,7 @@ export default function ThreatsPage() {
               </div>
             </div>
 
-            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Registered Detectors</span>
                 <span className="p-1 rounded-md bg-[#000000] text-[#FACC15]">
@@ -322,7 +322,7 @@ export default function ThreatsPage() {
               </div>
             </div>
 
-            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Investigation Resolution</span>
                 <span className="p-1 rounded-md bg-[#000000] text-[#FACC15]">

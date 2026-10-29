@@ -132,7 +132,7 @@ export default function GovernancePage() {
 
         {/* Top Governance KPI Cards with Yellow Background + Black Text */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Cryptographic Assurance</span>
                 <span className="p-1 rounded-md bg-[#000000] text-[#FACC15]">
@@ -153,7 +153,7 @@ export default function GovernancePage() {
               </div>
             </div>
 
-            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Blockchain Anchoring</span>
                 <span className="p-1 rounded-md bg-[#000000] text-[#FACC15]">
@@ -174,7 +174,7 @@ export default function GovernancePage() {
               </div>
             </div>
 
-            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Active Policies &amp; Versions</span>
                 <span className="p-1 rounded-md bg-[#000000] text-[#FACC15]">
@@ -193,10 +193,10 @@ export default function GovernancePage() {
               </div>
             </div>
 
-            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px]">
+            <div className="bg-[#FACC15] border-2 border-[#EAB308] text-[#000000] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Contained Agent Fleet</span>
-                <span className="p-1 rounded-md bg-[#EF4444] text-[#FFFFFF]">
+                <span className="p-1 rounded-md bg-[#000000] text-[#EF4444] border border-[#000000]">
                   <Shield className="w-4 h-4" />
                 </span>
               </div>
@@ -207,7 +207,7 @@ export default function GovernancePage() {
               <div className="mt-2 pt-2 border-t border-[#000000]/25 text-[11px] text-[#1C1C1C] font-bold flex items-center justify-between">
                 <span>{summary?.open_incidents ?? 0} open incidents</span>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-black font-mono ${
-                  (summary?.quarantined_agents ?? 0) > 0 ? 'bg-[#EF4444] text-[#FFFFFF]' : 'bg-[#000000] text-[#FACC15]'
+                  (summary?.quarantined_agents ?? 0) > 0 ? 'bg-[#000000] text-[#EF4444] border border-[#000000]' : 'bg-[#000000] text-[#FACC15]'
                 }`}>
                   {(summary?.quarantined_agents ?? 0) > 0 ? 'ISOLATED' : 'NOMINAL'}
                 </span>
