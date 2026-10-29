@@ -16,7 +16,11 @@ import {
   Eye,
   Wrench,
   RotateCcw,
-  Boxes
+  Boxes,
+  Zap,
+  Wallet,
+  X,
+  Loader2
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
@@ -43,6 +47,10 @@ export default function IntegrityCenterPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [simulationResult, setSimulationResult] = useState<string | null>(null);
+
+  // Relayer vs BridgeKey modal
+  const [anchorTarget, setAnchorTarget] = useState<{ eventId: string; hashHex: string } | null>(null);
+  const [anchorToast, setAnchorToast] = useState<{ type: 'info' | 'success' | 'error'; message: string; txHash?: string } | null>(null);
 
   // Inspector modal
   const [selectedEvent, setSelectedEvent] = useState<AuditEventDetail | null>(null);
@@ -96,26 +104,53 @@ export default function IntegrityCenterPage() {
     }
   };
 
-  const handleAnchor = async (eventId: string, eventHash?: string) => {
-    setActionLoading(`anchor-${eventId}`);
-    try {
-      if (isWalletConnected && walletAddress && eventHash) {
-        const useDirectWallet = confirm(
-          `BridgeKey / Web3 Wallet connected (${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}).\n\nDo you want to sign this anchor transaction directly with your wallet?\n- Click OK to sign with BridgeKey\n- Click Cancel to relay via SentinelMesh automated signer`
-        );
-        if (useDirectWallet) {
-          const directRes = await anchorWithWallet(eventId, eventHash);
-          alert(`BridgeKey Anchor Confirmed on MST Testnet!\nTx: ${directRes.transactionHash}\nExplorer: ${directRes.explorerUrl}`);
-          await loadData();
-          return;
-        }
-      }
+  const handleAnchorClick = (eventId: string, eventHash?: string) => {
+    if (isWalletConnected && walletAddress) {
+      setAnchorTarget({ eventId, hashHex: eventHash || '' });
+    } else {
+      executeRelayAnchor(eventId);
+    }
+  };
 
+  const executeRelayAnchor = async (eventId: string) => {
+    setAnchorTarget(null);
+    setActionLoading(`anchor-${eventId}`);
+    setAnchorToast({ type: 'info', message: `Relaying ${eventId} to MST Testnet (Gas Sponsored)...` });
+    try {
       const res = await api.anchorEvent(eventId);
-      alert(`Blockchain Anchor Confirmed!\nTx: ${res.transaction_hash}\nBlock: #${res.block_number}\nContract: ${res.contract_address}`);
+      setAnchorToast({
+        type: 'success',
+        message: `Anchored via Relayer! Block #${res.block_number}`,
+        txHash: res.transaction_hash
+      });
       await loadData();
     } catch (err: any) {
-      alert(`Anchoring failed: ${err.message}`);
+      setAnchorToast({
+        type: 'error',
+        message: `Relayer failed: ${err.message}`
+      });
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const executeWalletAnchor = async (eventId: string, hashHex: string) => {
+    setAnchorTarget(null);
+    setActionLoading(`anchor-${eventId}`);
+    setAnchorToast({ type: 'info', message: 'Please approve the transaction in your BridgeKey wallet...' });
+    try {
+      const directRes = await anchorWithWallet(eventId, hashHex);
+      setAnchorToast({
+        type: 'success',
+        message: 'Anchor confirmed via BridgeKey!',
+        txHash: directRes.transactionHash
+      });
+      await loadData();
+    } catch (err: any) {
+      setAnchorToast({
+        type: 'error',
+        message: `Wallet anchoring failed: ${err.message}`
+      });
     } finally {
       setActionLoading(null);
     }
@@ -375,6 +410,41 @@ export default function IntegrityCenterPage() {
           onVerifyAgain={loadData}
         />
 
+        {/* Anchoring Status Toast Notification */}
+        {anchorToast && (
+          <div className={`p-3.5 rounded-xl border flex items-center justify-between text-xs font-sans ${
+            anchorToast.type === 'success' 
+              ? 'bg-[#FACC15]/15 border-[#FACC15]/40 text-[#FACC15]' 
+              : anchorToast.type === 'error'
+              ? 'bg-[#EF4444]/15 border-[#EF4444]/40 text-[#EF4444]'
+              : 'bg-[#000000] border-[#27272A] text-[#FFFFFF]'
+          }`}>
+            <div className="flex items-center gap-2">
+              {anchorToast.type === 'info' && <Loader2 className="w-4 h-4 animate-spin text-[#FACC15]" />}
+              {anchorToast.type === 'success' && <CheckCircle2 className="w-4 h-4 text-[#FACC15]" />}
+              {anchorToast.type === 'error' && <AlertTriangle className="w-4 h-4 text-[#EF4444]" />}
+              <span className="font-semibold">{anchorToast.message}</span>
+              {anchorToast.txHash && (
+                <a
+                  href={`https://testnet.mstscan.com/tx/${anchorToast.txHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 underline font-bold ml-1 hover:text-[#FFFFFF]"
+                >
+                  <span>View on MSTScan</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+            </div>
+            <button 
+              onClick={() => setAnchorToast(null)} 
+              className="p-1 rounded hover:bg-white/10 text-current transition"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
         {/* Integrity Records Ledger */}
         <div className="rounded-xl bg-[#121212] border border-[#27272A] overflow-hidden shadow-sm">
           <div className="p-4 border-b border-[#27272A] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -494,12 +564,22 @@ export default function IntegrityCenterPage() {
                           </button>
                           {r.anchoring_status !== 'ANCHORED' && (
                             <button
-                              onClick={() => handleAnchor(r.event_id, r.event_hash)}
+                              onClick={() => handleAnchorClick(r.event_id, r.event_hash)}
                               disabled={actionLoading === `anchor-${r.event_id}` || !permissions.canAnchor}
                               title={permissions.canAnchor ? 'Commit SHA-256 evidence to MST Blockchain' : 'Admin Role Required to Anchor'}
-                              className="px-3 py-1 rounded-lg bg-[#FACC15] hover:bg-[#FACC15]/90 text-[#000000] font-bold transition disabled:opacity-30 disabled:cursor-not-allowed text-[11px] shadow-sm active:scale-95"
+                              className="px-3 py-1 rounded-lg bg-[#FACC15] hover:bg-[#FACC15]/90 text-[#000000] font-bold transition disabled:opacity-30 disabled:cursor-not-allowed text-[11px] shadow-sm active:scale-95 flex items-center gap-1.5"
                             >
-                              {actionLoading === `anchor-${r.event_id}` ? 'Anchoring...' : permissions.canAnchor ? 'Anchor (Admin)' : 'Admin Only'}
+                              {actionLoading === `anchor-${r.event_id}` ? (
+                                <>
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                  <span>Anchoring...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Lock className="w-3 h-3" />
+                                  <span>{permissions.canAnchor ? 'Anchor' : 'Admin Only'}</span>
+                                </>
+                              )}
                             </button>
                           )}
                         </td>
@@ -512,6 +592,107 @@ export default function IntegrityCenterPage() {
           </div>
         </div>
       </div>
+
+      {/* Relayer vs BridgeKey Choice Modal */}
+      {anchorTarget && (
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-[#121212] border border-[#27272A] rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative font-sans text-[#FFFFFF]">
+            <div className="flex justify-between items-start border-b border-[#27272A] pb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-[#FACC15]/15 border border-[#FACC15]/30 flex items-center justify-center text-[#FACC15]">
+                  <Lock className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-extrabold text-[#FFFFFF]">Choose Anchoring Execution</h3>
+                  <p className="text-[11px] text-[#D4D4D8]">Commit evidence digest to MST Blockchain Testnet</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setAnchorTarget(null)}
+                className="p-1 rounded-lg text-[#D4D4D8] hover:text-[#FFFFFF] hover:bg-[#1C1C1C] transition"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A] space-y-1 font-mono text-xs">
+                <div className="flex justify-between text-[#D4D4D8]">
+                  <span>Target Event:</span>
+                  <span className="text-[#FACC15] font-bold">{anchorTarget.eventId}</span>
+                </div>
+                <div className="flex justify-between text-[#D4D4D8]">
+                  <span>Target Contract:</span>
+                  <span className="truncate max-w-[240px] text-[#FFFFFF]">{bStatus?.contract_address || 'EvidenceRegistry.sol'}</span>
+                </div>
+              </div>
+
+              {/* Option 1: Gas-Sponsored Relayer */}
+              <div 
+                onClick={() => executeRelayAnchor(anchorTarget.eventId)}
+                className="p-4 rounded-xl bg-[#000000] border border-[#27272A] hover:border-[#FACC15] transition cursor-pointer group space-y-2"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-[#FACC15]/15 flex items-center justify-center text-[#FACC15]">
+                      <Zap className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-[#FFFFFF] group-hover:text-[#FACC15] transition">
+                        SentinelMesh Relayer Gateway
+                      </div>
+                      <span className="text-[10px] text-[#FACC15] font-semibold">Gas-Sponsored (Zero Balance Needed)</span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-bold text-[#FACC15] group-hover:translate-x-0.5 transition font-mono">
+                    Select &rarr;
+                  </span>
+                </div>
+                <p className="text-[11px] text-[#D4D4D8] leading-relaxed">
+                  The automated SentinelMesh backend relayer signs and broadcasts the anchoring transaction using server gas in tMSTC.
+                </p>
+              </div>
+
+              {/* Option 2: Direct BridgeKey Wallet */}
+              <div 
+                onClick={() => executeWalletAnchor(anchorTarget.eventId, anchorTarget.hashHex)}
+                className="p-4 rounded-xl bg-[#000000] border border-[#27272A] hover:border-[#FACC15] transition cursor-pointer group space-y-2"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-[#F59E0B]/15 flex items-center justify-center text-[#F59E0B]">
+                      <Wallet className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-[#FFFFFF] group-hover:text-[#FACC15] transition">
+                        Direct BridgeKey Wallet
+                      </div>
+                      <span className="text-[10px] text-[#D4D4D8] font-mono">
+                        {walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : 'Injected Web3'}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-bold text-[#FACC15] group-hover:translate-x-0.5 transition font-mono">
+                    Select &rarr;
+                  </span>
+                </div>
+                <p className="text-[11px] text-[#D4D4D8] leading-relaxed">
+                  Sign directly from your connected BridgeKey wallet using your personal tMSTC testnet tokens for sovereign custody.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={() => setAnchorTarget(null)}
+                className="px-4 py-1.5 rounded-lg text-xs font-bold text-[#D4D4D8] bg-[#000000] border border-[#27272A] hover:bg-[#1C1C1C] transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Inspector Modal */}
       <EventDetailModal

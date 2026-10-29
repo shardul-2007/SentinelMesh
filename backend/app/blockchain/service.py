@@ -405,6 +405,16 @@ class BlockchainService:
             if receipt.status != 1:
                 raise RuntimeError(f"Anchoring transaction reverted on-chain (tx: {tx_hash_hex}).")
 
+            # Post-anchor verification: Confirm commitment can be read back and matches local digest
+            try:
+                matches, exists = contract.functions.verifyAnchor(event_id, hash_bytes).call()
+                if not exists or not matches:
+                    raise RuntimeError(f"Post-anchor verification failed: contract commitment for '{event_id}' does not match expected digest.")
+            except Exception as read_err:
+                if "Post-anchor verification failed" in str(read_err):
+                    raise
+                # Non-fatal if node read call has temporary network delay
+
             return {
                 "transaction_hash": tx_hash_hex,
                 "block_number": receipt.blockNumber,

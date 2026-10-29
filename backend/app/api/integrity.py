@@ -377,14 +377,31 @@ def anchor_event_to_blockchain(
             message=f"Event '{event_id}' was previously anchored in block #{int_rec.block_number}."
         )
 
+    # Concurrency check: prevent simultaneous duplicate submissions
+    if int_rec.anchoring_status == "PENDING":
+        raise HTTPException(
+            status_code=409,
+            detail=f"Event '{event_id}' has an on-chain anchoring transaction already in progress."
+        )
+
+    # Set status to PENDING before submitting to network
+    int_rec.anchoring_status = "PENDING"
+    db.commit()
+
     b_service = get_blockchain_service()
     try:
         receipt_data = b_service.anchor_event_hash(event_id, int_rec.event_hash)
     except ConnectionError as ce:
+        int_rec.anchoring_status = "ANCHOR_FAILED"
+        db.commit()
         raise HTTPException(status_code=503, detail=str(ce))
     except (ValueError, PermissionError) as pe:
+        int_rec.anchoring_status = "ANCHOR_FAILED"
+        db.commit()
         raise HTTPException(status_code=400, detail=str(pe))
     except Exception as ex:
+        int_rec.anchoring_status = "ANCHOR_FAILED"
+        db.commit()
         raise HTTPException(status_code=500, detail=str(ex))
 
     now_utc = datetime.datetime.now(datetime.timezone.utc)
