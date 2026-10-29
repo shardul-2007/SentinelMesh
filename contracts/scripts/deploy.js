@@ -50,6 +50,11 @@ async function main() {
   };
 
   const deploymentPath = path.join(__dirname, "..", "deployment.json");
+  if (fs.existsSync(deploymentPath)) {
+    const backupDeploymentPath = path.join(__dirname, "..", `deployment.backup.${Date.now()}.json`);
+    fs.copyFileSync(deploymentPath, backupDeploymentPath);
+    console.log("[SentinelMesh] Existing deployment record backed up to:", backupDeploymentPath);
+  }
   fs.writeFileSync(deploymentPath, JSON.stringify(deploymentData, null, 2));
   console.log("[SentinelMesh] Deployment metadata written to:", deploymentPath);
 
@@ -69,40 +74,45 @@ async function main() {
   // If deployed to a live network (e.g. mstTestnet or testnet), sync the address to config files
   if (hre.network.name !== "hardhat" && hre.network.name !== "localhost") {
     try {
-      // 1. Update backend .env
+      const timestamp = Date.now();
+
+      // 1. Update backend .env (with backup)
       const backendEnvPath = path.join(__dirname, "..", "..", "backend", ".env");
       if (fs.existsSync(backendEnvPath)) {
+        fs.copyFileSync(backendEnvPath, `${backendEnvPath}.bak.${timestamp}`);
         let envContent = fs.readFileSync(backendEnvPath, "utf-8");
         envContent = envContent.replace(
           /BLOCKCHAIN_CONTRACT_ADDRESS=.*/g,
           `BLOCKCHAIN_CONTRACT_ADDRESS=${contractAddress}`
         );
         fs.writeFileSync(backendEnvPath, envContent);
-        console.log("[SentinelMesh] Synchronized backend/.env BLOCKCHAIN_CONTRACT_ADDRESS");
+        console.log("[SentinelMesh] Synchronized backend/.env BLOCKCHAIN_CONTRACT_ADDRESS (backed up previous)");
       }
 
-      // 2. Update frontend web3Wallet.tsx
+      // 2. Update frontend web3Wallet.tsx (with backup)
       const web3WalletPath = path.join(__dirname, "..", "..", "frontend", "src", "lib", "web3Wallet.tsx");
       if (fs.existsSync(web3WalletPath)) {
+        fs.copyFileSync(web3WalletPath, `${web3WalletPath}.bak.${timestamp}`);
         let wwContent = fs.readFileSync(web3WalletPath, "utf-8");
         wwContent = wwContent.replace(
           /contractAddress: '0x[0-9a-fA-F]{40}',/g,
           `contractAddress: '${contractAddress}',`
         );
         fs.writeFileSync(web3WalletPath, wwContent);
-        console.log("[SentinelMesh] Synchronized frontend/src/lib/web3Wallet.tsx contractAddress");
+        console.log("[SentinelMesh] Synchronized frontend/src/lib/web3Wallet.tsx contractAddress (backed up previous)");
       }
 
-      // 3. Update frontend clientStore.ts
+      // 3. Update frontend clientStore.ts (with backup)
       const clientStorePath = path.join(__dirname, "..", "..", "frontend", "src", "lib", "clientStore.ts");
       if (fs.existsSync(clientStorePath)) {
+        fs.copyFileSync(clientStorePath, `${clientStorePath}.bak.${timestamp}`);
         let csContent = fs.readFileSync(clientStorePath, "utf-8");
         csContent = csContent.replace(
           /export const MST_CONTRACT_ADDRESS = '0x[0-9a-fA-F]{40}';/g,
           `export const MST_CONTRACT_ADDRESS = '${contractAddress}';`
         );
         fs.writeFileSync(clientStorePath, csContent);
-        console.log("[SentinelMesh] Synchronized frontend/src/lib/clientStore.ts MST_CONTRACT_ADDRESS");
+        console.log("[SentinelMesh] Synchronized frontend/src/lib/clientStore.ts MST_CONTRACT_ADDRESS (backed up previous)");
       }
     } catch (syncErr) {
       console.warn("[SentinelMesh] Address sync warning:", syncErr.message);
