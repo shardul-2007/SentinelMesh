@@ -475,6 +475,7 @@ export const api = {
 
         const records: IntegrityRecord[] = events.map(e => {
           const tx = txs.find(t => t.event_id === e.id);
+          const isRealConfirmed = !!(tx && tx.status === 'CONFIRMED' && tx.explorer_url);
           const hasTamper = alerts.some(a => a.event_id === e.id && a.status === 'OPEN');
           return {
             id: `ir_${e.id}`,
@@ -483,10 +484,10 @@ export const api = {
             canonical_version: 'RFC-8785',
             event_hash: e.integrity_hash,
             canonical_payload: e.event_metadata,
-            anchoring_status: tx ? 'ANCHORED' : 'NOT_ANCHORED',
-            verification_status: hasTamper ? 'TAMPERED' : (tx ? 'ANCHORED_AND_VERIFIED' : 'INTACT'),
-            transaction_hash: tx?.transaction_hash,
-            block_number: tx?.block_number,
+            anchoring_status: isRealConfirmed ? 'ANCHORED' : 'NOT_ANCHORED',
+            verification_status: hasTamper ? 'TAMPERED' : (isRealConfirmed ? 'ANCHORED_AND_VERIFIED' : 'INTACT'),
+            transaction_hash: isRealConfirmed ? tx?.transaction_hash : undefined,
+            block_number: isRealConfirmed ? tx?.block_number : undefined,
             created_at: e.timestamp,
           };
         });
@@ -509,7 +510,8 @@ export const api = {
         const events = clientStore.getEvents();
         const e = events.find(item => item.id === eventId);
         if (!e) throw new Error(`Integrity record for '${eventId}' not found.`);
-        const tx = clientStore.getTransactions().find(t => t.event_id === eventId);
+        const tx = clientStore.getTransactions().find(t => t.event_id === eventId && t.status === 'CONFIRMED' && t.explorer_url);
+        const isConfirmed = !!tx;
         return {
           id: `ir_${e.id}`,
           event_id: e.id,
@@ -517,10 +519,10 @@ export const api = {
           canonical_version: 'RFC-8785',
           event_hash: e.integrity_hash,
           canonical_payload: e.event_metadata,
-          anchoring_status: tx ? 'ANCHORED' : 'NOT_ANCHORED',
-          verification_status: tx ? 'ANCHORED_AND_VERIFIED' : 'INTACT',
-          transaction_hash: tx?.transaction_hash,
-          block_number: tx?.block_number,
+          anchoring_status: isConfirmed ? 'ANCHORED' : 'NOT_ANCHORED',
+          verification_status: isConfirmed ? 'ANCHORED_AND_VERIFIED' : 'INTACT',
+          transaction_hash: isConfirmed ? tx?.transaction_hash : undefined,
+          block_number: isConfirmed ? tx?.block_number : undefined,
           created_at: e.timestamp,
         };
       }

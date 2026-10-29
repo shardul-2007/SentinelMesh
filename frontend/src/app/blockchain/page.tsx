@@ -42,6 +42,7 @@ export default function BlockchainActivityPage() {
   const [evidenceData, setEvidenceData] = useState<EvidenceInspectorResponse | null>(null);
   const [inspectLoading, setInspectLoading] = useState(false);
   const [reverifyLoading, setReverifyLoading] = useState(false);
+  const [reverifyFeedback, setReverifyFeedback] = useState<string | null>(null);
 
   const fetchData = async () => {
     setLoading(true);
@@ -72,6 +73,7 @@ export default function BlockchainActivityPage() {
   const openInspector = async (eventId: string) => {
     setSelectedEventId(eventId);
     setInspectLoading(true);
+    setReverifyFeedback(null);
     try {
       const res = await api.getEvidenceInspector(eventId);
       setEvidenceData(res);
@@ -84,12 +86,15 @@ export default function BlockchainActivityPage() {
 
   const handleReverify = async (eventId: string) => {
     setReverifyLoading(true);
+    setReverifyFeedback(null);
     try {
-      await api.verifyEventIntegrity(eventId);
+      const vResult = await api.verifyEventIntegrity(eventId);
       const updated = await api.getEvidenceInspector(eventId);
       setEvidenceData(updated);
-    } catch (err) {
+      setReverifyFeedback(`[${vResult.status}] ${vResult.message}`);
+    } catch (err: any) {
       console.error('Re-verification failed:', err);
+      setReverifyFeedback(`Verification failed: ${err.message}`);
     } finally {
       setReverifyLoading(false);
     }
@@ -436,26 +441,55 @@ export default function BlockchainActivityPage() {
                     </div>
                   </div>
 
-                  {/* Verification Status */}
-                  <div className="p-3.5 rounded-lg bg-[#FACC15]/15 border border-[#FACC15]/30 flex items-center justify-between gap-3">
-                    <div className="min-w-0">
-                      <span className="text-[10px] font-bold text-[#FACC15] uppercase tracking-wider block">Cryptographic Verification</span>
-                      <p className="text-xs font-bold text-[#FACC15] mt-0.5">
-                        {evidenceData.independent_verification?.status || 'VERIFIED'}
-                      </p>
-                      <p className="text-[11px] text-[#D4D4D8] mt-0.5">
-                        Local SHA-256 digest exactly matches MST on-chain contract state.
+                  {/* Verification Status Banner */}
+                  <div className={`p-3.5 rounded-lg border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                    evidenceData.verification_status === 'ANCHORED_AND_VERIFIED'
+                      ? 'bg-[#FACC15]/15 border-[#FACC15]/30'
+                      : evidenceData.verification_status === 'TAMPERED'
+                      ? 'bg-[#EF4444]/15 border-[#EF4444]/30'
+                      : 'bg-[#121212] border-[#27272A]'
+                  }`}>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold text-[#D4D4D8] uppercase tracking-wider block">Cryptographic Verification</span>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-black border ${
+                          evidenceData.verification_status === 'ANCHORED_AND_VERIFIED'
+                            ? 'bg-[#FACC15] text-[#000000] border-[#FACC15]'
+                            : evidenceData.verification_status === 'TAMPERED'
+                            ? 'bg-[#EF4444] text-[#FFFFFF] border-[#EF4444]'
+                            : 'bg-[#000000] text-[#FACC15] border-[#27272A]'
+                        }`}>
+                          {evidenceData.verification_status === 'ANCHORED_AND_VERIFIED' 
+                            ? 'ANCHORED & VERIFIED' 
+                            : evidenceData.verification_status === 'TAMPERED' 
+                            ? 'TAMPER DETECTED' 
+                            : 'INTACT (LOCAL ONLY)'}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-[#D4D4D8] mt-1 leading-relaxed">
+                        {evidenceData.independent_verification?.message || 
+                          (evidenceData.anchoring_status === 'ANCHORED' 
+                            ? 'Event digest verified against on-chain MST contract state.' 
+                            : 'Local RFC-8785 SHA-256 digest intact. Record is not yet anchored on-chain.')}
                       </p>
                     </div>
                     <button
-                      onClick={() => handleReverify(selectedEventId)}
+                      onClick={() => handleReverify(selectedEventId!)}
                       disabled={reverifyLoading}
-                      className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#FACC15] text-[#000000] hover:bg-[#FACC15]/90 transition disabled:opacity-50 flex items-center gap-1 shadow-sm flex-shrink-0"
+                      className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#FACC15] text-[#000000] hover:bg-[#FACC15]/90 transition disabled:opacity-50 flex items-center gap-1.5 shadow-sm flex-shrink-0 self-start sm:self-auto"
                     >
-                      <RefreshCw className={`w-3 h-3 ${reverifyLoading ? 'animate-spin' : ''}`} />
+                      <RefreshCw className={`w-3.5 h-3.5 ${reverifyLoading ? 'animate-spin' : ''}`} />
                       <span>{reverifyLoading ? 'Reverifying...' : 'Re-verify On-Chain'}</span>
                     </button>
                   </div>
+
+                  {/* Reverification Feedback Toast if triggered */}
+                  {reverifyFeedback && (
+                    <div className="p-2.5 rounded-lg bg-[#000000] border border-[#FACC15]/40 text-xs font-mono text-[#FACC15] flex items-center justify-between gap-2">
+                      <span className="truncate">{reverifyFeedback}</span>
+                      <button onClick={() => setReverifyFeedback(null)} className="text-[#D4D4D8] hover:text-[#FFFFFF] text-[10px]">✕</button>
+                    </div>
+                  )}
 
                   {/* Hashes Comparison */}
                   <div className="space-y-2">

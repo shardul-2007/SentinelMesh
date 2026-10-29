@@ -111,7 +111,7 @@ export interface ApprovalDecisionResponse {
   message: string;
 }
 
-export type IntegrityStatus = 'INTACT' | 'TAMPERED' | 'ANCHORED_AND_VERIFIED' | 'NOT_ANCHORED' | 'VERIFICATION_UNAVAILABLE' | 'UNVERIFIED';
+export type IntegrityStatus = 'INTACT' | 'TAMPERED' | 'ANCHORED_AND_VERIFIED' | 'ANCHORED_UNVERIFIED' | 'NOT_ANCHORED' | 'VERIFICATION_UNAVAILABLE' | 'UNVERIFIED';
 
 export interface IntegrityRecord {
   id: string;

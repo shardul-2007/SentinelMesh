@@ -391,6 +391,7 @@ export default function IntegrityCenterPage() {
               >
                 <option value="ALL">All Records</option>
                 <option value="ANCHORED">Anchored On-Chain</option>
+                <option value="NOT_ANCHORED">Not Anchored</option>
                 <option value="INTACT">Intact Local</option>
                 <option value="TAMPERED">Tampered Alert</option>
               </select>
@@ -417,37 +418,51 @@ export default function IntegrityCenterPage() {
                     </td>
                   </tr>
                 ) : (
-                  records.map((r) => (
-                    <tr key={r.id} className="hover:bg-[#1C1C1C] transition-colors duration-150">
-                      <td className="py-3 px-4 font-bold text-[#FFFFFF]">{r.event_id}</td>
-                      <td className="py-3 px-4 text-[#D4D4D8] text-[11px]">
-                        {r.event_hash.slice(0, 16)}...{r.event_hash.slice(-8)}
-                      </td>
-                      <td className="py-3 px-4">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
-                          r.anchoring_status === 'ANCHORED'
-                            ? 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30'
-                            : 'bg-[#000000] text-[#D4D4D8] border-[#27272A]'
-                        }`}>
-                          {r.anchoring_status}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
-                          r.verification_status === 'ANCHORED_AND_VERIFIED'
-                            ? 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30'
-                            : r.verification_status === 'TAMPERED'
-                            ? 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
-                            : 'bg-[#000000] text-[#D4D4D8] border-[#27272A]'
-                        }`}>
-                          {r.verification_status}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 text-[11px]">
-                        {r.transaction_hash ? (
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-[#FACC15] font-bold">#{r.block_number || 'Tx'}</span>
-                            {r.anchoring_status === 'ANCHORED' && r.verification_status === 'ANCHORED_AND_VERIFIED' ? (
+                  records.map((r) => {
+                    const isDemo = r.event_id === 'evt_mst_001' || r.event_id === 'evt_mst_002';
+                    return (
+                      <tr key={r.id} className="hover:bg-[#1C1C1C] transition-colors duration-150">
+                        <td className="py-3 px-4">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="font-bold text-[#FFFFFF]">{r.event_id}</span>
+                            {isDemo && (
+                              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#27272A] text-[#FACC15] border border-[#27272A] font-bold" title="Pre-seeded demonstration fixture">
+                                DEMO
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-3 px-4 text-[#D4D4D8] text-[11px]">
+                          <span className="text-[#FACC15] font-semibold">{r.event_hash.slice(0, 14)}...{r.event_hash.slice(-8)}</span>
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
+                            r.anchoring_status === 'ANCHORED'
+                              ? 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30'
+                              : r.anchoring_status === 'PENDING'
+                              ? 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30 animate-pulse'
+                              : 'bg-[#000000] text-[#D4D4D8] border-[#27272A]'
+                          }`}>
+                            {r.anchoring_status}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
+                            r.verification_status === 'ANCHORED_AND_VERIFIED'
+                              ? 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30'
+                              : r.verification_status === 'TAMPERED'
+                              ? 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
+                              : r.verification_status === 'ANCHORED_UNVERIFIED'
+                              ? 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30'
+                              : 'bg-[#000000] text-[#D4D4D8] border-[#27272A]'
+                          }`}>
+                            {r.verification_status}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-[11px]">
+                          {r.transaction_hash && r.anchoring_status === 'ANCHORED' ? (
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[#FACC15] font-bold">#{r.block_number || 'Tx'}</span>
                               <a
                                 href={bStatus?.explorer_base_url ? `${bStatus.explorer_base_url}/tx/${r.transaction_hash}` : `https://testnet.mstscan.com/tx/${r.transaction_hash}`}
                                 target="_blank"
@@ -457,49 +472,40 @@ export default function IntegrityCenterPage() {
                               >
                                 <ExternalLink className="w-3 h-3" />
                               </a>
-                            ) : (
-                              <span 
-                                className="text-[#71717A] text-[9px] font-mono px-1 py-0.2 rounded bg-[#27272A] border border-[#27272A] cursor-help"
-                                title="Cryptographically computed in local simulation. Connect BridgeKey or provide testnet gas to anchor on MSTScan."
-                              >
-                                LOCAL
-                              </span>
-                            )}
-                          </div>
-                        ) : r.block_number ? (
-                          <span className="text-[#D4D4D8]">Block #{r.block_number}</span>
-                        ) : (
-                          <span className="text-[#D4D4D8]/50">—</span>
-                        )}
-                      </td>
-                      <td className="py-3 px-4 text-right space-x-1.5 font-sans">
-                        <button
-                          onClick={() => handleInspect(r.event_id)}
-                          className="px-2.5 py-1 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] hover:border-[#FACC15]/40 transition text-[11px] font-bold"
-                        >
-                          Inspect
-                        </button>
-                        <button
-                          onClick={() => handleVerify(r.event_id)}
-                          disabled={actionLoading === `verify-${r.event_id}` || !permissions.canVerifyHashes}
-                          title={permissions.canVerifyHashes ? 'Run independent cryptographic verification' : 'Auditor mode is read-only'}
-                          className="px-2.5 py-1 rounded-lg bg-[#FACC15]/15 border border-[#FACC15]/30 text-[#FACC15] hover:bg-[#FACC15]/25 transition disabled:opacity-40 disabled:cursor-not-allowed text-[11px] active:scale-95 font-bold"
-                        >
-                          {actionLoading === `verify-${r.event_id}` ? 'Checking...' : permissions.canVerifyHashes ? 'Verify' : 'Read-Only'}
-                        </button>
-                        {r.anchoring_status !== 'ANCHORED' && (
+                            </div>
+                          ) : (
+                            <span className="text-[#71717A] text-[10px] font-mono">—</span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-right space-x-1.5 font-sans">
                           <button
-                            onClick={() => handleAnchor(r.event_id, r.event_hash)}
-                            disabled={actionLoading === `anchor-${r.event_id}` || !permissions.canAnchor}
-                            title={permissions.canAnchor ? 'Commit SHA-256 evidence to MST Blockchain' : 'Admin Role Required to Anchor'}
-                            className="px-3 py-1 rounded-lg bg-[#FACC15] hover:bg-[#FACC15]/90 text-[#000000] font-bold transition disabled:opacity-30 disabled:cursor-not-allowed text-[11px] shadow-sm active:scale-95"
+                            onClick={() => handleInspect(r.event_id)}
+                            className="px-2.5 py-1 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] hover:border-[#FACC15]/40 transition text-[11px] font-bold"
                           >
-                            {actionLoading === `anchor-${r.event_id}` ? 'Anchoring...' : permissions.canAnchor ? 'Anchor (Admin)' : 'Admin Only'}
+                            Inspect
                           </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))
+                          <button
+                            onClick={() => handleVerify(r.event_id)}
+                            disabled={actionLoading === `verify-${r.event_id}` || !permissions.canVerifyHashes}
+                            title={permissions.canVerifyHashes ? 'Run independent cryptographic verification' : 'Auditor mode is read-only'}
+                            className="px-2.5 py-1 rounded-lg bg-[#FACC15]/15 border border-[#FACC15]/30 text-[#FACC15] hover:bg-[#FACC15]/25 transition disabled:opacity-40 disabled:cursor-not-allowed text-[11px] active:scale-95 font-bold"
+                          >
+                            {actionLoading === `verify-${r.event_id}` ? 'Checking...' : permissions.canVerifyHashes ? 'Verify' : 'Read-Only'}
+                          </button>
+                          {r.anchoring_status !== 'ANCHORED' && (
+                            <button
+                              onClick={() => handleAnchor(r.event_id, r.event_hash)}
+                              disabled={actionLoading === `anchor-${r.event_id}` || !permissions.canAnchor}
+                              title={permissions.canAnchor ? 'Commit SHA-256 evidence to MST Blockchain' : 'Admin Role Required to Anchor'}
+                              className="px-3 py-1 rounded-lg bg-[#FACC15] hover:bg-[#FACC15]/90 text-[#000000] font-bold transition disabled:opacity-30 disabled:cursor-not-allowed text-[11px] shadow-sm active:scale-95"
+                            >
+                              {actionLoading === `anchor-${r.event_id}` ? 'Anchoring...' : permissions.canAnchor ? 'Anchor (Admin)' : 'Admin Only'}
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>

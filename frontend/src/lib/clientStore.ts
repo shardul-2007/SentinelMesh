@@ -10,6 +10,7 @@ import {
   BlockchainStatus,
   IntegrityRecord,
   IntegrityStatus,
+  IntegrityVerificationResult,
   TamperAlert,
   SecurityFinding,
   DetectionRule,
@@ -30,6 +31,97 @@ const MST_CHAIN_ID = 91562037;
 const MST_RPC_URL = 'https://testnetrpc.mstblockchain.com';
 const MST_CONTRACT_ADDRESS = '0x00E08271A37df1E90E95F062F814D7336D5369Ce';
 const MST_EXPLORER_URL = 'https://testnet.mstscan.com';
+
+async function checkContractBytecode(address: string): Promise<boolean> {
+  if (typeof window === 'undefined') return false;
+  try {
+    const res = await fetch(MST_RPC_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_getCode',
+        params: [address, 'latest'],
+        id: 1,
+      }),
+    });
+    const data = await res.json();
+    return !!(data && data.result && data.result.length > 2);
+  } catch {
+    return false;
+  }
+}
+
+async function queryOnchainAnchor(eventId: string, expectedHashHex: string): Promise<{
+  available: boolean;
+  exists: boolean;
+  matches: boolean;
+  message?: string;
+}> {
+  if (typeof window === 'undefined') {
+    return { available: false, exists: false, matches: false };
+  }
+  try {
+    const isDeployed = await checkContractBytecode(MST_CONTRACT_ADDRESS);
+    if (!isDeployed) {
+      return {
+        available: true,
+        exists: false,
+        matches: false,
+        message: 'EvidenceRegistry contract is not yet deployed on MST Testnet (Chain ID 91562037).'
+      };
+    }
+
+    const cleanHash = expectedHashHex.replace(/^0x/, '').padStart(64, '0').slice(0, 64);
+    const idUtf8 = new TextEncoder().encode(eventId);
+    const idLenHex = idUtf8.length.toString(16).padStart(64, '0');
+    let idHex = '';
+    for (let i = 0; i < idUtf8.length; i++) {
+      idHex += idUtf8[i].toString(16).padStart(2, '0');
+    }
+    const paddedLen = Math.ceil(idHex.length / 64) * 64;
+    idHex = idHex.padEnd(paddedLen, '0');
+    const callData = '0x28aaf897' + '0000000000000000000000000000000000000000000000000000000000000040' + cleanHash + idLenHex + idHex;
+
+    const res = await fetch(MST_RPC_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_call',
+        params: [{ to: MST_CONTRACT_ADDRESS, data: callData }, 'latest'],
+        id: 1,
+      }),
+    });
+    const data = await res.json();
+    if (data && data.result && data.result.length >= 130) {
+      const resultHex = data.result.replace(/^0x/, '');
+      const matches = parseInt(resultHex.slice(0, 64), 16) === 1;
+      const exists = parseInt(resultHex.slice(64, 128), 16) === 1;
+      return {
+        available: true,
+        exists,
+        matches,
+        message: exists
+          ? (matches ? 'Independently confirmed on-chain via MST Testnet EvidenceRegistry contract.' : 'On-chain commitment differs from calculated hash!')
+          : 'Record is not anchored in the EvidenceRegistry contract on MST Testnet.'
+      };
+    }
+  } catch (err: any) {
+    return {
+      available: false,
+      exists: false,
+      matches: false,
+      message: `MST Testnet RPC query failed: ${err.message}`
+    };
+  }
+  return {
+    available: true,
+    exists: false,
+    matches: false,
+    message: 'No on-chain anchor found for this event ID on MST Testnet.'
+  };
+}
 
 export const INITIAL_POLICIES: SecurityPolicy[] = [
   {
@@ -488,40 +580,31 @@ class SentinelMeshClientStore {
     const event = events.find(e => e.id === eventId);
     if (!event) throw new Error(`Event '${eventId}' not found.`);
 
-    const blockNum = await this.getLatestBlockHeight();
-    const randomHex = Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
-    const txHash = '0x' + randomHex;
+    // Check if an existing confirmed anchor already exists
+    const txs = this.getTransactions();
+    const existingTx = txs.find(t => t.event_id === eventId && t.status === 'CONFIRMED');
+    if (existingTx) {
+      return {
+        message: 'Event is already anchored on MST Testnet EvidenceRegistry',
+        event_id: eventId,
+        transaction_hash: existingTx.transaction_hash,
+        block_number: existingTx.block_number || 0,
+        contract_address: MST_CONTRACT_ADDRESS,
+        chain_id: MST_CHAIN_ID,
+        network_name: 'MST Testnet',
+        anchored_at: existingTx.timestamp || new Date().toISOString(),
+        status: 'ALREADY_ANCHORED',
+        explorer_url: existingTx.explorer_url,
+      };
+    }
 
-    const newTx: BlockchainTransaction = {
-      transaction_hash: txHash,
-      event_id: eventId,
-      contract_address: MST_CONTRACT_ADDRESS,
-      chain_id: MST_CHAIN_ID,
-      network_name: 'MST Testnet',
-      block_number: blockNum,
-      status: 'CONFIRMED',
-      timestamp: new Date().toISOString(),
-      explorer_url: `${MST_EXPLORER_URL}/tx/${txHash}`,
-      canonical_hash: event.integrity_hash
-    };
-
-    const txs = [newTx, ...this.getTransactions()];
-    this.setStored(STORAGE_KEY_TXS, txs);
-
-    return {
-      message: 'Event anchored successfully on MST Testnet EvidenceRegistry',
-      event_id: eventId,
-      transaction_hash: txHash,
-      block_number: blockNum,
-      contract_address: MST_CONTRACT_ADDRESS,
-      chain_id: MST_CHAIN_ID,
-      network: 'MST Testnet',
-      status: 'CONFIRMED',
-      explorer_url: newTx.explorer_url,
-    };
+    // In local edge mode without automated funded signer gas, inform user clearly
+    throw new Error(
+      'Automated on-chain anchor requires funded signer gas on MST Testnet (Chain ID 91562037). Please connect your BridgeKey or MetaMask wallet to sign directly, or fund the signer account via https://faucet.mstblockchain.com.'
+    );
   }
 
-  async verifyEvent(eventId: string) {
+  async verifyEvent(eventId: string): Promise<IntegrityVerificationResult> {
     const events = this.getEvents();
     const event = events.find(e => e.id === eventId);
     if (!event) throw new Error(`Event '${eventId}' not found.`);
@@ -542,7 +625,8 @@ class SentinelMeshClientStore {
     const isIntact = recomputed.toLowerCase() === event.integrity_hash.toLowerCase();
 
     const txs = this.getTransactions();
-    const anchored = txs.find(t => t.event_id === eventId);
+    const tx = txs.find(t => t.event_id === eventId && t.status === 'CONFIRMED');
+    const isRealTx = !!(tx && tx.status === 'CONFIRMED' && tx.explorer_url);
 
     if (!isIntact) {
       // Trigger Tamper Alert
@@ -565,37 +649,73 @@ class SentinelMeshClientStore {
         event_id: eventId,
         status: 'TAMPERED' as IntegrityStatus,
         local_matches: false,
-        onchain_matches: anchored ? false : null,
-        onchain_exists: !!anchored,
+        onchain_matches: isRealTx ? false : null,
+        onchain_exists: isRealTx,
         calculated_hash: recomputed,
         stored_hash: event.integrity_hash,
-        onchain_hash: anchored?.canonical_hash,
+        onchain_hash: isRealTx ? tx?.canonical_hash : undefined,
         blockchain_network: 'MST Testnet',
         chain_id: MST_CHAIN_ID,
         contract_address: MST_CONTRACT_ADDRESS,
-        transaction_hash: anchored?.transaction_hash,
-        block_number: anchored?.block_number,
+        transaction_hash: isRealTx ? tx?.transaction_hash : undefined,
+        block_number: isRealTx ? tx?.block_number : undefined,
         last_verified_at: new Date().toISOString(),
         message: 'CRITICAL: Cryptographic digest mismatch! Record has been modified.',
       };
     }
 
+    // Now query MST Testnet on-chain contract for independent verification
+    let onchainRes: { available: boolean; exists: boolean; matches: boolean; message?: string } = {
+      available: false,
+      exists: false,
+      matches: false
+    };
+
+    try {
+      onchainRes = await queryOnchainAnchor(eventId, recomputed);
+    } catch {
+      // ignore
+    }
+
+    if (onchainRes.exists) {
+      const status: IntegrityStatus = onchainRes.matches ? 'ANCHORED_AND_VERIFIED' : 'TAMPERED';
+      return {
+        event_id: eventId,
+        status,
+        local_matches: true,
+        onchain_matches: onchainRes.matches,
+        onchain_exists: true,
+        calculated_hash: recomputed,
+        stored_hash: event.integrity_hash,
+        onchain_hash: event.integrity_hash,
+        blockchain_network: 'MST Testnet',
+        chain_id: MST_CHAIN_ID,
+        contract_address: MST_CONTRACT_ADDRESS,
+        transaction_hash: tx?.transaction_hash,
+        block_number: tx?.block_number,
+        last_verified_at: new Date().toISOString(),
+        message: onchainRes.matches
+          ? 'Event independently verified against on-chain EvidenceRegistry contract on MST Testnet!'
+          : 'TAMPER DETECTED: Local hash differs from immutable on-chain commitment!',
+      };
+    }
+
     return {
       event_id: eventId,
-      status: (anchored ? 'ANCHORED_AND_VERIFIED' : 'INTACT') as IntegrityStatus,
+      status: 'INTACT' as IntegrityStatus,
       local_matches: true,
-      onchain_matches: anchored ? true : null,
-      onchain_exists: !!anchored,
+      onchain_matches: null,
+      onchain_exists: false,
       calculated_hash: recomputed,
       stored_hash: event.integrity_hash,
-      onchain_hash: anchored?.canonical_hash || event.integrity_hash,
+      onchain_hash: undefined,
       blockchain_network: 'MST Testnet',
       chain_id: MST_CHAIN_ID,
       contract_address: MST_CONTRACT_ADDRESS,
-      transaction_hash: anchored?.transaction_hash,
-      block_number: anchored?.block_number,
+      transaction_hash: isRealTx ? tx?.transaction_hash : undefined,
+      block_number: isRealTx ? tx?.block_number : undefined,
       last_verified_at: new Date().toISOString(),
-      message: anchored ? 'Event verified against on-chain MST contract state!' : 'Local SHA-256 integrity intact.',
+      message: 'Local RFC-8785 SHA-256 digest verified intact against stored record. Record is not yet anchored on-chain.',
     };
   }
 
@@ -693,7 +813,8 @@ class SentinelMeshClientStore {
     if (!event) throw new Error(`Event '${eventId}' not found.`);
 
     const txs = this.getTransactions();
-    const tx = txs.find(t => t.event_id === eventId);
+    const tx = txs.find(t => t.event_id === eventId && t.status === 'CONFIRMED');
+    const isRealOnChain = !!(tx && tx.status === 'CONFIRMED' && tx.explorer_url);
 
     const canonicalPayload = {
       action_type: event.action_type,
@@ -707,8 +828,12 @@ class SentinelMeshClientStore {
       timestamp: event.timestamp,
     };
 
+    const alerts = this.getAlerts();
+    const hasTamper = alerts.some(a => a.event_id === eventId && a.status === 'OPEN');
+    const verStatus = hasTamper ? 'TAMPERED' : (isRealOnChain ? 'ANCHORED_AND_VERIFIED' : 'INTACT');
+
     return {
-      evidence_id: `ev_${event.id}`,
+      evidence_id: `evi_${event.id.replace(/^evt_/, '')}`,
       event_id: eventId,
       agent_id: event.agent_id,
       action_type: event.action_type,
@@ -720,25 +845,27 @@ class SentinelMeshClientStore {
       canonical_version: 'RFC-8785',
       canonical_payload: canonicalPayload,
       recomputed_hash: event.integrity_hash,
-      stored_commitment: tx ? event.integrity_hash : null,
+      stored_commitment: isRealOnChain ? tx?.canonical_hash || event.integrity_hash : null,
       contract_address: MST_CONTRACT_ADDRESS,
-      transaction_hash: tx?.transaction_hash || null,
-      block_number: tx?.block_number || null,
-      anchoring_status: tx ? 'ANCHORED' : 'NOT_ANCHORED',
-      anchored_at: tx?.timestamp || null,
+      transaction_hash: isRealOnChain ? tx?.transaction_hash || null : null,
+      block_number: isRealOnChain ? tx?.block_number || null : null,
+      anchoring_status: isRealOnChain ? 'ANCHORED' : 'NOT_ANCHORED',
+      anchored_at: isRealOnChain ? tx?.timestamp || null : null,
       network_name: 'MST Testnet',
       chain_id: MST_CHAIN_ID,
-      explorer_url: tx?.explorer_url || null,
+      explorer_url: isRealOnChain ? tx?.explorer_url || null : null,
       contract_explorer_url: `${MST_EXPLORER_URL}/address/${MST_CONTRACT_ADDRESS}`,
-      verification_status: tx ? 'ANCHORED_AND_VERIFIED' : 'INTACT',
+      verification_status: verStatus,
       independent_verification: {
-        local_matches: true,
-        onchain_matches: tx ? true : null,
-        onchain_exists: !!tx,
-        status: tx ? 'ANCHORED_AND_VERIFIED' : 'INTACT',
-        message: tx
-          ? 'Local canonical SHA-256 digest matches on-chain MST contract state.'
-          : 'Local canonical SHA-256 integrity intact.',
+        local_matches: !hasTamper,
+        onchain_matches: isRealOnChain ? true : null,
+        onchain_exists: isRealOnChain,
+        status: verStatus,
+        message: hasTamper
+          ? 'CRITICAL: Cryptographic digest mismatch detected against stored canonical payload!'
+          : (isRealOnChain
+            ? 'Independently confirmed on-chain against EvidenceRegistry contract on MST Testnet.'
+            : 'Local canonical SHA-256 digest intact. Record is not yet anchored on MST Testnet.'),
         verified_at: new Date().toISOString()
       },
       approval_history: event.approval_decision || null
