@@ -16,7 +16,7 @@
 | :--- | :--- |
 | **Live Web Console** | [https://sentinelmesh-five.vercel.app/](https://sentinelmesh-five.vercel.app/) |
 | **Public GitHub Repository** | [https://github.com/shardul-2007/SentinelMesh](https://github.com/shardul-2007/SentinelMesh) |
-| **MST Testnet EvidenceRegistry Contract** | [`0x00E08271A37df1E90E95F062F814D7336D5369Ce`](https://testnet.mstscan.com/address/0x00E08271A37df1E90E95F062F814D7336D5369Ce) |
+| **MST Testnet EvidenceRegistry Contract** | [`0x0539fc70ee18fa936395c8dd6db623af6b43ceca`](https://testnet.mstscan.com/address/0x0539fc70ee18fa936395c8dd6db623af6b43ceca) |
 | **Contract Deployment Tx Hash** | [`0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c`](https://testnet.mstscan.com/tx/0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c) |
 | **Genuine Verified Evidence Tx Hash** | [`0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`](https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d) |
 | **7-Step Interactive Judging Demo** | Direct Access: [Action Simulator & Guided Tour](https://sentinelmesh-five.vercel.app/simulator) |
@@ -54,7 +54,7 @@
 
 ### C. Working Product vs. Simulated Components
 * **Real & Fully Implemented:**
-  * Live deployed smart contracts on MST Testnet (`0x00E08271A37df1E90E95F062F814D7336D5369Ce`).
+  * Live deployed smart contracts on MST Testnet (`0x0539fc70ee18fa936395c8dd6db623af6b43ceca`).
   * Genuine confirmed transaction hashes on MST Testnet.
   * Full RFC-8785 deterministic JSON canonicalization and SHA-256 digest hashing.
   * 70 automated backend pytest tests covering all security invariants.
@@ -73,7 +73,7 @@
 | **Chain ID** | `91562037` (`0x5752315`) |
 | **RPC Endpoint** | `https://testnetrpc.mstblockchain.com` |
 | **Explorer** | [https://testnet.mstscan.com](https://testnet.mstscan.com) |
-| **Contract Address** | [`0x00E08271A37df1E90E95F062F814D7336D5369Ce`](https://testnet.mstscan.com/address/0x00E08271A37df1E90E95F062F814D7336D5369Ce) |
+| **Contract Address** | [`0x0539fc70ee18fa936395c8dd6db623af6b43ceca`](https://testnet.mstscan.com/address/0x0539fc70ee18fa936395c8dd6db623af6b43ceca) |
 | **Deployment Tx Hash** | [`0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c`](https://testnet.mstscan.com/tx/0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c) |
 | **Verified Evidence Tx Hash** | [`0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`](https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d) |
 | **Evidence ID** | `evt_eval_e2e_001` (also backward-compatible `evt_001_initial_compliance`) |
@@ -105,7 +105,7 @@ Judges can test the entire lifecycle in 1 click using the **Auto-Run All 7 Steps
    * Audit event is serialized with sorted keys, deterministic float formatting, and zero whitespace.
    * Generates a 32-byte digest linked to previous event hashes in an append-only chain.
 5. **Step 5: MST Testnet Smart Contract Anchoring:**
-   * Gateway calls `recordEvidence()` on `EvidenceRegistry.sol` (`0x00E08271A37df1E90E95F062F814D7336D5369Ce`).
+   * Gateway calls `recordEvidence()` on `EvidenceRegistry.sol` (`0x0539fc70ee18fa936395c8dd6db623af6b43ceca`).
    * Receives confirmation and transaction hash on MST Testnet (Chain ID `91562037`).
 6. **Step 6: Public MST Explorer Verification:**
    * Links directly to `https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d` for public verification.

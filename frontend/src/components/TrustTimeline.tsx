@@ -116,7 +116,7 @@ export function TrustTimeline({
       status: currentStage >= 5 ? 'COMPLETED' : 'PENDING',
       details: [
         { label: 'Network', value: 'MST Testnet (Chain ID 91562037)' },
-        { label: 'EvidenceRegistry', value: '0x00E08271A37df1E90E95F062F814D7336D5369Ce', isCode: true },
+        { label: 'EvidenceRegistry', value: '0x0539fc70ee18fa936395c8dd6db623af6b43ceca', isCode: true },
         { label: 'MST Transaction', value: txHash + (isOnChain ? '' : ' (Simulated Local Digest)'), isCode: true, link: isOnChain ? `https://testnet.mstscan.com/tx/${txHash}` : undefined },
         { label: 'Block Number', value: `#${blockNumber.toLocaleString()}` }
       ]

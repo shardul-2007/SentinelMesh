@@ -234,7 +234,7 @@ export default function BlockchainActivityPage() {
           eventId={transactions?.[0]?.event_id || 'evt_mst_001'}
           localHash="c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e"
           onChainHash="c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e"
-          contractAddress={status?.contract_address || '0x00E08271A37df1E90E95F062F814D7336D5369Ce'}
+          contractAddress={status?.contract_address || '0x0539fc70ee18fa936395c8dd6db623af6b43ceca'}
           txHash={transactions?.[0]?.transaction_hash || '0x9a8f273b5c104e8d3f6291a847291a03e18f8b39487c6e5a01948372615a9b8c'}
           blockNumber={transactions?.[0]?.block_number || 1428594}
           onVerifyAgain={fetchData}

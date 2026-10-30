@@ -49,7 +49,7 @@ export function NetworkHealthIndicator() {
   };
 
   const isConnected = status?.connected ?? true;
-  const contractAddr = status?.contract_address || '0x00E08271A37df1E90E95F062F814D7336D5369Ce';
+  const contractAddr = status?.contract_address || '0x0539fc70ee18fa936395c8dd6db623af6b43ceca';
   const blockNum = status?.latest_block || 1428594;
 
   return (

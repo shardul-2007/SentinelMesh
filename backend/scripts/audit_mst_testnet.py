@@ -11,7 +11,7 @@ from typing import Dict, Any, Optional
 
 MST_TESTNET_RPC = "https://testnetrpc.mstblockchain.com"
 MST_TESTNET_CHAIN_ID = 91562037
-DEFAULT_CONTRACT_ADDR = "0x00E08271A37df1E90E95F062F814D7336D5369Ce"
+DEFAULT_CONTRACT_ADDR = "0x0539fc70ee18fa936395c8dd6db623af6b43ceca"
 SIGNER_ADDR = "0x71562B71999873DB5b286dF957ca199Ec94617F7"
 FAUCET_URL = "https://faucet.mstblockchain.com"
 EXPLORER_URL = "https://testnet.mstscan.com"

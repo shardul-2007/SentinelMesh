@@ -32,7 +32,7 @@ export const MST_TESTNET_CONFIG = {
   chainId: 91562037,
   rpcUrl: 'https://testnetrpc.mstblockchain.com',
   explorerUrl: 'https://testnet.mstscan.com',
-  contractAddress: '0x00E08271A37df1E90E95F062F814D7336D5369Ce',
+  contractAddress: '0x0539fc70ee18fa936395c8dd6db623af6b43ceca',
   deploymentTxHash: '0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c',
   verifiedEvidenceTxHash: '0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d',
   verifiedEvidenceId: 'evt_eval_e2e_001',

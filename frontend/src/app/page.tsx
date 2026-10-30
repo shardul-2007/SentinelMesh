@@ -564,7 +564,7 @@ export default function DashboardPage() {
           eventId={stats?.recent_events?.[0]?.id || 'evt_eval_e2e_001'}
           localHash={stats?.recent_events?.[0]?.integrity_hash || '0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678'}
           onChainHash={stats?.recent_events?.[0]?.integrity_hash || '0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678'}
-          contractAddress={bStatus?.contract_address || '0x00E08271A37df1E90E95F062F814D7336D5369Ce'}
+          contractAddress={bStatus?.contract_address || '0x0539fc70ee18fa936395c8dd6db623af6b43ceca'}
           txHash="0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d"
           blockNumber={bStatus?.latest_block || 1428590}
         />

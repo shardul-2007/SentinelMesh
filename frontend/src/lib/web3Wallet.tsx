@@ -25,7 +25,7 @@ export const MST_NETWORKS: Record<'testnet' | 'mainnet', MSTNetworkConfig> = {
     rpcUrl: 'https://testnetrpc.mstblockchain.com',
     explorerUrl: 'https://testnet.mstscan.com',
     symbol: 'tMSTC',
-    contractAddress: '0x00E08271A37df1E90E95F062F814D7336D5369Ce',
+    contractAddress: '0x0539fc70ee18fa936395c8dd6db623af6b43ceca',
     faucetUrl: 'https://faucet.mstblockchain.com',
     isMainnet: false,
   },

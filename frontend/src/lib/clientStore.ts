@@ -29,7 +29,7 @@ const STORAGE_KEY_POLICIES = 'sentinel_policies_v2';
 
 const MST_CHAIN_ID = 91562037;
 const MST_RPC_URL = 'https://testnetrpc.mstblockchain.com';
-const MST_CONTRACT_ADDRESS = '0x00E08271A37df1E90E95F062F814D7336D5369Ce';
+const MST_CONTRACT_ADDRESS = '0x0539fc70ee18fa936395c8dd6db623af6b43ceca';
 const MST_EXPLORER_URL = 'https://testnet.mstscan.com';
 
 async function checkContractBytecode(address: string): Promise<boolean> {
@@ -238,7 +238,7 @@ const SEED_EVENTS: AuditEventDetail[] = [
     approval_status: 'NOT_REQUIRED',
     integrity_hash: '0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678',
     previous_event_hash: '0000000000000000000000000000000000000000000000000000000000000000',
-    event_metadata: JSON.stringify({ verified_tx: '0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d', contract: '0x00E08271A37df1E90E95F062F814D7336D5369Ce' }),
+    event_metadata: JSON.stringify({ verified_tx: '0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d', contract: '0x0539fc70ee18fa936395c8dd6db623af6b43ceca' }),
   },
   {
     id: 'evt_mst_001',

@@ -200,7 +200,7 @@ export default function SettingsPage() {
               <div className="min-w-0 flex-1">
                 <span className="text-[#D4D4D8] block text-[10px] uppercase font-sans font-semibold">EvidenceRegistry Contract:</span>
                 <span className="text-[#FACC15] font-semibold break-all inline-block">
-                  {chainStatus?.contract_address || '0x00E08271A37df1E90E95F062F814D7336D5369Ce'}
+                  {chainStatus?.contract_address || '0x0539fc70ee18fa936395c8dd6db623af6b43ceca'}
                 </span>
               </div>
               {chainStatus?.contract_explorer_url && (

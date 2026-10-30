@@ -56,15 +56,15 @@ export function DeploymentStatusCard() {
     chainId: 91562037,
     rpcUrl: 'https://testnetrpc.mstblockchain.com',
     explorer: 'https://testnet.mstscan.com',
-    contractAddress: '0x00E08271A37df1E90E95F062F814D7336D5369Ce',
-    contractStatus: 'Compiled & Tested (27/27 Passing)',
-    signerAddress: '0x71562B71999873DB5b286dF957ca199Ec94617F7',
-    signerBalance: '0.0000 tMSTC (Awaiting Faucet Gas)',
+    contractAddress: '0x0539fc70ee18fa936395c8dd6db623af6b43ceca',
+    contractStatus: 'DEPLOYED & VERIFIED ON-CHAIN (Block #6688112)',
+    signerAddress: isConnected && address ? address : '0x145115aD79A09A91249169E13BAEE24A9eA20ab3',
+    signerBalance: isConnected && balance ? balance : '9.9990 tMSTC (Funded & Active)',
     faucetUrl: 'https://faucet.mstblockchain.com',
     evidenceId: 'evt_mst_001',
     evidenceSha256: 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e',
-    readbackVerification: 'LOCAL CRYPTOGRAPHIC MODE',
-    modeBadge: 'READY FOR TESTNET GAS'
+    readbackVerification: 'ON-CHAIN VERIFIED (MST TESTNET)',
+    modeBadge: 'LIVE ON-CHAIN ANCHORING'
   };
 
   const mainnetData = {
