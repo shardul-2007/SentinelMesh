@@ -429,7 +429,7 @@ class SentinelMeshClientStore {
       latest_block: latestBlock,
       contract_address: MST_CONTRACT_ADDRESS,
       has_contract: true,
-      signer_address: '0x71562B71999873DB5b286dF957ca199Ec94617F7',
+      signer_address: '0x145115aD79A09A91249169E13BAEE24A9eA20ab3',
       network_name: 'MST Testnet',
       description: 'Connected directly to MST Testnet (Chain ID: 91562037)',
       total_anchors: txs.length,

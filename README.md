@@ -17,7 +17,7 @@
 | **Live Web Console** | [https://sentinelmesh-five.vercel.app/](https://sentinelmesh-five.vercel.app/) |
 | **Public GitHub Repository** | [https://github.com/shardul-2007/SentinelMesh](https://github.com/shardul-2007/SentinelMesh) |
 | **MST Testnet EvidenceRegistry Contract** | [`0x0539fc70ee18fa936395c8dd6db623af6b43ceca`](https://testnet.mstscan.com/address/0x0539fc70ee18fa936395c8dd6db623af6b43ceca) |
-| **Contract Deployment Tx Hash** | [`0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c`](https://testnet.mstscan.com/tx/0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c) |
+| **Contract Deployment Tx Hash** | [`0x2623e2be8539fba8bb25d3e7ede4b70c53ccf54ee6beda30a2fa0b51988fdcc6`](https://testnet.mstscan.com/tx/0x2623e2be8539fba8bb25d3e7ede4b70c53ccf54ee6beda30a2fa0b51988fdcc6) |
 | **Genuine Verified Evidence Tx Hash** | [`0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`](https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d) |
 | **7-Step Interactive Judging Demo** | Direct Access: [Action Simulator & Guided Tour](https://sentinelmesh-five.vercel.app/simulator) |
 
@@ -74,7 +74,7 @@
 | **RPC Endpoint** | `https://testnetrpc.mstblockchain.com` |
 | **Explorer** | [https://testnet.mstscan.com](https://testnet.mstscan.com) |
 | **Contract Address** | [`0x0539fc70ee18fa936395c8dd6db623af6b43ceca`](https://testnet.mstscan.com/address/0x0539fc70ee18fa936395c8dd6db623af6b43ceca) |
-| **Deployment Tx Hash** | [`0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c`](https://testnet.mstscan.com/tx/0x4094a974fa906e5744cb89d53f86e3f0ea27fb82f42a17f6942ce2ecceb06f8c) |
+| **Deployment Tx Hash** | [`0x2623e2be8539fba8bb25d3e7ede4b70c53ccf54ee6beda30a2fa0b51988fdcc6`](https://testnet.mstscan.com/tx/0x2623e2be8539fba8bb25d3e7ede4b70c53ccf54ee6beda30a2fa0b51988fdcc6) |
 | **Verified Evidence Tx Hash** | [`0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d`](https://testnet.mstscan.com/tx/0x9c4266191dbbe1ad6fc3e62551ecdf63303cb5d8ef4f58c70f6153ae2985862d) |
 | **Evidence ID** | `evt_eval_e2e_001` (also backward-compatible `evt_001_initial_compliance`) |
 | **Evidence SHA-256 Digest** | `0x7b58c7d8122345598118dcf7760971b3e7bc8885b512e07198bb602c382f7678` |

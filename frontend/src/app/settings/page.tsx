@@ -220,7 +220,7 @@ export default function SettingsPage() {
               <div>
                 <span className="text-[#D4D4D8] block text-[10px] uppercase font-sans font-semibold">Automated Backend Signer:</span>
                 <span className="text-[#FFFFFF] truncate max-w-[320px] inline-block">
-                  {chainStatus?.signer_address || '0x71562B71999873DB5b286dF957ca199Ec94617F7'}
+                  {chainStatus?.signer_address || '0x145115aD79A09A91249169E13BAEE24A9eA20ab3'}
                 </span>
               </div>
               <span className="text-[#D4D4D8] font-sans text-[11px] px-2 py-0.5 rounded bg-[#121212] border border-[#27272A] w-fit font-medium">
