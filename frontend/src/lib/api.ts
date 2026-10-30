@@ -78,8 +78,9 @@ async function handleResponse<T>(res: Response): Promise<T> {
       // fallback
     }
     const err = new Error(errorDetail);
-    (err as any).isServerError = true;
     (err as any).status = res.status;
+    // 404 indicates missing endpoint/unhosted route; other 4xx/5xx are real backend application errors
+    (err as any).isApplicationError = res.status !== 404;
     throw err;
   }
   return res.json();
@@ -119,21 +120,19 @@ async function tryFetchWithFallback<T>(fetcher: () => Promise<T>, fallback: () =
 
   try {
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('Backend timeout after 5000ms')), 5000)
+      setTimeout(() => reject(new Error('Backend timeout after 3000ms')), 3000)
     );
     const result = await Promise.race([fetcher(), timeoutPromise]);
     isBackendReachable = true;
     activeApiMode = 'LIVE_API';
     return result;
   } catch (err: any) {
-    // If the server responded with an actual HTTP error status (4xx, 5xx), throw it directly!
-    // Do not hide genuine validation or authorization failures behind fake mock data.
-    if (err && err.isServerError) {
+    // If the server responded with an actual application error (400, 401, 403, 422, 500), throw it!
+    if (err && err.isApplicationError) {
       throw err;
     }
 
-    // Only switch to demo mode if network connection is physically unreachable
-    console.warn('[SentinelMesh API] Network unreachable, switching to demo mode:', err.message);
+    // If 404 or network unreachable/timeout, route seamlessly to clientStore
     activeApiMode = 'OFFLINE_DEMO';
     isBackendReachable = false;
     return await fallback();
