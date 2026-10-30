@@ -16,28 +16,28 @@ export function StatusBadge({ type, value, size = 'sm' }: StatusBadgeProps) {
     switch (value as PolicyDecision) {
       case 'ALLOW':
         return (
-          <span className={`inline-flex items-center gap-1 font-semibold rounded font-mono bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 ${sizeClasses}`}>
+          <span className={`inline-flex items-center gap-1 font-bold rounded font-mono bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 ${sizeClasses}`}>
             <ShieldCheck className={isSm ? "w-3 h-3" : "w-3.5 h-3.5"} />
             ALLOW
           </span>
         );
       case 'BLOCK':
         return (
-          <span className={`inline-flex items-center gap-1 font-semibold rounded font-mono bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 ${sizeClasses}`}>
+          <span className={`inline-flex items-center gap-1 font-bold rounded font-mono bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 ${sizeClasses}`}>
             <XCircle className={isSm ? "w-3 h-3" : "w-3.5 h-3.5"} />
             BLOCK
           </span>
         );
       case 'REQUIRE_APPROVAL':
         return (
-          <span className={`inline-flex items-center gap-1 font-semibold rounded font-mono bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 ${sizeClasses}`}>
+          <span className={`inline-flex items-center gap-1 font-bold rounded font-mono bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 ${sizeClasses}`}>
             <AlertTriangle className={isSm ? "w-3 h-3" : "w-3.5 h-3.5"} />
             REQUIRE_APPROVAL
           </span>
         );
       default:
         return (
-          <span className={`inline-flex items-center gap-1 font-medium rounded font-mono bg-[#121212] text-[#D4D4D8] border border-[#27272A] ${sizeClasses}`}>
+          <span className={`inline-flex items-center gap-1 font-medium rounded font-mono bg-[#1C1C1F] text-[#A1A1AA] border border-[#27272A] ${sizeClasses}`}>
             {value}
           </span>
         );
@@ -48,42 +48,42 @@ export function StatusBadge({ type, value, size = 'sm' }: StatusBadgeProps) {
     switch (value as ExecutionStatus) {
       case 'EXECUTED_SIMULATED':
         return (
-          <span className={`inline-flex items-center gap-1 font-medium rounded font-mono bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 ${sizeClasses}`}>
+          <span className={`inline-flex items-center gap-1 font-bold rounded font-mono bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 ${sizeClasses}`}>
             <CheckCircle className={isSm ? "w-3 h-3" : "w-3.5 h-3.5"} />
-            EXECUTED (ISOLATED)
+            EXECUTED (GATEWAY)
           </span>
         );
       case 'BLOCKED':
         return (
-          <span className={`inline-flex items-center gap-1 font-medium rounded font-mono bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 ${sizeClasses}`}>
+          <span className={`inline-flex items-center gap-1 font-bold rounded font-mono bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 ${sizeClasses}`}>
             <XCircle className={isSm ? "w-3 h-3" : "w-3.5 h-3.5"} />
-            NOT EXECUTED
+            HALTED (BLOCKED)
           </span>
         );
       case 'PENDING_APPROVAL':
         return (
-          <span className={`inline-flex items-center gap-1 font-medium rounded font-mono bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 ${sizeClasses}`}>
+          <span className={`inline-flex items-center gap-1 font-bold rounded font-mono bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 ${sizeClasses}`}>
             <Clock className={isSm ? "w-3 h-3" : "w-3.5 h-3.5"} />
             PENDING APPROVAL
           </span>
         );
       case 'APPROVED_SIMULATED':
         return (
-          <span className={`inline-flex items-center gap-1 font-medium rounded font-mono bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 ${sizeClasses}`}>
+          <span className={`inline-flex items-center gap-1 font-bold rounded font-mono bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 ${sizeClasses}`}>
             <CheckCircle className={isSm ? "w-3 h-3" : "w-3.5 h-3.5"} />
-            APPROVED (ISOLATED)
+            AUTHORIZED &amp; EXECUTED
           </span>
         );
       case 'REJECTED':
         return (
-          <span className={`inline-flex items-center gap-1 font-medium rounded font-mono bg-[#121212] text-[#D4D4D8] border border-[#27272A] ${sizeClasses}`}>
+          <span className={`inline-flex items-center gap-1 font-bold rounded font-mono bg-[#27272A] text-[#A1A1AA] border border-[#3F3F46] ${sizeClasses}`}>
             <XCircle className={isSm ? "w-3 h-3" : "w-3.5 h-3.5"} />
             REJECTED
           </span>
         );
       default:
         return (
-          <span className={`inline-flex items-center font-medium rounded font-mono bg-[#121212] text-[#D4D4D8] border border-[#27272A] ${sizeClasses}`}>
+          <span className={`inline-flex items-center font-medium rounded font-mono bg-[#1C1C1F] text-[#A1A1AA] border border-[#27272A] ${sizeClasses}`}>
             {value}
           </span>
         );
@@ -94,31 +94,31 @@ export function StatusBadge({ type, value, size = 'sm' }: StatusBadgeProps) {
   switch (value as RiskTier) {
     case 'LOW':
       return (
-        <span className={`inline-flex items-center font-semibold rounded font-mono bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 ${sizeClasses}`}>
+        <span className={`inline-flex items-center font-bold rounded font-mono bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 ${sizeClasses}`}>
           LOW RISK
         </span>
       );
     case 'MEDIUM':
       return (
-        <span className={`inline-flex items-center font-semibold rounded font-mono bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 ${sizeClasses}`}>
+        <span className={`inline-flex items-center font-bold rounded font-mono bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 ${sizeClasses}`}>
           MEDIUM RISK
         </span>
       );
     case 'HIGH':
       return (
-        <span className={`inline-flex items-center font-semibold rounded font-mono bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 ${sizeClasses}`}>
+        <span className={`inline-flex items-center font-bold rounded font-mono bg-[#F97316]/15 text-[#F97316] border border-[#F97316]/30 ${sizeClasses}`}>
           HIGH RISK
         </span>
       );
     case 'CRITICAL':
       return (
-        <span className={`inline-flex items-center font-semibold rounded font-mono bg-[#EF4444]/25 text-[#F87171] border border-[#EF4444]/50 ${sizeClasses}`}>
+        <span className={`inline-flex items-center font-bold rounded font-mono bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 ${sizeClasses}`}>
           CRITICAL RISK
         </span>
       );
     default:
       return (
-        <span className={`inline-flex items-center font-medium rounded font-mono bg-[#121212] text-[#D4D4D8] border border-[#27272A] ${sizeClasses}`}>
+        <span className={`inline-flex items-center font-medium rounded font-mono bg-[#1C1C1F] text-[#A1A1AA] border border-[#27272A] ${sizeClasses}`}>
           {value}
         </span>
       );

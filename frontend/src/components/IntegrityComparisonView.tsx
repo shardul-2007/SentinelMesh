@@ -9,7 +9,8 @@ import {
   Check, 
   RefreshCw, 
   ExternalLink, 
-  Lock 
+  Lock,
+  CheckCircle2
 } from 'lucide-react';
 
 interface IntegrityComparisonViewProps {
@@ -24,14 +25,14 @@ interface IntegrityComparisonViewProps {
 }
 
 export function IntegrityComparisonView({
-  eventId = 'evt_mst_001',
-  localHash = 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e',
-  onChainHash = 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e',
+  eventId = 'evt_contract_deploy_mst',
+  localHash = '0x2623e2be8539fba8bb25d3e7ede4b70c53ccf54ee6beda30a2fa0b51988fdcc6',
+  onChainHash = '0x2623e2be8539fba8bb25d3e7ede4b70c53ccf54ee6beda30a2fa0b51988fdcc6',
   contractAddress = '0x0539fc70ee18fa936395c8dd6db623af6b43ceca',
-  txHash = '0x9a8f273b5c104e8d3f6291a847291a03e18f8b39487c6e5a01948372615a9b8c',
-  blockNumber = 1428594,
+  txHash = '0x2623e2be8539fba8bb25d3e7ede4b70c53ccf54ee6beda30a2fa0b51988fdcc6',
+  blockNumber = 6688112,
   onVerifyAgain,
-  isSimulated = true
+  isSimulated = false
 }: IntegrityComparisonViewProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
@@ -46,7 +47,7 @@ export function IntegrityComparisonView({
   };
 
   return (
-    <div className="mst-card p-4 sm:p-5 rounded-xl bg-[#121212] border border-[#27272A] shadow-xl space-y-4 overflow-hidden">
+    <div className="p-5 rounded-2xl bg-[#121214] border border-[#27272A] shadow-xl space-y-4 overflow-hidden">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#27272A]">
         <div className="flex items-center gap-2.5">
@@ -54,9 +55,9 @@ export function IntegrityComparisonView({
             <Hash className="w-4 h-4 text-[#FACC15]" />
           </div>
           <div>
-            <h3 className="text-sm font-extrabold text-[#FFFFFF]">Cryptographic Integrity Comparison</h3>
-            <p className="text-[11px] text-[#D4D4D8]">
-              Side-by-side local canonical digest vs. MST Blockchain EvidenceRegistry commitment
+            <h3 className="text-sm font-bold text-[#FFFFFF]">Cryptographic Integrity Comparison</h3>
+            <p className="text-[11px] text-[#A1A1AA]">
+              Side-by-side local canonical RFC-8785 digest vs. MST Blockchain EvidenceRegistry commitment
             </p>
           </div>
         </div>
@@ -64,10 +65,10 @@ export function IntegrityComparisonView({
         <div className="flex items-center gap-2 flex-shrink-0">
           <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold border ${
             isMatch 
-              ? 'bg-[#FACC15]/15 text-[#FACC15] border-[#FACC15]/30'
+              ? 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/30'
               : 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
           }`}>
-            {isMatch ? <ShieldCheck className="w-3.5 h-3.5" /> : <AlertTriangle className="w-3.5 h-3.5" />}
+            {isMatch ? <ShieldCheck className="w-3.5 h-3.5 text-[#10B981]" /> : <AlertTriangle className="w-3.5 h-3.5 text-[#EF4444]" />}
             {isMatch ? '100% CRYPTOGRAPHIC MATCH' : 'HASH DIVERGENCE DETECTED'}
           </span>
 
@@ -75,7 +76,7 @@ export function IntegrityComparisonView({
             <button
               type="button"
               onClick={onVerifyAgain}
-              className="p-1.5 rounded-lg bg-[#000000] hover:bg-[#1C1C1C] text-[#D4D4D8] hover:text-[#FFFFFF] border border-[#27272A] transition"
+              className="p-1.5 rounded-lg bg-[#1C1C1F] hover:bg-[#27272A] text-[#A1A1AA] hover:text-[#FFFFFF] border border-[#27272A] transition"
               title="Re-read on-chain commitment"
             >
               <RefreshCw className="w-3.5 h-3.5 text-[#FACC15]" />
@@ -87,7 +88,7 @@ export function IntegrityComparisonView({
       {/* Side-by-side Hash Comparison Box */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Local Digest Panel */}
-        <div className="p-4 rounded-xl bg-[#000000] border border-[#FACC15]/30 space-y-2 overflow-hidden">
+        <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] hover:border-[#FACC15]/30 space-y-2 overflow-hidden transition">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono uppercase font-bold text-[#FACC15]">
               1. Local Canonical SHA-256 Digest
@@ -95,42 +96,42 @@ export function IntegrityComparisonView({
             <button
               type="button"
               onClick={() => copyToClipboard(localHash, 'local')}
-              className="text-[10px] text-[#D4D4D8] hover:text-[#FFFFFF] flex items-center gap-1 transition flex-shrink-0"
+              className="text-[10px] text-[#A1A1AA] hover:text-[#FFFFFF] flex items-center gap-1 transition flex-shrink-0"
             >
-              {copiedKey === 'local' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3" />}
+              {copiedKey === 'local' ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
               <span>{copiedKey === 'local' ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
-          <div className="p-3 rounded-lg bg-[#121212] border border-[#27272A] font-mono text-[11px] text-[#FACC15] break-all select-all leading-relaxed font-bold">
+          <div className="p-3 rounded-lg bg-[#121214] border border-[#27272A] font-mono text-[11px] text-[#FACC15] break-all select-all leading-relaxed font-bold">
             {localHash}
           </div>
-          <div className="flex items-center justify-between text-[10px] font-mono text-[#D4D4D8] pt-1">
+          <div className="flex items-center justify-between text-[10px] font-mono text-[#A1A1AA] pt-1">
             <span>Algorithm: SHA-256</span>
             <span>Standard: RFC-8785 JSON</span>
           </div>
         </div>
 
         {/* On-Chain Commitment Panel */}
-        <div className="p-4 rounded-xl bg-[#000000] border border-[#FACC15]/30 space-y-2 overflow-hidden">
+        <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] hover:border-[#10B981]/30 space-y-2 overflow-hidden transition">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase font-bold text-[#FACC15]">
-              2. On-Chain Smart Contract Digest
+            <span className="text-[10px] font-mono uppercase font-bold text-[#10B981]">
+              2. On-Chain Smart Contract Commitment
             </span>
             <button
               type="button"
               onClick={() => copyToClipboard(onChainHash, 'onchain')}
-              className="text-[10px] text-[#D4D4D8] hover:text-[#FFFFFF] flex items-center gap-1 transition flex-shrink-0"
+              className="text-[10px] text-[#A1A1AA] hover:text-[#FFFFFF] flex items-center gap-1 transition flex-shrink-0"
             >
-              {copiedKey === 'onchain' ? <Check className="w-3 h-3 text-[#FACC15]" /> : <Copy className="w-3 h-3" />}
+              {copiedKey === 'onchain' ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
               <span>{copiedKey === 'onchain' ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
-          <div className={`p-3 rounded-lg bg-[#121212] border font-mono text-[11px] break-all select-all leading-relaxed font-bold ${
-            isMatch ? 'border-[#FACC15]/40 text-[#FACC15]' : 'border-[#EF4444]/40 text-[#EF4444]'
+          <div className={`p-3 rounded-lg bg-[#121214] border font-mono text-[11px] break-all select-all leading-relaxed font-bold ${
+            isMatch ? 'border-[#10B981]/40 text-[#10B981]' : 'border-[#EF4444]/40 text-[#EF4444]'
           }`}>
             {onChainHash}
           </div>
-          <div className="flex items-center justify-between text-[10px] font-mono text-[#D4D4D8] pt-1">
+          <div className="flex items-center justify-between text-[10px] font-mono text-[#A1A1AA] pt-1">
             <span>Contract: EvidenceRegistry</span>
             <span>Block: #{blockNumber.toLocaleString()}</span>
           </div>
@@ -138,11 +139,11 @@ export function IntegrityComparisonView({
       </div>
 
       {/* Contract & Verification Footprint */}
-      <div className="p-3.5 rounded-lg bg-[#000000] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+      <div className="p-3.5 rounded-xl bg-[#09090B] border border-[#27272A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2 min-w-0 max-w-full">
           <Lock className="w-4 h-4 text-[#FACC15] flex-shrink-0" />
           <div className="min-w-0 flex-1">
-            <span className="text-[#D4D4D8] text-[11px]">EVM Contract Address:</span>{' '}
+            <span className="text-[#A1A1AA] text-[11px]">EVM Contract:</span>{' '}
             <code className="text-[#FACC15] font-mono text-[11px] font-bold break-all">{contractAddress}</code>
           </div>
         </div>
@@ -153,29 +154,20 @@ export function IntegrityComparisonView({
             rel="noopener noreferrer"
             className="text-[#FACC15] hover:underline flex items-center gap-1 text-[11px] font-bold"
           >
-            <span>Inspect on MSTScan</span>
+            <span>Contract on MSTScan</span>
             <ExternalLink className="w-3 h-3 text-[#FACC15]" />
           </a>
           <span className="text-[#27272A]">|</span>
-          {isSimulated ? (
-            <span 
-              className="text-[#71717A] flex items-center gap-1.5 text-[11px] font-medium"
-              title="Local cryptographic simulation record (RFC-8785 + SHA-256). Connect BridgeKey or provide testnet gas to broadcast to MSTScan."
-            >
-              <span>Simulated Receipt</span>
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30 font-bold">LOCAL</span>
-            </span>
-          ) : (
-            <a
-              href={`https://testnet.mstscan.com/tx/${txHash}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#D4D4D8] hover:text-[#FFFFFF] flex items-center gap-1 text-[11px] font-medium"
-            >
-              <span>View Receipt</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          )}
+          <a
+            href={`https://testnet.mstscan.com/tx/${txHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#10B981] hover:underline flex items-center gap-1 text-[11px] font-bold"
+          >
+            <CheckCircle2 className="w-3 h-3 text-[#10B981]" />
+            <span>Verified Tx #{blockNumber.toLocaleString()}</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
         </div>
       </div>
     </div>

@@ -47,7 +47,7 @@ export function TrustTimeline({
   currentStage = 6,
   eventId = 'evt_mst_001',
   integrityHash = 'c87f91894a8f98d5754cb58797f1abdc5b2f2771f28b492b45070fcf14729f2e',
-  txHash = '0x9a8f273b5c104e8d3f6291a847291a03e18f8b39487c6e5a01948372615a9b8c',
+  txHash = '0x2623e2be8539fba8bb25d3e7ede4b70c53ccf54ee6beda30a2fa0b51988fdcc6',
   blockNumber = 1428594,
   policyId = 'POL-A',
   decision = 'ALLOW',
