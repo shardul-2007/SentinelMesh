@@ -235,22 +235,22 @@ export function JudgeDemoTour() {
   };
 
   return (
-    <div className="mst-card rounded-2xl bg-[#121212] border border-[#27272A] p-5 sm:p-6 shadow-xl space-y-6">
+    <div className="mst-card rounded-2xl bg-[#151F30] border border-[#263449] p-5 sm:p-6 shadow-xl space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-[#27272A]">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-[#263449]">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30">
-              <Award className="w-5 h-5 text-[#FACC15]" />
+            <span className="p-1.5 rounded-lg bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30">
+              <Award className="w-5 h-5 text-[#38BDF8]" />
             </span>
             <h2 className="text-lg font-extrabold text-[#FFFFFF]">
               Judge Evaluation Tour — 7-Step Verification Workflow
             </h2>
-            <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-extrabold bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/30">
+            <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-extrabold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30">
               MST Testnet Ready
             </span>
           </div>
-          <p className="text-xs text-[#D4D4D8]">
+          <p className="text-xs text-[#94A3B8]">
             One-click interactive walkthrough demonstrating deterministic policies (ALLOW / BLOCK / REQUIRE_APPROVAL), RFC-8785 canonical hashing, on-chain MST anchoring, and cryptographic read-back verification.
           </p>
         </div>
@@ -260,7 +260,7 @@ export function JudgeDemoTour() {
             type="button"
             onClick={runFullSequence}
             disabled={isRunning}
-            className="flex-1 sm:flex-initial px-4 py-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 shadow-sm disabled:opacity-40"
+            className="flex-1 sm:flex-initial px-4 py-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 shadow-sm disabled:opacity-40"
           >
             <Sparkles className="w-3.5 h-3.5 text-[#000000]" />
             <span>{isRunning ? 'Running Sequence...' : 'Auto-Run All 7 Steps'}</span>
@@ -269,7 +269,7 @@ export function JudgeDemoTour() {
             type="button"
             onClick={resetTour}
             disabled={isRunning}
-            className="p-2 bg-[#000000] border border-[#27272A] text-[#D4D4D8] hover:text-[#FFFFFF] hover:border-[#FACC15]/40 rounded-lg transition"
+            className="p-2 bg-[#101827] border border-[#263449] text-[#94A3B8] hover:text-[#FFFFFF] hover:border-[#38BDF8]/40 rounded-lg transition"
             title="Reset Tour"
           >
             <RotateCcw className="w-4 h-4" />
@@ -294,43 +294,43 @@ export function JudgeDemoTour() {
             onClick={() => setCurrentStep(s.num)}
             className={`p-2.5 rounded-xl border text-left transition ${
               currentStep === s.num
-                ? 'bg-[#FACC15]/15 border-[#FACC15] text-[#FFFFFF]'
+                ? 'bg-[#38BDF8]/15 border-[#38BDF8] text-[#FFFFFF]'
                 : currentStep > s.num
-                ? 'bg-[#FACC15]/10 border-[#FACC15]/40 text-[#D4D4D8]'
-                : 'bg-[#000000] border-[#27272A] text-[#D4D4D8] hover:text-[#FFFFFF]'
+                ? 'bg-[#38BDF8]/10 border-[#38BDF8]/40 text-[#94A3B8]'
+                : 'bg-[#101827] border-[#263449] text-[#94A3B8] hover:text-[#FFFFFF]'
             }`}
           >
             <div className="flex items-center justify-between text-xs font-extrabold">
               <span>{s.label}</span>
-              {currentStep > s.num && <CheckCircle2 className="w-3 h-3 text-[#FACC15]" />}
+              {currentStep > s.num && <CheckCircle2 className="w-3 h-3 text-[#38BDF8]" />}
             </div>
-            <div className="text-[10px] text-[#D4D4D8] truncate mt-0.5">{s.desc}</div>
+            <div className="text-[10px] text-[#94A3B8] truncate mt-0.5">{s.desc}</div>
           </button>
         ))}
       </div>
 
       {/* Interactive Step Detail Card */}
-      <div className="p-5 rounded-xl bg-[#000000] border border-[#27272A] space-y-4">
+      <div className="p-5 rounded-xl bg-[#101827] border border-[#263449] space-y-4">
         {/* Step 1: ALLOW */}
         {currentStep === 1 && (
           <div className="space-y-4">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-mono font-extrabold uppercase text-[#FACC15] tracking-wider block">
+                <span className="text-[10px] font-mono font-extrabold uppercase text-[#38BDF8] tracking-wider block">
                   Step 1 of 7 — Permitted Action Execution
                 </span>
                 <h3 className="text-base font-extrabold text-[#FFFFFF] mt-0.5">
                   Scenario A: Agent Requests Read on Public Compliance Document
                 </h3>
-                <p className="text-xs text-[#D4D4D8] mt-1">
-                  Demonstrates deterministic policy evaluation when an authorized agent (<code className="text-[#FACC15] font-mono font-bold">agent-data-analyzer</code>) accesses public documentation. Policy <code className="text-[#FACC15] font-mono font-bold">POL-A</code> evaluates to <strong>ALLOW</strong>.
+                <p className="text-xs text-[#94A3B8] mt-1">
+                  Demonstrates deterministic policy evaluation when an authorized agent (<code className="text-[#38BDF8] font-mono font-bold">agent-data-analyzer</code>) accesses public documentation. Policy <code className="text-[#38BDF8] font-mono font-bold">POL-A</code> evaluates to <strong>ALLOW</strong>.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={runStep1Allow}
                 disabled={isRunning}
-                className="px-4 py-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm disabled:opacity-40"
+                className="px-4 py-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm disabled:opacity-40"
               >
                 <Play className="w-3.5 h-3.5 text-[#000000]" />
                 <span>Execute Step 1 (ALLOW)</span>
@@ -338,27 +338,27 @@ export function JudgeDemoTour() {
             </div>
 
             {allowResult ? (
-              <div className="p-4 rounded-xl bg-[#121212] border border-[#FACC15]/40 space-y-2 text-xs">
+              <div className="p-4 rounded-xl bg-[#151F30] border border-[#38BDF8]/40 space-y-2 text-xs">
                 <div className="flex items-center justify-between">
-                  <span className="font-extrabold text-[#FACC15] flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#FACC15]" />
+                  <span className="font-extrabold text-[#38BDF8] flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#38BDF8]" />
                     Policy Decision: {allowResult.decision} (POL-A)
                   </span>
-                  <span className="font-mono text-[#D4D4D8] text-[11px] font-bold">Execution: {allowResult.execution_status}</span>
+                  <span className="font-mono text-[#94A3B8] text-[11px] font-bold">Execution: {allowResult.execution_status}</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[#D4D4D8] font-mono text-[11px] pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[#94A3B8] font-mono text-[11px] pt-1">
                   <div>Event ID: <strong className="text-[#FFFFFF] font-bold">{allowResult.event_id}</strong></div>
-                  <div>Execution Boundary: <strong className="text-[#FACC15] font-bold">SIMULATED Containment</strong></div>
+                  <div>Execution Boundary: <strong className="text-[#38BDF8] font-bold">SIMULATED Containment</strong></div>
                 </div>
-                <div className="pt-2 border-t border-[#27272A]">
-                  <span className="text-[10px] text-[#D4D4D8] uppercase tracking-wider block mb-0.5 font-bold">RFC-8785 SHA-256 Canonical Digest:</span>
-                  <div className="p-2 rounded bg-[#000000] font-mono text-[10px] text-[#FACC15] break-all border border-[#27272A] select-all font-bold">
+                <div className="pt-2 border-t border-[#263449]">
+                  <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block mb-0.5 font-bold">RFC-8785 SHA-256 Canonical Digest:</span>
+                  <div className="p-2 rounded bg-[#101827] font-mono text-[10px] text-[#38BDF8] break-all border border-[#263449] select-all font-bold">
                     {allowResult.integrity_hash}
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="p-4 rounded-xl bg-[#121212]/50 border border-dashed border-[#27272A] text-center text-[#D4D4D8] text-xs">
+              <div className="p-4 rounded-xl bg-[#151F30]/50 border border-dashed border-[#263449] text-center text-[#94A3B8] text-xs">
                 Click &ldquo;Execute Step 1 (ALLOW)&rdquo; to trigger deterministic policy evaluation.
               </div>
             )}
@@ -376,8 +376,8 @@ export function JudgeDemoTour() {
                 <h3 className="text-base font-extrabold text-[#FFFFFF] mt-0.5">
                   Scenario B: Guest Agent Attempts Accessing Production Vault Keys
                 </h3>
-                <p className="text-xs text-[#D4D4D8] mt-1">
-                  Demonstrates strict zero-trust boundary enforcement when an untrusted agent (<code className="text-[#FACC15] font-mono font-bold">agent-guest</code>) probes <code className="text-[#EF4444] font-mono font-bold">restricted/production_vault_keys.env</code>. Policy <code className="text-[#FACC15] font-mono font-bold">POL-B</code> evaluates to <strong>BLOCK</strong>. No command executes.
+                <p className="text-xs text-[#94A3B8] mt-1">
+                  Demonstrates strict zero-trust boundary enforcement when an untrusted agent (<code className="text-[#38BDF8] font-mono font-bold">agent-guest</code>) probes <code className="text-[#EF4444] font-mono font-bold">restricted/production_vault_keys.env</code>. Policy <code className="text-[#38BDF8] font-mono font-bold">POL-B</code> evaluates to <strong>BLOCK</strong>. No command executes.
                 </p>
               </div>
               <button
@@ -392,7 +392,7 @@ export function JudgeDemoTour() {
             </div>
 
             {denyResult ? (
-              <div className="p-4 rounded-xl bg-[#121212] border border-[#EF4444]/40 space-y-2 text-xs">
+              <div className="p-4 rounded-xl bg-[#151F30] border border-[#EF4444]/40 space-y-2 text-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-extrabold text-[#EF4444] flex items-center gap-1.5">
                     <XCircle className="w-4 h-4" />
@@ -400,18 +400,18 @@ export function JudgeDemoTour() {
                   </span>
                   <span className="font-mono text-[#EF4444] text-[11px] font-bold">Status: {denyResult.execution_status} (Zero Host Execution)</span>
                 </div>
-                <p className="text-[#D4D4D8] text-xs">
+                <p className="text-[#94A3B8] text-xs">
                   <strong>Enforcement Reason:</strong> {denyResult.reason}
                 </p>
-                <div className="pt-2 border-t border-[#27272A]">
-                  <span className="text-[10px] text-[#D4D4D8] uppercase tracking-wider block mb-0.5 font-bold">Tamper-Evident Denial Audit Hash:</span>
-                  <div className="p-2 rounded bg-[#000000] font-mono text-[10px] text-[#FACC15] break-all border border-[#27272A] select-all font-bold">
+                <div className="pt-2 border-t border-[#263449]">
+                  <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block mb-0.5 font-bold">Tamper-Evident Denial Audit Hash:</span>
+                  <div className="p-2 rounded bg-[#101827] font-mono text-[10px] text-[#38BDF8] break-all border border-[#263449] select-all font-bold">
                     {denyResult.integrity_hash}
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="p-4 rounded-xl bg-[#121212]/50 border border-dashed border-[#27272A] text-center text-[#D4D4D8] text-xs">
+              <div className="p-4 rounded-xl bg-[#151F30]/50 border border-dashed border-[#263449] text-center text-[#94A3B8] text-xs">
                 Click &ldquo;Execute Step 2 (BLOCK)&rdquo; to verify zero-trust enforcement.
               </div>
             )}
@@ -429,8 +429,8 @@ export function JudgeDemoTour() {
                 <h3 className="text-base font-extrabold text-[#FFFFFF] mt-0.5">
                   Scenario C: High-Impact Destructive Database Ledger Deletion
                 </h3>
-                <p className="text-xs text-[#D4D4D8] mt-1">
-                  When an agent attempts high-risk mutations on <code className="text-[#F59E0B] font-mono font-bold">db://ledger/transactions_2025</code>, policy <code className="text-[#FACC15] font-mono font-bold">POL-D</code> holds execution in <strong>REQUIRE_APPROVAL</strong> state until an authorized CSO resolves it.
+                <p className="text-xs text-[#94A3B8] mt-1">
+                  When an agent attempts high-risk mutations on <code className="text-[#F59E0B] font-mono font-bold">db://ledger/transactions_2025</code>, policy <code className="text-[#38BDF8] font-mono font-bold">POL-D</code> holds execution in <strong>REQUIRE_APPROVAL</strong> state until an authorized CSO resolves it.
                 </p>
               </div>
               <button
@@ -445,36 +445,36 @@ export function JudgeDemoTour() {
             </div>
 
             {approvalResult && (
-              <div className="p-4 rounded-xl bg-[#121212] border border-[#F59E0B]/40 space-y-3 text-xs">
+              <div className="p-4 rounded-xl bg-[#151F30] border border-[#F59E0B]/40 space-y-3 text-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-extrabold text-[#F59E0B] flex items-center gap-1.5">
                     <Clock className="w-4 h-4" />
                     Decision: {approvalResult.decision} (POL-D)
                   </span>
                   <span className={`px-2 py-0.5 rounded font-mono text-[10px] font-extrabold ${
-                    approvalApproved ? 'bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/40' : 'bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/40'
+                    approvalApproved ? 'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/40' : 'bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/40'
                   }`}>
                     {approvalApproved ? 'RESOLVED: APPROVED' : 'LIFECYCLE: PENDING APPROVAL'}
                   </span>
                 </div>
-                <div className="text-[#D4D4D8]">
-                  Policy: <span className="text-[#FACC15] font-semibold">{approvalResult.policy_name}</span> &bull; Reason: <span className="text-[#FFFFFF]">{approvalResult.reason}</span>
+                <div className="text-[#94A3B8]">
+                  Policy: <span className="text-[#38BDF8] font-semibold">{approvalResult.policy_name}</span> &bull; Reason: <span className="text-[#FFFFFF]">{approvalResult.reason}</span>
                 </div>
                 {!approvalApproved ? (
-                  <div className="pt-2 border-t border-[#27272A] flex items-center justify-between">
-                    <span className="text-[#D4D4D8] text-xs">Simulate Chief Security Officer (CSO) Decision:</span>
+                  <div className="pt-2 border-t border-[#263449] flex items-center justify-between">
+                    <span className="text-[#94A3B8] text-xs">Simulate Chief Security Officer (CSO) Decision:</span>
                     <button
                       type="button"
                       onClick={resolveApproval}
                       disabled={isRunning}
-                      className="px-3 py-1.5 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] font-extrabold text-xs rounded-lg transition"
+                      className="px-3 py-1.5 bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] font-extrabold text-xs rounded-lg transition"
                     >
                       Authorize &amp; Sign Approval
                     </button>
                   </div>
                 ) : (
-                  <div className="p-2.5 rounded bg-[#FACC15]/10 border border-[#FACC15]/30 text-[#FACC15] font-mono text-[11px] flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#FACC15] flex-shrink-0" />
+                  <div className="p-2.5 rounded bg-[#38BDF8]/10 border border-[#38BDF8]/30 text-[#38BDF8] font-mono text-[11px] flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#38BDF8] flex-shrink-0" />
                     <span>Action authorized by Chief Security Officer. Execution recorded to tamper-evident audit ledger.</span>
                   </div>
                 )}
@@ -488,41 +488,41 @@ export function JudgeDemoTour() {
           <div className="space-y-4">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-mono font-extrabold uppercase text-[#FACC15] tracking-wider block">
+                <span className="text-[10px] font-mono font-extrabold uppercase text-[#38BDF8] tracking-wider block">
                   Step 4 of 7 — Evidence Anchoring to MST Blockchain
                 </span>
                 <h3 className="text-base font-extrabold text-[#FFFFFF] mt-0.5">
                   Commit 32-Byte SHA-256 Digest to EvidenceRegistry Contract
                 </h3>
-                <p className="text-xs text-[#D4D4D8] mt-1">
-                  Initiates on-chain anchoring of the canonical evidence digest to the deployed contract on MST Testnet (Chain ID <code className="text-[#FACC15] font-mono font-bold">91562037</code>).
+                <p className="text-xs text-[#94A3B8] mt-1">
+                  Initiates on-chain anchoring of the canonical evidence digest to the deployed contract on MST Testnet (Chain ID <code className="text-[#38BDF8] font-mono font-bold">91562037</code>).
                 </p>
               </div>
               <button
                 type="button"
                 onClick={runStep4Anchor}
                 disabled={isRunning}
-                className="px-4 py-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm disabled:opacity-40"
+                className="px-4 py-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm disabled:opacity-40"
               >
                 <Lock className="w-3.5 h-3.5 text-[#000000]" />
                 <span>Anchor to MST Testnet</span>
               </button>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] space-y-2 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[#D4D4D8]">
-                <div>Contract: <span className="font-mono text-[#FACC15] font-bold">{MST_TESTNET_CONFIG.contractAddress}</span></div>
+            <div className="p-4 rounded-xl bg-[#151F30] border border-[#263449] space-y-2 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[#94A3B8]">
+                <div>Contract: <span className="font-mono text-[#38BDF8] font-bold">{MST_TESTNET_CONFIG.contractAddress}</span></div>
                 <div>Network: <span className="font-bold text-[#FFFFFF]">MST Testnet (Chain ID 91562037)</span></div>
               </div>
-              <div className="p-3 rounded-lg bg-[#000000] border border-[#FACC15]/30 text-[11px] text-[#D4D4D8] leading-relaxed">
-                <strong className="text-[#FACC15]">Off-Chain Architecture Guarantee:</strong> Sensitive payloads (prompts, responses, tokens) remain strictly off-chain. Only the canonical 32-byte SHA-256 digest is anchored to EVM storage. Anchoring cryptographically proves digest existence and timestamp non-repudiation.
+              <div className="p-3 rounded-lg bg-[#101827] border border-[#38BDF8]/30 text-[11px] text-[#94A3B8] leading-relaxed">
+                <strong className="text-[#38BDF8]">Off-Chain Architecture Guarantee:</strong> Sensitive payloads (prompts, responses, tokens) remain strictly off-chain. Only the canonical 32-byte SHA-256 digest is anchored to EVM storage. Anchoring cryptographically proves digest existence and timestamp non-repudiation.
               </div>
 
               {anchorResult && (
-                <div className="pt-2 border-t border-[#27272A] space-y-1 font-mono text-[11px]">
-                  <div className="text-[#FACC15] font-extrabold">✓ Anchoring Confirmed On-Chain!</div>
-                  <div className="text-[#D4D4D8] truncate">Transaction Hash: <strong className="text-[#FFFFFF] font-bold">{anchorResult.transaction_hash}</strong></div>
-                  <div className="text-[#D4D4D8]">Block Number: #{anchorResult.block_number}</div>
+                <div className="pt-2 border-t border-[#263449] space-y-1 font-mono text-[11px]">
+                  <div className="text-[#38BDF8] font-extrabold">✓ Anchoring Confirmed On-Chain!</div>
+                  <div className="text-[#94A3B8] truncate">Transaction Hash: <strong className="text-[#FFFFFF] font-bold">{anchorResult.transaction_hash}</strong></div>
+                  <div className="text-[#94A3B8]">Block Number: #{anchorResult.block_number}</div>
                 </div>
               )}
             </div>
@@ -540,7 +540,7 @@ export function JudgeDemoTour() {
                 <h3 className="text-base font-extrabold text-[#FFFFFF] mt-0.5">
                   Verify Genuine On-Chain Transaction &amp; Contract State
                 </h3>
-                <p className="text-xs text-[#D4D4D8] mt-1">
+                <p className="text-xs text-[#94A3B8] mt-1">
                   Inspect the cryptographically verified evidence commitment against MST Blockchain.
                 </p>
               </div>
@@ -549,7 +549,7 @@ export function JudgeDemoTour() {
                   href={`${MST_TESTNET_CONFIG.explorerUrl}/tx/${anchorResult.transaction_hash}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm"
+                  className="px-4 py-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm"
                 >
                   <span>Open in MSTScan Explorer</span>
                   <ExternalLink className="w-3.5 h-3.5 text-[#000000]" />
@@ -559,40 +559,40 @@ export function JudgeDemoTour() {
                   href={MST_TESTNET_CONFIG.explorerUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-[#1C1C1C] hover:bg-[#27272A] text-[#FACC15] border border-[#FACC15]/40 font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm"
+                  className="px-4 py-2 bg-[#1C1C1C] hover:bg-[#263449] text-[#38BDF8] border border-[#38BDF8]/40 font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm"
                   title="Transaction is recorded in local cryptographic mode. Open MSTScan Testnet explorer homepage."
                 >
                   <span>Open MSTScan Testnet</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-[#FACC15]" />
+                  <ExternalLink className="w-3.5 h-3.5 text-[#38BDF8]" />
                 </a>
               )}
             </div>
 
-            <div className="p-4 rounded-xl bg-[#121212] border border-[#27272A] space-y-3 text-xs">
+            <div className="p-4 rounded-xl bg-[#151F30] border border-[#263449] space-y-3 text-xs">
               <div className="space-y-1.5 font-mono">
-                <div className="text-[#D4D4D8] text-[11px]">MST Testnet Contract:</div>
-                <div className="flex items-center justify-between p-2 rounded bg-[#000000] border border-[#27272A] min-w-0 gap-2">
-                  <span className="text-[#FACC15] font-bold truncate min-w-0 flex-1">{MST_TESTNET_CONFIG.contractAddress}</span>
+                <div className="text-[#94A3B8] text-[11px]">MST Testnet Contract:</div>
+                <div className="flex items-center justify-between p-2 rounded bg-[#101827] border border-[#263449] min-w-0 gap-2">
+                  <span className="text-[#38BDF8] font-bold truncate min-w-0 flex-1">{MST_TESTNET_CONFIG.contractAddress}</span>
                   <button
                     type="button"
                     onClick={() => handleCopy(MST_TESTNET_CONFIG.contractAddress)}
-                    className="text-[#D4D4D8] hover:text-[#FFFFFF] ml-2 flex-shrink-0"
+                    className="text-[#94A3B8] hover:text-[#FFFFFF] ml-2 flex-shrink-0"
                   >
-                    {copiedText === MST_TESTNET_CONFIG.contractAddress ? <Check className="w-3.5 h-3.5 text-[#FACC15]" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedText === MST_TESTNET_CONFIG.contractAddress ? <Check className="w-3.5 h-3.5 text-[#38BDF8]" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                 </div>
 
-                <div className="text-[#D4D4D8] text-[11px] pt-1">Verified Evidence Transaction Hash:</div>
-                <div className="flex items-center justify-between p-2 rounded bg-[#000000] border border-[#27272A] min-w-0 gap-2">
+                <div className="text-[#94A3B8] text-[11px] pt-1">Verified Evidence Transaction Hash:</div>
+                <div className="flex items-center justify-between p-2 rounded bg-[#101827] border border-[#263449] min-w-0 gap-2">
                   <span className="text-[#FFFFFF] font-bold truncate min-w-0 flex-1">
                     {anchorResult?.transaction_hash || MST_TESTNET_CONFIG.verifiedEvidenceTxHash}
                   </span>
                   <button
                     type="button"
                     onClick={() => handleCopy(anchorResult?.transaction_hash || MST_TESTNET_CONFIG.verifiedEvidenceTxHash)}
-                    className="text-[#D4D4D8] hover:text-[#FFFFFF] ml-2 flex-shrink-0"
+                    className="text-[#94A3B8] hover:text-[#FFFFFF] ml-2 flex-shrink-0"
                   >
-                    {copiedText === (anchorResult?.transaction_hash || MST_TESTNET_CONFIG.verifiedEvidenceTxHash) ? <Check className="w-3.5 h-3.5 text-[#FACC15]" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedText === (anchorResult?.transaction_hash || MST_TESTNET_CONFIG.verifiedEvidenceTxHash) ? <Check className="w-3.5 h-3.5 text-[#38BDF8]" /> : <Copy className="w-3.5 h-3.5" />}
                   </button>
                 </div>
               </div>
@@ -605,13 +605,13 @@ export function JudgeDemoTour() {
           <div className="space-y-4">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-mono font-extrabold uppercase text-[#FACC15] tracking-wider block">
+                <span className="text-[10px] font-mono font-extrabold uppercase text-[#38BDF8] tracking-wider block">
                   Step 6 of 7 — Independent Read-Back &amp; Verification
                 </span>
                 <h3 className="text-base font-extrabold text-[#FFFFFF] mt-0.5">
                   Query verifyAnchor(eventId, expectedHash) on Smart Contract
                 </h3>
-                <p className="text-xs text-[#D4D4D8] mt-1">
+                <p className="text-xs text-[#94A3B8] mt-1">
                   Independently recomputes the canonical SHA-256 hash and compares it directly against EVM state commitment.
                 </p>
               </div>
@@ -619,41 +619,41 @@ export function JudgeDemoTour() {
                 type="button"
                 onClick={runStep6Verify}
                 disabled={isRunning}
-                className="px-4 py-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm disabled:opacity-40"
+                className="px-4 py-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] font-extrabold text-xs rounded-lg transition flex items-center gap-1.5 shadow-sm disabled:opacity-40"
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-[#000000]" />
                 <span>Execute Read-Back Check</span>
               </button>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#121212] border border-[#FACC15]/40 space-y-3 text-xs">
+            <div className="p-4 rounded-xl bg-[#151F30] border border-[#38BDF8]/40 space-y-3 text-xs">
               <div className="flex items-center justify-between">
                 <span className="font-extrabold text-[#FFFFFF] flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#FACC15]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#38BDF8]" />
                   Cryptographic Commitment Comparison
                 </span>
-                <span className="px-2 py-0.5 rounded font-mono font-extrabold text-[10px] bg-[#FACC15]/15 text-[#FACC15] border border-[#FACC15]/40">
+                <span className="px-2 py-0.5 rounded font-mono font-extrabold text-[10px] bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/40">
                   MATCHES (Intact &amp; Verified)
                 </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
-                <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A] space-y-1">
-                  <span className="text-[10px] text-[#D4D4D8] uppercase tracking-wider block font-bold">Local Canonical SHA-256 Digest:</span>
+                <div className="p-3 rounded-lg bg-[#101827] border border-[#263449] space-y-1">
+                  <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block font-bold">Local Canonical SHA-256 Digest:</span>
                   <div className="font-mono text-[10px] text-[#FFFFFF] break-all font-bold">
                     {verifyResult?.calculated_hash || allowResult?.integrity_hash || MST_TESTNET_CONFIG.verifiedEvidenceSha256}
                   </div>
                 </div>
 
-                <div className="p-3 rounded-lg bg-[#000000] border border-[#27272A] space-y-1">
-                  <span className="text-[10px] text-[#D4D4D8] uppercase tracking-wider block font-bold">On-Chain EVM Commitment (EvidenceRegistry):</span>
-                  <div className="font-mono text-[10px] text-[#FACC15] break-all font-bold">
+                <div className="p-3 rounded-lg bg-[#101827] border border-[#263449] space-y-1">
+                  <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block font-bold">On-Chain EVM Commitment (EvidenceRegistry):</span>
+                  <div className="font-mono text-[10px] text-[#38BDF8] break-all font-bold">
                     {verifyResult?.onchain_hash || allowResult?.integrity_hash || MST_TESTNET_CONFIG.verifiedEvidenceSha256}
                   </div>
                 </div>
               </div>
 
-              <p className="text-[11px] text-[#D4D4D8] pt-1 leading-relaxed">
+              <p className="text-[11px] text-[#94A3B8] pt-1 leading-relaxed">
                 ✓ <strong>Verification Conclusion:</strong> The canonical payload re-digests to the exact 32-byte hexadecimal hash committed to block storage. Zero tampering detected.
               </p>
             </div>
@@ -665,27 +665,27 @@ export function JudgeDemoTour() {
           <div className="space-y-4">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-[10px] font-mono font-extrabold uppercase text-[#FACC15] tracking-wider block">
+                <span className="text-[10px] font-mono font-extrabold uppercase text-[#38BDF8] tracking-wider block">
                   Step 7 of 7 — End-to-End Governance Provenance
                 </span>
                 <h3 className="text-base font-extrabold text-[#FFFFFF] mt-0.5">
                   Complete Evidence Chain from Agent Origin to Blockchain Anchor
                 </h3>
-                <p className="text-xs text-[#D4D4D8] mt-1">
+                <p className="text-xs text-[#94A3B8] mt-1">
                   Review the full lifecycle trail connecting agent request, policy version, execution isolation, and smart contract commitment.
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <Link
                   href="/audit"
-                  className="px-3.5 py-2 bg-[#121212] hover:bg-[#1C1C1C] text-[#FFFFFF] text-xs font-bold rounded-lg transition border border-[#27272A] flex items-center gap-1"
+                  className="px-3.5 py-2 bg-[#151F30] hover:bg-[#1C1C1C] text-[#FFFFFF] text-xs font-bold rounded-lg transition border border-[#263449] flex items-center gap-1"
                 >
                   <span>Audit Explorer</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link
                   href="/governance"
-                  className="px-3.5 py-2 bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] text-xs font-extrabold rounded-lg transition flex items-center gap-1 shadow-sm"
+                  className="px-3.5 py-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] text-xs font-extrabold rounded-lg transition flex items-center gap-1 shadow-sm"
                 >
                   <span>Governance Center</span>
                   <ExternalLink className="w-3.5 h-3.5 text-[#000000]" />
@@ -695,34 +695,34 @@ export function JudgeDemoTour() {
 
             {/* Complete Provenance Timeline Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
-              <div className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] space-y-1 text-xs">
-                <span className="text-[10px] text-[#D4D4D8] uppercase font-bold">1. Origin Agent</span>
+              <div className="p-3.5 rounded-xl bg-[#151F30] border border-[#263449] space-y-1 text-xs">
+                <span className="text-[10px] text-[#94A3B8] uppercase font-bold">1. Origin Agent</span>
                 <div className="font-extrabold text-[#FFFFFF]">agent-data-analyzer</div>
-                <div className="text-[11px] text-[#FACC15] font-mono">Risk: LOW (0/100)</div>
+                <div className="text-[11px] text-[#38BDF8] font-mono">Risk: LOW (0/100)</div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] space-y-1 text-xs">
-                <span className="text-[10px] text-[#D4D4D8] uppercase font-bold">2. Policy Rule</span>
+              <div className="p-3.5 rounded-xl bg-[#151F30] border border-[#263449] space-y-1 text-xs">
+                <span className="text-[10px] text-[#94A3B8] uppercase font-bold">2. Policy Rule</span>
                 <div className="font-extrabold text-[#FFFFFF]">POL-A v1.0</div>
-                <div className="text-[11px] text-[#FACC15] font-mono font-bold">Decision: ALLOW</div>
+                <div className="text-[11px] text-[#38BDF8] font-mono font-bold">Decision: ALLOW</div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] space-y-1 text-xs">
-                <span className="text-[10px] text-[#D4D4D8] uppercase font-bold">3. Containment</span>
+              <div className="p-3.5 rounded-xl bg-[#151F30] border border-[#263449] space-y-1 text-xs">
+                <span className="text-[10px] text-[#94A3B8] uppercase font-bold">3. Containment</span>
                 <div className="font-extrabold text-[#FFFFFF]">SIMULATED</div>
-                <div className="text-[11px] text-[#D4D4D8] font-mono">Zero Host Writes</div>
+                <div className="text-[11px] text-[#94A3B8] font-mono">Zero Host Writes</div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] space-y-1 text-xs">
-                <span className="text-[10px] text-[#D4D4D8] uppercase font-bold">4. Canonical Hash</span>
-                <div className="font-extrabold text-[#FACC15]">RFC-8785</div>
-                <div className="text-[11px] text-[#D4D4D8] font-mono truncate">0x7b58c7d...</div>
+              <div className="p-3.5 rounded-xl bg-[#151F30] border border-[#263449] space-y-1 text-xs">
+                <span className="text-[10px] text-[#94A3B8] uppercase font-bold">4. Canonical Hash</span>
+                <div className="font-extrabold text-[#38BDF8]">RFC-8785</div>
+                <div className="text-[11px] text-[#94A3B8] font-mono truncate">0x7b58c7d...</div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#121212] border border-[#27272A] space-y-1 text-xs">
-                <span className="text-[10px] text-[#D4D4D8] uppercase font-bold">5. MST Blockchain</span>
-                <div className="font-extrabold text-[#FACC15]">ANCHORED</div>
-                <div className="text-[11px] text-[#D4D4D8] font-mono">MST Testnet 91562037</div>
+              <div className="p-3.5 rounded-xl bg-[#151F30] border border-[#263449] space-y-1 text-xs">
+                <span className="text-[10px] text-[#94A3B8] uppercase font-bold">5. MST Blockchain</span>
+                <div className="font-extrabold text-[#38BDF8]">ANCHORED</div>
+                <div className="text-[11px] text-[#94A3B8] font-mono">MST Testnet 91562037</div>
               </div>
             </div>
           </div>
@@ -730,8 +730,8 @@ export function JudgeDemoTour() {
       </div>
 
       {/* Footer Navigation Bar */}
-      <div className="flex items-center justify-between pt-2 border-t border-[#27272A] text-xs">
-        <span className="text-[#D4D4D8] font-mono">
+      <div className="flex items-center justify-between pt-2 border-t border-[#263449] text-xs">
+        <span className="text-[#94A3B8] font-mono">
           Evaluating as: <strong className="text-[#FFFFFF]">{role}</strong> | Step {currentStep} of 7
         </span>
         <div className="flex gap-2">
@@ -739,7 +739,7 @@ export function JudgeDemoTour() {
             <button
               type="button"
               onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
-              className="px-3 py-1.5 rounded-lg bg-[#000000] border border-[#27272A] text-[#D4D4D8] hover:text-[#FFFFFF] font-bold transition"
+              className="px-3 py-1.5 rounded-lg bg-[#101827] border border-[#263449] text-[#94A3B8] hover:text-[#FFFFFF] font-bold transition"
             >
               Previous Step
             </button>
@@ -748,7 +748,7 @@ export function JudgeDemoTour() {
             <button
               type="button"
               onClick={() => setCurrentStep(prev => Math.min(7, prev + 1))}
-              className="px-3 py-1.5 rounded-lg bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] font-extrabold transition flex items-center gap-1 shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] font-extrabold transition flex items-center gap-1 shadow-sm"
             >
               <span>Next Step</span>
               <ChevronRight className="w-3.5 h-3.5 text-[#000000]" />

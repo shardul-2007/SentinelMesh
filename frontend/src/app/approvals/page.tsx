@@ -12,7 +12,8 @@ import {
   Check,
   X,
   Lock,
-  ExternalLink
+  ExternalLink,
+  UserCheck
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { StatusBadge } from '@/components/StatusBadge';
@@ -74,9 +75,9 @@ export default function ApprovalCenterPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-full bg-[#000000]">
+    <div className="flex flex-col min-h-full bg-[#090D16] text-[#F8FAFC] font-sans">
       <Header 
-        title="Human Approval Center" 
+        title="Human Authorization & Approval Queue" 
         subtitle="Review, authorize, or reject high-risk AI agent operations under Human-in-the-Loop governance"
         onRefresh={() => loadApprovals(true)}
         isRefreshing={isRefreshing}
@@ -85,64 +86,64 @@ export default function ApprovalCenterPage() {
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
         {/* RBAC Active Role Banner */}
         <div className={`p-3.5 rounded-xl border flex items-center justify-between text-xs transition-all ${
-          role === 'ADMIN' ? 'bg-[#FACC15]/10 border-[#FACC15]/30 text-[#FACC15]' :
+          role === 'ADMIN' ? 'bg-[#F59E0B]/10 border-[#F59E0B]/30 text-[#F59E0B]' :
           role === 'SECURITY_ANALYST' ? 'bg-[#EF4444]/10 border-[#EF4444]/30 text-[#EF4444]' :
-          'bg-[#121214] border-[#27272A] text-[#D4D4D8]'
+          'bg-[#151F30] border-[#263449] text-[#94A3B8]'
         }`}>
           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-            <span className="font-mono font-bold text-[10px] px-2.5 py-0.5 rounded-full bg-[#000000] border border-current w-fit">
+            <span className="font-mono font-bold text-[10px] px-2.5 py-0.5 rounded-full bg-[#101827] border border-current w-fit">
               ACTIVE ROLE: {roleBadgeText}
             </span>
-            <span className="text-xs text-[#A1A1AA]">{roleDescription}</span>
+            <span className="text-xs text-[#94A3B8]">{roleDescription}</span>
           </div>
-          <span className="text-[11px] font-mono text-[#FACC15] hidden md:inline font-bold">Switch role in top-right header</span>
+          <span className="text-[11px] font-mono text-[#38BDF8] hidden md:inline font-bold">Switch role in top-right header</span>
         </div>
 
-        {/* Sleek Dark KPI Summary Cards */}
+        {/* 3 Sleek Dark KPI Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-5 rounded-2xl bg-[#121214] border border-[#27272A] hover:border-[#F59E0B]/30 text-[#FAFAFA] flex flex-col justify-between shadow-lg min-h-[145px] transition">
+          <div className="p-5 rounded-2xl bg-[#151F30] border border-[#263449] hover:border-[#F59E0B]/30 text-[#F8FAFC] flex flex-col justify-between shadow-lg min-h-[145px] transition">
             <div className="flex items-center justify-between text-xs mb-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#A1A1AA]">Pending Review</span>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]">Pending Review</span>
               <AlertTriangle className="w-4 h-4 text-[#F59E0B]" />
             </div>
-            <div className="text-3xl font-black text-[#FFFFFF] mt-1 font-mono">{pendingEvents.length}</div>
-            <div className="mt-2 text-[11px] text-[#A1A1AA] flex items-center justify-between pt-2 border-t border-[#27272A]">
+            <div className="text-3xl font-black text-[#F8FAFC] mt-1 font-mono">{pendingEvents.length}</div>
+            <div className="mt-2 text-[11px] text-[#94A3B8] flex items-center justify-between pt-2 border-t border-[#263449]">
               <span>Awaiting authorization</span>
               <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold font-mono ${
                 pendingEvents.length > 0 
                   ? 'bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30' 
-                  : 'bg-[#1C1C1F] text-[#A1A1AA] border border-[#27272A]'
+                  : 'bg-[#1E293B] text-[#94A3B8] border border-[#263449]'
               }`}>
                 {pendingEvents.length > 0 ? 'ACTION REQUIRED' : 'CLEAR'}
               </span>
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#121214] border border-[#27272A] hover:border-[#10B981]/30 text-[#FAFAFA] flex flex-col justify-between shadow-lg min-h-[145px] transition">
+          <div className="p-5 rounded-2xl bg-[#151F30] border border-[#263449] hover:border-[#22C55E]/30 text-[#F8FAFC] flex flex-col justify-between shadow-lg min-h-[145px] transition">
             <div className="flex items-center justify-between text-xs mb-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#A1A1AA]">Approved Operations</span>
-              <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]">Approved Operations</span>
+              <CheckCircle2 className="w-4 h-4 text-[#22C55E]" />
             </div>
-            <div className="text-3xl font-black text-[#FFFFFF] mt-1 font-mono">
+            <div className="text-3xl font-black text-[#F8FAFC] mt-1 font-mono">
               {allApprovalEvents.filter(e => e.approval_status === 'APPROVED').length}
             </div>
-            <div className="mt-2 text-[11px] text-[#A1A1AA] flex items-center justify-between pt-2 border-t border-[#27272A]">
+            <div className="mt-2 text-[11px] text-[#94A3B8] flex items-center justify-between pt-2 border-t border-[#263449]">
               <span>Governed execution</span>
-              <span className="px-2 py-0.5 rounded-full bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 text-[10px] font-bold font-mono">
+              <span className="px-2 py-0.5 rounded-full bg-[#22C55E]/15 text-[#22C55E] border border-[#22C55E]/30 text-[10px] font-bold font-mono">
                 AUTHORIZED
               </span>
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#121214] border border-[#27272A] hover:border-[#EF4444]/30 text-[#FAFAFA] flex flex-col justify-between shadow-lg min-h-[145px] transition">
+          <div className="p-5 rounded-2xl bg-[#151F30] border border-[#263449] hover:border-[#EF4444]/30 text-[#F8FAFC] flex flex-col justify-between shadow-lg min-h-[145px] transition">
             <div className="flex items-center justify-between text-xs mb-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#A1A1AA]">Rejected Operations</span>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]">Rejected Operations</span>
               <XCircle className="w-4 h-4 text-[#EF4444]" />
             </div>
-            <div className="text-3xl font-black text-[#FFFFFF] mt-1 font-mono">
+            <div className="text-3xl font-black text-[#F8FAFC] mt-1 font-mono">
               {allApprovalEvents.filter(e => e.approval_status === 'REJECTED').length}
             </div>
-            <div className="mt-2 text-[11px] text-[#A1A1AA] flex items-center justify-between pt-2 border-t border-[#27272A]">
+            <div className="mt-2 text-[11px] text-[#94A3B8] flex items-center justify-between pt-2 border-t border-[#263449]">
               <span>Halted at gateway</span>
               <span className="px-2 py-0.5 rounded-full bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 text-[10px] font-bold font-mono">
                 DENIED
@@ -152,22 +153,22 @@ export default function ApprovalCenterPage() {
         </div>
 
         {/* Safety Guarantee Notice */}
-        <div className="p-4 rounded-xl bg-[#121214] border border-[#27272A] flex items-start gap-3 shadow-sm">
-          <Shield className="w-5 h-5 text-[#FACC15] flex-shrink-0 mt-0.5" />
+        <div className="p-4 rounded-xl bg-[#151F30] border border-[#263449] flex items-start gap-3 shadow-sm">
+          <Shield className="w-5 h-5 text-[#38BDF8] flex-shrink-0 mt-0.5" />
           <div className="text-xs space-y-0.5">
-            <p className="font-bold text-[#FFFFFF]">Zero-Trust Human Authorization Boundary</p>
-            <p className="text-[#A1A1AA] leading-relaxed">
+            <p className="font-bold text-[#F8FAFC]">Zero-Trust Human Authorization Boundary</p>
+            <p className="text-[#94A3B8] leading-relaxed">
               Approved AI agent requests execute strictly through authorized resource adapters with deterministic zero-trust containment. SentinelMesh prevents unconstrained host execution, direct database drops, or unverified ledger alterations.
             </p>
           </div>
         </div>
 
         {/* Pending Approvals Table */}
-        <div className="rounded-xl bg-[#121214] border border-[#27272A] overflow-hidden shadow-sm">
-          <div className="p-4 border-b border-[#27272A] flex items-center justify-between">
+        <div className="rounded-2xl bg-[#151F30] border border-[#263449] overflow-hidden shadow-sm">
+          <div className="p-4 border-b border-[#263449] flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-[#F59E0B]" />
-              <h3 className="text-sm font-bold text-[#FFFFFF]">Pending Human Approval Queue</h3>
+              <h3 className="text-sm font-bold text-[#F8FAFC]">Pending Human Approval Queue</h3>
               <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30">
                 {pendingEvents.length} actions
               </span>
@@ -175,15 +176,15 @@ export default function ApprovalCenterPage() {
           </div>
 
           {pendingEvents.length === 0 ? (
-            <div className="p-10 text-center text-[#A1A1AA] space-y-1.5">
-              <CheckCircle2 className="w-8 h-8 text-[#10B981] mx-auto" />
-              <p className="text-sm font-bold text-[#FFFFFF]">All caught up! No pending approvals.</p>
-              <p className="text-xs text-[#A1A1AA]">Trigger a high-risk action (such as DELETE database) in the Action Gateway to test approval flows.</p>
+            <div className="p-10 text-center text-[#94A3B8] space-y-1.5">
+              <CheckCircle2 className="w-8 h-8 text-[#22C55E] mx-auto" />
+              <p className="text-sm font-bold text-[#F8FAFC]">All caught up! No pending approvals.</p>
+              <p className="text-xs text-[#94A3B8]">Trigger a high-risk action (such as DELETE database) in the Action Simulator to test approval workflows.</p>
             </div>
           ) : (
             <div className="overflow-x-auto responsive-table-wrapper">
               <table className="w-full text-left text-xs min-w-[680px]">
-                <thead className="bg-[#09090B] text-[#A1A1AA] border-b border-[#27272A]">
+                <thead className="bg-[#101827] text-[#94A3B8] border-b border-[#263449]">
                   <tr>
                     <th className="py-2.5 px-4 font-bold uppercase text-[10px]">Event ID</th>
                     <th className="py-2.5 px-4 font-bold uppercase text-[10px]">Agent</th>
@@ -194,34 +195,34 @@ export default function ApprovalCenterPage() {
                     <th className="py-2.5 px-4 font-bold uppercase text-[10px] text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#27272A] font-mono">
+                <tbody className="divide-y divide-[#263449] font-mono">
                   {pendingEvents.map((event) => (
-                    <tr key={event.id} className="hover:bg-[#1C1C1F] transition-colors duration-150">
-                      <td className="py-3 px-4 font-bold text-[#FFFFFF]">{event.id}</td>
-                      <td className="py-3 px-4 text-[#FFFFFF] font-bold">{event.agent_id}</td>
+                    <tr key={event.id} className="hover:bg-[#1E293B] transition-colors duration-150">
+                      <td className="py-3 px-4 font-bold text-[#F8FAFC]">{event.id}</td>
+                      <td className="py-3 px-4 text-[#F8FAFC] font-bold">{event.agent_id}</td>
                       <td className="py-3 px-4">
                         <span className="px-2 py-0.5 rounded bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#F59E0B] font-bold">
                           {event.action_type}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-[#D4D4D8] max-w-[200px] truncate" title={event.resource}>
+                      <td className="py-3 px-4 text-[#94A3B8] max-w-[200px] truncate" title={event.resource}>
                         {event.resource}
                       </td>
-                      <td className="py-3 px-4 text-[#A1A1AA] text-[11px] font-semibold">{event.policy_id}</td>
-                      <td className="py-3 px-4 text-[#A1A1AA] font-sans max-w-[250px] truncate" title={event.reason}>
+                      <td className="py-3 px-4 text-[#94A3B8] text-[11px] font-semibold">{event.policy_id}</td>
+                      <td className="py-3 px-4 text-[#94A3B8] font-sans max-w-[250px] truncate" title={event.reason}>
                         {event.reason}
                       </td>
                       <td className="py-3 px-4 text-right space-x-1.5 font-sans">
                         <button
                           onClick={() => handleInspect(event.id)}
-                          className="px-2.5 py-1 rounded-lg bg-[#1C1C1F] border border-[#27272A] text-[#FFFFFF] hover:border-[#FACC15]/40 transition text-[11px] font-bold"
+                          className="px-2.5 py-1 rounded-lg bg-[#1E293B] border border-[#263449] text-[#F8FAFC] hover:border-[#38BDF8]/40 transition text-[11px] font-bold"
                         >
                           Inspect
                         </button>
                         {permissions.canApprove ? (
                           <button
                             onClick={() => handleOpenDecision(event)}
-                            className="px-3.5 py-1 rounded-lg bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] transition font-bold text-[11px] shadow-sm active:scale-95"
+                            className="px-3.5 py-1 rounded-lg bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] transition font-bold text-[11px] shadow-sm active:scale-95"
                           >
                             Decide (Admin)
                           </button>
@@ -235,7 +236,7 @@ export default function ApprovalCenterPage() {
                           </span>
                         ) : (
                           <span
-                            className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-[#1C1C1F] border border-[#27272A] text-[#A1A1AA] text-[10px] font-medium cursor-not-allowed"
+                            className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-[#1E293B] border border-[#263449] text-[#94A3B8] text-[10px] font-medium cursor-not-allowed"
                             title="Compliance Auditors have read-only access."
                           >
                             <Lock className="w-3 h-3" />
@@ -252,14 +253,14 @@ export default function ApprovalCenterPage() {
         </div>
 
         {/* Historical Decisions Table */}
-        <div className="rounded-xl bg-[#121214] border border-[#27272A] overflow-hidden shadow-sm">
-          <div className="p-4 border-b border-[#27272A]">
-            <h3 className="text-sm font-bold text-[#FFFFFF]">Historical Approval Decisions</h3>
-            <p className="text-xs text-[#A1A1AA] mt-0.5">Auditable records of all past administrative authorizations</p>
+        <div className="rounded-2xl bg-[#151F30] border border-[#263449] overflow-hidden shadow-sm">
+          <div className="p-4 border-b border-[#263449]">
+            <h3 className="text-sm font-bold text-[#F8FAFC]">Historical Approval Decisions</h3>
+            <p className="text-xs text-[#94A3B8] mt-0.5">Auditable records of all past administrative authorizations</p>
           </div>
           <div className="overflow-x-auto responsive-table-wrapper">
             <table className="w-full text-left text-xs min-w-[680px]">
-              <thead className="bg-[#09090B] text-[#A1A1AA] border-b border-[#27272A]">
+              <thead className="bg-[#101827] text-[#94A3B8] border-b border-[#263449]">
                 <tr>
                   <th className="py-2.5 px-4 font-bold uppercase text-[10px]">Event ID</th>
                   <th className="py-2.5 px-4 font-bold uppercase text-[10px]">Agent</th>
@@ -269,36 +270,36 @@ export default function ApprovalCenterPage() {
                   <th className="py-2.5 px-4 font-bold uppercase text-[10px] text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#27272A] font-mono">
+              <tbody className="divide-y divide-[#263449] font-mono">
                 {allApprovalEvents
                   .filter(e => e.approval_status !== 'PENDING')
                   .slice(0, 10)
                   .map((event) => (
-                    <tr key={event.id} className="hover:bg-[#1C1C1F] transition-colors duration-150">
-                      <td className="py-3 px-4 font-bold text-[#FFFFFF]">{event.id}</td>
-                      <td className="py-3 px-4 text-[#FFFFFF] font-semibold">{event.agent_id}</td>
+                    <tr key={event.id} className="hover:bg-[#1E293B] transition-colors duration-150">
+                      <td className="py-3 px-4 font-bold text-[#F8FAFC]">{event.id}</td>
+                      <td className="py-3 px-4 text-[#F8FAFC] font-semibold">{event.agent_id}</td>
                       <td className="py-3 px-4">
-                        <span className="font-bold text-[#FFFFFF]">{event.action_type}</span>{' '}
-                        <span className="text-[#A1A1AA] text-[11px] truncate inline-block max-w-[200px] align-bottom font-medium">
+                        <span className="font-bold text-[#F8FAFC]">{event.action_type}</span>{' '}
+                        <span className="text-[#94A3B8] text-[11px] truncate inline-block max-w-[200px] align-bottom font-medium">
                           {event.resource}
                         </span>
                       </td>
                       <td className="py-3 px-4">
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
                           event.approval_status === 'APPROVED'
-                            ? 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/30'
+                            ? 'bg-[#22C55E]/15 text-[#22C55E] border-[#22C55E]/30'
                             : 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
                         }`}>
                           {event.approval_status}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-[11px] text-[#A1A1AA] font-medium">
+                      <td className="py-3 px-4 text-[11px] text-[#94A3B8] font-medium">
                         {event.execution_status}
                       </td>
                       <td className="py-3 px-4 text-right font-sans">
                         <button
                           onClick={() => handleInspect(event.id)}
-                          className="px-2.5 py-1 rounded-lg bg-[#1C1C1F] border border-[#27272A] text-[#FFFFFF] hover:border-[#FACC15]/40 transition text-[11px] font-bold"
+                          className="px-2.5 py-1 rounded-lg bg-[#1E293B] border border-[#263449] text-[#F8FAFC] hover:border-[#38BDF8]/40 transition text-[11px] font-bold"
                         >
                           Inspect
                         </button>

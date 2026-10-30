@@ -62,12 +62,12 @@ export function SecurityEventFeed() {
   });
 
   return (
-    <div className="mst-card p-4 sm:p-5 rounded-xl bg-[#121212] border border-[#27272A] shadow-xl space-y-4 font-sans">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#27272A]">
+    <div className="p-4 sm:p-5 rounded-xl bg-[#151F30] border border-[#263449] shadow-xl space-y-4 font-sans">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#263449]">
         <div className="flex items-center gap-2">
-          <ShieldAlert className="w-4 h-4 text-[#FACC15]" />
-          <h3 className="text-sm font-extrabold text-[#FFFFFF]">Live Security Event Feed</h3>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#000000] text-[#FACC15] border border-[#27272A] font-bold">
+          <ShieldAlert className="w-4 h-4 text-[#38BDF8]" />
+          <h3 className="text-sm font-bold text-[#F8FAFC]">Live Security Event Feed</h3>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#101827] text-[#38BDF8] border border-[#263449] font-bold">
             {filtered.length} Events
           </span>
         </div>
@@ -76,30 +76,30 @@ export function SecurityEventFeed() {
           type="button"
           onClick={loadFeed}
           disabled={isLoading}
-          className="p-1.5 rounded-lg bg-[#000000] hover:bg-[#1C1C1C] text-[#D4D4D8] hover:text-[#FFFFFF] border border-[#27272A] transition self-end sm:self-auto"
+          className="p-1.5 rounded-lg bg-[#101827] hover:bg-[#1E293B] text-[#94A3B8] hover:text-[#F8FAFC] border border-[#263449] transition self-end sm:self-auto"
           title="Refresh event stream"
         >
-          <RefreshCw className={`w-3.5 h-3.5 text-[#FACC15] ${isLoading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 text-[#38BDF8] ${isLoading ? 'animate-spin' : ''}`} />
         </button>
       </div>
 
       {/* Filter and Search Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-2 text-xs">
         <div className="sm:col-span-8 relative">
-          <Search className="w-3.5 h-3.5 text-[#D4D4D8] absolute left-3 top-2.5" />
+          <Search className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-2.5" />
           <input
             type="text"
             placeholder="Search by agent, resource, event ID or policy..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-2 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] placeholder-[#D4D4D8] focus:outline-none focus:border-[#FACC15] font-mono text-xs"
+            className="w-full pl-8 pr-3 py-2 rounded-lg bg-[#101827] border border-[#263449] text-[#F8FAFC] placeholder-[#94A3B8] focus:outline-none focus:border-[#38BDF8] font-mono text-xs"
           />
         </div>
         <div className="sm:col-span-4">
           <select
             value={filterDecision}
             onChange={(e) => setFilterDecision(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg bg-[#000000] border border-[#27272A] text-[#FFFFFF] focus:outline-none focus:border-[#FACC15] font-mono text-xs font-semibold"
+            className="w-full px-3 py-2 rounded-lg bg-[#101827] border border-[#263449] text-[#F8FAFC] focus:outline-none focus:border-[#38BDF8] font-mono text-xs font-semibold"
           >
             <option value="ALL">All Decisions</option>
             <option value="ALLOW">ALLOW (Permitted)</option>
@@ -111,18 +111,18 @@ export function SecurityEventFeed() {
 
       {/* Events Table / Card List */}
       {isLoading ? (
-        <div className="py-8 text-center text-xs text-[#D4D4D8] font-sans font-medium">
+        <div className="py-8 text-center text-xs text-[#94A3B8] font-sans font-medium">
           Loading live security event feed...
         </div>
       ) : filtered.length === 0 ? (
-        <div className="py-8 text-center text-xs text-[#D4D4D8] font-sans font-medium">
+        <div className="py-8 text-center text-xs text-[#94A3B8] font-sans font-medium">
           No security events match your search criteria.
         </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs min-w-[640px]">
             <thead>
-              <tr className="border-b border-[#27272A] text-[#D4D4D8] font-mono text-[10px] uppercase font-bold">
+              <tr className="border-b border-[#263449] text-[#94A3B8] font-mono text-[10px] uppercase font-bold">
                 <th className="py-2.5 px-3">Timestamp</th>
                 <th className="py-2.5 px-3">Agent</th>
                 <th className="py-2.5 px-3">Operation &amp; Scope</th>
@@ -131,30 +131,30 @@ export function SecurityEventFeed() {
                 <th className="py-2.5 px-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#27272A]/60 font-mono">
+            <tbody className="divide-y divide-[#263449]/60 font-mono">
               {filtered.map((evt) => (
-                <tr key={evt.id} className="mst-table-row hover:bg-[#1C1C1C]/60 transition">
-                  <td className="py-2.5 px-3 text-[#D4D4D8] text-[11px] whitespace-nowrap font-medium">
+                <tr key={evt.id} className="hover:bg-[#1E293B]/60 transition">
+                  <td className="py-2.5 px-3 text-[#94A3B8] text-[11px] whitespace-nowrap font-medium">
                     {new Date(evt.timestamp).toLocaleTimeString()}
                   </td>
-                  <td className="py-2.5 px-3 font-bold text-[#FFFFFF] whitespace-nowrap">
+                  <td className="py-2.5 px-3 font-bold text-[#F8FAFC] whitespace-nowrap">
                     {evt.agent_id}
                   </td>
                   <td className="py-2.5 px-3 max-w-[200px] truncate" title={evt.resource}>
-                    <span className="text-[#FACC15] mr-1.5 font-bold">{evt.action_type}</span>
-                    <span className="text-[#D4D4D8]">{evt.resource}</span>
+                    <span className="text-[#38BDF8] mr-1.5 font-bold">{evt.action_type}</span>
+                    <span className="text-[#94A3B8]">{evt.resource}</span>
                   </td>
                   <td className="py-2.5 px-3">
                     <StatusBadge type="decision" value={evt.policy_decision} size="sm" />
                   </td>
-                  <td className="py-2.5 px-3 text-[#D4D4D8] text-[11px] font-medium">
+                  <td className="py-2.5 px-3 text-[#94A3B8] text-[11px] font-medium">
                     {evt.policy_id}
                   </td>
                   <td className="py-2.5 px-3 text-right font-sans">
                     <button
                       type="button"
                       onClick={() => handleInspect(evt.id)}
-                      className="px-2.5 py-1 rounded-lg bg-[#000000] border border-[#27272A] text-[#FACC15] hover:text-[#FFFFFF] hover:border-[#FACC15] transition text-[11px] font-bold"
+                      className="px-2.5 py-1 rounded-lg bg-[#1E293B] border border-[#263449] text-[#38BDF8] hover:text-[#F8FAFC] hover:border-[#38BDF8] transition text-[11px] font-bold"
                     >
                       Inspect
                     </button>

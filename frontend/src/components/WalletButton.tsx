@@ -7,18 +7,13 @@ import {
   Copy, 
   Check, 
   X, 
-  AlertTriangle, 
-  Layers, 
-  Globe, 
-  ShieldCheck, 
-  Lock
+  AlertTriangle 
 } from 'lucide-react';
 import { useWeb3Wallet, MST_NETWORKS } from '@/lib/web3Wallet';
 
 export function WalletButton() {
   const {
     isWalletAvailable,
-    isBridgeKey,
     walletName,
     isConnected,
     address,
@@ -72,13 +67,13 @@ export function WalletButton() {
         className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition border min-h-[40px] ${
           isConnected
             ? isCorrectNetwork
-              ? 'bg-[#FACC15]/15 border-[#FACC15]/40 text-[#FACC15] hover:border-[#FACC15]'
+              ? 'bg-[#38BDF8]/15 border-[#38BDF8]/40 text-[#38BDF8] hover:border-[#38BDF8]'
               : 'bg-[#F59E0B]/15 border-[#F59E0B]/40 text-[#F59E0B] hover:border-[#F59E0B]'
-            : 'bg-[#000000] border-[#27272A] text-[#FFFFFF] hover:border-[#FACC15]/40 hover:bg-[#1C1C1C]'
+            : 'bg-[#151F30] border-[#263449] text-[#F8FAFC] hover:border-[#38BDF8]/40 hover:bg-[#1E293B]'
         }`}
         title={isConnected ? 'View Connected Wallet & Network' : 'Connect BridgeKey / Web3 Wallet'}
       >
-        <Wallet className={`w-3.5 h-3.5 ${isConnected ? (isCorrectNetwork ? 'text-[#FACC15]' : 'text-[#F59E0B]') : 'text-[#D4D4D8]'}`} />
+        <Wallet className={`w-3.5 h-3.5 ${isConnected ? (isCorrectNetwork ? 'text-[#38BDF8]' : 'text-[#F59E0B]') : 'text-[#94A3B8]'}`} />
         
         {isConnecting ? (
           <span className="animate-pulse">Connecting...</span>
@@ -87,7 +82,7 @@ export function WalletButton() {
             <span>{formatAddress(address)}</span>
             <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold border ${
               isCorrectNetwork 
-                ? 'bg-[#FACC15]/20 text-[#FACC15] border-[#FACC15]/30' 
+                ? 'bg-[#22C55E]/20 text-[#22C55E] border-[#22C55E]/30' 
                 : 'bg-[#F59E0B]/20 text-[#F59E0B] border-[#F59E0B]/30'
             }`}>
               {activeNetwork ? activeNetwork.symbol : 'Wrong Net'}
@@ -101,21 +96,21 @@ export function WalletButton() {
       {/* Modal Dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-[#121212] border border-[#27272A] rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative font-sans">
+          <div className="bg-[#151F30] border border-[#263449] rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative font-sans">
             {/* Modal Header */}
-            <div className="flex justify-between items-start border-b border-[#27272A] pb-4">
+            <div className="flex justify-between items-start border-b border-[#263449] pb-4">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-[#FACC15]/15 border border-[#FACC15]/30 flex items-center justify-center text-[#FACC15]">
+                <div className="w-9 h-9 rounded-xl bg-[#38BDF8]/15 border border-[#38BDF8]/30 flex items-center justify-center text-[#38BDF8]">
                   <Wallet className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-extrabold text-[#FFFFFF]">BridgeKey Wallet Integration</h3>
-                  <p className="text-[11px] text-[#D4D4D8]">MST Blockchain direct transaction signing</p>
+                  <h3 className="text-sm font-extrabold text-[#F8FAFC]">BridgeKey Wallet Integration</h3>
+                  <p className="text-[11px] text-[#94A3B8]">MST Blockchain direct transaction signing</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-lg text-[#D4D4D8] hover:text-[#FFFFFF] hover:bg-[#1C1C1C] transition"
+                className="p-1 rounded-lg text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1E293B] transition"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -131,45 +126,45 @@ export function WalletButton() {
             {isConnected && address ? (
               <div className="space-y-4">
                 {/* Account Details Box */}
-                <div className="p-4 rounded-xl bg-[#000000] border border-[#27272A] space-y-3">
+                <div className="p-4 rounded-xl bg-[#101827] border border-[#263449] space-y-3">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-[#D4D4D8] font-bold">Provider:</span>
-                    <span className="font-extrabold text-[#FACC15] flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-[#FACC15] animate-ping"></span>
+                    <span className="text-[#94A3B8] font-bold">Provider:</span>
+                    <span className="font-extrabold text-[#38BDF8] flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-ping"></span>
                       {walletName}
                     </span>
                   </div>
 
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-[#D4D4D8] font-bold">Account Address:</span>
+                    <span className="text-[#94A3B8] font-bold">Account Address:</span>
                     <div className="flex items-center gap-1.5">
-                      <span className="font-mono text-[#FFFFFF] font-bold">{formatAddress(address)}</span>
+                      <span className="font-mono text-[#F8FAFC] font-bold">{formatAddress(address)}</span>
                       <button
                         onClick={handleCopy}
-                        className="p-1 rounded text-[#D4D4D8] hover:text-[#FACC15] transition"
+                        className="p-1 rounded text-[#94A3B8] hover:text-[#38BDF8] transition"
                         title="Copy full address"
                       >
-                        {copied ? <Check className="w-3.5 h-3.5 text-[#FACC15]" /> : <Copy className="w-3.5 h-3.5" />}
+                        {copied ? <Check className="w-3.5 h-3.5 text-[#22C55E]" /> : <Copy className="w-3.5 h-3.5" />}
                       </button>
                     </div>
                   </div>
 
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-[#D4D4D8] font-bold">Native Balance:</span>
-                    <span className="font-mono text-[#FACC15] font-extrabold text-sm">
+                    <span className="text-[#94A3B8] font-bold">Native Balance:</span>
+                    <span className="font-mono text-[#22C55E] font-extrabold text-sm">
                       {balance || '0.0000 tMSTC'}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center text-xs pt-1 border-t border-[#27272A]">
-                    <span className="text-[#D4D4D8] font-bold">Active Chain ID:</span>
-                    <span className="font-mono font-bold text-[#FFFFFF]">{chainId ? `#${chainId}` : 'Unknown'}</span>
+                  <div className="flex justify-between items-center text-xs pt-1 border-t border-[#263449]">
+                    <span className="text-[#94A3B8] font-bold">Active Chain ID:</span>
+                    <span className="font-mono font-bold text-[#F8FAFC]">{chainId ? `#${chainId}` : 'Unknown'}</span>
                   </div>
                 </div>
 
                 {/* Network Switching Section */}
                 <div>
-                  <span className="text-[11px] font-extrabold text-[#D4D4D8] uppercase tracking-wider block mb-2">
+                  <span className="text-[11px] font-extrabold text-[#94A3B8] uppercase tracking-wider block mb-2">
                     Network Selection (1-Click Switch)
                   </span>
 
@@ -180,18 +175,18 @@ export function WalletButton() {
                       disabled={chainId === MST_NETWORKS.testnet.chainIdDec || switchingNetwork !== null}
                       className={`p-3 rounded-xl border text-left transition flex flex-col justify-between ${
                         chainId === MST_NETWORKS.testnet.chainIdDec
-                          ? 'bg-[#FACC15]/15 border-[#FACC15]/50 text-[#FACC15]'
-                          : 'bg-[#000000] border-[#27272A] hover:border-[#FACC15]/30 hover:bg-[#1C1C1C]'
+                          ? 'bg-[#38BDF8]/15 border-[#38BDF8]/50 text-[#38BDF8]'
+                          : 'bg-[#101827] border-[#263449] hover:border-[#38BDF8]/30 hover:bg-[#1E293B]'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-extrabold text-[#FFFFFF]">MST Testnet</span>
+                        <span className="text-xs font-extrabold text-[#F8FAFC]">MST Testnet</span>
                         {chainId === MST_NETWORKS.testnet.chainIdDec && (
-                          <span className="w-2 h-2 rounded-full bg-[#FACC15]"></span>
+                          <span className="w-2 h-2 rounded-full bg-[#22C55E]"></span>
                         )}
                       </div>
-                      <span className="text-[10px] font-mono font-bold text-[#FACC15]">Chain: 91562037</span>
-                      <span className="text-[10px] text-[#D4D4D8] mt-1">Registry Deployed</span>
+                      <span className="text-[10px] font-mono font-bold text-[#38BDF8]">Chain: 91562037</span>
+                      <span className="text-[10px] text-[#94A3B8] mt-1">Registry Deployed</span>
                     </button>
 
                     {/* MST Mainnet */}
@@ -201,17 +196,17 @@ export function WalletButton() {
                       className={`p-3 rounded-xl border text-left transition flex flex-col justify-between ${
                         chainId === MST_NETWORKS.mainnet.chainIdDec
                           ? 'bg-[#EF4444]/15 border-[#EF4444]/50 text-[#EF4444]'
-                          : 'bg-[#000000] border-[#27272A] hover:border-[#EF4444]/30 hover:bg-[#1C1C1C]'
+                          : 'bg-[#101827] border-[#263449] hover:border-[#EF4444]/30 hover:bg-[#1E293B]'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-extrabold text-[#FFFFFF]">MST Mainnet</span>
+                        <span className="text-xs font-extrabold text-[#F8FAFC]">MST Mainnet</span>
                         {chainId === MST_NETWORKS.mainnet.chainIdDec && (
                           <span className="w-2 h-2 rounded-full bg-[#EF4444]"></span>
                         )}
                       </div>
                       <span className="text-[10px] font-mono font-bold text-[#EF4444]">Chain: 4646</span>
-                      <span className="text-[10px] text-[#D4D4D8] mt-1">Governed Deployment</span>
+                      <span className="text-[10px] text-[#94A3B8] mt-1">Governed Deployment</span>
                     </button>
                   </div>
 
@@ -223,12 +218,12 @@ export function WalletButton() {
                 </div>
 
                 {/* Disconnect Action */}
-                <div className="pt-2 border-t border-[#27272A] flex justify-between items-center">
+                <div className="pt-2 border-t border-[#263449] flex justify-between items-center">
                   <a
                     href={activeNetwork ? `${activeNetwork.explorerUrl}/address/${address}` : `https://testnet.mstscan.com/address/${address}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-[#FACC15] hover:underline flex items-center gap-1 font-bold"
+                    className="text-xs text-[#38BDF8] hover:underline flex items-center gap-1 font-bold"
                   >
                     <span>View on MSTScan</span>
                     <ExternalLink className="w-3 h-3" />
@@ -244,23 +239,23 @@ export function WalletButton() {
               </div>
             ) : (
               <div className="space-y-4">
-                <p className="text-xs text-[#D4D4D8] leading-relaxed">
-                  Connect your <strong className="text-[#FFFFFF]">BridgeKey Wallet</strong> or any EVM-compatible browser wallet to directly authorize and sign cryptographic evidence commitments onto MST Blockchain.
+                <p className="text-xs text-[#94A3B8] leading-relaxed">
+                  Connect your <strong className="text-[#F8FAFC]">BridgeKey Wallet</strong> or any EVM-compatible browser wallet to directly authorize and sign cryptographic evidence commitments onto MST Blockchain.
                 </p>
 
                 <div className="space-y-2">
                   <button
                     onClick={connectWallet}
                     disabled={isConnecting}
-                    className="w-full py-2.5 px-4 rounded-xl text-xs font-extrabold bg-[#FACC15] hover:bg-[#EAB308] text-[#000000] transition flex items-center justify-center gap-2 shadow-sm min-h-[44px]"
+                    className="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] transition flex items-center justify-center gap-2 shadow-sm min-h-[44px]"
                   >
-                    <Wallet className="w-4 h-4 text-[#000000]" />
+                    <Wallet className="w-4 h-4 text-[#090D16]" />
                     <span>{isConnecting ? 'Waiting for approval...' : 'Connect Injected Browser Wallet'}</span>
                   </button>
                 </div>
 
                 {!isWalletAvailable && (
-                  <div className="p-3.5 rounded-xl bg-[#000000] border border-[#27272A] text-[11px] text-[#D4D4D8] space-y-2">
+                  <div className="p-3.5 rounded-xl bg-[#101827] border border-[#263449] text-[11px] text-[#94A3B8] space-y-2">
                     <div className="flex items-center gap-1.5 text-[#F59E0B] font-bold">
                       <AlertTriangle className="w-3.5 h-3.5 text-[#F59E0B]" />
                       <span>No Injected Wallet Detected</span>
@@ -273,7 +268,7 @@ export function WalletButton() {
                         href="https://mstblockchain.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#FACC15] hover:underline flex items-center gap-1 font-bold"
+                        className="text-[#38BDF8] hover:underline flex items-center gap-1 font-bold"
                       >
                         <span>Official MST Portal</span>
                         <ExternalLink className="w-3 h-3" />
@@ -282,7 +277,7 @@ export function WalletButton() {
                         href="https://faucet.mstblockchain.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#FACC15] hover:underline flex items-center gap-1 font-bold"
+                        className="text-[#38BDF8] hover:underline flex items-center gap-1 font-bold"
                       >
                         <span>tMSTC Faucet</span>
                         <ExternalLink className="w-3 h-3" />

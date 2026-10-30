@@ -3,174 +3,122 @@
 @tailwind utilities;
 
 :root {
-  /* High-Contrast Black & White + Cyber Yellow + Crimson Red Tokens */
-  --color-canvas: #000000;
-  --color-surface: #121212;
-  --color-surface-elevated: #1C1C1C;
-  --color-accent: #FACC15;
-  --color-heading: #FFFFFF;
-  --color-body: #D4D4D8;
+  /* Sophisticated Dark Cybersecurity Palette */
+  --color-canvas: #090D16;
+  --color-surface: #101827;
+  --color-card: #151F30;
+  --color-card-elevated: #1E293B;
+  --color-border: #263449;
+  --color-border-subtle: #1E293B;
 
-  --color-warning: #FACC15;
+  --color-heading: #F8FAFC;
+  --color-body: #94A3B8;
+  --color-muted: #64748B;
+
+  --color-accent: #38BDF8;
+  --color-success: #22C55E;
   --color-danger: #EF4444;
-  --color-info: #FACC15;
-
-  --color-border: #27272A;
-  --color-border-subtle: #1C1C1C;
-
-  --color-text-on-accent: #000000;
+  --color-warning: #F59E0B;
 
   /* Backward Compatibility Variables */
-  --bg-primary: #000000;
-  --bg-panel: #121212;
-  --bg-elevated: #1C1C1C;
-  --border-subtle: #27272A;
-  --text-primary: #FFFFFF;
-  --text-muted: #D4D4D8;
-  --text-dim: #71717A;
-  --accent-gold: #FACC15;
-  --accent-orange: #FACC15;
-  --accent-yellow: #FACC15;
-  --accent-emerald: #FACC15;
+  --bg-primary: #090D16;
+  --bg-panel: #101827;
+  --bg-elevated: #151F30;
+  --border-subtle: #263449;
+  --text-primary: #F8FAFC;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
+  --accent-gold: #38BDF8;
+  --accent-yellow: #38BDF8;
+  --accent-emerald: #22C55E;
   --accent-red: #EF4444;
 }
 
 body {
-  background-color: #000000;
-  color: #D4D4D8;
+  background-color: #090D16;
+  color: #94A3B8;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
-  font-weight: 500;
+  font-weight: 450;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #FFFFFF;
+  color: #F8FAFC;
 }
 
 /* Custom Minimal Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #090D16;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1C1C1C;
+  background: #1E293B;
   border-radius: 4px;
-  border: 1px solid #27272A;
+  border: 1px solid #263449;
   transition: all 0.2s ease;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #FACC15;
-  box-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
+  background: #38BDF8;
 }
 
 /* Accessible Keyboard Navigation */
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 2px solid #FACC15;
+  outline: 2px solid #38BDF8;
   outline-offset: 2px;
 }
 
-/* Card Surfaces */
+/* Premium Cybersecurity Card Surfaces */
 .mst-card {
-  background-color: #121212;
-  border: 1px solid #27272A;
+  background-color: #151F30;
+  border: 1px solid #263449;
   border-radius: 0.75rem;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease-in-out;
 }
 
 .mst-card:hover {
-  border-color: #FACC15;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.9), 0 0 15px rgba(250, 204, 21, 0.15);
-  transform: translateY(-2px);
-}
-
-/* Semantic Block Accents */
-.block-mint, .block-gold, .block-emerald, .block-yellow {
-  background-color: #121212;
-  border: 1px solid rgba(250, 204, 21, 0.35);
-}
-.block-mint:hover, .block-gold:hover, .block-emerald:hover, .block-yellow:hover {
-  border-color: #FACC15;
-  box-shadow: 0 0 15px rgba(250, 204, 21, 0.22);
-}
-
-.block-orange, .block-info {
-  background-color: #121212;
-  border: 1px solid rgba(250, 204, 21, 0.35);
-}
-.block-orange:hover, .block-info:hover {
-  border-color: #FACC15;
-  box-shadow: 0 0 15px rgba(250, 204, 21, 0.22);
-}
-
-.block-crimson, .block-danger {
-  background-color: #121212;
-  border: 1px solid rgba(239, 68, 68, 0.35);
-}
-.block-crimson:hover, .block-danger:hover {
-  border-color: #EF4444;
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.22);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.6);
 }
 
 /* Table Row Hover */
 .mst-table-row {
   position: relative;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.15s ease-in-out;
 }
 
 .mst-table-row:hover {
-  background-color: #1C1C1C !important;
-  box-shadow: inset 3px 0 0 0 #FACC15;
+  background-color: #101827 !important;
 }
 
 /* Interactive Button Styles */
 .btn-primary {
-  background-color: #FACC15;
-  color: #000000;
-  font-weight: 800;
+  background-color: #38BDF8;
+  color: #090D16;
+  font-weight: 700;
+  border-radius: 0.5rem;
   transition: all 0.2s ease;
 }
 .btn-primary:hover:not(:disabled) {
-  background-color: #EAB308;
-  box-shadow: 0 0 14px rgba(250, 204, 21, 0.4);
+  background-color: #7DD3FC;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
 }
 
 .btn-secondary {
-  background-color: #121212;
-  color: #FFFFFF;
-  border: 1px solid #27272A;
+  background-color: #151F30;
+  color: #F8FAFC;
+  border: 1px solid #263449;
+  border-radius: 0.5rem;
   transition: all 0.2s ease;
 }
 .btn-secondary:hover:not(:disabled) {
-  border-color: #FACC15;
-  color: #FACC15;
-}
-
-/* Button Shimmer */
-.mst-btn-shimmer {
-  position: relative;
-  overflow: hidden;
-}
-
-.mst-btn-shimmer::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
-}
-
-.mst-btn-shimmer:hover::after {
-  transform: translateX(100%);
+  border-color: #38BDF8;
+  color: #38BDF8;
 }
 
 /* Accessibility: Respect Reduced Motion Preferences */
