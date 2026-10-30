@@ -11,7 +11,9 @@ class Settings(BaseSettings):
         "http://localhost:3000",
         "http://127.0.0.1:3000",
         "http://localhost:3001",
-        "http://127.0.0.1:3001"
+        "http://127.0.0.1:3001",
+        "https://sentinelmesh-five.vercel.app",
+        "https://sentinelmesh.vercel.app"
     ]
     ADMIN_API_KEY: str = "sentinel-admin-dev-key-phase1"
     JWT_SECRET: str = "sentinelmesh-jwt-secret-phase3-buildathon"

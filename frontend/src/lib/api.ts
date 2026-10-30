@@ -29,7 +29,11 @@ import {
 } from './types';
 import { clientStore, INITIAL_POLICIES } from './clientStore';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+// In production (Vercel) or when not explicitly set, default to relative '' so requests go to the live Next.js API Route Handlers
+const API_BASE = process.env.NEXT_PUBLIC_API_URL !== undefined 
+  ? process.env.NEXT_PUBLIC_API_URL 
+  : (typeof window !== 'undefined' ? '' : 'http://127.0.0.1:8000');
+
 const DEFAULT_ADMIN_KEY = process.env.NEXT_PUBLIC_ADMIN_KEY || 'sentinel-admin-dev-key-phase1';
 
 export function getAuthToken(): string | null {
@@ -69,69 +73,69 @@ async function handleResponse<T>(res: Response): Promise<T> {
     let errorDetail = `Request failed with status ${res.status}`;
     try {
       const errJson = await res.json();
-      errorDetail = errJson.detail || errJson.message || errorDetail;
+      errorDetail = errJson.detail || errJson.message || errJson.error || errorDetail;
     } catch {
       // fallback
     }
-    throw new Error(errorDetail);
+    const err = new Error(errorDetail);
+    (err as any).isServerError = true;
+    (err as any).status = res.status;
+    throw err;
   }
   return res.json();
 }
 
-// Tracks backend health and reachability to prevent ERR_CONNECTION_REFUSED in browser DevTools
-let isBackendReachable: boolean | null = null;
-let lastBackendCheck = 0;
-const PROBE_COOLDOWN_MS = 45000;
+// Tracks backend health and reachability
+let isBackendReachable: boolean = true;
+let activeApiMode: 'LIVE_API' | 'OFFLINE_DEMO' = 'LIVE_API';
 
-function isRemoteHost(): boolean {
-  if (typeof window === 'undefined') return true;
-  const host = window.location.hostname;
-  return host !== 'localhost' && host !== '127.0.0.1' && !host.endsWith('.local');
+export function getActiveApiMode(): 'LIVE_API' | 'OFFLINE_DEMO' {
+  return activeApiMode;
+}
+
+export function getApiBaseUrl(): string {
+  if (API_BASE) return API_BASE;
+  if (typeof window !== 'undefined') return window.location.origin;
+  return 'http://localhost:3000';
 }
 
 function shouldAttemptFetch(): boolean {
   if (typeof window === 'undefined') return false;
-
-  // 1. If running on a public remote host (e.g. Vercel) and API_BASE points to localhost:
-  // Never attempt to fetch 127.0.0.1. Browsers reject cross-origin requests to private IP ranges from HTTPS,
-  // generating red ERR_CONNECTION_REFUSED errors in DevTools Inspect.
-  const targetIsLocalhost = API_BASE.includes('127.0.0.1') || API_BASE.includes('localhost');
-  if (isRemoteHost() && targetIsLocalhost) {
-    return false;
-  }
-
-  // 2. On localhost, if we previously detected that the Python backend is offline,
-  // do not spam failed HTTP calls every polling cycle.
-  const now = Date.now();
-  if (isBackendReachable === false && (now - lastBackendCheck < PROBE_COOLDOWN_MS)) {
-    return false;
-  }
-
+  // If API_BASE is relative '', always attempt fetch since route handlers are on same origin
+  if (!API_BASE) return true;
   return true;
 }
 
 /**
  * Intelligent resilient fetch:
- * When on a remote deployment without an external backend, or when the local backend is offline,
- * it routes immediately to the in-browser clientStore engine.
- * This completely eliminates "net::ERR_CONNECTION_REFUSED" in browser DevTools.
+ * Prioritizes live backend API.
+ * Never silently swallows real server-side validation or execution errors.
  */
 async function tryFetchWithFallback<T>(fetcher: () => Promise<T>, fallback: () => T | Promise<T>): Promise<T> {
   if (!shouldAttemptFetch()) {
+    activeApiMode = 'OFFLINE_DEMO';
     return await fallback();
   }
 
   try {
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('Backend timeout')), 2000)
+      setTimeout(() => reject(new Error('Backend timeout after 5000ms')), 5000)
     );
     const result = await Promise.race([fetcher(), timeoutPromise]);
     isBackendReachable = true;
-    lastBackendCheck = Date.now();
+    activeApiMode = 'LIVE_API';
     return result;
-  } catch (err) {
+  } catch (err: any) {
+    // If the server responded with an actual HTTP error status (4xx, 5xx), throw it directly!
+    // Do not hide genuine validation or authorization failures behind fake mock data.
+    if (err && err.isServerError) {
+      throw err;
+    }
+
+    // Only switch to demo mode if network connection is physically unreachable
+    console.warn('[SentinelMesh API] Network unreachable, switching to demo mode:', err.message);
+    activeApiMode = 'OFFLINE_DEMO';
     isBackendReachable = false;
-    lastBackendCheck = Date.now();
     return await fallback();
   }
 }
