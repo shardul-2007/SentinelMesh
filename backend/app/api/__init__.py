@@ -11,6 +11,7 @@ from app.api.agents import agents_router
 from app.api.incidents import incidents_router
 from app.api.monitoring import monitoring_router
 from app.api.governance import governance_router
+from app.api.paypal import router as paypal_router
 
 __all__ = [
     "dashboard_router",
@@ -25,7 +26,8 @@ __all__ = [
     "agents_router",
     "incidents_router",
     "monitoring_router",
-    "governance_router"
+    "governance_router",
+    "paypal_router"
 ]
 
 

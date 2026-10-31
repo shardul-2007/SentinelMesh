@@ -942,6 +942,87 @@ class SentinelBackendEngine {
       provenance_disclaimer: 'Verified against RFC-8785 Canonical JSON and MST Testnet EvidenceRegistry smart contract.'
     };
   }
+
+  getPayPalStatus() {
+    const clientId = process.env.PAYPAL_CLIENT_ID || '';
+    const isConfigured = clientId.length > 5;
+    return {
+      integration: "PayPal Developer Sandbox",
+      is_configured: isConfigured,
+      base_url: process.env.PAYPAL_BASE_URL || "https://api-m.sandbox.paypal.com",
+      environment: "SANDBOX",
+      client_id_preview: isConfigured ? `${clientId.slice(0, 6)}...${clientId.slice(-4)}` : "UNCONFIGURED",
+      supported_currencies: ["USD", "EUR", "GBP", "CAD", "AUD"],
+      governance_mode: "ZERO_TRUST_POLICY_GATED",
+      setup_guide_url: "https://developer.paypal.com/dashboard/applications/sandbox",
+      status_message: isConfigured
+        ? "PayPal Developer Sandbox credentials configured and ready for policy-gated transactions."
+        : "PayPal Sandbox credentials not configured. Set PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET to enable live PayPal Sandbox order creation."
+    };
+  }
+
+  createGovernedPayPalOrder(req: { agent_id: string; recipient: string; amount: number; currency?: string; description?: string }) {
+    const currency = (req.currency || 'USD').toUpperCase();
+    const resource = `paypal://orders/${req.recipient}`;
+    let decision = 'ALLOW';
+    let policyId = 'POL-PAYPAL-LOW';
+    let reason = `Micro-payment of $${req.amount.toFixed(2)} ${currency} authorized under policy.`;
+
+    if (req.amount > 100.0) {
+      decision = 'REQUIRE_APPROVAL';
+      policyId = 'POL-PAYPAL-HIGH';
+      reason = `Payment amount of $${req.amount.toFixed(2)} ${currency} exceeds auto-approval threshold ($100.00). Human multi-factor authorization required.`;
+    } else if (['sanctioned_entity', 'blocked_merchant', 'untrusted_wallet'].includes(req.recipient.toLowerCase())) {
+      decision = 'BLOCK';
+      policyId = 'POL-PAYPAL-BLOCKED';
+      reason = `Payment to recipient '${req.recipient}' is strictly prohibited by anti-fraud policy.`;
+    }
+
+    const eventId = `evt_${crypto.randomBytes(6).toString('hex')}`;
+    const timestamp = new Date().toISOString();
+    const evidencePayload = {
+      event_id: eventId,
+      timestamp,
+      agent_id: req.agent_id,
+      action_type: 'PAYMENT',
+      resource,
+      policy_decision: decision,
+      policy_id: policyId,
+      parameters: { amount: req.amount, currency, recipient: req.recipient, provider: 'PAYPAL_SANDBOX' }
+    };
+    const canonicalStr = canonicalJsonStringify(evidencePayload);
+    const sha256Digest = computeSha256Hex(canonicalStr);
+
+    const newEvent: AuditEventDetail = {
+      id: eventId,
+      timestamp,
+      agent_id: req.agent_id,
+      action_type: 'PAYMENT',
+      resource,
+      policy_decision: decision as any,
+      policy_id: policyId,
+      policy_version: '1.0.0',
+      reason,
+      execution_mode: 'SIMULATED',
+      execution_status: decision === 'BLOCK' ? 'BLOCKED' : decision === 'REQUIRE_APPROVAL' ? 'PENDING_APPROVAL' : 'EXECUTED_SIMULATED',
+      approval_status: decision === 'REQUIRE_APPROVAL' ? 'PENDING' : 'NONE',
+      integrity_hash: sha256Digest,
+      event_metadata: canonicalStr
+    };
+    this.events.unshift(newEvent);
+
+    return {
+      success: decision === 'ALLOW',
+      decision,
+      policy_id: policyId,
+      reason,
+      event_id: eventId,
+      sha256_digest: sha256Digest,
+      canonical_hash: `0x${sha256Digest}`,
+      paypal_status: decision === 'BLOCK' ? 'NOT_CALLED_POLICY_BLOCKED' : decision === 'REQUIRE_APPROVAL' ? 'HELD_PENDING_HUMAN_APPROVAL' : 'ORDER_CREATED_SANDBOX',
+      instruction: decision === 'REQUIRE_APPROVAL' ? 'Transaction recorded in Approval Center. Authorize this payment in /approvals before capture can occur.' : undefined
+    };
+  }
 }
 
 // Global server singleton

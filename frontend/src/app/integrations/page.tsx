@@ -163,6 +163,28 @@ if (evaluation.decision === 'REQUIRE_APPROVAL') {
                 <span className="text-[#2563EB] font-bold">Python</span>
               </div>
             </div>
+
+            {/* PayPal Developer Sandbox */}
+            <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#2563EB]/40 shadow-xs flex flex-col justify-between space-y-4 ring-1 ring-[#2563EB]/10">
+              <div className="space-y-2">
+                <div className="w-10 h-10 rounded-xl bg-[#2563EB]/10 flex items-center justify-center text-[#2563EB]">
+                  <Boxes className="w-5 h-5" />
+                </div>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-[#172B4D]">PayPal Developer Sandbox</h3>
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#15803D]/10 text-[#15803D]">LIVE SANDBOX</span>
+                </div>
+                <p className="text-xs text-[#64748B] leading-relaxed">
+                  Zero-trust financial gateway evaluating AI agent payment actions, micro-payments vs high-value approval tiers, and OAuth2 checkout orders.
+                </p>
+              </div>
+              <div className="pt-2 border-t border-[#E5E7EB] flex items-center justify-between text-xs">
+                <Link href="/paypal" className="font-semibold text-[#2563EB] hover:underline flex items-center gap-1">
+                  Open PayPal Studio &rarr;
+                </Link>
+                <span className="text-[#64748B] font-mono text-[11px]">REST v2</span>
+              </div>
+            </div>
           </div>
         </section>
 

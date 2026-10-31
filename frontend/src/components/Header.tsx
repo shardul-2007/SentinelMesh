@@ -24,14 +24,14 @@ import { useRBAC } from '@/lib/rbac';
 import { WalletButton } from './WalletButton';
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   onRefresh?: () => void;
   isRefreshing?: boolean;
   onToggleMobileMenu?: () => void;
 }
 
-export function Header({ title, subtitle, onRefresh, isRefreshing, onToggleMobileMenu }: HeaderProps) {
+export function Header({ title = "Zero-Trust Security Gateway", subtitle, onRefresh, isRefreshing, onToggleMobileMenu }: HeaderProps) {
   const { role, user, switchRole, roleTitle } = useRBAC();
   const [backendStatus, setBackendStatus] = useState<'checking' | 'connected' | 'disconnected'>('checking');
   const [blockchainInfo, setBlockchainInfo] = useState<{ connected: boolean; status: string; network?: string }>({

@@ -36,6 +36,12 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
       return NextResponse.json(data, { headers: corsHeaders() });
     }
 
+    // PayPal Status
+    if (path === 'paypal/status') {
+      const data = backendEngine.getPayPalStatus();
+      return NextResponse.json(data, { headers: corsHeaders() });
+    }
+
     // 3. Events
     if (path === 'events') {
       const page = parseInt(searchParams.get('page') || '1', 10);
@@ -190,6 +196,12 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
     // 1. Action Evaluation
     if (path === 'actions/evaluate') {
       const data = await backendEngine.evaluateAction(body);
+      return NextResponse.json(data, { status: 200, headers: corsHeaders() });
+    }
+
+    // PayPal Governed Order
+    if (path === 'paypal/governed-order') {
+      const data = backendEngine.createGovernedPayPalOrder(body);
       return NextResponse.json(data, { status: 200, headers: corsHeaders() });
     }
 

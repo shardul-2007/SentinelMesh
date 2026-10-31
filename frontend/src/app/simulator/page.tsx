@@ -94,6 +94,28 @@ const PRESETS = [
     clientRisk: 'CRITICAL',
     expectedDecision: 'BLOCK',
     policy: 'POL-F'
+  },
+  {
+    title: '7. PayPal Micro-Payment ($25.00)',
+    desc: 'Autonomous financial payout under limit',
+    agent: 'agent-financial-bot',
+    action: 'PAYMENT',
+    resource: 'paypal://orders/cloud-hosting',
+    reason: 'Monthly automated cloud hosting invoice payment',
+    clientRisk: 'LOW',
+    expectedDecision: 'ALLOW',
+    policy: 'POL-PAYPAL-LOW'
+  },
+  {
+    title: '8. PayPal Large Transfer ($1,500.00)',
+    desc: 'High-value financial payment exceeding limit',
+    agent: 'agent-financial-bot',
+    action: 'PAYMENT',
+    resource: 'paypal://orders/equipment-vendor',
+    reason: 'Infrastructure hardware procurement transfer',
+    clientRisk: 'HIGH',
+    expectedDecision: 'REQUIRE_APPROVAL',
+    policy: 'POL-PAYPAL-HIGH'
   }
 ];
 

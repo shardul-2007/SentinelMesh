@@ -20,7 +20,8 @@ import {
   PanelLeftOpen,
   Users,
   Grid,
-  BookOpen
+  BookOpen,
+  CreditCard
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useRBAC } from '@/lib/rbac';
@@ -61,6 +62,7 @@ export function Sidebar({
     { name: 'Audit Explorer', href: '/audit', icon: FileText, badge: 'Ledger' },
     { name: 'Evidence Verification', href: '/integrity', icon: Lock, badge: 'RFC-8785' },
     { name: 'Blockchain Registry', href: '/blockchain', icon: Boxes, badge: 'MST Chain' },
+    { name: 'PayPal Sandbox', href: '/paypal', icon: CreditCard, badge: 'FinTech' },
     { name: 'Agent Management', href: '/agents', icon: Users, badge: 'Fleet' },
     { name: 'Integrations', href: '/integrations', icon: Grid, badge: 'SDK' },
     { name: 'Settings', href: '/settings', icon: Settings, badge: 'Config' },

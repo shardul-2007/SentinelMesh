@@ -27,7 +27,8 @@ from app.api import (
     agents_router,
     incidents_router,
     monitoring_router,
-    governance_router
+    governance_router,
+    paypal_router
 )
 from app.blockchain.service import get_blockchain_service
 from app.models import AuditEvent, IntegrityRecord
@@ -154,6 +155,7 @@ app.include_router(agents_router)
 app.include_router(incidents_router)
 app.include_router(monitoring_router)
 app.include_router(governance_router)
+app.include_router(paypal_router)
 
 if __name__ == "__main__":
     import uvicorn

@@ -168,6 +168,20 @@ export default function DashboardPage() {
                   <span className="text-[11px] text-[#64748B] mt-0.5 block">High-impact operation held until human administrator sign-off.</span>
                 </div>
               </div>
+
+              <div className="flex flex-wrap gap-2 pt-2">
+                <Link href="/how-it-works" className="text-xs font-semibold text-[#2563EB] hover:underline flex items-center gap-1">
+                  How It Works &rarr;
+                </Link>
+                <span className="text-[#E5E7EB]">&bull;</span>
+                <Link href="/security" className="text-xs font-semibold text-[#2563EB] hover:underline flex items-center gap-1">
+                  Security Model &rarr;
+                </Link>
+                <span className="text-[#E5E7EB]">&bull;</span>
+                <Link href="/paypal" className="text-xs font-semibold text-[#2563EB] hover:underline flex items-center gap-1">
+                  PayPal Sandbox &rarr;
+                </Link>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full lg:w-auto flex-shrink-0">

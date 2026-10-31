@@ -40,6 +40,14 @@ class Settings(BaseSettings):
     BLOCKCHAIN_SIGNER_KEY: str = ""
     BLOCKCHAIN_NETWORK_NAME: str = "MST Testnet"
 
+    # PayPal Developer Sandbox Configuration
+    PAYPAL_CLIENT_ID: str = ""
+    PAYPAL_CLIENT_SECRET: str = ""
+    PAYPAL_BASE_URL: str = "https://api-m.sandbox.paypal.com"
+
+    # AI Model Integration (Gemini / LLM)
+    GEMINI_API_KEY: str = ""
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
