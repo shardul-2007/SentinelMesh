@@ -17,7 +17,10 @@ import {
   ExternalLink,
   X,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  Users,
+  Grid,
+  BookOpen
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useRBAC } from '@/lib/rbac';
@@ -49,48 +52,50 @@ export function Sidebar({
   const networkLabel = chainStatus?.network_name || 'MST Testnet';
   const isConnected = chainStatus?.connected ?? true;
 
-  // Exactly 8 items per design specification (Section 9)
+  // The 10 mandated Enterprise Application Sidebar Items
   const navItems = [
     { name: 'Overview', href: '/', icon: LayoutDashboard, badge: 'Gateway' },
-    { name: 'Agent Simulator', href: '/simulator', icon: PlayCircle, badge: 'Evaluate' },
-    { name: 'Policies', href: '/policies', icon: Sliders, badge: 'Rules' },
-    { name: 'Approvals', href: '/approvals', icon: CheckCircle2, badge: 'Review' },
+    { name: 'Agent Gateway', href: '/simulator', icon: PlayCircle, badge: 'Evaluate' },
+    { name: 'Security Policies', href: '/policies', icon: Sliders, badge: 'Rules' },
+    { name: 'Approval Center', href: '/approvals', icon: CheckCircle2, badge: 'Review' },
     { name: 'Audit Explorer', href: '/audit', icon: FileText, badge: 'Ledger' },
     { name: 'Evidence Verification', href: '/integrity', icon: Lock, badge: 'RFC-8785' },
-    { name: 'Blockchain Explorer', href: '/blockchain', icon: Boxes, badge: 'MST Chain' },
+    { name: 'Blockchain Registry', href: '/blockchain', icon: Boxes, badge: 'MST Chain' },
+    { name: 'Agent Management', href: '/agents', icon: Users, badge: 'Fleet' },
+    { name: 'Integrations', href: '/integrations', icon: Grid, badge: 'SDK' },
     { name: 'Settings', href: '/settings', icon: Settings, badge: 'Config' },
   ];
 
   const renderContent = (collapsed: boolean) => (
-    <div className={`${collapsed ? 'w-16' : 'w-64'} bg-[#101827] text-[#F8FAFC] flex flex-col flex-shrink-0 min-h-screen border-r border-[#263449] select-none transition-all duration-300 font-sans`}>
+    <div className={`${collapsed ? 'w-16' : 'w-64'} bg-[#FFFFFF] text-[#172B4D] flex flex-col flex-shrink-0 min-h-screen border-r border-[#E5E7EB] select-none transition-all duration-300 font-sans shadow-sm`}>
       {/* Brand & Identity Header */}
-      <div className={`p-3.5 border-b border-[#263449] flex ${collapsed ? 'flex-col items-center gap-2' : 'items-center justify-between'} bg-[#101827]`}>
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-[#38BDF8]/15 border border-[#38BDF8]/30 flex items-center justify-center text-[#38BDF8] flex-shrink-0">
-            <Shield className="w-4 h-4 text-[#38BDF8]" />
+      <div className={`p-3.5 border-b border-[#E5E7EB] flex ${collapsed ? 'flex-col items-center gap-2' : 'items-center justify-between'} bg-[#FFFFFF]`}>
+        <Link href="/" className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-lg bg-[#2563EB]/10 border border-[#2563EB]/20 flex items-center justify-center text-[#2563EB] flex-shrink-0">
+            <Shield className="w-4 h-4 text-[#2563EB]" />
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <h1 className="text-sm font-extrabold tracking-tight text-[#F8FAFC] font-sans truncate">
+              <h1 className="text-sm font-bold tracking-tight text-[#172B4D] font-sans truncate">
                 SentinelMesh
               </h1>
-              <p className="text-[10px] text-[#94A3B8] font-medium tracking-wide truncate">
+              <p className="text-[10px] text-[#64748B] font-medium tracking-wide truncate">
                 Verifiable Security for AI
               </p>
             </div>
           )}
-        </div>
+        </Link>
 
         {/* When collapsed: prominent Maximize button right at top */}
         {collapsed && onToggleCollapse && (
           <button
             type="button"
             onClick={onToggleCollapse}
-            className="w-9 h-9 rounded-lg bg-[#1E293B] text-[#38BDF8] hover:bg-[#151F30] border border-[#263449] hover:border-[#38BDF8]/50 flex items-center justify-center transition shadow-sm active:scale-95"
+            className="w-8 h-8 rounded-lg bg-[#F8FAFC] text-[#2563EB] hover:bg-[#F1F5F9] border border-[#E5E7EB] flex items-center justify-center transition shadow-xs active:scale-95"
             title="Expand navigation menu"
             aria-label="Expand navigation menu"
           >
-            <PanelLeftOpen className="w-4 h-4 text-[#38BDF8]" />
+            <PanelLeftOpen className="w-4 h-4" />
           </button>
         )}
 
@@ -101,18 +106,17 @@ export function Sidebar({
               <button
                 type="button"
                 onClick={onToggleCollapse}
-                className="hidden lg:flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-bold text-[#94A3B8] hover:text-[#F8FAFC] bg-[#1E293B] hover:bg-[#151F30] border border-[#263449] hover:border-[#38BDF8]/40 transition active:scale-95"
+                className="hidden lg:flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium text-[#64748B] hover:text-[#172B4D] bg-[#F8FAFC] hover:bg-[#F1F5F9] border border-[#E5E7EB] transition"
                 title="Minimize sidebar"
                 aria-label="Minimize sidebar"
               >
-                <PanelLeftClose className="w-3.5 h-3.5 text-[#38BDF8]" />
-                <span>Minimize</span>
+                <PanelLeftClose className="w-3.5 h-3.5 text-[#2563EB]" />
               </button>
             )}
             {onClose && (
               <button
                 onClick={onClose}
-                className="lg:hidden p-2 rounded text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1E293B] transition min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="lg:hidden p-2 rounded text-[#64748B] hover:text-[#172B4D] hover:bg-[#F1F5F9] transition min-h-[44px] min-w-[44px] flex items-center justify-center"
                 aria-label="Close navigation"
               >
                 <X className="w-5 h-5" />
@@ -124,52 +128,52 @@ export function Sidebar({
 
       {/* Role Session Badge */}
       {!collapsed ? (
-        <div className="px-3.5 py-2.5 border-b border-[#263449] bg-[#090D16]">
-          <div className="flex items-center justify-between text-[10px] font-mono mb-1">
-            <span className="text-[#94A3B8] uppercase font-bold">RBAC Session</span>
-            <span className={`px-2 py-0.5 rounded font-bold border ${
+        <div className="px-3.5 py-2.5 border-b border-[#E5E7EB] bg-[#F8FAFC]">
+          <div className="flex items-center justify-between text-[10px] font-mono mb-0.5">
+            <span className="text-[#64748B] uppercase font-bold tracking-wider">Access Scope</span>
+            <span className={`px-2 py-0.5 rounded font-bold border text-[10px] ${
               role === 'ADMIN'
-                ? 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30'
+                ? 'bg-[#D97706]/10 text-[#D97706] border-[#D97706]/30'
                 : role === 'SECURITY_ANALYST'
-                ? 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
-                : 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/30'
+                ? 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/30'
+                : 'bg-[#2563EB]/10 text-[#2563EB] border-[#2563EB]/30'
             }`}>
               {role === 'ADMIN' ? 'CSO (ADMIN)' : role === 'SECURITY_ANALYST' ? 'ANALYST' : 'AUDITOR'}
             </span>
           </div>
-          <p className="text-[11px] text-[#F8FAFC] font-semibold truncate">{roleTitle}</p>
+          <p className="text-[11px] text-[#172B4D] font-medium truncate">{roleTitle}</p>
         </div>
       ) : (
-        <div className="py-2.5 border-b border-[#263449] bg-[#090D16] flex justify-center" title={`RBAC Role: ${roleTitle}`}>
+        <div className="py-2 border-b border-[#E5E7EB] bg-[#F8FAFC] flex justify-center" title={`RBAC Role: ${roleTitle}`}>
           <span className={`w-2.5 h-2.5 rounded-full ${
-            role === 'ADMIN' ? 'bg-[#F59E0B]' : role === 'SECURITY_ANALYST' ? 'bg-[#EF4444]' : 'bg-[#38BDF8]'
+            role === 'ADMIN' ? 'bg-[#D97706]' : role === 'SECURITY_ANALYST' ? 'bg-[#DC2626]' : 'bg-[#2563EB]'
           }`}></span>
         </div>
       )}
 
       {/* Network Badge */}
       {!collapsed ? (
-        <div className="px-3.5 py-2 border-b border-[#263449] bg-[#101827]">
+        <div className="px-3.5 py-2 border-b border-[#E5E7EB] bg-[#FFFFFF]">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-[#94A3B8] text-[10px] uppercase tracking-wider font-bold">MST Chain</span>
-            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[10px] font-mono font-bold border ${
+            <span className="text-[#64748B] text-[10px] uppercase tracking-wider font-semibold">MST Network</span>
+            <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${
               isConnected
-                ? 'bg-[#22C55E]/15 text-[#22C55E] border-[#22C55E]/40'
-                : 'bg-[#1E293B] text-[#94A3B8] border-[#263449]'
+                ? 'bg-[#15803D]/10 text-[#15803D] border-[#15803D]/25'
+                : 'bg-[#F1F5F9] text-[#64748B] border-[#E5E7EB]'
             }`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-[#22C55E] animate-pulse' : 'bg-[#64748B]'}`}></span>
+              <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-[#15803D] animate-pulse' : 'bg-[#64748B]'}`}></span>
               {networkLabel}
             </span>
           </div>
         </div>
       ) : (
-        <div className="py-2 border-b border-[#263449] bg-[#101827] flex justify-center" title={`MST Network: ${networkLabel}`}>
-          <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-[#22C55E] animate-pulse' : 'bg-slate-500'}`}></span>
+        <div className="py-2 border-b border-[#E5E7EB] bg-[#FFFFFF] flex justify-center" title={`MST Network: ${networkLabel}`}>
+          <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-[#15803D] animate-pulse' : 'bg-slate-400'}`}></span>
         </div>
       )}
 
-      {/* 8 Navigation Links */}
-      <nav className="flex-1 px-2.5 py-3 space-y-1 overflow-y-auto">
+      {/* 10 Navigation Links */}
+      <nav className="flex-1 px-2.5 py-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -180,87 +184,77 @@ export function Sidebar({
               href={item.href}
               onClick={() => onClose && onClose()}
               title={collapsed ? `${item.name} (${item.badge})` : undefined}
-              className={`flex items-center ${collapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2.5'} rounded-lg text-xs font-semibold transition-all duration-150 group min-h-[42px] ${
+              className={`flex items-center ${collapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2'} rounded-lg text-xs font-medium transition-all duration-150 group min-h-[38px] ${
                 isActive
-                  ? 'bg-[#151F30] text-[#38BDF8] border-l-2 border-[#38BDF8] shadow-sm'
-                  : 'text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1E293B]'
+                  ? 'bg-[#F1F5F9] text-[#2563EB] border-l-3 border-[#2563EB] font-semibold'
+                  : 'text-[#64748B] hover:text-[#172B4D] hover:bg-[#F8FAFC]'
               }`}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <Icon className={`w-4 h-4 flex-shrink-0 transition-colors ${isActive ? 'text-[#38BDF8]' : 'text-[#94A3B8] group-hover:text-[#F8FAFC]'}`} />
+                <Icon className={`w-4 h-4 flex-shrink-0 transition-colors ${isActive ? 'text-[#2563EB]' : 'text-[#64748B] group-hover:text-[#172B4D]'}`} />
                 {!collapsed && <span className="truncate">{item.name}</span>}
               </div>
 
               {!collapsed && (
                 <div className="flex items-center gap-1 flex-shrink-0">
                   {item.badge && (
-                    <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border ${
+                    <span className={`text-[9px] font-mono font-medium px-1.5 py-0.5 rounded border ${
                       isActive
-                        ? 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/30'
-                        : 'bg-[#1E293B] text-[#94A3B8] border-[#263449]'
+                        ? 'bg-[#2563EB]/10 text-[#2563EB] border-[#2563EB]/20'
+                        : 'bg-[#F8FAFC] text-[#64748B] border-[#E5E7EB]'
                     }`}>
                       {item.badge}
                     </span>
                   )}
-                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#38BDF8] ml-0.5" />}
+                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#2563EB] ml-0.5" />}
                 </div>
               )}
             </Link>
           );
         })}
+
+        {/* Documentation Section */}
+        <div className="pt-2 mt-2 border-t border-[#E5E7EB]">
+          <Link
+            href="/docs"
+            onClick={() => onClose && onClose()}
+            className={`flex items-center ${collapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2'} rounded-lg text-xs font-medium text-[#64748B] hover:text-[#172B4D] hover:bg-[#F8FAFC] transition`}
+          >
+            <div className="flex items-center gap-2.5">
+              <BookOpen className="w-4 h-4 text-[#64748B]" />
+              {!collapsed && <span>Documentation</span>}
+            </div>
+            {!collapsed && <span className="text-[9px] font-mono text-[#64748B]">v2.5</span>}
+          </Link>
+        </div>
       </nav>
 
-      {/* Trust Anchor Callout */}
+      {/* Blockchain Registry Callout Box */}
       {!collapsed && (
-        <div className="p-3 m-2.5 rounded-xl bg-[#151F30] border border-[#263449] space-y-1.5">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-[#38BDF8]">
-            <Lock className="w-3.5 h-3.5" />
+        <div className="p-3 m-2.5 rounded-xl bg-[#F8FAFC] border border-[#E5E7EB] space-y-1">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-[#172B4D]">
+            <Lock className="w-3.5 h-3.5 text-[#2563EB]" />
             <span>MST Blockchain Anchor</span>
           </div>
-          <p className="text-[10px] text-[#94A3B8] leading-relaxed">
-            Deterministic SHA-256 evidence digests anchored immutably in MST EvidenceRegistry.
+          <p className="text-[10px] text-[#64748B] leading-relaxed">
+            Deterministic SHA-256 evidence digests anchored immutably in EvidenceRegistry.
           </p>
           <Link 
             href="/blockchain"
             onClick={() => onClose && onClose()}
-            className="inline-flex items-center gap-1 text-[11px] text-[#38BDF8] hover:underline transition pt-0.5 font-bold"
+            className="inline-flex items-center gap-1 text-[11px] text-[#2563EB] hover:underline transition pt-0.5 font-medium"
           >
-            <span>View On-Chain Activity</span>
+            <span>View Registry</span>
             <ExternalLink className="w-3 h-3" />
           </Link>
         </div>
       )}
 
-      {/* Collapse/Expand Toggle Button (Desktop Only) */}
-      <div className="p-2 border-t border-[#263449] hidden lg:flex items-center justify-between bg-[#090D16]">
-        {!collapsed && (
-          <button
-            type="button"
-            onClick={onToggleCollapse}
-            className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-bold text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1E293B] border border-[#263449] hover:border-[#38BDF8]/40 transition"
-          >
-            <span>Minimize Sidebar</span>
-            <PanelLeftClose className="w-4 h-4 text-[#38BDF8]" />
-          </button>
-        )}
-        {collapsed && onToggleCollapse && (
-          <button
-            type="button"
-            onClick={onToggleCollapse}
-            className="w-full flex items-center justify-center p-2 rounded-lg bg-[#1E293B] text-[#38BDF8] border border-[#263449] hover:border-[#38BDF8]/50 transition"
-            title="Expand Sidebar"
-            aria-label="Expand Sidebar"
-          >
-            <PanelLeftOpen className="w-4 h-4" />
-          </button>
-        )}
-      </div>
-
       {/* Footer Info */}
       {!collapsed && (
-        <div className="p-3 border-t border-[#263449] text-[10px] text-[#94A3B8] flex items-center justify-between bg-[#101827]">
-          <span className="font-semibold">SentinelMesh v2.5</span>
-          <span className="font-mono text-[10px] font-bold text-[#22C55E]">MST Verified</span>
+        <div className="p-3 border-t border-[#E5E7EB] text-[10px] text-[#64748B] flex items-center justify-between bg-[#FAFAFA]">
+          <span className="font-medium">SentinelMesh Enterprise</span>
+          <span className="font-mono text-[10px] font-bold text-[#15803D]">MST Verified</span>
         </div>
       )}
     </div>
@@ -282,11 +276,11 @@ export function Sidebar({
           className="fixed inset-0 z-50 lg:hidden flex"
         >
           <div 
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" 
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity" 
             onClick={onClose}
             aria-hidden="true"
           />
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#101827] z-10 shadow-2xl">
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#FFFFFF] z-10 shadow-2xl">
             {renderContent(false)}
           </div>
         </div>

@@ -8,29 +8,37 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Sophisticated Dark Cybersecurity Theme Tokens
-        canvas: '#090D16',           // Main background
-        surface: '#101827',          // Secondary background
-        card: '#151F30',             // Card background
-        'card-elevated': '#1E293B',  // Elevated card
-        border: '#263449',           // Default borders
-        'border-subtle': '#1E293B',  // Subtle dividers
+        // Enterprise SaaS Light-First Palette (Stripe/Linear/AWS aesthetic)
+        canvas: '#F7F8FA',           // Main background
+        surface: '#FFFFFF',          // Primary surface / card
+        card: '#FFFFFF',             // Card surface
+        'card-elevated': '#FFFFFF',  // Elevated surface
+        border: '#E5E7EB',           // Subtle borders
+        'border-subtle': '#F1F5F9',  // Light dividers
         
-        // Text
-        heading: '#F8FAFC',          // Primary text
-        body: '#94A3B8',             // Secondary text
-        muted: '#64748B',            // Muted text
+        // Professional Typography
+        heading: '#172B4D',          // Primary text (Deep slate/navy)
+        body: '#64748B',             // Secondary text (Slate 500)
+        muted: '#94A3B8',            // Muted slate
         
-        // Semantic Accents
-        accent: '#38BDF8',           // Primary accent (Sky/Cyan)
-        primary: '#38BDF8',          // Sky blue
-        success: '#22C55E',          // Emerald green
-        danger: '#EF4444',           // Crimson red
-        warning: '#F59E0B',          // Amber gold
+        // Core Accent Colors
+        primary: '#2563EB',          // Primary blue (Blue 600)
+        'primary-hover': '#1D4ED8',  // Blue 700
+        navy: '#14213D',             // Dark navy accent
+        
+        // Semantic Indicators
+        success: '#15803D',          // Enterprise green (Green 700)
+        danger: '#DC2626',           // Enterprise red (Red 600)
+        warning: '#D97706',          // Enterprise amber (Amber 600)
+        subtle: '#F1F5F9',           // Muted background
       },
       fontFamily: {
         mono: ['JetBrains Mono', 'Fira Code', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
-        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      },
+      boxShadow: {
+        card: '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+        'card-hover': '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)',
       }
     },
   },

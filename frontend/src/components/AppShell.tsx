@@ -19,7 +19,7 @@ export function AppShell({ children }: AppShellProps) {
         setIsSidebarCollapsed(true);
       }
 
-      // Suppress benign third-party browser extension errors (e.g. video grabbers, wallet message channel drops)
+      // Suppress benign third-party browser extension errors
       const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
         const reasonMsg = event?.reason?.message || String(event?.reason || '');
         if (
@@ -27,7 +27,7 @@ export function AppShell({ children }: AppShellProps) {
           reasonMsg.includes('message channel closed') ||
           reasonMsg.includes('Video element not found')
         ) {
-          event.preventDefault(); // Prevents logging "Uncaught (in promise)" in the console
+          event.preventDefault();
         }
       };
 
@@ -45,7 +45,7 @@ export function AppShell({ children }: AppShellProps) {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#090D16] text-[#F8FAFC] font-sans overflow-x-hidden">
+    <div className="flex min-h-screen bg-[#F7F8FA] text-[#172B4D] font-sans overflow-x-hidden">
       {/* Navigation Rail (Collapsible Desktop + Accessible Mobile Drawer) */}
       <Sidebar 
         mobileOpen={mobileNavOpen} 
@@ -57,33 +57,33 @@ export function AppShell({ children }: AppShellProps) {
       {/* Main Workspace Area */}
       <div className="flex-1 flex flex-col min-w-0 max-w-full overflow-hidden">
         {/* Mobile Header Bar (<1024px) */}
-        <header className="lg:hidden h-14 bg-[#101827] text-[#F8FAFC] px-4 flex items-center justify-between border-b border-[#263449] sticky top-0 z-30 shadow-md">
+        <header className="lg:hidden h-14 bg-[#FFFFFF] text-[#172B4D] px-4 flex items-center justify-between border-b border-[#E5E7EB] sticky top-0 z-30 shadow-sm">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileNavOpen(true)}
-              className="p-2 rounded-lg text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1E293B] border border-[#263449] transition min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-[#38BDF8]"
+              className="p-2 rounded-lg text-[#64748B] hover:text-[#172B4D] hover:bg-[#F1F5F9] border border-[#E5E7EB] transition min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-[#2563EB]"
               aria-label="Open navigation menu"
             >
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#38BDF8]/15 border border-[#38BDF8]/30 flex items-center justify-center text-[#38BDF8]">
-                <Shield className="w-4 h-4 text-[#38BDF8]" />
+              <div className="w-8 h-8 rounded-lg bg-[#2563EB]/10 border border-[#2563EB]/20 flex items-center justify-center text-[#2563EB]">
+                <Shield className="w-4 h-4 text-[#2563EB]" />
               </div>
-              <span className="text-sm font-extrabold tracking-tight text-[#F8FAFC]">SentinelMesh</span>
+              <span className="text-sm font-bold tracking-tight text-[#172B4D]">SentinelMesh</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-[#151F30] text-[#38BDF8] border border-[#38BDF8]/30">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse"></span>
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-1 rounded-md bg-[#F1F5F9] text-[#2563EB] border border-[#E5E7EB]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#15803D] animate-pulse"></span>
               MST Testnet
             </span>
           </div>
         </header>
 
         {/* Page Content Container */}
-        <main className="flex-1 min-h-0 bg-[#090D16] focus:outline-none overflow-x-hidden">
+        <main className="flex-1 min-h-0 bg-[#F7F8FA] focus:outline-none overflow-x-hidden">
           {children}
         </main>
       </div>

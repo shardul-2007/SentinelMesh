@@ -4,8 +4,8 @@ import { RBACProvider } from '@/lib/rbac';
 import { Web3WalletProvider } from '@/lib/web3Wallet';
 
 export const metadata = {
-  title: 'SentinelMesh — Trust, Without Blind Faith',
-  description: 'Enterprise AI Agent Governance, Deterministic Policy Enforcement, Cryptographic Canonical Evidence & MST Blockchain Anchoring.',
+  title: 'SentinelMesh — Verifiable Security for AI Agents',
+  description: 'Zero-Trust governance gateway for AI agents, enforcing security policies, controlling sensitive operations, and generating cryptographically verifiable evidence.',
 };
 
 export default function RootLayout({
@@ -14,8 +14,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-[#090D16] text-[#F8FAFC] min-h-screen font-sans antialiased selection:bg-[#38BDF8]/20 selection:text-[#38BDF8]">
+    <html lang="en">
+      <body className="bg-[#F7F8FA] text-[#172B4D] min-h-screen font-sans antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB]">
         <Web3WalletProvider>
           <RBACProvider>
             <AppShell>

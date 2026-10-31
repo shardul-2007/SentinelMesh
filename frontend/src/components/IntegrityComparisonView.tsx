@@ -47,16 +47,16 @@ export function IntegrityComparisonView({
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-[#151F30] border border-[#263449] shadow-xl space-y-4 overflow-hidden font-sans">
+    <div className="p-5 rounded-xl bg-[#FFFFFF] border border-[#E5E7EB] shadow-xs space-y-4 overflow-hidden font-sans">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#263449]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#E5E7EB]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30 flex items-center justify-center flex-shrink-0">
-            <Hash className="w-4 h-4 text-[#38BDF8]" />
+          <div className="w-8 h-8 rounded-lg bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/20 flex items-center justify-center flex-shrink-0">
+            <Hash className="w-4 h-4 text-[#2563EB]" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-[#F8FAFC]">Cryptographic Integrity Comparison</h3>
-            <p className="text-[11px] text-[#94A3B8]">
+            <h3 className="text-sm font-bold text-[#172B4D]">Cryptographic Integrity Comparison</h3>
+            <p className="text-[11px] text-[#64748B]">
               Side-by-side local canonical RFC-8785 digest vs. MST Blockchain EvidenceRegistry commitment
             </p>
           </div>
@@ -65,10 +65,10 @@ export function IntegrityComparisonView({
         <div className="flex items-center gap-2 flex-shrink-0">
           <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold border ${
             isMatch 
-              ? 'bg-[#22C55E]/15 text-[#22C55E] border-[#22C55E]/30'
-              : 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
+              ? 'bg-[#15803D]/10 text-[#15803D] border-[#15803D]/25'
+              : 'bg-[#DC2626]/10 text-[#DC2626] border-[#DC2626]/25'
           }`}>
-            {isMatch ? <ShieldCheck className="w-3.5 h-3.5 text-[#22C55E]" /> : <AlertTriangle className="w-3.5 h-3.5 text-[#EF4444]" />}
+            {isMatch ? <ShieldCheck className="w-3.5 h-3.5 text-[#15803D]" /> : <AlertTriangle className="w-3.5 h-3.5 text-[#DC2626]" />}
             {isMatch ? '100% CRYPTOGRAPHIC MATCH' : 'HASH DIVERGENCE DETECTED'}
           </span>
 
@@ -76,10 +76,10 @@ export function IntegrityComparisonView({
             <button
               type="button"
               onClick={onVerifyAgain}
-              className="p-1.5 rounded-lg bg-[#1E293B] hover:bg-[#263449] text-[#94A3B8] hover:text-[#F8FAFC] border border-[#263449] transition"
+              className="p-1.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#64748B] hover:text-[#172B4D] border border-[#E5E7EB] transition"
               title="Re-read on-chain commitment"
             >
-              <RefreshCw className="w-3.5 h-3.5 text-[#38BDF8]" />
+              <RefreshCw className="w-3.5 h-3.5 text-[#2563EB]" />
             </button>
           )}
         </div>
@@ -88,50 +88,50 @@ export function IntegrityComparisonView({
       {/* Side-by-side Hash Comparison Box */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Local Digest Panel */}
-        <div className="p-4 rounded-xl bg-[#101827] border border-[#263449] hover:border-[#38BDF8]/30 space-y-2 overflow-hidden transition">
+        <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E5E7EB] hover:border-[#CBD5E1] space-y-2 overflow-hidden transition">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase font-bold text-[#38BDF8]">
+            <span className="text-[10px] font-mono uppercase font-bold text-[#2563EB]">
               1. Local Canonical SHA-256 Digest
             </span>
             <button
               type="button"
               onClick={() => copyToClipboard(localHash, 'local')}
-              className="text-[10px] text-[#94A3B8] hover:text-[#F8FAFC] flex items-center gap-1 transition flex-shrink-0"
+              className="text-[10px] text-[#64748B] hover:text-[#172B4D] flex items-center gap-1 transition flex-shrink-0"
             >
-              {copiedKey === 'local' ? <Check className="w-3 h-3 text-[#22C55E]" /> : <Copy className="w-3 h-3" />}
+              {copiedKey === 'local' ? <Check className="w-3 h-3 text-[#15803D]" /> : <Copy className="w-3 h-3" />}
               <span>{copiedKey === 'local' ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
-          <div className="p-3 rounded-lg bg-[#151F30] border border-[#263449] font-mono text-[11px] text-[#38BDF8] break-all select-all leading-relaxed font-bold">
+          <div className="p-3 rounded-lg bg-[#FFFFFF] border border-[#E5E7EB] font-mono text-[11px] text-[#2563EB] break-all select-all leading-relaxed font-bold">
             {localHash}
           </div>
-          <div className="flex items-center justify-between text-[10px] font-mono text-[#94A3B8] pt-1">
+          <div className="flex items-center justify-between text-[10px] font-mono text-[#64748B] pt-1">
             <span>Algorithm: SHA-256</span>
             <span>Standard: RFC-8785 JSON</span>
           </div>
         </div>
 
         {/* On-Chain Commitment Panel */}
-        <div className="p-4 rounded-xl bg-[#101827] border border-[#263449] hover:border-[#22C55E]/30 space-y-2 overflow-hidden transition">
+        <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E5E7EB] hover:border-[#CBD5E1] space-y-2 overflow-hidden transition">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase font-bold text-[#22C55E]">
+            <span className="text-[10px] font-mono uppercase font-bold text-[#15803D]">
               2. On-Chain Smart Contract Commitment
             </span>
             <button
               type="button"
               onClick={() => copyToClipboard(onChainHash, 'onchain')}
-              className="text-[10px] text-[#94A3B8] hover:text-[#F8FAFC] flex items-center gap-1 transition flex-shrink-0"
+              className="text-[10px] text-[#64748B] hover:text-[#172B4D] flex items-center gap-1 transition flex-shrink-0"
             >
-              {copiedKey === 'onchain' ? <Check className="w-3 h-3 text-[#22C55E]" /> : <Copy className="w-3 h-3" />}
+              {copiedKey === 'onchain' ? <Check className="w-3 h-3 text-[#15803D]" /> : <Copy className="w-3 h-3" />}
               <span>{copiedKey === 'onchain' ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
-          <div className={`p-3 rounded-lg bg-[#151F30] border font-mono text-[11px] break-all select-all leading-relaxed font-bold ${
-            isMatch ? 'border-[#22C55E]/40 text-[#22C55E]' : 'border-[#EF4444]/40 text-[#EF4444]'
+          <div className={`p-3 rounded-lg bg-[#FFFFFF] border font-mono text-[11px] break-all select-all leading-relaxed font-bold ${
+            isMatch ? 'border-[#15803D]/30 text-[#15803D]' : 'border-[#DC2626]/30 text-[#DC2626]'
           }`}>
             {onChainHash}
           </div>
-          <div className="flex items-center justify-between text-[10px] font-mono text-[#94A3B8] pt-1">
+          <div className="flex items-center justify-between text-[10px] font-mono text-[#64748B] pt-1">
             <span>Contract: EvidenceRegistry</span>
             <span>Block: #{blockNumber.toLocaleString()}</span>
           </div>
@@ -139,12 +139,12 @@ export function IntegrityComparisonView({
       </div>
 
       {/* Contract & Verification Footprint */}
-      <div className="p-3.5 rounded-xl bg-[#101827] border border-[#263449] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+      <div className="p-3 rounded-lg bg-[#F8FAFC] border border-[#E5E7EB] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
         <div className="flex items-center gap-2 min-w-0 max-w-full">
-          <Lock className="w-4 h-4 text-[#38BDF8] flex-shrink-0" />
+          <Lock className="w-4 h-4 text-[#2563EB] flex-shrink-0" />
           <div className="min-w-0 flex-1">
-            <span className="text-[#94A3B8] text-[11px]">EVM Contract:</span>{' '}
-            <code className="text-[#38BDF8] font-mono text-[11px] font-bold break-all">{contractAddress}</code>
+            <span className="text-[#64748B] text-[11px]">EVM Contract:</span>{' '}
+            <code className="text-[#2563EB] font-mono text-[11px] font-bold break-all">{contractAddress}</code>
           </div>
         </div>
         <div className="flex items-center gap-3 flex-shrink-0">
@@ -152,19 +152,19 @@ export function IntegrityComparisonView({
             href={`https://testnet.mstscan.com/address/${contractAddress}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#38BDF8] hover:underline flex items-center gap-1 text-[11px] font-bold"
+            className="text-[#2563EB] hover:underline flex items-center gap-1 text-[11px] font-semibold"
           >
             <span>Contract on MSTScan</span>
-            <ExternalLink className="w-3 h-3 text-[#38BDF8]" />
+            <ExternalLink className="w-3 h-3 text-[#2563EB]" />
           </a>
-          <span className="text-[#263449]">|</span>
+          <span className="text-[#CBD5E1]">|</span>
           <a
             href={`https://testnet.mstscan.com/tx/${txHash}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#22C55E] hover:underline flex items-center gap-1 text-[11px] font-bold"
+            className="text-[#15803D] hover:underline flex items-center gap-1 text-[11px] font-semibold"
           >
-            <CheckCircle2 className="w-3 h-3 text-[#22C55E]" />
+            <CheckCircle2 className="w-3 h-3 text-[#15803D]" />
             <span>Verified Tx #{blockNumber.toLocaleString()}</span>
             <ExternalLink className="w-3 h-3" />
           </a>

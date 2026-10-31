@@ -139,62 +139,62 @@ export default function AuditTrailPage() {
   const totalPages = Math.ceil(total / pageSize) || 1;
 
   return (
-    <div className="flex flex-col min-h-full bg-[#090D16] text-[#F8FAFC] font-sans">
+    <div className="flex flex-col min-h-full bg-[#F7F8FA] text-[#172B4D] font-sans selection:bg-[#2563EB]/20">
       <Header 
-        title="Audit Explorer & Ledger" 
-        subtitle="Append-only immutable record of evaluated AI agent actions, decisions & cryptographic evidence"
+        title="Audit Explorer &amp; Ledger" 
+        subtitle="Append-only immutable record of evaluated AI agent actions, decisions &amp; cryptographic evidence"
         onRefresh={() => loadEvents(true)}
         isRefreshing={isRefreshing}
       />
 
-      <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
         {/* Role Governance Banner */}
-        <div className="p-3.5 rounded-xl bg-[#151F30] border border-[#263449] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E5E7EB] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="text-xs text-[#94A3B8]">Active Role Session:</span>
-            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30">
+            <span className="text-xs text-[#64748B]">Active Role Session:</span>
+            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-bold bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/20">
               {roleBadgeText}
             </span>
-            <span className="text-xs text-[#94A3B8] hidden md:inline font-semibold">| {roleDescription}</span>
+            <span className="text-xs text-[#64748B] hidden md:inline font-semibold">| {roleDescription}</span>
           </div>
           <div className="text-[11px] font-mono flex items-center gap-3">
-            <span className={permissions.canExportReports ? 'text-[#38BDF8] font-bold' : 'text-[#94A3B8] font-medium'}>
+            <span className={permissions.canExportReports ? 'text-[#2563EB] font-bold' : 'text-[#64748B] font-medium'}>
               {permissions.canExportReports ? '✓ Export Authorized' : '✗ Export Restricted'}
             </span>
-            <span className={permissions.canApprove ? 'text-[#22C55E] font-bold' : 'text-[#94A3B8] font-medium'}>
+            <span className={permissions.canApprove ? 'text-[#15803D] font-bold' : 'text-[#64748B] font-medium'}>
               {permissions.canApprove ? '✓ Approval Authorized' : '✗ Read-Only'}
             </span>
           </div>
         </div>
 
-        {/* Append-Only Governance Banner (Replaced Yellow Box) */}
-        <div className="p-5 rounded-2xl bg-[#151F30] border border-[#263449] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
+        {/* Append-Only Governance Banner */}
+        <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#E5E7EB] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
           <div className="flex items-start gap-3.5 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-[#38BDF8]/15 border border-[#38BDF8]/30 flex items-center justify-center text-[#38BDF8] flex-shrink-0 mt-0.5">
-              <Shield className="w-5 h-5 text-[#38BDF8]" />
+            <div className="w-9 h-9 rounded-xl bg-[#2563EB]/10 border border-[#2563EB]/20 flex items-center justify-center text-[#2563EB] flex-shrink-0 mt-0.5">
+              <Shield className="w-5 h-5 text-[#2563EB]" />
             </div>
             <div className="space-y-1 min-w-0">
-              <h3 className="text-sm font-extrabold text-[#F8FAFC] flex items-center gap-2 flex-wrap">
+              <h3 className="text-sm font-extrabold text-[#172B4D] flex items-center gap-2 flex-wrap">
                 Append-Only Tamper-Evident Evidence Architecture
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold bg-[#22C55E]/15 text-[#22C55E] border border-[#22C55E]/30">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold bg-[#15803D]/10 text-[#15803D] border border-[#15803D]/20">
                   RFC-8785 VALIDATED
                 </span>
               </h3>
-              <p className="text-xs text-[#94A3B8] leading-relaxed max-w-3xl">
+              <p className="text-xs text-[#64748B] leading-relaxed max-w-3xl">
                 Every agent evaluation is chained with SHA-256 integrity digests and can be committed to the MST EvidenceRegistry smart contract for public verification. Audit records cannot be deleted, modified, or reordered.
               </p>
             </div>
           </div>
-          <div className="flex-shrink-0 text-left md:text-right bg-[#101827] px-4 py-2.5 rounded-xl border border-[#263449]">
-            <span className="text-[10px] text-[#94A3B8] font-mono block font-bold uppercase">Indexed Records</span>
-            <span className="text-2xl font-black font-mono text-[#38BDF8]">{total}</span>
+          <div className="flex-shrink-0 text-left md:text-right bg-[#F8FAFC] px-4 py-2.5 rounded-xl border border-[#E5E7EB]">
+            <span className="text-[10px] text-[#64748B] font-mono block font-bold uppercase">Indexed Records</span>
+            <span className="text-2xl font-black font-mono text-[#2563EB]">{total}</span>
           </div>
         </div>
 
         {/* Filter & Search Controls */}
-        <div className="p-4 rounded-2xl bg-[#151F30] border border-[#263449] flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between shadow-sm">
+        <div className="p-4 rounded-2xl bg-[#FFFFFF] border border-[#E5E7EB] flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between shadow-xs">
           {/* Decision Filter Tabs */}
-          <div className="flex items-center gap-1 p-1 bg-[#101827] rounded-xl border border-[#263449] overflow-x-auto">
+          <div className="flex items-center gap-1 p-1 bg-[#F8FAFC] rounded-xl border border-[#E5E7EB] overflow-x-auto">
             {['ALL', 'ALLOW', 'BLOCK', 'REQUIRE_APPROVAL'].map((dec) => (
               <button
                 key={dec}
@@ -204,8 +204,8 @@ export default function AuditTrailPage() {
                 }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
                   decisionFilter === dec
-                    ? 'bg-[#38BDF8]/20 text-[#38BDF8] shadow-sm border border-[#38BDF8]/40'
-                    : 'text-[#94A3B8] hover:text-[#F8FAFC]'
+                    ? 'bg-[#2563EB] text-[#FFFFFF] shadow-xs'
+                    : 'text-[#64748B] hover:text-[#172B4D]'
                 }`}
               >
                 {dec === 'REQUIRE_APPROVAL' ? 'APPROVAL REQUIRED' : dec}
@@ -216,13 +216,13 @@ export default function AuditTrailPage() {
           {/* Search & Agent Filter Form */}
           <form onSubmit={handleSearchSubmit} className="flex flex-1 max-w-xl items-center gap-2">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-[#94A3B8] absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-[#64748B] absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search resource, action, reason, or event ID..."
-                className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-[#101827] border border-[#263449] text-[#F8FAFC] text-xs focus:border-[#38BDF8] focus:outline-none placeholder-[#64748B] transition font-medium"
+                className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-[#F8FAFC] border border-[#E5E7EB] text-[#172B4D] text-xs focus:bg-[#FFFFFF] focus:border-[#2563EB] focus:outline-none placeholder-[#94A3B8] transition font-medium"
               />
             </div>
             <input
@@ -230,11 +230,11 @@ export default function AuditTrailPage() {
               value={agentFilter}
               onChange={(e) => setAgentFilter(e.target.value)}
               placeholder="Agent ID..."
-              className="w-32 px-3 py-1.5 rounded-lg bg-[#101827] border border-[#263449] text-[#F8FAFC] text-xs font-mono focus:border-[#38BDF8] focus:outline-none placeholder-[#64748B] transition font-medium"
+              className="w-32 px-3 py-1.5 rounded-lg bg-[#F8FAFC] border border-[#E5E7EB] text-[#172B4D] text-xs font-mono focus:bg-[#FFFFFF] focus:border-[#2563EB] focus:outline-none placeholder-[#94A3B8] transition font-medium"
             />
             <button
               type="submit"
-              className="px-4 py-1.5 rounded-lg text-xs font-bold bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] transition shadow-sm"
+              className="px-4 py-1.5 rounded-lg text-xs font-bold bg-[#2563EB] hover:bg-[#1D4ED8] text-[#FFFFFF] transition shadow-xs"
             >
               Filter
             </button>
@@ -246,28 +246,28 @@ export default function AuditTrailPage() {
               onClick={() => handleExport('csv')}
               disabled={!permissions.canExportReports}
               title={permissions.canExportReports ? 'Export filtered CSV audit trail' : 'Security Analyst or Admin role required to export'}
-              className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#1E293B] hover:bg-[#263449] border border-[#263449] hover:border-[#38BDF8]/40 text-[#F8FAFC] transition flex items-center gap-1.5 disabled:opacity-40"
+              className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#FFFFFF] hover:bg-[#F8FAFC] border border-[#E5E7EB] hover:border-[#2563EB]/40 text-[#172B4D] transition flex items-center gap-1.5 disabled:opacity-40 shadow-xs"
             >
-              <Download className="w-3.5 h-3.5 text-[#38BDF8]" />
+              <Download className="w-3.5 h-3.5 text-[#2563EB]" />
               <span>CSV</span>
             </button>
             <button
               onClick={() => handleExport('json')}
               disabled={!permissions.canExportReports}
               title={permissions.canExportReports ? 'Export filtered JSON audit trail' : 'Security Analyst or Admin role required to export'}
-              className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#1E293B] hover:bg-[#263449] border border-[#263449] hover:border-[#38BDF8]/40 text-[#F8FAFC] transition flex items-center gap-1.5 disabled:opacity-40"
+              className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#FFFFFF] hover:bg-[#F8FAFC] border border-[#E5E7EB] hover:border-[#2563EB]/40 text-[#172B4D] transition flex items-center gap-1.5 disabled:opacity-40 shadow-xs"
             >
-              <Download className="w-3.5 h-3.5 text-[#38BDF8]" />
+              <Download className="w-3.5 h-3.5 text-[#2563EB]" />
               <span>JSON</span>
             </button>
           </div>
         </div>
 
         {/* Audit Events Table */}
-        <div className="rounded-2xl bg-[#151F30] border border-[#263449] overflow-hidden shadow-sm">
+        <div className="rounded-2xl bg-[#FFFFFF] border border-[#E5E7EB] overflow-hidden shadow-xs">
           <div className="overflow-x-auto responsive-table-wrapper">
             <table className="w-full text-left text-xs min-w-[720px]">
-              <thead className="bg-[#101827] text-[#94A3B8] uppercase font-bold text-[10px] border-b border-[#263449]">
+              <thead className="bg-[#F8FAFC] text-[#64748B] uppercase font-bold text-[10px] border-b border-[#E5E7EB]">
                 <tr>
                   <th className="px-4 py-2.5">Timestamp (UTC)</th>
                   <th className="px-4 py-2.5">Event ID</th>
@@ -279,37 +279,37 @@ export default function AuditTrailPage() {
                   <th className="px-4 py-2.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#263449] font-mono">
+              <tbody className="divide-y divide-[#E5E7EB] font-mono">
                 {isLoading ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-12 text-center text-[#94A3B8] font-sans font-medium">
+                    <td colSpan={8} className="px-4 py-12 text-center text-[#64748B] font-sans font-medium">
                       Loading audit records...
                     </td>
                   </tr>
                 ) : events.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-12 text-center text-[#94A3B8] font-sans font-medium">
+                    <td colSpan={8} className="px-4 py-12 text-center text-[#64748B] font-sans font-medium">
                       No audit events found matching the active filters.
                     </td>
                   </tr>
                 ) : (
                   events.map((event) => (
-                    <tr key={event.id} className="hover:bg-[#1E293B] transition-colors duration-150">
-                      <td className="px-4 py-3 text-[#94A3B8] whitespace-nowrap font-medium">
+                    <tr key={event.id} className="hover:bg-[#F8FAFC] transition-colors duration-150">
+                      <td className="px-4 py-3 text-[#64748B] whitespace-nowrap font-medium">
                         {new Date(event.timestamp).toLocaleString()}
                       </td>
-                      <td className="px-4 py-3 text-[#38BDF8] font-bold">
+                      <td className="px-4 py-3 text-[#2563EB] font-bold">
                         {event.id}
                       </td>
-                      <td className="px-4 py-3 text-[#F8FAFC] font-bold">
+                      <td className="px-4 py-3 text-[#172B4D] font-bold">
                         {event.agent_id}
                       </td>
                       <td className="px-4 py-3">
-                        <span className="px-2 py-0.5 rounded bg-[#101827] text-[#F8FAFC] border border-[#263449] font-bold">
+                        <span className="px-2 py-0.5 rounded bg-[#F8FAFC] text-[#172B4D] border border-[#E5E7EB] font-bold">
                           {event.action_type}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-[#94A3B8] max-w-[220px] truncate" title={event.resource}>
+                      <td className="px-4 py-3 text-[#64748B] max-w-[220px] truncate" title={event.resource}>
                         {event.resource}
                       </td>
                       <td className="px-4 py-3 font-sans">
@@ -323,14 +323,14 @@ export default function AuditTrailPage() {
                           {event.policy_decision === 'REQUIRE_APPROVAL' && event.approval_status === 'PENDING' && (
                             <button
                               onClick={() => handleOpenApproval(event)}
-                              className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 hover:bg-[#F59E0B]/25 transition"
+                              className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20 hover:bg-[#D97706]/20 transition"
                             >
                               Review
                             </button>
                           )}
                           <button
                             onClick={() => handleInspect(event.id)}
-                            className="px-2.5 py-1 rounded-lg text-[11px] text-[#F8FAFC] hover:border-[#38BDF8]/40 bg-[#1E293B] border border-[#263449] transition font-bold"
+                            className="px-2.5 py-1 rounded-lg text-[11px] text-[#172B4D] hover:border-[#2563EB]/40 bg-[#FFFFFF] border border-[#E5E7EB] transition font-bold shadow-xs"
                           >
                             Inspect
                           </button>
@@ -344,31 +344,31 @@ export default function AuditTrailPage() {
           </div>
 
           {/* Pagination Footer */}
-          <div className="p-3.5 border-t border-[#263449] bg-[#101827] flex items-center justify-between text-xs text-[#94A3B8]">
+          <div className="p-3.5 border-t border-[#E5E7EB] bg-[#F8FAFC] flex items-center justify-between text-xs text-[#64748B]">
             <div>
-              Showing <span className="text-[#F8FAFC] font-mono font-bold">{events.length}</span> of{' '}
-              <span className="text-[#F8FAFC] font-mono font-bold">{total}</span> total events
+              Showing <span className="text-[#172B4D] font-mono font-bold">{events.length}</span> of{' '}
+              <span className="text-[#172B4D] font-mono font-bold">{total}</span> total events
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page <= 1}
-                className="p-1 rounded-lg bg-[#151F30] border border-[#263449] hover:bg-[#1E293B] disabled:opacity-40 transition"
+                className="p-1 rounded-lg bg-[#FFFFFF] border border-[#E5E7EB] hover:bg-[#F1F5F9] disabled:opacity-40 transition shadow-xs"
                 aria-label="Previous page"
               >
-                <ChevronLeft className="w-4 h-4 text-[#F8FAFC]" />
+                <ChevronLeft className="w-4 h-4 text-[#172B4D]" />
               </button>
-              <span className="font-mono text-[#F8FAFC] px-2 text-xs font-bold">
+              <span className="font-mono text-[#172B4D] px-2 text-xs font-bold">
                 Page {page} of {totalPages}
               </span>
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages}
-                className="p-1 rounded-lg bg-[#151F30] border border-[#263449] hover:bg-[#1E293B] disabled:opacity-40 transition"
+                className="p-1 rounded-lg bg-[#FFFFFF] border border-[#E5E7EB] hover:bg-[#F1F5F9] disabled:opacity-40 transition shadow-xs"
                 aria-label="Next page"
               >
-                <ChevronRight className="w-4 h-4 text-[#F8FAFC]" />
+                <ChevronRight className="w-4 h-4 text-[#172B4D]" />
               </button>
             </div>
           </div>

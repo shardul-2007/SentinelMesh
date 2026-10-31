@@ -102,7 +102,7 @@ export default function GovernancePage() {
   };
 
   return (
-    <div className="flex flex-col min-h-full bg-[#101827] text-[#94A3B8]">
+    <div className="flex flex-col min-h-full bg-[#F7F8FA] text-[#172B4D]">
       <Header
         title="Autonomous Security Governance"
         subtitle="End-to-end evidence provenance, immutable policy versioning, and system-wide assurance"
@@ -112,19 +112,19 @@ export default function GovernancePage() {
 
       <div className="p-4 sm:p-6 space-y-6 max-w-7xl mx-auto w-full">
         {/* Role Governance Bar */}
-        <div className="p-3.5 rounded-xl bg-[#151F30] border border-[#263449] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E5E7EB] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="text-xs text-[#94A3B8]">Active Role Session:</span>
-            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-extrabold bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30">
+            <span className="text-xs text-[#64748B]">Active Role Session:</span>
+            <span className="text-xs px-2.5 py-0.5 rounded font-mono font-extrabold bg-[#2563EB]/15 text-[#2563EB] border border-[#2563EB]/30">
               {roleBadgeText}
             </span>
-            <span className="text-xs text-[#94A3B8]/70 hidden md:inline">| {roleDescription}</span>
+            <span className="text-xs text-[#64748B]/70 hidden md:inline">| {roleDescription}</span>
           </div>
           <div className="text-[11px] font-mono flex items-center gap-3">
-            <span className={permissions.canManageGovernance ? 'text-[#38BDF8] font-bold' : 'text-[#94A3B8]/50'}>
+            <span className={permissions.canManageGovernance ? 'text-[#2563EB] font-bold' : 'text-[#64748B]/50'}>
               {permissions.canManageGovernance ? '✓ Provenance Authorization' : '✗ Audit Review Mode'}
             </span>
-            <span className={permissions.canExportReports ? 'text-[#38BDF8] font-bold' : 'text-[#94A3B8]/50'}>
+            <span className={permissions.canExportReports ? 'text-[#2563EB] font-bold' : 'text-[#64748B]/50'}>
               {permissions.canExportReports ? '✓ Export Compliance Evidence' : '✗ Export Restricted'}
             </span>
           </div>
@@ -132,10 +132,10 @@ export default function GovernancePage() {
 
         {/* Top Governance KPI Cards with Yellow Background + Black Text */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-[#151F30] border border-[#263449] text-[#F8FAFC] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
+            <div className="bg-[#FFFFFF] border border-[#E5E7EB] text-[#172B4D] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Cryptographic Assurance</span>
-                <span className="p-1 rounded-md bg-[#101827] text-[#38BDF8]">
+                <span className="p-1 rounded-md bg-[#172B4D] text-[#2563EB]">
                   <ShieldCheck className="w-4 h-4" />
                 </span>
               </div>
@@ -147,16 +147,16 @@ export default function GovernancePage() {
               </div>
               <div className="mt-2 pt-2 border-t border-[#000000]/25 text-[11px] text-[#1C1C1C] font-bold flex items-center justify-between">
                 <span>Deterministic SHA-256</span>
-                <span className="px-2 py-0.5 rounded-full bg-[#101827] text-[#38BDF8] text-[10px] font-black font-mono">
+                <span className="px-2 py-0.5 rounded-full bg-[#172B4D] text-[#2563EB] text-[10px] font-black font-mono">
                   VALIDATED
                 </span>
               </div>
             </div>
 
-            <div className="bg-[#151F30] border border-[#263449] text-[#F8FAFC] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
+            <div className="bg-[#FFFFFF] border border-[#E5E7EB] text-[#172B4D] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Blockchain Anchoring</span>
-                <span className="p-1 rounded-md bg-[#101827] text-[#38BDF8]">
+                <span className="p-1 rounded-md bg-[#172B4D] text-[#2563EB]">
                   <Lock className="w-4 h-4" />
                 </span>
               </div>
@@ -168,16 +168,16 @@ export default function GovernancePage() {
               </div>
               <div className="mt-2 pt-2 border-t border-[#000000]/25 text-[11px] text-[#1C1C1C] font-bold flex items-center justify-between">
                 <span>EVM Smart Contract</span>
-                <span className="px-2 py-0.5 rounded-full bg-[#101827] text-[#38BDF8] text-[10px] font-black font-mono">
+                <span className="px-2 py-0.5 rounded-full bg-[#172B4D] text-[#2563EB] text-[10px] font-black font-mono">
                   IMMUTABLE
                 </span>
               </div>
             </div>
 
-            <div className="bg-[#151F30] border border-[#263449] text-[#F8FAFC] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
+            <div className="bg-[#FFFFFF] border border-[#E5E7EB] text-[#172B4D] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Active Policies &amp; Versions</span>
-                <span className="p-1 rounded-md bg-[#101827] text-[#38BDF8]">
+                <span className="p-1 rounded-md bg-[#172B4D] text-[#2563EB]">
                   <Layers className="w-4 h-4" />
                 </span>
               </div>
@@ -187,16 +187,16 @@ export default function GovernancePage() {
               </div>
               <div className="mt-2 pt-2 border-t border-[#000000]/25 text-[11px] text-[#1C1C1C] font-bold flex items-center justify-between">
                 <span>{summary?.total_policy_versions ?? 0} snapshots</span>
-                <span className="px-2 py-0.5 rounded-full bg-[#101827] text-[#38BDF8] text-[10px] font-black font-mono">
+                <span className="px-2 py-0.5 rounded-full bg-[#172B4D] text-[#2563EB] text-[10px] font-black font-mono">
                   VERSIONED
                 </span>
               </div>
             </div>
 
-            <div className="bg-[#151F30] border border-[#263449] text-[#F8FAFC] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
+            <div className="bg-[#FFFFFF] border border-[#E5E7EB] text-[#172B4D] rounded-xl p-5 shadow-xl flex flex-col justify-between min-h-[145px] overflow-hidden">
               <div className="flex justify-between items-start">
                 <span className="text-xs font-black text-[#000000] uppercase tracking-wider">Contained Agent Fleet</span>
-                <span className="p-1 rounded-md bg-[#101827] text-[#EF4444] border border-[#000000]">
+                <span className="p-1 rounded-md bg-[#172B4D] text-[#DC2626] border border-[#000000]">
                   <Shield className="w-4 h-4" />
                 </span>
               </div>
@@ -207,7 +207,7 @@ export default function GovernancePage() {
               <div className="mt-2 pt-2 border-t border-[#000000]/25 text-[11px] text-[#1C1C1C] font-bold flex items-center justify-between">
                 <span>{summary?.open_incidents ?? 0} open incidents</span>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-black font-mono ${
-                  (summary?.quarantined_agents ?? 0) > 0 ? 'bg-[#101827] text-[#EF4444] border border-[#000000]' : 'bg-[#101827] text-[#38BDF8]'
+                  (summary?.quarantined_agents ?? 0) > 0 ? 'bg-[#172B4D] text-[#DC2626] border border-[#000000]' : 'bg-[#172B4D] text-[#2563EB]'
                 }`}>
                   {(summary?.quarantined_agents ?? 0) > 0 ? 'ISOLATED' : 'NOMINAL'}
                 </span>
@@ -216,13 +216,13 @@ export default function GovernancePage() {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="border-b border-[#263449] flex gap-6">
+          <div className="border-b border-[#E5E7EB] flex gap-6">
             <button
               onClick={() => setActiveTab('provenance')}
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 ${
                 activeTab === 'provenance'
-                  ? 'border-[#38BDF8] text-[#38BDF8]'
-                  : 'border-transparent text-[#94A3B8] hover:text-[#FFFFFF]'
+                  ? 'border-[#2563EB] text-[#2563EB]'
+                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
               }`}
             >
               <FileText className="w-4 h-4" />
@@ -232,8 +232,8 @@ export default function GovernancePage() {
               onClick={() => setActiveTab('policies')}
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 ${
                 activeTab === 'policies'
-                  ? 'border-[#38BDF8] text-[#38BDF8]'
-                  : 'border-transparent text-[#94A3B8] hover:text-[#FFFFFF]'
+                  ? 'border-[#2563EB] text-[#2563EB]'
+                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
               }`}
             >
               <History className="w-4 h-4" />
@@ -243,8 +243,8 @@ export default function GovernancePage() {
               onClick={() => setActiveTab('reports')}
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 ${
                 activeTab === 'reports'
-                  ? 'border-[#38BDF8] text-[#38BDF8]'
-                  : 'border-transparent text-[#94A3B8] hover:text-[#FFFFFF]'
+                  ? 'border-[#2563EB] text-[#2563EB]'
+                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
               }`}
             >
               <Download className="w-4 h-4" />
@@ -256,21 +256,21 @@ export default function GovernancePage() {
           {activeTab === 'provenance' && (
             <div className="space-y-6">
               {/* Event Search Bar */}
-              <div className="bg-[#151F30] p-4 rounded-xl border border-[#263449] flex flex-col md:flex-row gap-3">
+              <div className="bg-[#FFFFFF] p-4 rounded-xl border border-[#E5E7EB] flex flex-col md:flex-row gap-3">
                 <div className="relative flex-1">
-                  <Search className="w-4 h-4 absolute left-3 top-3 text-[#94A3B8]" />
+                  <Search className="w-4 h-4 absolute left-3 top-3 text-[#64748B]" />
                   <input
                     type="text"
                     placeholder="Enter Audit Event ID (e.g. evt_...) or pick a recent action below..."
                     value={searchEventId}
                     onChange={(e) => setSearchEventId(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 bg-[#101827] border border-[#263449] rounded-lg text-sm text-white focus:outline-none focus:border-[#38BDF8] font-mono"
+                    className="w-full pl-9 pr-4 py-2 bg-[#172B4D] border border-[#E5E7EB] rounded-lg text-sm text-white focus:outline-none focus:border-[#2563EB] font-mono"
                   />
                 </div>
                 <button
                   onClick={() => handleInspect(searchEventId)}
                   disabled={inspecting}
-                  className="px-4 py-2 bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] rounded-lg text-sm font-bold transition flex items-center gap-2 shadow-sm active:scale-95"
+                  className="px-4 py-2 bg-[#2563EB] hover:bg-[#0284C7] text-[#090D16] rounded-lg text-sm font-bold transition flex items-center gap-2 shadow-sm active:scale-95"
                 >
                   <Search className="w-4 h-4" />
                   {inspecting ? 'Resolving...' : 'Inspect Provenance'}
@@ -280,15 +280,15 @@ export default function GovernancePage() {
               {/* Recent Actions Quick Select */}
               {summary?.recent_governance_actions && summary.recent_governance_actions.length > 0 && (
                 <div className="flex items-center gap-2 flex-wrap text-xs">
-                  <span className="text-[#94A3B8] font-bold">Recent Actions:</span>
+                  <span className="text-[#64748B] font-bold">Recent Actions:</span>
                   {summary.recent_governance_actions.map((act) => (
                     <button
                       key={act.event_id}
                       onClick={() => handleInspect(act.event_id)}
                       className={`px-2.5 py-1 rounded-md font-mono transition border ${
                         searchEventId === act.event_id
-                          ? 'bg-[#38BDF8]/15 text-[#38BDF8] border-[#38BDF8]/40 font-bold'
-                          : 'bg-[#101827] text-[#94A3B8] border-[#263449] hover:text-[#FFFFFF]'
+                          ? 'bg-[#2563EB]/15 text-[#2563EB] border-[#2563EB]/40 font-bold'
+                          : 'bg-[#172B4D] text-[#64748B] border-[#E5E7EB] hover:text-[#FFFFFF]'
                       }`}
                     >
                       {act.event_id} ({act.action_type})
@@ -298,37 +298,37 @@ export default function GovernancePage() {
               )}
 
               {inspectError && (
-                <div className="p-4 bg-[#EF4444]/15 border border-[#EF4444]/30 text-[#EF4444] rounded-xl text-xs font-mono">
+                <div className="p-4 bg-[#DC2626]/15 border border-[#DC2626]/30 text-[#DC2626] rounded-xl text-xs font-mono">
                   {inspectError}
                 </div>
               )}
 
               {/* Provenance Chain Flow */}
               {explanation && (
-                <div className="bg-[#151F30] border border-[#263449] rounded-xl p-6 space-y-6 shadow-sm">
+                <div className="bg-[#FFFFFF] border border-[#E5E7EB] rounded-xl p-6 space-y-6 shadow-sm">
                   {/* Header */}
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 pb-5 border-b border-[#263449]">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 pb-5 border-b border-[#E5E7EB]">
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-sm font-bold text-white">{explanation.event_id}</span>
                         <span className={`px-2 py-0.5 rounded text-xs font-extrabold ${
                           explanation.policy_decision === 'ALLOW'
-                            ? 'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30'
+                            ? 'bg-[#2563EB]/15 text-[#2563EB] border border-[#2563EB]/30'
                             : explanation.policy_decision === 'BLOCK'
-                            ? 'bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30'
-                            : 'bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30'
+                            ? 'bg-[#DC2626]/15 text-[#DC2626] border border-[#DC2626]/30'
+                            : 'bg-[#D97706]/15 text-[#D97706] border border-[#D97706]/30'
                         }`}>
                           {explanation.policy_decision}
                         </span>
                       </div>
-                      <p className="text-xs text-[#94A3B8] mt-1">{explanation.decision_reason}</p>
+                      <p className="text-xs text-[#64748B] mt-1">{explanation.decision_reason}</p>
                     </div>
 
                     <div className="flex items-center gap-2">
                       <span className={`px-2.5 py-1 rounded-md text-xs font-bold ${
                         explanation.provenance_chain_complete
-                          ? 'bg-[#38BDF8]/15 text-[#38BDF8] border border-[#38BDF8]/30'
-                          : 'bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30'
+                          ? 'bg-[#2563EB]/15 text-[#2563EB] border border-[#2563EB]/30'
+                          : 'bg-[#DC2626]/15 text-[#DC2626] border border-[#DC2626]/30'
                       }`}>
                         {explanation.provenance_chain_complete ? '✓ Provenance Chain Verified' : '⚠ Incomplete / Tampered'}
                       </span>
@@ -338,69 +338,69 @@ export default function GovernancePage() {
                   {/* Provenance Chain Step Progression */}
                   <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
                     {/* Step 1: Request */}
-                    <div className="p-4 rounded-xl bg-[#101827] border border-[#263449] text-xs space-y-2">
-                      <span className="text-[10px] uppercase font-bold text-[#94A3B8]/70 tracking-wider">Step 1: Origin</span>
+                    <div className="p-4 rounded-xl bg-[#172B4D] border border-[#E5E7EB] text-xs space-y-2">
+                      <span className="text-[10px] uppercase font-bold text-[#64748B]/70 tracking-wider">Step 1: Origin</span>
                       <div className="font-bold text-white">{explanation.agent_name}</div>
-                      <div className="text-[#94A3B8] font-mono text-[11px] truncate">{explanation.agent_id}</div>
-                      <div className="pt-2 border-t border-[#263449]/80 text-[#94A3B8]">
+                      <div className="text-[#64748B] font-mono text-[11px] truncate">{explanation.agent_id}</div>
+                      <div className="pt-2 border-t border-[#E5E7EB]/80 text-[#64748B]">
                         Risk Tier: <span className="font-bold text-white">{explanation.agent_behavioral_risk_tier}</span>
                       </div>
                     </div>
 
                     {/* Step 2: Policy Engine */}
-                    <div className="p-4 rounded-xl bg-[#101827] border border-[#263449] text-xs space-y-2">
-                      <span className="text-[10px] uppercase font-bold text-[#94A3B8]/70 tracking-wider">Step 2: Policy Rule</span>
+                    <div className="p-4 rounded-xl bg-[#172B4D] border border-[#E5E7EB] text-xs space-y-2">
+                      <span className="text-[10px] uppercase font-bold text-[#64748B]/70 tracking-wider">Step 2: Policy Rule</span>
                       <div className="font-bold text-white font-mono">{explanation.policy_id}</div>
-                      <div className="text-[#38BDF8] font-mono text-[11px] font-bold">v{explanation.policy_version}</div>
-                      <div className="pt-2 border-t border-[#263449]/80 text-[#94A3B8]">
+                      <div className="text-[#2563EB] font-mono text-[11px] font-bold">v{explanation.policy_version}</div>
+                      <div className="pt-2 border-t border-[#E5E7EB]/80 text-[#64748B]">
                         Derived: <span className="font-bold text-white">{explanation.derived_risk_level}</span>
                       </div>
                     </div>
 
                     {/* Step 3: Local Cryptographic Hash */}
-                    <div className="p-4 rounded-xl bg-[#101827] border border-[#263449] text-xs space-y-2">
-                      <span className="text-[10px] uppercase font-bold text-[#94A3B8]/70 tracking-wider">Step 3: SHA-256 Hash</span>
+                    <div className="p-4 rounded-xl bg-[#172B4D] border border-[#E5E7EB] text-xs space-y-2">
+                      <span className="text-[10px] uppercase font-bold text-[#64748B]/70 tracking-wider">Step 3: SHA-256 Hash</span>
                       <div className="font-bold text-white">Canonical Digest</div>
-                      <div className="font-mono text-[11px] text-[#94A3B8] truncate">{explanation.integrity_hash}</div>
-                      <div className="pt-2 border-t border-[#263449]/80">
+                      <div className="font-mono text-[11px] text-[#64748B] truncate">{explanation.integrity_hash}</div>
+                      <div className="pt-2 border-t border-[#E5E7EB]/80">
                         Status: <span className={`font-bold ${
-                          explanation.local_verification_status === 'INTACT' ? 'text-[#38BDF8]' : 'text-[#EF4444]'
+                          explanation.local_verification_status === 'INTACT' ? 'text-[#2563EB]' : 'text-[#DC2626]'
                         }`}>{explanation.local_verification_status}</span>
                       </div>
                     </div>
 
                     {/* Step 4: EVM Ledger */}
-                    <div className="p-4 rounded-xl bg-[#101827] border border-[#263449] text-xs space-y-2">
-                      <span className="text-[10px] uppercase font-bold text-[#94A3B8]/70 tracking-wider">Step 4: Blockchain Anchor</span>
+                    <div className="p-4 rounded-xl bg-[#172B4D] border border-[#E5E7EB] text-xs space-y-2">
+                      <span className="text-[10px] uppercase font-bold text-[#64748B]/70 tracking-wider">Step 4: Blockchain Anchor</span>
                       <div className="font-bold text-white">EVM State</div>
-                      <div className="font-mono text-[11px] text-[#94A3B8] truncate">
+                      <div className="font-mono text-[11px] text-[#64748B] truncate">
                         {explanation.transaction_hash || 'Unanchored'}
                       </div>
-                      <div className="pt-2 border-t border-[#263449]/80">
-                        Ledger: <span className="font-bold text-[#38BDF8]">{explanation.blockchain_verification_status}</span>
+                      <div className="pt-2 border-t border-[#E5E7EB]/80">
+                        Ledger: <span className="font-bold text-[#2563EB]">{explanation.blockchain_verification_status}</span>
                       </div>
                     </div>
 
                     {/* Step 5: Incident Correlation */}
-                    <div className="p-4 rounded-xl bg-[#101827] border border-[#263449] text-xs space-y-2">
-                      <span className="text-[10px] uppercase font-bold text-[#94A3B8]/70 tracking-wider">Step 5: Threat Correlation</span>
+                    <div className="p-4 rounded-xl bg-[#172B4D] border border-[#E5E7EB] text-xs space-y-2">
+                      <span className="text-[10px] uppercase font-bold text-[#64748B]/70 tracking-wider">Step 5: Threat Correlation</span>
                       <div className="font-bold text-white">
                         {explanation.related_incidents?.length || 0} Incident(s)
                       </div>
-                      <div className="text-[#94A3B8] text-[11px]">
+                      <div className="text-[#64748B] text-[11px]">
                         {explanation.related_findings?.length || 0} Behavioral Finding(s)
                       </div>
-                      <div className="pt-2 border-t border-[#263449]/80 text-[#94A3B8]">
+                      <div className="pt-2 border-t border-[#E5E7EB]/80 text-[#64748B]">
                         Approval: <span className="font-bold text-white">{explanation.approval_status}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Disclosures & Details */}
-                  <div className="p-4 rounded-xl bg-[#101827] border border-[#38BDF8]/30 text-xs text-[#94A3B8] flex gap-3">
-                    <Info className="w-5 h-5 text-[#38BDF8] flex-shrink-0 mt-0.5" />
+                  <div className="p-4 rounded-xl bg-[#172B4D] border border-[#2563EB]/30 text-xs text-[#64748B] flex gap-3">
+                    <Info className="w-5 h-5 text-[#2563EB] flex-shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-[#38BDF8] block mb-1 font-bold">Assurance Disclosure:</strong>
+                      <strong className="text-[#2563EB] block mb-1 font-bold">Assurance Disclosure:</strong>
                       {explanation.provenance_disclaimer}
                     </div>
                   </div>
@@ -412,10 +412,10 @@ export default function GovernancePage() {
           {/* TAB 2: POLICY VERSION PROVENANCE */}
           {activeTab === 'policies' && (
             <div className="space-y-4">
-              <div className="bg-[#151F30] border border-[#263449] rounded-xl overflow-hidden shadow-sm">
+              <div className="bg-[#FFFFFF] border border-[#E5E7EB] rounded-xl overflow-hidden shadow-sm">
                 <div className="overflow-x-auto responsive-table-wrapper">
                   <table className="w-full text-left text-sm min-w-[650px]">
-                  <thead className="bg-[#101827] text-[#94A3B8] text-xs uppercase font-bold border-b border-[#263449]">
+                  <thead className="bg-[#172B4D] text-[#64748B] text-xs uppercase font-bold border-b border-[#E5E7EB]">
                     <tr>
                       <th className="px-5 py-3.5">Policy ID</th>
                       <th className="px-5 py-3.5">Name & Description</th>
@@ -425,24 +425,24 @@ export default function GovernancePage() {
                       <th className="px-5 py-3.5 text-right">Provenance</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#263449]">
+                  <tbody className="divide-y divide-[#E5E7EB]">
                     {policies.map((p) => (
                       <tr key={p.id} className="hover:bg-[#1C1C1C] transition-colors duration-150">
-                        <td className="px-5 py-3.5 font-mono text-xs text-[#38BDF8] font-bold whitespace-nowrap">
+                        <td className="px-5 py-3.5 font-mono text-xs text-[#2563EB] font-bold whitespace-nowrap">
                           {p.id}
                         </td>
                         <td className="px-5 py-3.5">
                           <div className="font-bold text-white">{p.name}</div>
-                          <div className="text-xs text-[#94A3B8] mt-0.5">{p.description}</div>
+                          <div className="text-xs text-[#64748B] mt-0.5">{p.description}</div>
                         </td>
                         <td className="px-5 py-3.5 font-mono text-xs text-white whitespace-nowrap">
-                          <span className="px-2 py-0.5 rounded bg-[#101827] border border-[#263449] font-bold">
+                          <span className="px-2 py-0.5 rounded bg-[#172B4D] border border-[#E5E7EB] font-bold">
                             v{p.version}
                           </span>
                         </td>
                         <td className="px-5 py-3.5 whitespace-nowrap">
                           <span className={`px-2 py-0.5 rounded text-xs font-bold ${
-                            p.decision === 'ALLOW' ? 'bg-[#38BDF8]/15 text-[#38BDF8]' : p.decision === 'BLOCK' ? 'bg-[#EF4444]/15 text-[#EF4444]' : 'bg-[#F59E0B]/15 text-[#F59E0B]'
+                            p.decision === 'ALLOW' ? 'bg-[#2563EB]/15 text-[#2563EB]' : p.decision === 'BLOCK' ? 'bg-[#DC2626]/15 text-[#DC2626]' : 'bg-[#D97706]/15 text-[#D97706]'
                           }`}>
                             {p.decision}
                           </span>
@@ -453,7 +453,7 @@ export default function GovernancePage() {
                         <td className="px-5 py-3.5 text-right whitespace-nowrap">
                           <button
                             onClick={() => handleOpenPolicyHistory(p)}
-                            className="px-3 py-1.5 text-xs font-bold text-[#38BDF8] hover:bg-[#38BDF8]/10 rounded-lg transition border border-[#38BDF8]/30 flex items-center gap-1.5 ml-auto"
+                            className="px-3 py-1.5 text-xs font-bold text-[#2563EB] hover:bg-[#2563EB]/10 rounded-lg transition border border-[#2563EB]/30 flex items-center gap-1.5 ml-auto"
                           >
                             <History className="w-3.5 h-3.5" />
                             Version History
@@ -470,13 +470,13 @@ export default function GovernancePage() {
 
           {/* TAB 3: GOVERNANCE & COMPLIANCE REPORTS */}
           {activeTab === 'reports' && (
-            <div className="bg-[#151F30] border border-[#263449] rounded-xl p-6 space-y-5 shadow-sm max-w-2xl">
+            <div className="bg-[#FFFFFF] border border-[#E5E7EB] rounded-xl p-6 space-y-5 shadow-sm max-w-2xl">
               <div>
                 <h3 className="font-bold text-white text-base flex items-center gap-2">
-                  <Download className="w-4 h-4 text-[#38BDF8]" />
+                  <Download className="w-4 h-4 text-[#2563EB]" />
                   Export Governance & Provenance Assurance Reports
                 </h3>
-                <p className="text-xs text-[#94A3B8] mt-1 leading-relaxed">
+                <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
                   Generate signed audit reports with full cryptographic provenance chains, policy versions, integrity hashes, and transaction references. Formulas are neutralized against CSV injection.
                 </p>
               </div>
@@ -486,7 +486,7 @@ export default function GovernancePage() {
                   href={api.getGovernanceReportUrl('csv')}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-4 py-2.5 bg-[#38BDF8] hover:bg-[#0284C7] text-[#090D16] text-xs font-bold rounded-lg transition flex items-center justify-center gap-2 shadow-sm"
+                  className="px-4 py-2.5 bg-[#2563EB] hover:bg-[#0284C7] text-[#090D16] text-xs font-bold rounded-lg transition flex items-center justify-center gap-2 shadow-sm"
                 >
                   <Download className="w-4 h-4" />
                   Export Comprehensive CSV Report
@@ -495,7 +495,7 @@ export default function GovernancePage() {
                   href={api.getGovernanceReportUrl('json')}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-4 py-2.5 bg-[#101827] hover:bg-[#1C1C1C] text-white border border-[#263449] text-xs font-bold rounded-lg transition flex items-center justify-center gap-2"
+                  className="px-4 py-2.5 bg-[#172B4D] hover:bg-[#1C1C1C] text-white border border-[#E5E7EB] text-xs font-bold rounded-lg transition flex items-center justify-center gap-2"
                 >
                   <FileText className="w-4 h-4" />
                   Export Structured JSON Report
@@ -508,18 +508,18 @@ export default function GovernancePage() {
       {/* POLICY VERSION HISTORY MODAL */}
       {selectedPolicy && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-          <div className="bg-[#151F30] border border-[#263449] rounded-xl max-w-2xl w-full p-6 space-y-5 shadow-2xl">
+          <div className="bg-[#FFFFFF] border border-[#E5E7EB] rounded-xl max-w-2xl w-full p-6 space-y-5 shadow-2xl">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-xs font-mono text-[#38BDF8] font-bold">{selectedPolicy.id}</span>
+                <span className="text-xs font-mono text-[#2563EB] font-bold">{selectedPolicy.id}</span>
                 <h3 className="text-lg font-bold text-white">Immutable Policy Version History</h3>
-                <p className="text-xs text-[#94A3B8] mt-0.5">
+                <p className="text-xs text-[#64748B] mt-0.5">
                   Historical evaluations retain their version snapshot without rewriting provenance.
                 </p>
               </div>
               <button
                 onClick={() => setSelectedPolicy(null)}
-                className="text-[#94A3B8] hover:text-white text-sm"
+                className="text-[#64748B] hover:text-white text-sm"
               >
                 ✕
               </button>
@@ -527,31 +527,31 @@ export default function GovernancePage() {
 
             <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
               {/* Current Version */}
-              <div className="p-3.5 bg-[#101827] rounded-lg border border-[#38BDF8]/40 text-xs space-y-1">
+              <div className="p-3.5 bg-[#172B4D] rounded-lg border border-[#2563EB]/40 text-xs space-y-1">
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-white">Current Active Version (v{selectedPolicy.version})</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#38BDF8]/15 text-[#38BDF8]">ACTIVE</span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#2563EB]/15 text-[#2563EB]">ACTIVE</span>
                 </div>
-                <div className="text-[#94A3B8]">{selectedPolicy.description}</div>
-                <div className="text-[11px] text-[#94A3B8]/70 pt-1">Decision: {selectedPolicy.decision} • Risk: {selectedPolicy.risk_tier}</div>
+                <div className="text-[#64748B]">{selectedPolicy.description}</div>
+                <div className="text-[11px] text-[#64748B]/70 pt-1">Decision: {selectedPolicy.decision} • Risk: {selectedPolicy.risk_tier}</div>
               </div>
 
               {/* Historical Snapshots */}
               {policyHistory.length > 0 ? (
                 policyHistory.map((h) => (
-                  <div key={h.id} className="p-3 bg-[#101827] rounded-lg border border-[#263449] text-xs space-y-1">
+                  <div key={h.id} className="p-3 bg-[#172B4D] rounded-lg border border-[#E5E7EB] text-xs space-y-1">
                     <div className="flex justify-between items-center">
                       <span className="font-bold text-white">Historical Snapshot: v{h.version}</span>
-                      <span className="text-[#94A3B8] text-[11px]">{new Date(h.created_at).toLocaleString()}</span>
+                      <span className="text-[#64748B] text-[11px]">{new Date(h.created_at).toLocaleString()}</span>
                     </div>
-                    <div className="text-[#94A3B8]">{h.description}</div>
-                    <div className="text-[11px] text-[#38BDF8] pt-1 font-mono">
+                    <div className="text-[#64748B]">{h.description}</div>
+                    <div className="text-[11px] text-[#2563EB] pt-1 font-mono">
                       Reason: {h.change_reason || 'Archived on update'} • Changed by: {h.changed_by}
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="text-xs text-[#94A3B8] text-center py-4">
+                <div className="text-xs text-[#64748B] text-center py-4">
                   No prior version transitions recorded. Policy is at initial release (v{selectedPolicy.version}).
                 </div>
               )}
