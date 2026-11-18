@@ -181,6 +181,10 @@ export default function DashboardPage() {
                 <Link href="/paypal" className="text-xs font-semibold text-[#2563EB] hover:underline flex items-center gap-1">
                   PayPal Sandbox &rarr;
                 </Link>
+                <span className="text-[#E5E7EB]">&bull;</span>
+                <Link href="/network-ml" className="text-xs font-semibold text-[#15803D] hover:underline flex items-center gap-1">
+                  AI/ML Network Security &rarr;
+                </Link>
               </div>
             </div>
 

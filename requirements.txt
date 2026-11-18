@@ -1,0 +1,18 @@
+# SENTINELMESH — PRASUNEX INNOVATHON 2026 (AI/ML Track)
+# Core Application & UI
+streamlit>=1.38.0
+plotly>=5.24.0
+
+# Data Processing & Numerical Computing
+pandas>=2.2.0
+numpy>=2.0.0
+
+# Machine Learning & Model Persistence
+scikit-learn>=1.5.0
+joblib>=1.4.0
+
+# Lightweight PDF Security Report Generation
+fpdf2>=2.7.9
+
+# Testing
+pytest>=8.0.0

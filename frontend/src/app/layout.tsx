@@ -2,6 +2,7 @@ import './globals.css';
 import { AppShell } from '@/components/AppShell';
 import { RBACProvider } from '@/lib/rbac';
 import { Web3WalletProvider } from '@/lib/web3Wallet';
+import { MLNetworkProvider } from '@/lib/ml/mlContext';
 
 export const metadata = {
   title: 'SentinelMesh — Verifiable Security for AI Agents',
@@ -18,9 +19,11 @@ export default function RootLayout({
       <body className="bg-[#F7F8FA] text-[#172B4D] min-h-screen font-sans antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB]">
         <Web3WalletProvider>
           <RBACProvider>
-            <AppShell>
-              {children}
-            </AppShell>
+            <MLNetworkProvider>
+              <AppShell>
+                {children}
+              </AppShell>
+            </MLNetworkProvider>
           </RBACProvider>
         </Web3WalletProvider>
       </body>

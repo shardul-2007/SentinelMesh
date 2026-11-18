@@ -21,7 +21,12 @@ import {
   Users,
   Grid,
   BookOpen,
-  CreditCard
+  CreditCard,
+  Activity,
+  ShieldAlert,
+  SearchCheck,
+  Cpu,
+  FileDown
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useRBAC } from '@/lib/rbac';
@@ -66,6 +71,15 @@ export function Sidebar({
     { name: 'Agent Management', href: '/agents', icon: Users, badge: 'Fleet' },
     { name: 'Integrations', href: '/integrations', icon: Grid, badge: 'SDK' },
     { name: 'Settings', href: '/settings', icon: Settings, badge: 'Config' },
+  ];
+
+  // PRASUNEX 2026 AI/ML Network Threat Detection & Monitoring Modules
+  const mlNavItems = [
+    { name: 'Traffic Analysis', href: '/network-ml', icon: Activity, badge: 'CSV+ML' },
+    { name: 'ML Threat Alerts', href: '/ml-alerts', icon: ShieldAlert, badge: 'Triage' },
+    { name: 'Incident Investigation', href: '/ml-incidents', icon: SearchCheck, badge: 'XAI' },
+    { name: 'ML Model Center', href: '/ml-models', icon: Cpu, badge: 'RF/IsoF' },
+    { name: 'Security Reports', href: '/ml-reports', icon: FileDown, badge: 'PDF/Edu' },
   ];
 
   const renderContent = (collapsed: boolean) => (
@@ -214,6 +228,49 @@ export function Sidebar({
             </Link>
           );
         })}
+
+        {/* AI/ML Network Threat Detection Section (PRASUNEX 2026) */}
+        <div className="pt-2.5 mt-2.5 border-t border-[#E5E7EB] space-y-0.5">
+          {!collapsed && (
+            <div className="px-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-[#2563EB]">
+              AI/ML Network Security
+            </div>
+          )}
+          {mlNavItems.map((item) => {
+            const isActive = pathname === item.href;
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => onClose && onClose()}
+                title={collapsed ? `${item.name} (${item.badge})` : undefined}
+                className={`flex items-center ${collapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2'} rounded-lg text-xs font-medium transition-all duration-150 group min-h-[36px] ${
+                  isActive
+                    ? 'bg-[#F1F5F9] text-[#2563EB] border-l-3 border-[#2563EB] font-semibold'
+                    : 'text-[#64748B] hover:text-[#172B4D] hover:bg-[#F8FAFC]'
+                }`}
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <Icon className={`w-4 h-4 flex-shrink-0 transition-colors ${isActive ? 'text-[#2563EB]' : 'text-[#64748B] group-hover:text-[#172B4D]'}`} />
+                  {!collapsed && <span className="truncate">{item.name}</span>}
+                </div>
+                {!collapsed && (
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    <span className={`text-[9px] font-mono font-medium px-1.5 py-0.5 rounded border ${
+                      isActive
+                        ? 'bg-[#2563EB]/10 text-[#2563EB] border-[#2563EB]/20'
+                        : 'bg-[#F8FAFC] text-[#64748B] border-[#E5E7EB]'
+                    }`}>
+                      {item.badge}
+                    </span>
+                    {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#2563EB] ml-0.5" />}
+                  </div>
+                )}
+              </Link>
+            );
+          })}
+        </div>
 
         {/* Documentation Section */}
         <div className="pt-2 mt-2 border-t border-[#E5E7EB]">
