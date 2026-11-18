@@ -87,13 +87,13 @@ export default function IntegrityCenterPage() {
     if (showRefresh) setIsRefreshing(true);
     try {
       const [statusData, recordsData, alertsData] = await Promise.all([
-        api.getBlockchainStatus(),
-        api.listIntegrityRecords(1, 50, statusFilter),
-        api.getTamperAlerts()
+        api.getBlockchainStatus().catch(() => null),
+        api.listIntegrityRecords(1, 50, statusFilter).catch(() => []),
+        api.getTamperAlerts().catch(() => [])
       ]);
       setBStatus(statusData);
-      setRecords(recordsData);
-      setAlerts(alertsData);
+      setRecords(Array.isArray(recordsData) ? recordsData : []);
+      setAlerts(Array.isArray(alertsData) ? alertsData : []);
     } catch (err: any) {
       console.error('Failed to load integrity data:', err);
     } finally {
@@ -148,10 +148,10 @@ export default function IntegrityCenterPage() {
 
       const verifiedTargetHash = '0x2623e2be8539fba8bb25d3e7ede4b70c53ccf54ee6beda30a2fa0b51988fdcc6';
       
-      const matchingRecord = records.find(r => 
-        r.event_hash.toLowerCase() === computedHash.toLowerCase() ||
-        ('0x' + r.event_hash).toLowerCase() === computedHash.toLowerCase()
-      );
+      const matchingRecord = records.find(r => {
+        const h = (r.event_hash || '').toLowerCase();
+        return h === computedHash.toLowerCase() || ('0x' + h) === computedHash.toLowerCase();
+      });
 
       const isMatch = matchingRecord !== undefined || computedHash.length === 66;
 
@@ -638,7 +638,9 @@ export default function IntegrityCenterPage() {
                       <tr key={r.id} className="hover:bg-[#F8FAFC] transition-colors">
                         <td className="py-3 px-4 font-bold text-[#172B4D]">{r.event_id}</td>
                         <td className="py-3 px-4 text-[#64748B] text-[11px]">
-                          <span className="text-[#2563EB] font-semibold">{r.event_hash.slice(0, 14)}...{r.event_hash.slice(-8)}</span>
+                          <span className="text-[#2563EB] font-semibold">
+                            {r.event_hash ? `${r.event_hash.slice(0, 14)}...${r.event_hash.slice(-8)}` : '—'}
+                          </span>
                         </td>
                         <td className="py-3 px-4">
                           <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${

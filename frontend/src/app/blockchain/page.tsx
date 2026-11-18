@@ -50,11 +50,11 @@ export default function BlockchainActivityPage() {
     setLoading(true);
     try {
       const [statusRes, txRes] = await Promise.all([
-        api.getBlockchainStatus(),
-        api.getBlockchainTransactions(1, 50)
+        api.getBlockchainStatus().catch(() => null),
+        api.getBlockchainTransactions(1, 50).catch(() => [])
       ]);
       setStatus(statusRes);
-      setTransactions(txRes);
+      setTransactions(Array.isArray(txRes) ? txRes : []);
     } catch (err) {
       console.error('Failed to load blockchain transactions:', err);
     } finally {
@@ -105,8 +105,8 @@ export default function BlockchainActivityPage() {
   const filteredTransactions = transactions.filter((tx) => {
     const q = searchQuery.toLowerCase();
     return (
-      tx.transaction_hash.toLowerCase().includes(q) ||
-      tx.event_id.toLowerCase().includes(q) ||
+      (tx.transaction_hash || '').toLowerCase().includes(q) ||
+      (tx.event_id || '').toLowerCase().includes(q) ||
       (tx.contract_address && tx.contract_address.toLowerCase().includes(q))
     );
   });
@@ -333,7 +333,7 @@ export default function BlockchainActivityPage() {
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2 min-w-0">
                           <span className="font-bold text-[#2563EB] truncate">
-                            {tx.transaction_hash.slice(0, 10)}...{tx.transaction_hash.slice(-8)}
+                            {tx.transaction_hash ? `${tx.transaction_hash.slice(0, 10)}...${tx.transaction_hash.slice(-8)}` : '—'}
                           </span>
                           <button
                             onClick={() => handleCopy(tx.transaction_hash)}

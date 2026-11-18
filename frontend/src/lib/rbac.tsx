@@ -110,6 +110,14 @@ function getPermissionsForRole(role: UserRole): RBACPermissions {
 
 const RBACContext = createContext<RBACContextValue | undefined>(undefined);
 
+function normalizeRole(rawRole: string | undefined | null): UserRole {
+  const upper = String(rawRole || '').toUpperCase();
+  if (upper === 'ADMIN' || upper === 'CSO') return 'ADMIN';
+  if (upper === 'SECURITY_ANALYST' || upper === 'ANALYST') return 'SECURITY_ANALYST';
+  if (upper === 'VIEWER' || upper === 'COMPLIANCE_AUDITOR' || upper === 'AUDITOR') return 'VIEWER';
+  return 'ADMIN';
+}
+
 export function RBACProvider({ children }: { children: ReactNode }) {
   const [role, setRole] = useState<UserRole>('ADMIN');
   const [user, setUser] = useState<UserProfile>(DEFAULT_USERS.ADMIN);
@@ -117,24 +125,26 @@ export function RBACProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('sentinel_current_user');
-      if (stored) {
+      if (stored && stored !== 'undefined' && stored !== 'null') {
         try {
           const parsed = JSON.parse(stored) as UserProfile;
           if (parsed && parsed.role) {
-            setRole(parsed.role);
-            setUser(parsed);
+            const validRole = normalizeRole(parsed.role);
+            setRole(validRole);
+            setUser(parsed.full_name ? { ...parsed, role: validRole } : DEFAULT_USERS[validRole]);
             return;
           }
         } catch {
-          // ignore parsing error
+          localStorage.removeItem('sentinel_current_user');
         }
       }
     }
   }, []);
 
   const switchRole = async (targetRole: UserRole) => {
-    const targetUser = DEFAULT_USERS[targetRole];
-    setRole(targetRole);
+    const validRole = normalizeRole(targetRole);
+    const targetUser = DEFAULT_USERS[validRole] || DEFAULT_USERS.ADMIN;
+    setRole(validRole);
     setUser(targetUser);
 
     if (typeof window !== 'undefined') {
@@ -144,9 +154,9 @@ export function RBACProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const password = targetRole === 'ADMIN' 
+      const password = validRole === 'ADMIN' 
         ? 'AdminPassword123!' 
-        : (targetRole === 'SECURITY_ANALYST' ? 'AnalystPassword123!' : 'ViewerPassword123!');
+        : (validRole === 'SECURITY_ANALYST' ? 'AnalystPassword123!' : 'ViewerPassword123!');
       await api.login(targetUser.username, password).catch(() => null);
     } catch {
       // client-side switch is already applied

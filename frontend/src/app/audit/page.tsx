@@ -53,8 +53,8 @@ export default function AuditTrailPage() {
         agent_id: agentFilter || undefined,
         search: searchTerm || undefined,
       });
-      setEvents(res.events);
-      setTotal(res.total);
+      setEvents(Array.isArray(res?.events) ? res.events : []);
+      setTotal(res?.total ?? 0);
     } catch (err: any) {
       console.error('Failed to load events:', err);
     } finally {

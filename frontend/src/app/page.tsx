@@ -72,7 +72,7 @@ export default function DashboardPage() {
       ]);
       setStats(statsData);
       setBStatus(bData);
-      setAlerts(alertsData || []);
+      setAlerts(Array.isArray(alertsData) ? alertsData : []);
       setError(null);
     } catch (err: any) {
       setError(err.message || 'Failed to connect to SentinelMesh backend.');
@@ -654,7 +654,7 @@ export default function DashboardPage() {
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-1.5">
                           <span className="text-[11px] text-[#64748B] truncate max-w-[140px]" title={evt.integrity_hash}>
-                            {evt.integrity_hash.slice(0, 10)}...{evt.integrity_hash.slice(-6)}
+                            {evt.integrity_hash ? `${evt.integrity_hash.slice(0, 10)}...${evt.integrity_hash.slice(-6)}` : '—'}
                           </span>
                           <button
                             onClick={() => handleCopy(evt.integrity_hash)}

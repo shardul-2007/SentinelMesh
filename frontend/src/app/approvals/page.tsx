@@ -40,11 +40,11 @@ export default function ApprovalCenterPage() {
     if (showRefresh) setIsRefreshing(true);
     try {
       const [pending, allList] = await Promise.all([
-        api.getPendingApprovals(),
-        api.getEvents({ decision: 'REQUIRE_APPROVAL', page_size: 50 })
+        api.getPendingApprovals().catch(() => []),
+        api.getEvents({ decision: 'REQUIRE_APPROVAL', page_size: 50 }).catch(() => ({ total: 0, page: 1, page_size: 50, events: [] }))
       ]);
-      setPendingEvents(pending);
-      setAllApprovalEvents(allList.events);
+      setPendingEvents(Array.isArray(pending) ? pending : []);
+      setAllApprovalEvents(Array.isArray(allList?.events) ? allList.events : []);
     } catch (err: any) {
       console.error('Failed to load approvals:', err);
     } finally {

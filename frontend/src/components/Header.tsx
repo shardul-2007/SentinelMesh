@@ -148,7 +148,7 @@ export function Header({ title = "Zero-Trust Security Gateway", subtitle, onRefr
               title="User role & RBAC context"
             >
               <div className={`w-2 h-2 rounded-full ${role === 'ADMIN' ? 'bg-[#D97706]' : (role === 'SECURITY_ANALYST' ? 'bg-[#DC2626]' : 'bg-[#2563EB]')}`}></div>
-              <span className="font-semibold hidden sm:inline">{user.full_name}</span>
+              <span className="font-semibold hidden sm:inline">{user?.full_name || 'Chief Security Officer'}</span>
               <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${getRoleBadgeStyle(role)}`}>
                 {role === 'ADMIN' ? 'CSO (ADMIN)' : (role === 'SECURITY_ANALYST' ? 'ANALYST' : 'AUDITOR')}
               </span>

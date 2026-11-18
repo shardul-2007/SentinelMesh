@@ -72,9 +72,9 @@ export default function ThreatsPage() {
         api.getThreatRules().catch(() => [])
       ]);
       setAnalytics(analyticsData);
-      setFindings(findingsData);
-      setProfiles(profilesData);
-      setRules(rulesData);
+      setFindings(Array.isArray(findingsData) ? findingsData : []);
+      setProfiles(Array.isArray(profilesData) ? profilesData : []);
+      setRules(Array.isArray(rulesData) ? rulesData : []);
     } catch (err) {
       console.error('Failed to load threat intelligence data', err);
     } finally {
@@ -156,9 +156,9 @@ export default function ThreatsPage() {
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       return (
-        f.title.toLowerCase().includes(q) ||
-        f.agent_id.toLowerCase().includes(q) ||
-        f.rule_id.toLowerCase().includes(q) ||
+        (f.title || "").toLowerCase().includes(q) ||
+        (f.agent_id || "").toLowerCase().includes(q) ||
+        (f.rule_id || "").toLowerCase().includes(q) ||
         (f.finding_id && f.finding_id.toLowerCase().includes(q))
       );
     }
@@ -243,7 +243,7 @@ export default function ThreatsPage() {
                   <ShieldAlert className="w-6 h-6" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                  <h1 className="text-2xl font-extrabold tracking-tight text-[#172B4D] flex items-center gap-2">
                     Security Intelligence & Threat Center
                   </h1>
                   <p className="text-sm text-[#64748B]">
@@ -280,7 +280,7 @@ export default function ThreatsPage() {
                 <span className="text-xs text-[#1C1C1C] font-bold">active alerts</span>
               </div>
               <div className="mt-2 pt-2 border-t border-[#000000]/25 flex items-center justify-between text-xs font-bold text-[#1C1C1C]">
-                <span className="font-mono text-[#000000]">{analytics?.findings_by_severity.CRITICAL ?? 0} Critical</span>
+                <span className="font-mono text-[#000000]">{analytics?.findings_by_severity?.CRITICAL ?? 0} Critical</span>
                 <span className="px-2 py-0.5 rounded-full bg-[#172B4D] text-[#2563EB] text-[10px] font-black font-mono">
                   ANOMALY
                 </span>
@@ -295,11 +295,11 @@ export default function ThreatsPage() {
                 </span>
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-black text-[#000000] font-mono">{analytics?.agents_under_review.length ?? 0}</span>
+                <span className="text-3xl font-black text-[#000000] font-mono">{analytics?.agents_under_review?.length ?? 0}</span>
                 <span className="text-xs text-[#1C1C1C] font-bold">flagged</span>
               </div>
               <div className="mt-2 pt-2 border-t border-[#000000]/25 text-[11px] text-[#1C1C1C] font-bold truncate">
-                {analytics?.agents_under_review.length ? analytics.agents_under_review.join(', ') : 'All agents within baseline bounds'}
+                {analytics?.agents_under_review?.length ? analytics.agents_under_review.join(', ') : 'All agents within baseline bounds'}
               </div>
             </div>
 
@@ -349,7 +349,7 @@ export default function ThreatsPage() {
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 whitespace-nowrap ${
                 activeTab === 'findings'
                   ? 'border-[#2563EB] text-[#2563EB]'
-                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
+                  : 'border-transparent text-[#64748B] hover:text-[#172B4D]'
               }`}
             >
               <AlertTriangle className="w-4 h-4" />
@@ -360,7 +360,7 @@ export default function ThreatsPage() {
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 whitespace-nowrap ${
                 activeTab === 'profiles'
                   ? 'border-[#2563EB] text-[#2563EB]'
-                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
+                  : 'border-transparent text-[#64748B] hover:text-[#172B4D]'
               }`}
             >
               <Users className="w-4 h-4" />
@@ -371,7 +371,7 @@ export default function ThreatsPage() {
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 whitespace-nowrap ${
                 activeTab === 'lab'
                   ? 'border-[#2563EB] text-[#2563EB]'
-                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
+                  : 'border-transparent text-[#64748B] hover:text-[#172B4D]'
               }`}
             >
               <Play className="w-4 h-4" />
@@ -382,7 +382,7 @@ export default function ThreatsPage() {
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 whitespace-nowrap ${
                 activeTab === 'rules'
                   ? 'border-[#2563EB] text-[#2563EB]'
-                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
+                  : 'border-transparent text-[#64748B] hover:text-[#172B4D]'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -464,15 +464,15 @@ export default function ThreatsPage() {
                       </tr>
                     ) : (
                       filteredFindings.map((f) => (
-                        <tr key={f.id} className="hover:bg-[#1C1C1C] transition-colors duration-150">
+                        <tr key={f.id} className="hover:bg-[#F8FAFC] transition-colors duration-150">
                           <td className="px-5 py-3.5 whitespace-nowrap">
                             {getSeverityBadge(f.severity)}
                           </td>
                           <td className="px-5 py-3.5">
-                            <div className="font-bold text-white">{f.title}</div>
+                            <div className="font-bold text-[#172B4D]">{f.title}</div>
                             <div className="text-xs text-[#2563EB] font-mono mt-0.5">{f.rule_id}</div>
                           </td>
-                          <td className="px-5 py-3.5 font-mono text-xs text-[#FFFFFF]">
+                          <td className="px-5 py-3.5 font-mono text-xs text-[#172B4D] font-semibold">
                             {f.agent_id}
                           </td>
                           <td className="px-5 py-3.5 text-xs text-[#64748B]">
@@ -524,10 +524,10 @@ export default function ThreatsPage() {
                       {/* Header */}
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="font-extrabold text-white text-base">{p.agent_name}</h3>
+                          <h3 className="font-extrabold text-[#172B4D] text-base">{p.agent_name}</h3>
                           <span className="text-xs font-mono font-bold text-[#2563EB]">{p.agent_id}</span>
                         </div>
-                        {getRiskTierBadge(p.risk_score_breakdown.risk_tier)}
+                        {getRiskTierBadge(p.risk_score_breakdown?.risk_tier || p.behavioral_risk_tier || "LOW")}
                       </div>
 
                       {/* Score Gauge */}
@@ -535,21 +535,21 @@ export default function ThreatsPage() {
                         <div className="flex justify-between items-center mb-1.5">
                           <span className="text-xs font-bold text-[#64748B]">Behavioral Risk Index</span>
                           <span className="text-lg font-extrabold text-white">
-                            {p.risk_score_breakdown.insufficient_data ? 'N/A' : `${p.risk_score_breakdown.risk_score}/100`}
+                            {p.risk_score_breakdown?.insufficient_data ? 'N/A' : `${p.risk_score_breakdown?.risk_score ?? 0}/100`}
                           </span>
                         </div>
                         <div className="w-full bg-[#FFFFFF] h-2 rounded-full overflow-hidden">
                           <div
                             className={`h-full transition-all duration-500 ${
-                              p.risk_score_breakdown.risk_score > 75
+                              (p.risk_score_breakdown?.risk_score ?? 0) > 75
                                 ? 'bg-[#DC2626]'
-                                : p.risk_score_breakdown.risk_score > 50
+                                : (p.risk_score_breakdown?.risk_score ?? 0) > 50
                                 ? 'bg-[#D97706]'
-                                : p.risk_score_breakdown.risk_score > 25
+                                : (p.risk_score_breakdown?.risk_score ?? 0) > 25
                                 ? 'bg-[#DC2626]'
                                 : 'bg-[#2563EB]'
                             }`}
-                            style={{ width: `${p.risk_score_breakdown.risk_score}%` }}
+                            style={{ width: `${(p.risk_score_breakdown?.risk_score ?? 0)}%` }}
                           />
                         </div>
                         <div className="mt-2 text-right">
@@ -582,7 +582,7 @@ export default function ThreatsPage() {
                         </div>
                         <div className="flex justify-between py-1">
                           <span className="text-[#64748B] font-sans">Total Evaluated Actions:</span>
-                          <span className="font-bold text-white">{p.total_actions}</span>
+                          <span className="font-bold text-[#172B4D]">{p.total_actions}</span>
                         </div>
                       </div>
                     </div>
@@ -603,7 +603,7 @@ export default function ThreatsPage() {
               {/* Lab Banner */}
               <div className="bg-[#FFFFFF] border border-[#E5E7EB] rounded-xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                  <h3 className="font-bold text-white text-base flex items-center gap-2">
+                  <h3 className="font-bold text-[#172B4D] text-base flex items-center gap-2">
                     <Play className="w-4 h-4 text-[#2563EB]" />
                     Interactive Threat Detection & Negative Control Lab
                   </h3>
@@ -637,7 +637,7 @@ export default function ThreatsPage() {
                         0 Findings Expected
                       </span>
                     </div>
-                    <h4 className="font-bold text-white mt-2">Benign Operational Activity</h4>
+                    <h4 className="font-bold text-[#172B4D] mt-2">Benign Operational Activity</h4>
                     <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
                        Simulates 4 legitimate read operations. Confirms that normal compliant agent activity produces zero false-positive findings.
                     </p>
@@ -661,7 +661,7 @@ export default function ThreatsPage() {
                         RULE-REP-BLK-01
                       </span>
                     </div>
-                    <h4 className="font-bold text-white mt-2">Repeated Blocked Probing</h4>
+                    <h4 className="font-bold text-[#172B4D] mt-2">Repeated Blocked Probing</h4>
                     <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
                       Simulates 3 consecutive unauthorized actions against internal user records resulting in policy BLOCK decisions.
                     </p>
@@ -685,7 +685,7 @@ export default function ThreatsPage() {
                         RULE-HIGH-FREQ-02
                       </span>
                     </div>
-                    <h4 className="font-bold text-white mt-2">Action Velocity Burst</h4>
+                    <h4 className="font-bold text-[#172B4D] mt-2">Action Velocity Burst</h4>
                     <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
                       Simulates 9 rapid operations executed in under 20 seconds, testing automated runaway loop detection.
                     </p>
@@ -709,7 +709,7 @@ export default function ThreatsPage() {
                         RULE-POL-VIOL-03
                       </span>
                     </div>
-                    <h4 className="font-bold text-white mt-2">Multi-Policy Violations</h4>
+                    <h4 className="font-bold text-[#172B4D] mt-2">Multi-Policy Violations</h4>
                     <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
                       Simulates probing across 3 distinct restricted policies (production configs, auth tokens, kernel debug).
                     </p>
@@ -733,7 +733,7 @@ export default function ThreatsPage() {
                         RULE-INTEG-FAIL-06
                       </span>
                     </div>
-                    <h4 className="font-bold text-white mt-2">Cryptographic Tamper Alert</h4>
+                    <h4 className="font-bold text-[#172B4D] mt-2">Cryptographic Tamper Alert</h4>
                     <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
                       Injects an isolated verification hash mismatch on a disposable test record, triggering immediate forensic review.
                     </p>
@@ -755,7 +755,7 @@ export default function ThreatsPage() {
                   <div className="flex justify-between items-start">
                     <div>
                       <span className="text-xs font-bold text-[#2563EB] uppercase tracking-wide">Simulation Execution Output</span>
-                      <h3 className="font-bold text-white text-lg mt-0.5">{labResult.scenario_name}</h3>
+                      <h3 className="font-bold text-[#172B4D] text-lg mt-0.5">{labResult.scenario_name}</h3>
                       <p className="text-xs text-[#64748B] mt-1">{labResult.explanation}</p>
                     </div>
                     <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#2563EB]/15 text-[#2563EB] border border-[#2563EB]/40">
@@ -763,7 +763,7 @@ export default function ThreatsPage() {
                     </span>
                   </div>
 
-                  {labResult.findings.length > 0 && (
+                  {Array.isArray(labResult.findings) && labResult.findings.length > 0 && (
                     <div className="mt-4 space-y-3">
                       {labResult.findings.map((f) => (
                         <div key={f.id} className="p-4 rounded-lg bg-[#172B4D] border border-[#E5E7EB] text-xs space-y-1.5">
@@ -801,21 +801,21 @@ export default function ThreatsPage() {
                   </thead>
                   <tbody className="divide-y divide-[#E5E7EB]">
                     {rules.map((r) => (
-                      <tr key={r.rule_id} className="hover:bg-[#1C1C1C] transition-colors duration-150">
+                      <tr key={r.rule_id} className="hover:bg-[#F8FAFC] transition-colors duration-150">
                         <td className="px-5 py-3.5 font-mono text-xs font-bold text-[#2563EB] whitespace-nowrap">
                           {r.rule_id}
                         </td>
                         <td className="px-5 py-3.5">
-                          <div className="font-bold text-white">{r.name}</div>
+                          <div className="font-bold text-[#172B4D]">{r.name}</div>
                           <div className="text-xs text-[#64748B] mt-0.5">{r.description}</div>
                         </td>
                         <td className="px-5 py-3.5 whitespace-nowrap">
                           {getSeverityBadge(r.severity)}
                         </td>
-                        <td className="px-5 py-3.5 text-xs text-white whitespace-nowrap">
+                        <td className="px-5 py-3.5 text-xs text-[#172B4D] font-semibold whitespace-nowrap">
                           {r.window_minutes} min
                         </td>
-                        <td className="px-5 py-3.5 text-xs text-white whitespace-nowrap font-mono">
+                        <td className="px-5 py-3.5 text-xs text-[#172B4D] font-semibold whitespace-nowrap font-mono">
                           {r.threshold} {r.threshold === 1 ? 'event' : 'events'}
                         </td>
                         <td className="px-5 py-3.5 text-xs text-[#64748B]">
@@ -841,7 +841,7 @@ export default function ThreatsPage() {
                   <span className="text-xs font-mono font-bold text-[#2563EB]">{selectedFinding.rule_id}</span>
                   {getStatusBadge(selectedFinding.status)}
                 </div>
-                <h3 className="text-lg font-bold text-white">{selectedFinding.title}</h3>
+                <h3 className="text-lg font-bold text-[#172B4D]">{selectedFinding.title}</h3>
                 <span className="text-xs text-[#64748B] font-mono">ID: {selectedFinding.finding_id}</span>
               </div>
               <button
@@ -867,7 +867,7 @@ export default function ThreatsPage() {
 
             {/* Linked Audit Evidence Events */}
             <div>
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-2">
+              <h4 className="text-xs font-bold text-[#172B4D] uppercase tracking-wider mb-2">
                 Traceable Audit Evidence Events ({selectedFinding.evidence_event_ids?.length || 0})
               </h4>
               <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1">
@@ -901,7 +901,7 @@ export default function ThreatsPage() {
                 placeholder="Add optional analyst notes (e.g. reviewed prompt tokens, isolated agent)..."
                 value={resolutionNotes}
                 onChange={(e) => setResolutionNotes(e.target.value)}
-                className="w-full px-3 py-2 bg-[#FFFFFF] border border-[#E5E7EB] rounded-lg text-xs text-white focus:outline-none focus:border-[#2563EB]"
+                className="w-full px-3 py-2 bg-[#FFFFFF] border border-[#E5E7EB] rounded-lg text-xs text-[#172B4D] focus:outline-none focus:border-[#2563EB]"
               />
               <div className="flex gap-2">
                 <button
@@ -941,7 +941,7 @@ export default function ThreatsPage() {
             <div className="flex justify-between items-start">
               <div>
                 <span className="text-xs font-mono font-bold text-[#2563EB]">{explainProfile.agent_id}</span>
-                <h3 className="text-lg font-bold text-white">Risk Score Formula Breakdown</h3>
+                <h3 className="text-lg font-bold text-[#172B4D]">Risk Score Formula Breakdown</h3>
               </div>
               <button
                 onClick={() => setExplainProfile(null)}
@@ -952,12 +952,12 @@ export default function ThreatsPage() {
             </div>
 
             <div className="p-3 bg-[#172B4D] border border-[#2563EB]/30 rounded-lg text-xs text-[#64748B]">
-              {explainProfile.risk_score_breakdown.formula_disclaimer}
+              {explainProfile.risk_score_breakdown?.formula_disclaimer || "Deterministic heuristic risk score."}
             </div>
 
             {/* Factor Table */}
             <div className="space-y-2.5">
-              {explainProfile.risk_score_breakdown.factors.map((f, i) => (
+              {(explainProfile.risk_score_breakdown?.factors || []).map((f, i) => (
                 <div key={i} className="p-3 bg-[#172B4D] rounded-lg border border-[#E5E7EB] text-xs flex justify-between items-center">
                   <div>
                     <span className="font-bold text-white block">{f.factor_name}</span>
@@ -974,8 +974,8 @@ export default function ThreatsPage() {
 
             <div className="pt-3 border-t border-[#E5E7EB] flex justify-between items-center">
               <span className="text-xs font-bold text-[#64748B]">Total Computed Risk Score:</span>
-              <span className="text-xl font-black text-white">
-                {explainProfile.risk_score_breakdown.risk_score} / 100
+              <span className="text-xl font-black text-[#172B4D]">
+                {explainProfile.risk_score_breakdown?.risk_score ?? 0} / 100
               </span>
             </div>
           </div>

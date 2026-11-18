@@ -80,15 +80,15 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
     if (path === 'integrity/events') {
       const page = parseInt(searchParams.get('page') || '1', 10);
       const pageSize = parseInt(searchParams.get('page_size') || '50', 10);
-      const search = searchParams.get('search') || undefined;
-      const data = backendEngine.getEvents({ page, page_size: pageSize, search });
+      const status = searchParams.get('status') || undefined;
+      const data = backendEngine.getIntegrityRecords(page, pageSize, status);
       return NextResponse.json(data, { headers: corsHeaders() });
     }
 
     if (slug[0] === 'integrity' && slug[1] === 'events' && slug.length === 3) {
       const eventId = slug[2];
-      const data = backendEngine.getEvent(eventId);
-      if (!data) return NextResponse.json({ detail: 'Event not found' }, { status: 404, headers: corsHeaders() });
+      const data = backendEngine.getIntegrityRecord(eventId);
+      if (!data) return NextResponse.json({ detail: 'Integrity record not found' }, { status: 404, headers: corsHeaders() });
       return NextResponse.json(data, { headers: corsHeaders() });
     }
 
@@ -106,7 +106,9 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
     }
 
     if (path === 'integrity/alerts') {
-      return NextResponse.json([], { headers: corsHeaders() });
+      const status = searchParams.get('status') || undefined;
+      const data = backendEngine.getTamperAlerts(status);
+      return NextResponse.json(data, { headers: corsHeaders() });
     }
 
     // 7. Threats
@@ -120,12 +122,16 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
       return NextResponse.json(data, { headers: corsHeaders() });
     }
 
+    if (slug[0] === 'threats' && slug[1] === 'findings' && slug.length === 3) {
+      const findingId = slug[2];
+      const data = backendEngine.getFindingDetail(findingId);
+      if (!data) return NextResponse.json({ detail: 'Finding not found' }, { status: 404, headers: corsHeaders() });
+      return NextResponse.json(data, { headers: corsHeaders() });
+    }
+
     if (path === 'threats/agent-profiles') {
-      return NextResponse.json([
-        { agent_id: 'agent-data-analyzer', trust_score: 95, status: 'TRUSTED', risk_tier: 'LOW', total_actions: 34, violations_count: 0 },
-        { agent_id: 'agent-guest', trust_score: 42, status: 'PROBATION', risk_tier: 'HIGH', total_actions: 6, violations_count: 2 },
-        { agent_id: 'agent-financial-bot', trust_score: 88, status: 'TRUSTED', risk_tier: 'MEDIUM', total_actions: 18, violations_count: 0 }
-      ], { headers: corsHeaders() });
+      const data = backendEngine.getAgentTrustProfiles();
+      return NextResponse.json(data, { headers: corsHeaders() });
     }
 
     if (path === 'threats/analytics') {
@@ -134,7 +140,11 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
     }
 
     if (path === 'threats/analyze') {
-      return NextResponse.json({ anomalies_found: 0, threat_score: 12, summary: 'Normal operational activity' }, { headers: corsHeaders() });
+      return NextResponse.json({
+        status: 'COMPLETED',
+        analyzed_events: backendEngine.getAllEventsRaw().length,
+        flagged_findings: backendEngine.getThreatFindings().length,
+      }, { headers: corsHeaders() });
     }
 
     // 8. Governance
@@ -147,6 +157,27 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
       const eventId = slug[2];
       const data = backendEngine.explainGovernance(eventId);
       return NextResponse.json(data, { headers: corsHeaders() });
+    }
+
+    if (path === 'governance/report' || path === 'reports/export') {
+      const format = (searchParams.get('format') || 'json').toLowerCase();
+      if (format === 'csv') {
+        const csv = backendEngine.exportEventsCsv();
+        return new Response(csv, {
+          status: 200,
+          headers: {
+            ...corsHeaders(),
+            'Content-Type': 'text/csv; charset=utf-8',
+            'Content-Disposition': 'attachment; filename="sentinelmesh_governance_report.csv"',
+          },
+        });
+      }
+      return NextResponse.json({
+        generated_at: new Date().toISOString(),
+        overview: backendEngine.getGovernanceOverview(),
+        events: backendEngine.getAllEventsRaw(),
+        policies: backendEngine.getPolicies(),
+      }, { headers: corsHeaders() });
     }
 
     // 9. Auth
@@ -163,16 +194,16 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
 
     if (path === 'auth/demo-accounts') {
       return NextResponse.json([
-        { username: 'admin', role: 'ADMIN', description: 'Full access to policies, approvals, and blockchain anchoring' },
-        { username: 'analyst', role: 'SECURITY_ANALYST', description: 'Can inspect evidence, verify digests, and view logs' },
-        { username: 'viewer', role: 'VIEWER', description: 'Read-only access to audit trail' }
+        { username: 'admin', role: 'ADMIN', name: 'Chief Security Officer', description: 'Full access to policies, approvals, and blockchain anchoring' },
+        { username: 'analyst', role: 'SECURITY_ANALYST', name: 'Lead Security Analyst', description: 'Can inspect evidence, verify digests, and view logs' },
+        { username: 'viewer', role: 'VIEWER', name: 'Compliance Auditor', description: 'Read-only access to audit trail' }
       ], { headers: corsHeaders() });
     }
 
     // 10. Reports
     if (path === 'reports/analytics') {
-      const stats = await backendEngine.getDashboardStats();
-      return NextResponse.json(stats, { headers: corsHeaders() });
+      const analytics = backendEngine.getSecurityAnalytics();
+      return NextResponse.json(analytics, { headers: corsHeaders() });
     }
 
     return NextResponse.json({ error: `Route /api/${path} not found` }, { status: 404, headers: corsHeaders() });
@@ -226,14 +257,51 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
       return NextResponse.json(data, { status: 200, headers: corsHeaders() });
     }
 
-    // 4. Policies Toggle
+    if (path === 'integrity/simulate-tamper') {
+      const data = backendEngine.simulateTamper(body.event_id, body.tampered_resource);
+      return NextResponse.json(data, { status: 200, headers: corsHeaders() });
+    }
+
+    if (path === 'integrity/restore-tamper') {
+      const { searchParams } = new URL(request.url);
+      const eventId = searchParams.get('event_id') || body.event_id || undefined;
+      const data = backendEngine.restoreTamper(eventId);
+      return NextResponse.json(data, { status: 200, headers: corsHeaders() });
+    }
+
+    if (slug[0] === 'integrity' && slug[1] === 'alerts' && slug[3] === 'resolve' && slug.length === 4) {
+      const alertId = slug[2];
+      const data = backendEngine.resolveTamperAlert(alertId, body.resolution_note || '');
+      return NextResponse.json(data, { status: 200, headers: corsHeaders() });
+    }
+
+    // 4. Policies Create & Toggle
+    if (path === 'policies') {
+      const data = backendEngine.createPolicy(body);
+      return NextResponse.json(data, { status: 201, headers: corsHeaders() });
+    }
+
     if (slug[0] === 'policies' && slug[2] === 'toggle' && slug.length === 3) {
       const policyId = decodeURIComponent(slug[1]);
       const data = backendEngine.togglePolicy(policyId);
       return NextResponse.json(data, { status: 200, headers: corsHeaders() });
     }
 
-    // 5. Threat Lab Runner
+    // 5. Threat Detection & Lab Runner
+    if (path === 'threats/analyze') {
+      return NextResponse.json({
+        status: 'COMPLETED',
+        analyzed_events: backendEngine.getAllEventsRaw().length,
+        flagged_findings: backendEngine.getThreatFindings().length,
+      }, { status: 200, headers: corsHeaders() });
+    }
+
+    if (slug[0] === 'threats' && slug[1] === 'findings' && slug[3] === 'status' && slug.length === 4) {
+      const findingId = slug[2];
+      const data = backendEngine.updateFindingStatus(findingId, body.status || 'INVESTIGATING', body.notes);
+      return NextResponse.json(data, { status: 200, headers: corsHeaders() });
+    }
+
     if (path === 'threats/lab/run-scenario') {
       const data = backendEngine.runLabScenario(body.scenario_id || 'untrusted-probe');
       return NextResponse.json(data, { status: 200, headers: corsHeaders() });

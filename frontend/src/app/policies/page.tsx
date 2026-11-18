@@ -42,7 +42,7 @@ export default function PoliciesPage() {
   const fetchPolicies = async () => {
     try {
       const data = await api.getPolicies();
-      setPolicies(data);
+      setPolicies(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Failed to load policies:', err);
     } finally {

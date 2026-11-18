@@ -259,7 +259,24 @@ class SentinelBackendEngine {
   private policies: SecurityPolicy[] = [...SEED_POLICIES];
   private transactions: BlockchainTransaction[] = [...SEED_TXS];
   private alerts: TamperAlert[] = [];
-  private findings: SecurityFinding[] = [];
+  private tamperBackups: Map<string, string> = new Map();
+  private findings: SecurityFinding[] = [
+    {
+      id: 'find_001',
+      finding_id: 'FINDING-01',
+      rule_id: 'RULE-02',
+      rule_version: '1.0',
+      agent_id: 'agent-guest',
+      severity: 'CRITICAL',
+      status: 'ACTIVE',
+      title: 'Restricted Vault Probing Detected',
+      description: 'Unauthorized agent dispatched probe targeting restricted/production_vault_keys.env. Blocked by POL-B.',
+      recommended_action: 'Revoke agent session tokens',
+      evidence_event_ids: ['evt_mst_002'],
+      detected_at: new Date(Date.now() - 3600000).toISOString(),
+      is_simulation: false
+    }
+  ];
   private lastBlockHeight: number = 6688115;
   private lastBlockCheckTime: number = 0;
 
@@ -831,42 +848,52 @@ class SentinelBackendEngine {
   }
 
   public getThreatFindings(): SecurityFinding[] {
-    return [
-      {
-        id: 'find_001',
-        finding_id: 'FINDING-01',
-        rule_id: 'RULE-02',
-        rule_version: '1.0',
-        agent_id: 'agent-guest',
-        severity: 'CRITICAL',
-        status: 'ACTIVE',
-        title: 'Restricted Vault Probing Detected',
-        description: 'Unauthorized agent dispatched probe targeting restricted/production_vault_keys.env. Blocked by POL-B.',
-        recommended_action: 'Revoke agent session tokens',
-        evidence_event_ids: ['evt_mst_002'],
-        detected_at: new Date(Date.now() - 3600000).toISOString(),
-        is_simulation: false
-      }
-    ];
+    return this.findings;
+  }
+
+  public getFindingDetail(findingId: string): SecurityFinding | null {
+    const f = this.findings.find(item => item.id === findingId || item.finding_id === findingId);
+    if (!f) return null;
+    const linkedEvents = this.events.filter(e => f.evidence_event_ids.includes(e.id));
+    return {
+      ...f,
+      evidence_events: linkedEvents,
+    };
+  }
+
+  public updateFindingStatus(findingId: string, status: string, notes?: string): SecurityFinding {
+    const f = this.findings.find(item => item.id === findingId || item.finding_id === findingId);
+    if (!f) throw new Error(`Finding '${findingId}' not found.`);
+    f.status = status as any;
+    if (notes) f.resolution_notes = notes;
+    if (status === 'RESOLVED' || status === 'FALSE_POSITIVE') {
+      f.resolved_at = new Date().toISOString();
+      f.resolved_by = 'chief-security-officer';
+    }
+    return f;
   }
 
   public getThreatAnalytics(): ThreatAnalytics {
+    const active = this.findings.filter(f => f.status === 'ACTIVE').length;
+    const investigating = this.findings.filter(f => f.status === 'INVESTIGATING').length;
+    const resolved = this.findings.filter(f => f.status === 'RESOLVED').length;
+    const fp = this.findings.filter(f => f.status === 'FALSE_POSITIVE').length;
     return {
-      total_findings: 1,
-      active_findings: 1,
-      investigating_findings: 0,
-      resolved_findings: 0,
-      false_positives: 0,
+      total_findings: this.findings.length,
+      active_findings: active,
+      investigating_findings: investigating,
+      resolved_findings: resolved,
+      false_positives: fp,
       findings_by_severity: {
-        CRITICAL: 1,
-        HIGH: 2,
-        MEDIUM: 3,
-        LOW: 0
+        CRITICAL: this.findings.filter(f => f.severity === 'CRITICAL').length,
+        HIGH: this.findings.filter(f => f.severity === 'HIGH').length,
+        MEDIUM: this.findings.filter(f => f.severity === 'MEDIUM').length,
+        LOW: this.findings.filter(f => f.severity === 'LOW').length
       },
       top_triggered_rules: [
-        { rule_id: 'RULE-02', count: 1, name: 'Credential Access Spike' }
+        { rule_id: 'RULE-02', count: Math.max(1, this.findings.filter(f => f.rule_id === 'RULE-02').length), name: 'Credential Access Spike' }
       ],
-      agents_under_review: ['agent-guest'],
+      agents_under_review: Array.from(new Set(this.findings.filter(f => f.status === 'ACTIVE').map(f => f.agent_id))),
       last_detection_run: new Date().toISOString(),
       rules_registered: 4
     };
@@ -1022,6 +1049,259 @@ class SentinelBackendEngine {
       paypal_status: decision === 'BLOCK' ? 'NOT_CALLED_POLICY_BLOCKED' : decision === 'REQUIRE_APPROVAL' ? 'HELD_PENDING_HUMAN_APPROVAL' : 'ORDER_CREATED_SANDBOX',
       instruction: decision === 'REQUIRE_APPROVAL' ? 'Transaction recorded in Approval Center. Authorize this payment in /approvals before capture can occur.' : undefined
     };
+  }
+
+  public getIntegrityRecords(page: number = 1, pageSize: number = 50, statusFilter?: string): IntegrityRecord[] {
+    const records: IntegrityRecord[] = this.events.map((e) => {
+      const tx = this.transactions.find((t) => t.event_id === e.id);
+      const isAnchored = !!(tx && tx.status === 'CONFIRMED');
+      const isTampered = this.tamperBackups.has(e.id) || this.alerts.some((a) => a.event_id === e.id && a.status === 'OPEN');
+      return {
+        id: `ir_${e.id}`,
+        event_id: e.id,
+        hash_algorithm: 'SHA-256',
+        canonical_version: 'RFC-8785',
+        event_hash: e.integrity_hash || '0x0000000000000000000000000000000000000000000000000000000000000000',
+        blockchain_network: isAnchored ? 'MST Testnet' : undefined,
+        anchoring_status: isAnchored ? 'ANCHORED' : 'NOT_ANCHORED',
+        verification_status: isTampered ? 'TAMPERED' : (isAnchored ? 'ANCHORED_AND_VERIFIED' : 'INTACT'),
+        transaction_hash: isAnchored ? tx?.transaction_hash : undefined,
+        block_number: isAnchored ? tx?.block_number : undefined,
+        contract_address: isAnchored ? MST_CONTRACT_ADDRESS : undefined,
+        chain_id: isAnchored ? MST_TESTNET_CHAIN_ID : undefined,
+        created_at: e.timestamp,
+      };
+    });
+
+    const filtered = statusFilter && statusFilter !== 'ALL'
+      ? records.filter((r) => r.anchoring_status === statusFilter || r.verification_status === statusFilter)
+      : records;
+
+    const start = (page - 1) * pageSize;
+    return filtered.slice(start, start + pageSize);
+  }
+
+  public getIntegrityRecord(eventId: string): IntegrityRecord | null {
+    const all = this.getIntegrityRecords(1, this.events.length + 10);
+    return all.find((r) => r.event_id === eventId) || null;
+  }
+
+  public getTamperAlerts(statusFilter?: string): TamperAlert[] {
+    if (statusFilter && statusFilter !== 'ALL') {
+      return this.alerts.filter((a) => a.status === statusFilter);
+    }
+    return this.alerts;
+  }
+
+  public simulateTamper(eventId?: string, tamperedResource?: string) {
+    const target = eventId
+      ? this.events.find((e) => e.id === eventId)
+      : this.events[0];
+    if (!target) {
+      throw new Error('No audit event available to simulate tampering.');
+    }
+    const originalResource = this.tamperBackups.get(target.id) || target.resource;
+    if (!this.tamperBackups.has(target.id)) {
+      this.tamperBackups.set(target.id, target.resource);
+    }
+    const modifiedResource = tamperedResource || `${originalResource} [TAMPERED_INJECTION]`;
+    target.resource = modifiedResource;
+
+    const newHash = computeCanonicalEventHash({
+      event_id: target.id,
+      timestamp: target.timestamp,
+      agent_id: target.agent_id,
+      action_type: target.action_type,
+      resource: target.resource,
+      policy_decision: target.policy_decision,
+      policy_id: target.policy_id,
+      policy_version: target.policy_version,
+      reason: target.reason,
+      execution_mode: target.execution_mode,
+    });
+
+    const existingOpen = this.alerts.find((a) => a.event_id === target.id && a.status === 'OPEN');
+    if (!existingOpen) {
+      this.alerts.unshift({
+        id: `talert_${Date.now()}`,
+        event_id: target.id,
+        severity: 'CRITICAL',
+        status: 'OPEN',
+        detection_timestamp: new Date().toISOString(),
+        trusted_source: 'MST_TESTNET_EVIDENCE_REGISTRY',
+        expected_hash: target.integrity_hash,
+        calculated_hash: newHash,
+        details: `Controlled tamper detected on '${target.id}': resource altered from '${originalResource}' to '${modifiedResource}'.`,
+      });
+    }
+
+    return {
+      event_id: target.id,
+      original_resource: originalResource,
+      modified_resource: modifiedResource,
+      expected_hash: target.integrity_hash,
+      recomputed_hash: newHash,
+      status: 'TAMPERED',
+    };
+  }
+
+  public restoreTamper(eventId?: string) {
+    let restoredCount = 0;
+    const targets = eventId ? [eventId] : Array.from(this.tamperBackups.keys());
+    for (const id of targets) {
+      const orig = this.tamperBackups.get(id);
+      const evt = this.events.find((e) => e.id === id);
+      if (orig !== undefined && evt) {
+        evt.resource = orig;
+        this.tamperBackups.delete(id);
+        restoredCount++;
+      }
+    }
+    for (const a of this.alerts) {
+      if (!eventId || a.event_id === eventId) {
+        a.status = 'RESOLVED';
+        a.resolved_at = new Date().toISOString();
+        a.resolution_note = 'Restored to canonical baseline state.';
+      }
+    }
+    return { restored_records_count: restoredCount, status: 'RESTORED' };
+  }
+
+  public resolveTamperAlert(alertId: string, resolutionNote: string): TamperAlert {
+    const alert = this.alerts.find((a) => a.id === alertId);
+    if (!alert) throw new Error(`Alert '${alertId}' not found.`);
+    alert.status = 'RESOLVED';
+    alert.resolved_at = new Date().toISOString();
+    alert.resolution_note = resolutionNote || 'Resolved by security administrator.';
+    return alert;
+  }
+
+  public createPolicy(policy: Partial<SecurityPolicy>): SecurityPolicy {
+    const newPol: SecurityPolicy = {
+      id: policy.id || `POL-${Date.now().toString().slice(-4)}`,
+      name: policy.name || 'Custom Security Policy',
+      description: policy.description || 'User-authored deterministic governance policy.',
+      action_pattern: policy.action_pattern || '*',
+      resource_pattern: policy.resource_pattern || '*',
+      decision: (policy.decision as any) || 'REQUIRE_APPROVAL',
+      risk_tier: (policy.risk_tier as any) || 'HIGH',
+      version: policy.version || '1.0.0',
+      is_active: policy.is_active ?? true,
+    };
+    this.policies.unshift(newPol);
+    return newPol;
+  }
+
+  public getAgentTrustProfiles(): AgentTrustProfile[] {
+    const agentDefs = [
+      { id: 'agent-data-analyzer', name: 'Data Intelligence Analyzer', role: 'Data Analyst', status: 'ACTIVE', policies: ['POL-A', 'POL-C'] },
+      { id: 'agent-financial-bot', name: 'Financial Operations Bot', role: 'Treasury Automation', status: 'ACTIVE', policies: ['POL-D', 'POL-E', 'POL-PAYPAL-HIGH'] },
+      { id: 'agent-guest', name: 'Guest Sandbox Agent', role: 'Untrusted Worker', status: 'QUARANTINED', policies: ['POL-B', 'POL-F'] },
+    ];
+    return agentDefs.map((ag) => {
+      const evts = this.events.filter((e) => e.agent_id === ag.id);
+      const total = evts.length;
+      const allowed = evts.filter((e) => e.policy_decision === 'ALLOW').length;
+      const blocked = evts.filter((e) => e.policy_decision === 'BLOCK').length;
+      const reqApp = evts.filter((e) => e.policy_decision === 'REQUIRE_APPROVAL').length;
+      const blockedRatio = total > 0 ? Number((blocked / total).toFixed(2)) : 0;
+      const riskScore = ag.id === 'agent-guest' ? 82 : ag.id === 'agent-financial-bot' ? 28 : 8;
+      const riskTier: 'LOW' | 'MODERATE' | 'ELEVATED' | 'CRITICAL' =
+        riskScore > 75 ? 'CRITICAL' : riskScore > 50 ? 'ELEVATED' : riskScore > 25 ? 'MODERATE' : 'LOW';
+      return {
+        agent_id: ag.id,
+        agent_name: ag.name,
+        role: ag.role,
+        status: ag.status,
+        total_actions: total,
+        allowed_actions: allowed,
+        blocked_actions: blocked,
+        approval_required_actions: reqApp,
+        blocked_ratio: blockedRatio,
+        violations_count: blocked,
+        active_findings_count: this.findings.filter((f) => f.agent_id === ag.id && f.status === 'ACTIVE').length,
+        integrity_failures_count: 0,
+        behavioral_risk_tier: riskTier,
+        evidence_integrity_status: 'INTACT',
+        blockchain_anchoring_status: this.transactions.some((tx) => evts.some((e) => e.id === tx.event_id))
+          ? 'ANCHORED_AND_VERIFIED'
+          : 'NOT_ANCHORED',
+        risk_score_breakdown: {
+          risk_score: riskScore,
+          risk_tier: riskTier,
+          observation_window_hours: 24,
+          sample_size: total,
+          insufficient_data: false,
+          factors: [
+            {
+              factor_name: 'Blocked Action Ratio',
+              raw_metric: `${Math.round(blockedRatio * 100)}% (${blocked}/${total} blocked)`,
+              points_contributed: Math.round(blockedRatio * 40),
+              max_points: 40,
+              description: `${blocked} blocked actions out of ${total} evaluated operations in window.`,
+            },
+            {
+              factor_name: 'Active Threat Findings',
+              raw_metric: `${this.findings.filter((f) => f.agent_id === ag.id && f.status === 'ACTIVE').length} active`,
+              points_contributed: this.findings.filter((f) => f.agent_id === ag.id && f.status === 'ACTIVE').length > 0 ? 35 : 0,
+              max_points: 35,
+              description: 'Deterministic behavioral security findings currently active for this agent.',
+            },
+          ],
+          formula_disclaimer: 'Deterministic heuristic risk index over persisted audit history.',
+        },
+        applicable_policies: ag.policies,
+      };
+    });
+  }
+
+  public getSecurityAnalytics() {
+    const allowed = this.events.filter((e) => e.policy_decision === 'ALLOW').length;
+    const blocked = this.events.filter((e) => e.policy_decision === 'BLOCK').length;
+    const reqApp = this.events.filter((e) => e.policy_decision === 'REQUIRE_APPROVAL').length;
+    const actionDist: Record<string, number> = {};
+    const agentCounts: Record<string, number> = {};
+    for (const e of this.events) {
+      actionDist[e.action_type] = (actionDist[e.action_type] || 0) + 1;
+      agentCounts[e.agent_id] = (agentCounts[e.agent_id] || 0) + 1;
+    }
+    return {
+      summary: {
+        total_events: this.events.length,
+        allowed,
+        blocked,
+        require_approval: reqApp,
+        total_anchored: this.transactions.length,
+        open_tamper_alerts: this.alerts.filter((a) => a.status === 'OPEN').length,
+        resolved_tamper_alerts: this.alerts.filter((a) => a.status === 'RESOLVED').length,
+      },
+      action_distribution: actionDist,
+      agent_activity: Object.entries(agentCounts).map(([agent_id, event_count]) => ({ agent_id, event_count })),
+      integrity_breakdown: {
+        INTACT: this.events.length - this.tamperBackups.size,
+        TAMPERED: this.tamperBackups.size,
+        ANCHORED: this.transactions.length,
+      },
+    };
+  }
+
+  public getAllEventsRaw(): AuditEventDetail[] {
+    return this.events;
+  }
+
+  public exportEventsCsv(): string {
+    const sanitize = (v: any) => {
+      const s = String(v ?? '').replace(/"/g, '""');
+      const safe = /^[=+\-@\t\r]/.test(s) ? `'${s}` : s;
+      return `"${safe}"`;
+    };
+    const headers = ['event_id', 'timestamp', 'agent_id', 'action_type', 'resource', 'policy_decision', 'policy_id', 'policy_version', 'execution_status', 'approval_status', 'integrity_hash'];
+    const rows = this.events.map((e) =>
+      [e.id, e.timestamp, e.agent_id, e.action_type, e.resource, e.policy_decision, e.policy_id, e.policy_version, e.execution_status, e.approval_status, e.integrity_hash]
+        .map(sanitize)
+        .join(',')
+    );
+    return [headers.join(','), ...rows].join('\n');
   }
 }
 

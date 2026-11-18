@@ -23,7 +23,7 @@ export default function LoginPage() {
 
   const roles = [
     {
-      id: 'CSO',
+      id: 'ADMIN',
       title: 'Chief Security Officer (ADMIN)',
       desc: 'Full administrative authority: author and toggle policies, approve pending executions, anchor evidence to MST blockchain, resolve security incidents.',
       badge: 'ADMIN',
@@ -37,18 +37,11 @@ export default function LoginPage() {
       badgeColor: 'bg-[#2563EB]/10 text-[#2563EB] border-[#2563EB]/30'
     },
     {
-      id: 'COMPLIANCE_AUDITOR',
-      title: 'Compliance Auditor',
+      id: 'VIEWER',
+      title: 'Compliance Auditor (Read-Only)',
       desc: 'Audit authority: verify on-chain smart contract commitments, export cryptographically signed audit logs, inspect governance provenance.',
       badge: 'AUDITOR',
       badgeColor: 'bg-[#15803D]/10 text-[#15803D] border-[#15803D]/30'
-    },
-    {
-      id: 'VIEWER',
-      title: 'Read-Only Viewer',
-      desc: 'Observation access: view public dashboards, telemetry streams, and operational health status.',
-      badge: 'READ-ONLY',
-      badgeColor: 'bg-[#64748B]/10 text-[#64748B] border-[#64748B]/30'
     }
   ];
 

@@ -55,7 +55,7 @@ export default function GovernancePage() {
         api.getPolicies().catch(() => [])
       ]);
       setSummary(sumData);
-      setPolicies(polData);
+      setPolicies(Array.isArray(polData) ? polData : []);
 
       // Auto-inspect first recent event if available and none selected
       if (sumData?.recent_governance_actions?.length && !explanation) {
@@ -93,7 +93,7 @@ export default function GovernancePage() {
     setLoadingHistory(true);
     try {
       const hist = await api.getPolicyVersionHistory(pol.id);
-      setPolicyHistory(hist);
+      setPolicyHistory(Array.isArray(hist) ? hist : []);
     } catch (err) {
       console.error('Failed to load history', err);
     } finally {
@@ -222,7 +222,7 @@ export default function GovernancePage() {
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 ${
                 activeTab === 'provenance'
                   ? 'border-[#2563EB] text-[#2563EB]'
-                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
+                  : 'border-transparent text-[#64748B] hover:text-[#172B4D]'
               }`}
             >
               <FileText className="w-4 h-4" />
@@ -233,7 +233,7 @@ export default function GovernancePage() {
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 ${
                 activeTab === 'policies'
                   ? 'border-[#2563EB] text-[#2563EB]'
-                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
+                  : 'border-transparent text-[#64748B] hover:text-[#172B4D]'
               }`}
             >
               <History className="w-4 h-4" />
@@ -244,7 +244,7 @@ export default function GovernancePage() {
               className={`pb-3 text-sm font-bold transition border-b-2 flex items-center gap-2 ${
                 activeTab === 'reports'
                   ? 'border-[#2563EB] text-[#2563EB]'
-                  : 'border-transparent text-[#64748B] hover:text-[#FFFFFF]'
+                  : 'border-transparent text-[#64748B] hover:text-[#172B4D]'
               }`}
             >
               <Download className="w-4 h-4" />
@@ -288,7 +288,7 @@ export default function GovernancePage() {
                       className={`px-2.5 py-1 rounded-md font-mono transition border ${
                         searchEventId === act.event_id
                           ? 'bg-[#2563EB]/15 text-[#2563EB] border-[#2563EB]/40 font-bold'
-                          : 'bg-[#172B4D] text-[#64748B] border-[#E5E7EB] hover:text-[#FFFFFF]'
+                          : 'bg-[#172B4D] text-[#64748B] border-[#E5E7EB] hover:text-[#172B4D]'
                       }`}
                     >
                       {act.event_id} ({act.action_type})
@@ -310,7 +310,7 @@ export default function GovernancePage() {
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 pb-5 border-b border-[#E5E7EB]">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-sm font-bold text-white">{explanation.event_id}</span>
+                        <span className="font-mono text-sm font-bold text-[#172B4D]">{explanation.event_id}</span>
                         <span className={`px-2 py-0.5 rounded text-xs font-extrabold ${
                           explanation.policy_decision === 'ALLOW'
                             ? 'bg-[#2563EB]/15 text-[#2563EB] border border-[#2563EB]/30'
@@ -427,12 +427,12 @@ export default function GovernancePage() {
                   </thead>
                   <tbody className="divide-y divide-[#E5E7EB]">
                     {policies.map((p) => (
-                      <tr key={p.id} className="hover:bg-[#1C1C1C] transition-colors duration-150">
+                      <tr key={p.id} className="hover:bg-[#F8FAFC] transition-colors duration-150">
                         <td className="px-5 py-3.5 font-mono text-xs text-[#2563EB] font-bold whitespace-nowrap">
                           {p.id}
                         </td>
                         <td className="px-5 py-3.5">
-                          <div className="font-bold text-white">{p.name}</div>
+                          <div className="font-bold text-[#172B4D]">{p.name}</div>
                           <div className="text-xs text-[#64748B] mt-0.5">{p.description}</div>
                         </td>
                         <td className="px-5 py-3.5 font-mono text-xs text-white whitespace-nowrap">
@@ -447,7 +447,7 @@ export default function GovernancePage() {
                             {p.decision}
                           </span>
                         </td>
-                        <td className="px-5 py-3.5 text-xs text-white whitespace-nowrap font-bold">
+                        <td className="px-5 py-3.5 text-xs text-[#172B4D] whitespace-nowrap font-bold">
                           {p.risk_tier}
                         </td>
                         <td className="px-5 py-3.5 text-right whitespace-nowrap">
@@ -472,7 +472,7 @@ export default function GovernancePage() {
           {activeTab === 'reports' && (
             <div className="bg-[#FFFFFF] border border-[#E5E7EB] rounded-xl p-6 space-y-5 shadow-sm max-w-2xl">
               <div>
-                <h3 className="font-bold text-white text-base flex items-center gap-2">
+                <h3 className="font-bold text-[#172B4D] text-base flex items-center gap-2">
                   <Download className="w-4 h-4 text-[#2563EB]" />
                   Export Governance & Provenance Assurance Reports
                 </h3>
@@ -512,7 +512,7 @@ export default function GovernancePage() {
             <div className="flex justify-between items-start">
               <div>
                 <span className="text-xs font-mono text-[#2563EB] font-bold">{selectedPolicy.id}</span>
-                <h3 className="text-lg font-bold text-white">Immutable Policy Version History</h3>
+                <h3 className="text-lg font-bold text-[#172B4D]">Immutable Policy Version History</h3>
                 <p className="text-xs text-[#64748B] mt-0.5">
                   Historical evaluations retain their version snapshot without rewriting provenance.
                 </p>
