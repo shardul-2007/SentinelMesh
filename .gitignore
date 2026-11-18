@@ -21,3 +21,6 @@ contracts/.cache/
 contracts/deployment.json
 .vercel/
 frontend/.vercel/
+
+.vercel
+.env*

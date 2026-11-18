@@ -1,0 +1,13 @@
+venv/
+.pytest_cache/
+__pycache__/
+*.db
+.env
+.env.local
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+contracts/node_modules/
+contracts/artifacts/
+contracts/cache/
+models/*.joblib
